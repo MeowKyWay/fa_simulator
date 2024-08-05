@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/body.dart';
+import 'package:fa_simulator/widget/body/body.dart';
 import 'package:fa_simulator/widget/sidebar.dart';
 import 'package:fa_simulator/widget/topbar.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class App extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Body(),
+                      Body()
                     ],
                   ),
                 ),

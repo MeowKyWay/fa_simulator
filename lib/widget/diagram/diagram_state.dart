@@ -1,31 +1,32 @@
-import 'dart:developer';
-
-import 'package:fa_simulator/widget/diagram/dragable.dart';
+import 'package:fa_simulator/widget/body/body.dart';
+import 'package:fa_simulator/widget/diagram/draggable_widget.dart';
 import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
 import 'package:flutter/material.dart';
 
-class DiagramState extends StatefulWidget {
+class DiagramStateWidget extends StatefulWidget {
   final double size;
   final Offset position;
   final String name;
+  final Function(Offset) onDragEnd;
 
-  final Function(String) onRemove;
+  final VoidCallback onDelete;
 
-  const DiagramState({
+  const DiagramStateWidget({
     super.key,
     this.size = 100,
     required this.position,
     required this.name,
-    required this.onRemove,
+    required this.onDragEnd,
+    required this.onDelete,
   });
 
   @override
-  State<DiagramState> createState() {
-    return _DiagramStateState();
+  State<DiagramStateWidget> createState() {
+    return _DiagramStateWidgetState();
   }
 }
 
-class _DiagramStateState extends State<DiagramState> {
+class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   late FocusNode _focusNode;
 
   @override
@@ -47,45 +48,79 @@ class _DiagramStateState extends State<DiagramState> {
 
   @override
   Widget build(BuildContext context) {
-    return Dragable(
-      left: widget.position.dx - widget.size / 2,
-      top: widget.position.dy - widget.size / 2,
-      focus: _focus,
-      child: SizedBox(
-        width: widget.size,
-        height: widget.size,
-        child: FocusOverlay(
-          hasFocus: _focusNode.hasFocus,
-          child: ClipOval(
-              child: Focus(
-                focusNode: _focusNode,
-                onFocusChange: (hasFocus) {
-                  setState(() {
-                    if (hasFocus) {
-                      log('Focused on ${widget.name}');
-                    }
-                  });
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    // Notify when the widget is tapped
-                    _focus();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1.0,
-                      ),
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(widget.name),
-                    ),
-                  ),
-                ),
+    return DraggableWidget(
+        position: Offset(widget.position.dx, widget.position.dy),
+        margin: Offset(-(widget.size / 2), -(widget.size / 2)),
+        feedback: _DiagramStateWidget(
+          size: widget.size,
+          color: const Color.fromARGB(200, 255, 255, 255),
+        ),
+        onDragEnd: widget.onDragEnd,
+        scale: scale,
+        child: Focus(
+          focusNode: _focusNode,
+          onFocusChange: (hasFocus) {
+            setState(() {});
+          },
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                _focus();
+              });
+            },
+            child: FocusOverlay(
+              hasFocus: _focusNode.hasFocus,
+              onDelete: widget.onDelete,
+              child: _DiagramStateWidget(
+                size: widget.size,
+                name: widget.name,
+                color: Colors.white,
               ),
+            ),
+          ),
+        ));
+  }
+}
+
+class DiagramState {
+  Offset position;
+  String name;
+
+  DiagramState({
+    required this.position,
+    required this.name,
+  });
+}
+
+class _DiagramStateWidget extends StatelessWidget {
+  final double size;
+  final String name;
+  final Color color;
+
+  const _DiagramStateWidget(
+      {this.size = 100, this.name = '', this.color = Colors.white});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: size,
+      width: size,
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(
+            color: Colors.black,
+            width: 1,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Text(
+            name,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+            ),
           ),
         ),
       ),
