@@ -36,6 +36,7 @@ class _BodyState extends State<Body> {
   void _deleteState(String name) {
     setState(() {
       _states.removeWhere((element) => element.name == name);
+      FocusScope.of(context).unfocus();
     });
   }
 
@@ -43,6 +44,7 @@ class _BodyState extends State<Body> {
     setState(() {
       scale = newScale;
     });
+    
   }
 
   @override
