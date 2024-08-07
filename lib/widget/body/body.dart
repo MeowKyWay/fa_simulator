@@ -26,18 +26,26 @@ class _BodyState extends State<Body> {
   void _addState(Offset position) {
     setState(() {
       DiagramState state = DiagramState(
-        position: position - Offset(stateSize / 2, stateSize / 2),
+        position: position - const Offset(stateSize / 2, stateSize / 2),
         name: stateCounter.toString(),
       );
       _states.add(state);
       stateCounter++;
     });
   }
-
   void _deleteState(String name) {
     setState(() {
       _states.removeWhere((element) => element.name == name);
       FocusScope.of(context).unfocus();
+    });
+  }
+  void _renameState(String name, String newName) {
+    setState(() {
+      for (var i = 0; i < _states.length; i++) {
+        if (_states[i].name == name) {
+          _states[i].name = newName;
+        }
+      }
     });
   }
 
@@ -82,6 +90,9 @@ class _BodyState extends State<Body> {
                     name: state.name,
                     onDelete: () {
                       _deleteState(state.name);
+                    },
+                    onRename: (String newName) {
+                      _renameState(state.name, newName);
                     },
                     onDragEnd: (position) {
                       RenderBox renderBox = _gestureDetectorKey.currentContext

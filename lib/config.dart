@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 int stateCounter = 1;
 
 //Text
+const TextStyle textStyle = TextStyle(
+  color: textColor,
+  decoration: textDecoration,
+  fontSize: textSize,
+);
 const double textSize = 20;
 const Color textColor = Colors.black;
 const TextDecoration textDecoration = TextDecoration.none;
