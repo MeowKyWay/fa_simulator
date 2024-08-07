@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:fa_simulator/config.dart';
+import 'package:fa_simulator/widget/body/body.dart';
 import 'package:flutter/material.dart';
 
 class DraggableWidget extends StatefulWidget {
@@ -7,6 +11,7 @@ class DraggableWidget extends StatefulWidget {
   final Widget feedback;
   final Function(Offset) onDragEnd;
   final double scale;
+  final bool hasFocus;
 
   const DraggableWidget({
     super.key,
@@ -15,6 +20,7 @@ class DraggableWidget extends StatefulWidget {
     required this.child,
     required this.onDragEnd,
     this.scale = 1.0,
+    this.hasFocus = false,
     this.feedback = const SizedBox(
       height: 50,
       width: 50,
@@ -45,15 +51,17 @@ class _DraggableWidgetState extends State<DraggableWidget> {
       child: Draggable(
         feedback: Transform.scale(
           scale: widget.scale,
-          alignment: Alignment.center,
+          alignment: Alignment.topLeft,
           child: widget.feedback,
         ),
         dragAnchorStrategy: (draggable, context, position) {
-          return Offset.zero - widget.margin;
+          final RenderBox renderObject = context.findRenderObject()! as RenderBox;
+          final localPosition = renderObject.globalToLocal(position) + widget.margin;
+          return (localPosition) - Offset(stateSize * localPosition.dx, stateSize * localPosition.dy) * (1-scale)/100;
         },
         onDragEnd: (details) {
           Offset newPosition = details.offset;
-          widget.onDragEnd(newPosition - widget.margin);
+          widget.onDragEnd(newPosition);
         },
         child: widget.child,
       ),

@@ -10,9 +10,15 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: App(),
-      )
-    );
+        home: Scaffold(
+      body: DefaultTextStyle(
+        style: TextStyle(
+          color: Colors.black,
+          decoration: TextDecoration.none,
+          fontSize: 20,
+        ),
+        child: App(),
+      ),
+    ));
   }
 }

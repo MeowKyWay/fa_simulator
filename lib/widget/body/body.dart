@@ -1,10 +1,10 @@
 import 'dart:developer';
 
+import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/widget/body/grid_painter.dart';
 import 'package:fa_simulator/widget/body/zoomable_container.dart';
 import 'package:fa_simulator/widget/diagram/diagram_state.dart';
 import 'package:flutter/material.dart';
-import '../../diagram_state_counter.dart' as globals;
 
 const Size _size = Size(7680, 4320);
 double scale = 1.0;
@@ -25,11 +25,11 @@ class _BodyState extends State<Body> {
   void _addState(Offset position) {
     setState(() {
       DiagramState state = DiagramState(
-        position: position,
-        name: globals.stateCounter.toString(),
+        position: position - Offset(stateSize / 2, stateSize / 2),
+        name: stateCounter.toString(),
       );
       _states.add(state);
-      globals.stateCounter++;
+      stateCounter++;
     });
   }
 
@@ -44,7 +44,6 @@ class _BodyState extends State<Body> {
     setState(() {
       scale = newScale;
     });
-    
   }
 
   @override
@@ -64,7 +63,6 @@ class _BodyState extends State<Body> {
               GestureDetector(
                 key: _gestureDetectorKey,
                 onTapDown: (TapDownDetails details) {
-                  log(details.localPosition.toString());
                   setState(() {
                     _addState(details.localPosition);
                   });
@@ -83,7 +81,6 @@ class _BodyState extends State<Body> {
 
                       // Convert the global position to local position
                       Offset localPosition = renderBox.globalToLocal(position);
-                      log(localPosition.toString());
 
                       setState(() {
                         state.position = localPosition;

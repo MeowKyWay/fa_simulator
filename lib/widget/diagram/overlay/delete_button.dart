@@ -1,3 +1,4 @@
+import 'package:fa_simulator/config.dart';
 import 'package:flutter/material.dart';
 
 class DeleteButton extends StatelessWidget {
@@ -8,8 +9,8 @@ class DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 15,
-      width: 15,
+      height: stateFocusOverlayButtonSize,
+      width: stateFocusOverlayButtonSize,
       child: GestureDetector(
         onTap: () {
           onPressed();
@@ -19,11 +20,11 @@ class DeleteButton extends StatelessWidget {
             color: Colors.red,
             shape: BoxShape.circle,
           ),
-          child: const Center(
+          child: Center(
             child: Icon(
               Icons.close, // X icon
               color: Colors.white,
-              size: 7.5,
+              size: stateFocusOverlayButtonSize / 2,
             ),
           ),
         ),

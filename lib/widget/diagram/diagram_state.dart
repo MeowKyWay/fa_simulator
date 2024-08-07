@@ -1,10 +1,10 @@
+import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/widget/body/body.dart';
 import 'package:fa_simulator/widget/diagram/draggable_widget.dart';
-import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
+import 'package:fa_simulator/widget/diagram/overlay/focus_overlay.dart';
 import 'package:flutter/material.dart';
 
 class DiagramStateWidget extends StatefulWidget {
-  final double size;
   final Offset position;
   final String name;
   final Function(Offset) onDragEnd;
@@ -13,7 +13,6 @@ class DiagramStateWidget extends StatefulWidget {
 
   const DiagramStateWidget({
     super.key,
-    this.size = 100,
     required this.position,
     required this.name,
     required this.onDragEnd,
@@ -28,12 +27,18 @@ class DiagramStateWidget extends StatefulWidget {
 
 class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   late FocusNode _focusNode;
+  late _DiagramStateWidget _state;
 
   @override
   void initState() {
     super.initState();
     _focusNode = FocusNode();
     _focus();
+    _state = _DiagramStateWidget(
+      size: stateSize,
+      name: widget.name,
+      color: Colors.white,
+    );
   }
 
   @override
@@ -49,14 +54,11 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   @override
   Widget build(BuildContext context) {
     return DraggableWidget(
-        position: Offset(widget.position.dx, widget.position.dy),
-        margin: Offset(-(widget.size / 2), -(widget.size / 2)),
-        feedback: _DiagramStateWidget(
-          size: widget.size,
-          color: const Color.fromARGB(200, 255, 255, 255),
-        ),
+        position: widget.position,
+        margin: _focusNode.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero,
         onDragEnd: widget.onDragEnd,
         scale: scale,
+        feedback: _state,
         child: Focus(
           focusNode: _focusNode,
           onFocusChange: (hasFocus) {
@@ -71,11 +73,13 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
             child: FocusOverlay(
               hasFocus: _focusNode.hasFocus,
               onDelete: widget.onDelete,
-              child: _DiagramStateWidget(
-                size: widget.size,
-                name: widget.name,
+              //onDragEnd: widget.onDragEnd,
+              scale: scale,
+              feedback: _DiagramStateWidget(
+                size: stateSize,
                 color: Colors.white,
               ),
+              child: _state,
             ),
           ),
         ));
@@ -120,6 +124,8 @@ class _DiagramStateWidget extends StatelessWidget {
             style: const TextStyle(
               color: Colors.black,
               fontSize: 20,
+              decoration: TextDecoration.none,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ),
