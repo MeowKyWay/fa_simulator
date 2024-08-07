@@ -6,7 +6,6 @@ import 'package:fa_simulator/widget/body/zoomable_container.dart';
 import 'package:fa_simulator/widget/diagram/diagram_state.dart';
 import 'package:flutter/material.dart';
 
-const Size _size = Size(7680, 4320);
 double scale = 1.0;
 
 class Body extends StatefulWidget {
@@ -21,6 +20,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final List<DiagramState> _states = [];
   final GlobalKey _gestureDetectorKey = GlobalKey();
+  final TransformationController _transformationController =
+      TransformationController();
 
   void _addState(Offset position) {
     setState(() {
@@ -41,9 +42,15 @@ class _BodyState extends State<Body> {
   }
 
   void _updateScale(double newScale) {
+    if (scale == newScale) return;
     setState(() {
       scale = newScale;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -51,13 +58,14 @@ class _BodyState extends State<Body> {
     return Expanded(
       child: ZoomableContainer(
         onScaleChange: _updateScale,
+        transformationController: _transformationController,
         child: SizedBox(
-          width: _size.width,
-          height: _size.height,
+          width: size.width,
+          height: size.height,
           child: Stack(
             children: [
               CustomPaint(
-                size: _size,
+                size: size,
                 painter: GridPainter(),
               ),
               GestureDetector(

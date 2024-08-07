@@ -1,13 +1,19 @@
+import 'dart:developer';
+
+import 'package:fa_simulator/config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ZoomableContainer extends StatefulWidget {
   final Widget child;
   final ValueChanged<double> onScaleChange;
+  final TransformationController transformationController;
 
   const ZoomableContainer({
     super.key,
     required this.child,
     required this.onScaleChange,
+    required this.transformationController,
   });
 
   @override
@@ -17,11 +23,9 @@ class ZoomableContainer extends StatefulWidget {
 }
 
 class _ZoomableContainerState extends State<ZoomableContainer> {
-  final TransformationController _transformationController =
-      TransformationController();
 
   double getScale() {
-    final Matrix4 matrix = _transformationController.value;
+    final Matrix4 matrix = widget.transformationController.value;
     double scale = matrix.getMaxScaleOnAxis();
 
     return scale;
@@ -30,10 +34,11 @@ class _ZoomableContainerState extends State<ZoomableContainer> {
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
-      transformationController: _transformationController,
+      transformationController: widget.transformationController,
       constrained: false,
-      maxScale: 5,
-      minScale: 0.1,
+      maxScale: maxScale,
+      minScale: minScale,
+      scaleEnabled: true,
       onInteractionUpdate: (details) {
         widget.onScaleChange(getScale());
       },

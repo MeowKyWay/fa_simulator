@@ -1,3 +1,4 @@
+import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,8 @@ class Main extends StatelessWidget {
         home: Scaffold(
       body: DefaultTextStyle(
         style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.none,
+          color: textColor,
+          decoration: textDecoration,
           fontSize: 20,
         ),
         child: App(),

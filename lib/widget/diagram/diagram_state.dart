@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/widget/body/body.dart';
+import 'package:fa_simulator/widget/body/zoomable_container.dart';
 import 'package:fa_simulator/widget/diagram/draggable_widget.dart';
 import 'package:fa_simulator/widget/diagram/overlay/focus_overlay.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +30,16 @@ class DiagramStateWidget extends StatefulWidget {
 
 class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   late FocusNode _focusNode;
-  late _DiagramStateWidget _state;
+  late _DiagramState _state;
 
   @override
   void initState() {
     super.initState();
     _focusNode = FocusNode();
     _focus();
-    _state = _DiagramStateWidget(
-      size: stateSize,
+    _state = _DiagramState(
       name: widget.name,
-      color: Colors.white,
+      focusNode: _focusNode,
     );
   }
 
@@ -58,6 +60,7 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
         margin: _focusNode.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero,
         onDragEnd: widget.onDragEnd,
         scale: scale,
+        focusNode: _focusNode,
         feedback: _state,
         child: Focus(
           focusNode: _focusNode,
@@ -75,10 +78,6 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
               onDelete: widget.onDelete,
               //onDragEnd: widget.onDragEnd,
               scale: scale,
-              feedback: _DiagramStateWidget(
-                size: stateSize,
-                color: Colors.white,
-              ),
               child: _state,
             ),
           ),
@@ -96,36 +95,63 @@ class DiagramState {
   });
 }
 
-class _DiagramStateWidget extends StatelessWidget {
-  final double size;
+class _DiagramState extends StatefulWidget {
   final String name;
-  final Color color;
+  final FocusNode focusNode;
 
-  const _DiagramStateWidget(
-      {this.size = 100, this.name = '', this.color = Colors.white});
+  const _DiagramState({
+    this.name = '',
+    required this.focusNode,
+  });
+
+  @override
+  State<_DiagramState> createState() {
+    return _DiagramStateState();
+  }
+}
+
+class _DiagramStateState extends State<_DiagramState> {
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size,
-      width: size,
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(
-            color: Colors.black,
-            width: 1,
+    return MouseRegion(
+      onEnter: (event) {
+        setState(() {
+          isHovered = true;
+        });
+      },
+      onExit: (event) {
+        setState(() {
+          isHovered = false;
+        });
+      },
+      cursor: SystemMouseCursors.grab,
+      child: SizedBox(
+        height: stateSize,
+        width: stateSize,
+        child: Container(
+          decoration: BoxDecoration(
+            color: stateBackgroundColor,
+            border: Border.all(
+              color: isHovered
+                  ? focusColor
+                  : widget.focusNode.hasFocus
+                      ? focusColor
+                      : stateBorderColor,
+              width: 1,
+            ),
+            shape: BoxShape.circle,
           ),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            name,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              decoration: TextDecoration.none,
-              fontWeight: FontWeight.normal,
+          child: Center(
+            child: Text(
+              widget.name,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                decoration: TextDecoration.none,
+                fontWeight: FontWeight.normal,
+              ),
             ),
           ),
         ),
