@@ -11,20 +11,23 @@ class DeleteButton extends StatelessWidget {
     return SizedBox(
       height: stateFocusOverlayButtonSize,
       width: stateFocusOverlayButtonSize,
-      child: GestureDetector(
-        onTap: () {
-          onPressed();
-        },
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.red,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Icon(
-              Icons.close, // X icon
-              color: Colors.white,
-              size: stateFocusOverlayButtonSize / 2,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            onPressed();
+          },
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.close, // X icon
+                color: Colors.white,
+                size: stateFocusOverlayButtonSize / 2,
+              ),
             ),
           ),
         ),

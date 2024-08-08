@@ -117,16 +117,6 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   }
 }
 
-class DiagramState {
-  Offset position;
-  String name;
-
-  DiagramState({
-    required this.position,
-    required this.name,
-  });
-}
-
 class _DiagramState extends StatefulWidget {
   final String name;
   final FocusNode focusNode;

@@ -1,6 +1,6 @@
 import 'package:fa_simulator/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_state.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class StateList with ChangeNotifier {
   final List<DiagramState> _states = [];
@@ -10,6 +10,7 @@ class StateList with ChangeNotifier {
   void addState(Offset position) {
     DiagramState state = DiagramState(
       position: position - const Offset(stateSize / 2, stateSize / 2),
+      id: const Uuid().v4(),
       name: stateCounter.toString(),
     );
     _states.add(state);
@@ -39,4 +40,16 @@ class StateList with ChangeNotifier {
     }
     notifyListeners();
   }
+}
+
+class DiagramState {
+  Offset position;
+  String id;
+  String name;
+
+  DiagramState({
+    required this.position,
+    required this.id,
+    required this.name,
+  });
 }
