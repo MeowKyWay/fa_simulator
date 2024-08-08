@@ -193,9 +193,8 @@ class _DiagramStateState extends State<_DiagramState> {
                         decoration: textDecoration,
                         fontWeight: FontWeight.normal,
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
-                        hintText: widget.name,
                       ),
                       onSubmitted: (value) {
                         log('onSubmitted');
