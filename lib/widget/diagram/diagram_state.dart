@@ -43,7 +43,6 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   @override
   void initState() {
     super.initState();
-    _focus();
   }
 
   void _focus() {

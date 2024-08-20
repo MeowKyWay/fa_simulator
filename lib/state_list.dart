@@ -15,7 +15,7 @@ class StateList with ChangeNotifier {
     );
     _states.add(state);
     stateCounter++;
-    notifyListeners();
+    requestFocus(state.id);
   }
 
   void deleteState(String name) {
