@@ -40,16 +40,49 @@ class StateList with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void requestFocus(String id) {
+    for (var i = 0; i < _states.length; i++) {
+      if (_states[i].id == id) {
+        _states[i].hasFocus = true;
+      } else {
+        _states[i].hasFocus = false;
+      }
+    }
+    notifyListeners();
+  }
+
+  void requestGroupFocus(List<String> ids) {
+    for (var i = 0; i < _states.length; i++) {
+      if (ids.contains(_states[i].id)) {
+        _states[i].hasFocus = true;
+      } else {
+        _states[i].hasFocus = false;
+      }
+    }
+    notifyListeners();
+  }
+
+  void addFocus(String id) {
+    for (var i = 0; i < _states.length; i++) {
+      if (_states[i].id == id) {
+        _states[i].hasFocus = true;
+      }
+    }
+    notifyListeners();
+  }
 }
 
 class DiagramState {
   Offset position;
   String id;
   String name;
+  bool hasFocus;
 
   DiagramState({
     required this.position,
     required this.id,
     required this.name,
+    this.hasFocus = false,
   });
 }

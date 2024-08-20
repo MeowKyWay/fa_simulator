@@ -74,6 +74,8 @@ class _BodyState extends State<Body> {
                     return DiagramStateWidget(
                       position: state.position,
                       name: state.name,
+                      hasFocus: state.hasFocus,
+                      requestFocus: () => stateList.requestFocus(state.id),
                       onDelete: () => stateList.deleteState(state.name),
                       onRename: (newName) =>
                           stateList.renameState(state.name, newName),

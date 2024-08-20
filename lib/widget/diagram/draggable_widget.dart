@@ -9,7 +9,8 @@ class DraggableWidget extends StatefulWidget {
   final Widget feedback;
   final Function(Offset) onDragEnd;
   final double scale;
-  final FocusNode focusNode;
+  final bool hasFocus;
+  final Function requestFocus;
 
   const DraggableWidget({
     super.key,
@@ -17,7 +18,8 @@ class DraggableWidget extends StatefulWidget {
     this.margin = const Offset(0, 0),
     required this.child,
     required this.onDragEnd,
-    required this.focusNode,
+    required this.hasFocus,
+    required this.requestFocus,
     this.scale = 1.0,
     this.feedback = const SizedBox(
       height: 50,
@@ -69,7 +71,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
         onDragEnd: (details) {
           Offset newPosition = details.offset;
           widget.onDragEnd(newPosition);
-          widget.focusNode.requestFocus();
+          widget.requestFocus();
         },
         childWhenDragging: Container(),
         child: widget.child,

@@ -11,7 +11,9 @@ import 'package:flutter/services.dart';
 class DiagramStateWidget extends StatefulWidget {
   final Offset position;
   final String name;
+  final bool hasFocus;
   final Function(Offset) onDragEnd;
+  final Function() requestFocus;
 
   final VoidCallback onDelete;
   final Function(String) onRename;
@@ -20,6 +22,8 @@ class DiagramStateWidget extends StatefulWidget {
     super.key,
     required this.position,
     required this.name,
+    this.hasFocus = false,
+    required this.requestFocus,
     required this.onDragEnd,
     required this.onDelete,
     required this.onRename,
@@ -32,7 +36,6 @@ class DiagramStateWidget extends StatefulWidget {
 }
 
 class _DiagramStateWidgetState extends State<DiagramStateWidget> {
-  late FocusNode _focusNode;
   late _DiagramState _state;
 
   bool isRenaming = false;
@@ -40,18 +43,11 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
     _focus();
   }
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
   void _focus() {
-    _focusNode.requestFocus();
+    widget.requestFocus();
   }
 
   KeyEventResult _onKeyEvent(FocusNode focusNode, KeyEvent event) {
@@ -77,56 +73,46 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   Widget build(BuildContext context) {
     _state = _DiagramState(
       name: widget.name,
-      focusNode: _focusNode,
+      hasFocus: widget.hasFocus,
       onRename: widget.onRename,
       isRenaming: isRenaming,
       setIsRenaming: _setIsRenaming,
     );
     return DraggableWidget(
       position: widget.position,
-      margin: _focusNode.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero,
+      margin: widget.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero,
       onDragEnd: widget.onDragEnd,
       scale: scale,
-      focusNode: _focusNode,
+      hasFocus: widget.hasFocus,
+      requestFocus: widget.requestFocus,
       feedback: _state,
-      child: Focus(
-        focusNode: _focusNode,
-        onKeyEvent: _onKeyEvent,
-        onFocusChange: (hasFocus) {
-          setState(() {
-            if (!hasFocus) {
-              isRenaming = false;
-            }
-          });
-        },
-        child: GestureDetector(
+      child: GestureDetector(
           onTap: () {
             setState(() {
               _focus();
             });
           },
           child: FocusOverlay(
-            hasFocus: _focusNode.hasFocus,
+            hasFocus: widget.hasFocus,
             onDelete: widget.onDelete,
             scale: scale,
             child: _state,
           ),
         ),
-      ),
     );
   }
 }
 
 class _DiagramState extends StatefulWidget {
   final String name;
-  final FocusNode focusNode;
+  final bool hasFocus;
   final bool isRenaming;
   final Function(String) onRename;
   final Function(bool) setIsRenaming;
 
   const _DiagramState({
     this.name = '',
-    required this.focusNode,
+    required this.hasFocus,
     required this.isRenaming,
     required this.onRename,
     required this.setIsRenaming,
@@ -164,7 +150,7 @@ class _DiagramStateState extends State<_DiagramState> {
             border: Border.all(
               color: isHovered
                   ? focusColor
-                  : widget.focusNode.hasFocus
+                  : widget.hasFocus
                       ? focusColor
                       : stateBorderColor,
               width: 1,
@@ -187,10 +173,7 @@ class _DiagramStateState extends State<_DiagramState> {
                         border: InputBorder.none,
                       ),
                       onSubmitted: (value) {
-                        log('onSubmitted');
                         widget.onRename(value);
-                        // widget.setIsRenaming(false);
-                        widget.focusNode.requestFocus();
                       },
                     ),
                   )
