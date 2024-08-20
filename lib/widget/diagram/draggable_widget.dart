@@ -2,8 +2,7 @@ import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/widget/body/body.dart';
 import 'package:flutter/material.dart';
 
-class DraggableWidget extends StatefulWidget {
-  final Offset position;
+class DraggableState extends StatefulWidget {
   final Offset margin;
   final Widget child;
   final Widget feedback;
@@ -12,9 +11,8 @@ class DraggableWidget extends StatefulWidget {
   final bool hasFocus;
   final Function requestFocus;
 
-  const DraggableWidget({
+  const DraggableState({
     super.key,
-    required this.position,
     this.margin = const Offset(0, 0),
     required this.child,
     required this.onDragEnd,
@@ -32,12 +30,12 @@ class DraggableWidget extends StatefulWidget {
   });
 
   @override
-  State<DraggableWidget> createState() {
-    return _DraggableWidgetState();
+  State<DraggableState> createState() {
+    return _DraggableStateState();
   }
 }
 
-class _DraggableWidgetState extends State<DraggableWidget> {
+class _DraggableStateState extends State<DraggableState> {
   @override
   void initState() {
     super.initState();
@@ -45,9 +43,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: widget.position.dx + widget.margin.dx,
-      top: widget.position.dy + widget.margin.dy,
+    return ClipOval(
       child: Draggable(
         feedback: Transform.scale(
           scale: widget.scale,
@@ -55,13 +51,11 @@ class _DraggableWidgetState extends State<DraggableWidget> {
           child: widget.feedback,
         ),
         dragAnchorStrategy: (draggable, context, position) {
-          final RenderBox renderObject =
-              context.findRenderObject()! as RenderBox;
+          final RenderBox renderObject = context.findRenderObject()! as RenderBox;
           final localPosition =
               renderObject.globalToLocal(position) + widget.margin;
           return (localPosition) -
-              Offset(stateSize * localPosition.dx,
-                      stateSize * localPosition.dy) *
+              Offset(stateSize * localPosition.dx, stateSize * localPosition.dy) *
                   (1 - scale) /
                   100;
         },

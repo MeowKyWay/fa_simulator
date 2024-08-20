@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/config.dart';
+import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/body/body.dart';
 import 'package:fa_simulator/widget/diagram/draggable_widget.dart';
 import 'package:fa_simulator/widget/diagram/overlay/focus_overlay.dart';
@@ -77,27 +78,36 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
       isRenaming: isRenaming,
       setIsRenaming: _setIsRenaming,
     );
-    return DraggableWidget(
-      position: widget.position,
-      margin: widget.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero,
-      onDragEnd: widget.onDragEnd,
-      scale: scale,
-      hasFocus: widget.hasFocus,
-      requestFocus: widget.requestFocus,
-      feedback: _state,
-      child: GestureDetector(
-          onTap: () {
-            setState(() {
-              _focus();
-            });
-          },
-          child: FocusOverlay(
-            hasFocus: widget.hasFocus,
-            onDelete: widget.onDelete,
-            scale: scale,
+
+    Offset margin = widget.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero;
+
+    return Positioned(
+      left: widget.position.dx + margin.dx,
+      top: widget.position.dy + margin.dy,
+      child: FocusOverlay(
+        hasFocus: widget.hasFocus,
+        onDelete: widget.onDelete,
+        scale: scale,
+        child: DraggableState(
+          margin: margin,
+          onDragEnd: widget.onDragEnd,
+          scale: scale,
+          hasFocus: widget.hasFocus,
+          requestFocus: widget.requestFocus,
+          feedback: _state,
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                _focus();
+              });
+              StateList().states.forEach((element) {
+                log(element.name);
+              });
+            },
             child: _state,
           ),
         ),
+      ),
     );
   }
 }

@@ -2,7 +2,16 @@ import 'package:fa_simulator/config.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+
+
 class StateList with ChangeNotifier {
+
+  static final StateList _instance = StateList._internal(); //Singleton
+  StateList._internal();
+  factory StateList() {
+    return _instance;
+  }
+
   final List<DiagramState> _states = [];
 
   List<DiagramState> get states => _states;
