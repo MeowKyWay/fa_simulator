@@ -60,7 +60,7 @@ class _DraggableStateState extends State<DraggableState> {
           FocusScope.of(context).unfocus();
         },
         onDragEnd: (details) {
-          Offset newPosition = details.offset;
+          Offset newPosition = BodyKey().getBodyLocalPosition(details.offset);
           StateList().moveState(widget.state.id, newPosition);
           StateList().requestFocus(widget.state.id);
         },
