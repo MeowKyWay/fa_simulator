@@ -18,7 +18,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final GlobalKey _gestureDetectorKey = GlobalKey();
   final TransformationController _transformationController =
       TransformationController();
 
@@ -27,15 +26,6 @@ class _BodyState extends State<Body> {
     setState(() {
       scale = newScale;
     });
-  }
-
-  Offset _getDragEndLocalPosition(Offset position) {
-    RenderBox renderBox =
-        _gestureDetectorKey.currentContext?.findRenderObject() as RenderBox;
-
-    // Convert the global position to local position
-    Offset localPosition = renderBox.globalToLocal(position);
-    return localPosition;
   }
 
   @override
@@ -60,7 +50,7 @@ class _BodyState extends State<Body> {
               ),
               Consumer<StateList>(builder: (context, stateList, child) {
                 return GestureDetector(
-                  key: _gestureDetectorKey,
+                  key: BodyKey().globalKey,
                   onTapDown: (TapDownDetails details) {
                     setState(() {
                       stateList.addState(details.localPosition);
@@ -82,5 +72,25 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
+  }
+}
+
+class BodyKey {
+
+  static final BodyKey _instance = BodyKey._internal(); //Singleton
+  BodyKey._internal();
+  factory BodyKey() {
+    return _instance;
+  }
+
+  final GlobalKey globalKey = GlobalKey();
+
+  // Method to get the local position
+  Offset getBodyLocalPosition(Offset position) {
+    RenderBox renderBox = globalKey.currentContext?.findRenderObject() as RenderBox;
+
+    // Convert the global position to local position
+    Offset localPosition = renderBox.globalToLocal(position);
+    return localPosition;
   }
 }
