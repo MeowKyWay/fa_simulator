@@ -10,24 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class DiagramStateWidget extends StatefulWidget {
-  final Offset position;
-  final String name;
-  final bool hasFocus;
-  final Function(Offset) onDragEnd;
-  final Function() requestFocus;
-
-  final VoidCallback onDelete;
-  final Function(String) onRename;
+  final DiagramState state;
 
   const DiagramStateWidget({
     super.key,
-    required this.position,
-    required this.name,
-    this.hasFocus = false,
-    required this.requestFocus,
-    required this.onDragEnd,
-    required this.onDelete,
-    required this.onRename,
+    required this.state,
   });
 
   @override
@@ -37,17 +24,16 @@ class DiagramStateWidget extends StatefulWidget {
 }
 
 class _DiagramStateWidgetState extends State<DiagramStateWidget> {
-  late _DiagramState _state;
 
+  late _DiagramState _state;
   bool isRenaming = false;
 
-  @override
-  void initState() {
+  @override void initState() {
     super.initState();
   }
 
   void _focus() {
-    widget.requestFocus();
+    StateList().requestFocus(widget.state.id);
   }
 
   KeyEventResult _onKeyEvent(FocusNode focusNode, KeyEvent event) {
@@ -72,28 +58,24 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
   @override
   Widget build(BuildContext context) {
     _state = _DiagramState(
-      name: widget.name,
-      hasFocus: widget.hasFocus,
-      onRename: widget.onRename,
+      state: widget.state,
       isRenaming: isRenaming,
       setIsRenaming: _setIsRenaming,
     );
 
-    Offset margin = widget.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero;
+    Offset margin = widget.state.hasFocus ? -const Offset(7.5, 7.5) : Offset.zero;
 
     return Positioned(
-      left: widget.position.dx + margin.dx,
-      top: widget.position.dy + margin.dy,
+      left: widget.state.position.dx + margin.dx,
+      top: widget.state.position.dy + margin.dy,
       child: FocusOverlay(
-        hasFocus: widget.hasFocus,
-        onDelete: widget.onDelete,
+        hasFocus: widget.state.hasFocus,
+        onDelete: () => StateList().deleteState(widget.state.id),
         scale: scale,
         child: DraggableState(
+          state: widget.state,
           margin: margin,
-          onDragEnd: widget.onDragEnd,
           scale: scale,
-          hasFocus: widget.hasFocus,
-          requestFocus: widget.requestFocus,
           feedback: _state,
           child: GestureDetector(
             onTap: () {
@@ -113,17 +95,13 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
 }
 
 class _DiagramState extends StatefulWidget {
-  final String name;
-  final bool hasFocus;
+  final DiagramState state;
   final bool isRenaming;
-  final Function(String) onRename;
   final Function(bool) setIsRenaming;
 
   const _DiagramState({
-    this.name = '',
-    required this.hasFocus,
+    required this.state,
     required this.isRenaming,
-    required this.onRename,
     required this.setIsRenaming,
   });
 
@@ -159,7 +137,7 @@ class _DiagramStateState extends State<_DiagramState> {
             border: Border.all(
               color: isHovered
                   ? focusColor
-                  : widget.hasFocus
+                  : widget.state.hasFocus
                       ? focusColor
                       : stateBorderColor,
               width: 1,
@@ -182,11 +160,11 @@ class _DiagramStateState extends State<_DiagramState> {
                         border: InputBorder.none,
                       ),
                       onSubmitted: (value) {
-                        widget.onRename(value);
+                        StateList().renameState(widget.state.id, value);
                       },
                     ),
                   )
-                : NormalText(text: widget.name),
+                : NormalText(text: widget.state.name),
           ),
         ),
       ),

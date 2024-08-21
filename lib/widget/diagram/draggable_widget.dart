@@ -1,23 +1,20 @@
 import 'package:fa_simulator/config.dart';
+import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/body/body.dart';
 import 'package:flutter/material.dart';
 
 class DraggableState extends StatefulWidget {
+  final DiagramState state;
   final Offset margin;
   final Widget child;
   final Widget feedback;
-  final Function(Offset) onDragEnd;
   final double scale;
-  final bool hasFocus;
-  final Function requestFocus;
 
   const DraggableState({
     super.key,
+    required this.state,
     this.margin = const Offset(0, 0),
     required this.child,
-    required this.onDragEnd,
-    required this.hasFocus,
-    required this.requestFocus,
     this.scale = 1.0,
     this.feedback = const SizedBox(
       height: 50,
@@ -64,8 +61,8 @@ class _DraggableStateState extends State<DraggableState> {
         },
         onDragEnd: (details) {
           Offset newPosition = details.offset;
-          widget.onDragEnd(newPosition);
-          widget.requestFocus();
+          StateList().moveState(widget.state.id, newPosition);
+          StateList().requestFocus(widget.state.id);
         },
         childWhenDragging: Container(),
         child: widget.child,

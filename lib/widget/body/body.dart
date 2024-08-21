@@ -72,15 +72,7 @@ class _BodyState extends State<Body> {
                 return Stack(children: [
                   ...stateList.states.map((state) {
                     return DiagramStateWidget(
-                      position: state.position,
-                      name: state.name,
-                      hasFocus: state.hasFocus,
-                      requestFocus: () => stateList.requestFocus(state.id),
-                      onDelete: () => stateList.deleteState(state.name),
-                      onRename: (newName) =>
-                          stateList.renameState(state.name, newName),
-                      onDragEnd: (position) => stateList.moveState(
-                          state.name, _getDragEndLocalPosition(position)),
+                      state: state,
                     );
                   }),
                 ]);

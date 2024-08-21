@@ -27,23 +27,23 @@ class StateList with ChangeNotifier {
     requestFocus(state.id);
   }
 
-  void deleteState(String name) {
-    _states.removeWhere((element) => element.name == name);
+  void deleteState(String id) {
+    _states.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
-  void renameState(String name, String newName) {
+  void renameState(String id, String newName) {
     for (var i = 0; i < _states.length; i++) {
-      if (_states[i].name == name) {
+      if (_states[i].id == id) {
         _states[i].name = newName;
       }
     }
     notifyListeners();
   }
 
-  void moveState(String name, Offset position) {
+  void moveState(String id, Offset position) {
     for (var i = 0; i < _states.length; i++) {
-      if (_states[i].name == name) {
+      if (_states[i].id == id) {
         _states[i].position = position;
       }
     }
