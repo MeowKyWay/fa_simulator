@@ -80,6 +80,13 @@ class StateList with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void unFocus() {
+    for (var i = 0; i < _states.length; i++) {
+      _states[i].hasFocus = false;
+    }
+    notifyListeners();
+  }
 }
 
 class DiagramState {
@@ -87,11 +94,15 @@ class DiagramState {
   String id;
   String name;
   bool hasFocus;
+  bool isDragging;
+  bool isRenaming;
 
   DiagramState({
     required this.position,
     required this.id,
     required this.name,
     this.hasFocus = false,
+    this.isDragging = false,
+    this.isRenaming = false,
   });
 }

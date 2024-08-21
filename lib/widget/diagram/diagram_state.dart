@@ -82,9 +82,6 @@ class _DiagramStateWidgetState extends State<DiagramStateWidget> {
               setState(() {
                 _focus();
               });
-              StateList().states.forEach((element) {
-                log(element.name);
-              });
             },
             child: _state,
           ),

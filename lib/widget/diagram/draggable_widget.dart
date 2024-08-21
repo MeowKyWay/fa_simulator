@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/body/body.dart';
@@ -48,11 +50,13 @@ class _DraggableStateState extends State<DraggableState> {
           child: widget.feedback,
         ),
         dragAnchorStrategy: (draggable, context, position) {
-          final RenderBox renderObject = context.findRenderObject()! as RenderBox;
+          final RenderBox renderObject =
+              context.findRenderObject()! as RenderBox;
           final localPosition =
-              renderObject.globalToLocal(position) + widget.margin;
+              renderObject.globalToLocal(position);
           return (localPosition) -
-              Offset(stateSize * localPosition.dx, stateSize * localPosition.dy) *
+              Offset(stateSize * localPosition.dx,
+                      stateSize * localPosition.dy) *
                   (1 - scale) /
                   100;
         },
