@@ -24,7 +24,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final FocusNode _keyboardListener = FocusNode();
 
   final TransformationController _transformationController =
       TransformationController();
@@ -39,20 +38,13 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    _keyboardListener.requestFocus();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _keyboardListener.dispose();
+    KeyboardSingleton().requestFocus();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: BodyKeyboardListener(
-        focusNode: _keyboardListener,
         child: ZoomableContainer(
           onScaleChange: _updateScale,
           transformationController: _transformationController,

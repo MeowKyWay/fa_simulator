@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/control.dart';
@@ -7,9 +5,8 @@ import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/component/text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class StateNode extends StatefulWidget {
+class StateNode extends StatelessWidget {
   final DiagramState state;
 
   const StateNode({
@@ -17,67 +14,33 @@ class StateNode extends StatefulWidget {
     required this.state,
   });
 
-  @override
-  State<StateNode> createState() {
-    return _StateNodeState();
-  }
-}
-
-class _StateNodeState extends State<StateNode> {
-  late _DiagramState _state;
-  bool isRenaming = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  // Focus the state
   void _focus() {
+    // If multiple select key is pressed, add state to the focus list
     if (KeyboardSingleton().pressedKeys.contains(multipleSelect)) {
-      //Move to control config
-      StateList().addFocus(widget.state.id);
+      StateList().addFocus(state.id);
       return;
     }
-    StateList().requestFocus(widget.state.id);
-  }
-
-  KeyEventResult _onKeyEvent(FocusNode focusNode, KeyEvent event) {
-    if (event is KeyDownEvent) return KeyEventResult.ignored;
-    if (isRenaming) return KeyEventResult.ignored;
-    if (!focusNode.hasFocus) return KeyEventResult.ignored;
-    if (event.logicalKey != LogicalKeyboardKey.enter) {
-      return KeyEventResult.ignored;
-    }
-    setState(() {
-      isRenaming = true;
-    });
-    return KeyEventResult.handled;
-  }
-
-  void _setIsRenaming(bool value) {
-    setState(() {
-      isRenaming = value;
-    });
+    // Else request focus for the state
+    StateList().requestFocus(state.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    _state = _DiagramState(
-      state: widget.state,
-      isRenaming: isRenaming,
-      setIsRenaming: _setIsRenaming,
+    _DiagramState newState;
+    newState = _DiagramState(
+      state: state,
+      isRenaming: StateList().renamingStateId == state.id,
     );
 
     return Positioned(
-      left: widget.state.position.dx,
-      top: widget.state.position.dy,
+      left: state.position.dx,
+      top: state.position.dy,
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            _focus();
-          });
+          _focus();
         },
-        child: _state,
+        child: newState,
       ),
     );
   }
@@ -86,12 +49,11 @@ class _StateNodeState extends State<StateNode> {
 class _DiagramState extends StatefulWidget {
   final DiagramState state;
   final bool isRenaming;
-  final Function(bool) setIsRenaming;
 
+  // Diagram State constructor
   const _DiagramState({
     required this.state,
     required this.isRenaming,
-    required this.setIsRenaming,
   });
 
   @override
@@ -102,20 +64,35 @@ class _DiagramState extends StatefulWidget {
 
 class _DiagramStateState extends State<_DiagramState> {
   bool isHovered = false;
+  final FocusNode _renameFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _renameFocusNode.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isRenaming) {
+      // Request focus for the rename text field
+      FocusScope.of(context).requestFocus(_renameFocusNode);
+    }
     return MouseRegion(
       onEnter: (event) {
+        // Set the state status to hovered
         setState(() {
           isHovered = true;
         });
       },
       onExit: (event) {
+        // Set the state status to not hovered
         setState(() {
           isHovered = false;
         });
       },
+      // Change mouse icon to grab when hovered
       cursor: SystemMouseCursors.grab,
       child: SizedBox(
         height: stateSize,
@@ -135,6 +112,7 @@ class _DiagramStateState extends State<_DiagramState> {
                     ? Padding(
                         padding: const EdgeInsets.all(5),
                         child: TextField(
+                          focusNode: _renameFocusNode,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: textColor,
@@ -145,8 +123,11 @@ class _DiagramStateState extends State<_DiagramState> {
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
-                          onSubmitted: (value) {
+                          onChanged: (value) {
                             StateList().renameState(widget.state.id, value);
+                          },
+                          onSubmitted: (value) {
+                            StateList().endRename();
                           },
                         ),
                       )

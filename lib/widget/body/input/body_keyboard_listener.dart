@@ -6,17 +6,15 @@ import 'package:flutter/services.dart';
 
 class BodyKeyboardListener extends StatelessWidget {
   final Widget child;
-  final FocusNode focusNode;
   const BodyKeyboardListener({
     super.key,
     required this.child,
-    required this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
-      focusNode: focusNode,
+      focusNode: KeyboardSingleton()._focusNode,
       onKeyEvent: (KeyEvent event) {
         if (event is KeyDownEvent) {
           // Prevent duplicate key presses
@@ -30,27 +28,53 @@ class BodyKeyboardListener extends StatelessWidget {
           KeyboardSingleton().removeKey(event.logicalKey);
         }
 
+        //Only handle key down events
+        //Individually handle key down events for each key
         if (event is KeyUpEvent) return;
-        // Individual key handler
+        // On backspace
         if (event.logicalKey == LogicalKeyboardKey.backspace) {
-          StateList().deleteFocusedStates();
+          _handleBackspace();
+        }
+        // On enter
+        if (event.logicalKey == LogicalKeyboardKey.enter) {
+          _handleEnter();
         }
       },
       child: child,
     );
   }
+
+  // Delete every focused state
+  void _handleBackspace() {
+    StateList().deleteFocusedStates();
+  }
+
+  // If only one state is focused, set isRenaming to true
+  void _handleEnter() {
+    // If only one state is focused, start renaming
+    if (StateList().states.where((element) => element.hasFocus).length == 1) {
+      StateList().startRename(
+          StateList().states.firstWhere((element) => element.hasFocus).id);
+    }
+  }
 }
 
 class KeyboardSingleton with ChangeNotifier {
-  static final KeyboardSingleton _instance =
-      KeyboardSingleton._internal(); //Singleton
+  //Singleton
+  static final KeyboardSingleton _instance = KeyboardSingleton._internal();
   KeyboardSingleton._internal();
   factory KeyboardSingleton() {
     return _instance;
   }
 
+  final FocusNode _focusNode = FocusNode();
+
   //Keyboard listeners
   final Set<LogicalKeyboardKey> pressedKeys = {};
+
+  void requestFocus() {
+    _focusNode.requestFocus();
+  }
 
   void addKey(LogicalKeyboardKey key) {
     pressedKeys.add(key);
