@@ -1,10 +1,11 @@
+import 'package:fa_simulator/config.dart';
 import 'package:flutter/material.dart';
 
 class GridPainter extends CustomPainter {
   final double gridSpacing;
   final Color gridColor;
 
-  GridPainter({this.gridSpacing = 50.0, this.gridColor = Colors.grey});
+  GridPainter({this.gridSpacing = gridSize, this.gridColor = Colors.grey});
 
   @override
   void paint(Canvas canvas, Size size) {

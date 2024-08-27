@@ -1,6 +1,8 @@
 import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/app.dart';
+import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
+import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +14,14 @@ class Main extends StatelessWidget {
   const Main({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => StateList(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => StateList()),
+        ChangeNotifierProvider(create: (context) => SelectionAreaProvider()),
+        ChangeNotifierProvider(create: (context) => BodySingleton()),
+        ChangeNotifierProvider(create: (context) => KeyboardSingleton()),
+
+      ],
       child: const MaterialApp(
           home: Scaffold(
         body: DefaultTextStyle(

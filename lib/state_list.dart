@@ -2,10 +2,7 @@ import 'package:fa_simulator/config.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-
-
 class StateList with ChangeNotifier {
-
   static final StateList _instance = StateList._internal(); //Singleton
   StateList._internal();
   factory StateList() {
@@ -16,9 +13,12 @@ class StateList with ChangeNotifier {
 
   List<DiagramState> get states => _states;
 
+  //-------------------State-------------------
+
   void addState(Offset position) {
+    Offset roundedPosition = snapPosition(position - const Offset(stateSize / 2, stateSize / 2));
     DiagramState state = DiagramState(
-      position: position - const Offset(stateSize / 2, stateSize / 2),
+      position: roundedPosition,
       id: const Uuid().v4(),
       name: stateCounter.toString(),
     );
@@ -32,6 +32,11 @@ class StateList with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteFocusedStates() {
+    _states.removeWhere((element) => element.hasFocus);
+    notifyListeners();
+  }
+
   void renameState(String id, String newName) {
     for (var i = 0; i < _states.length; i++) {
       if (_states[i].id == id) {
@@ -42,13 +47,23 @@ class StateList with ChangeNotifier {
   }
 
   void moveState(String id, Offset position) {
+    Offset roundedPosition = snapPosition(position);
     for (var i = 0; i < _states.length; i++) {
       if (_states[i].id == id) {
-        _states[i].position = position;
+        _states[i].position = roundedPosition;
       }
     }
     notifyListeners();
   }
+
+  Offset snapPosition(Offset position) {
+    return Offset(
+      (position.dx / gridSize).round() * gridSize,
+      (position.dy / gridSize).round() * gridSize,
+    );
+  }
+
+  //-------------------Focus-------------------
 
   void requestFocus(String id) {
     for (var i = 0; i < _states.length; i++) {
@@ -84,6 +99,26 @@ class StateList with ChangeNotifier {
   void unFocus() {
     for (var i = 0; i < _states.length; i++) {
       _states[i].hasFocus = false;
+    }
+    notifyListeners();
+  }
+
+  //-------------------Drag-------------------
+
+  void startDrag(String id) {
+    for (var i = 0; i < StateList().states.length; i++) {
+      if (StateList().states[i].id == id) {
+        StateList().states[i].isDragging = true;
+      }
+    }
+    notifyListeners();
+  }
+
+  void endDrag(String id) {
+    for (var i = 0; i < StateList().states.length; i++) {
+      if (StateList().states[i].id == id) {
+        StateList().states[i].isDragging = false;
+      }
     }
     notifyListeners();
   }

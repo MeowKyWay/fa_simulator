@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:fa_simulator/config.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/body/body.dart';
+import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:flutter/material.dart';
 
 class DraggableState extends StatefulWidget {
@@ -52,8 +53,7 @@ class _DraggableStateState extends State<DraggableState> {
         dragAnchorStrategy: (draggable, context, position) {
           final RenderBox renderObject =
               context.findRenderObject()! as RenderBox;
-          final localPosition =
-              renderObject.globalToLocal(position);
+          final localPosition = renderObject.globalToLocal(position);
           return (localPosition) -
               Offset(stateSize * localPosition.dx,
                       stateSize * localPosition.dy) *
@@ -61,12 +61,16 @@ class _DraggableStateState extends State<DraggableState> {
                   100;
         },
         onDragStarted: () {
-          FocusScope.of(context).unfocus();
+          StateList().startDrag(widget.state.id);
+        },
+        onDragUpdate: (details) {
+          log(details.localPosition.toString()); //Todo add snapped preview
         },
         onDragEnd: (details) {
-          Offset newPosition = BodyKey().getBodyLocalPosition(details.offset);
+          Offset newPosition = BodySingleton().getBodyLocalPosition(details.offset);
           StateList().moveState(widget.state.id, newPosition);
           StateList().requestFocus(widget.state.id);
+          StateList().endDrag(widget.state.id);
         },
         childWhenDragging: Container(),
         child: widget.child,

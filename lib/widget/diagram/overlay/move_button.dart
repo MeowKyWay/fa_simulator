@@ -26,17 +26,17 @@ class MoveButton extends StatelessWidget {
           child: feedback,
         ),
         onDragEnd: (details) {
-          onDragEnd(details.offset + Offset(stateSize/2, stateSize/2) * (2-scale));
+          onDragEnd(details.offset + const Offset(stateSize/2, stateSize/2) * (2-scale));
         },
         dragAnchorStrategy: (draggable, context, position) {
-          return Offset.zero + Offset(stateSize, stateSize);
+          return Offset.zero + const Offset(stateSize, stateSize);
         },
         child: Container(
           decoration: const BoxDecoration(
             color: Colors.black,
             shape: BoxShape.circle,
           ),
-          child: Center(
+          child: const Center(
             child: FaIcon(
               FontAwesomeIcons.arrowsUpDownLeftRight,
               size: stateFocusOverlayButtonSize / 2,
