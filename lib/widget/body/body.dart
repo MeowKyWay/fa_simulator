@@ -24,7 +24,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   final TransformationController _transformationController =
       TransformationController();
 
@@ -58,7 +57,6 @@ class _BodyState extends State<Body> {
                   painter: GridPainter(),
                 ),
                 const BodyGestureDetector(),
-                const SelectionBox(),
                 Consumer<StateList>(builder: (context, stateList, child) {
                   return Stack(children: [
                     ...stateList.states.map((state) {
@@ -67,7 +65,8 @@ class _BodyState extends State<Body> {
                       );
                     }),
                   ]);
-                })
+                }),
+                const SelectionBox(),
               ],
             ),
           ),

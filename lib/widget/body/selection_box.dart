@@ -20,8 +20,14 @@ class SelectionBox extends StatelessWidget {
               width: selectionArea.rect!.width,
               height: selectionArea.rect!.height,
               child: DottedBorder(
-                dashPattern: const [10, 5],
-                child: Container(),
+                padding: EdgeInsets.zero,
+                dashPattern: const [5, 2.5],
+                color: Colors.grey,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.3),
+                  ),
+                ),
               ),
             );
     });
