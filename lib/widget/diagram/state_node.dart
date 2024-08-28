@@ -40,11 +40,13 @@ class StateNode extends StatelessWidget {
     return Positioned(
       left: state.position.dx - stateSize / 2,
       top: state.position.dy - stateSize / 2,
-      child: GestureDetector(
-        onTap: () {
-          _focus();
-        },
-        child: newState,
+      child: ClipOval(
+        child: GestureDetector(
+          onTap: () {
+            _focus();
+          },
+          child: newState,
+        ),
       ),
     );
   }

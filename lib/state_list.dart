@@ -77,8 +77,8 @@ class StateList with ChangeNotifier {
   Offset snapPosition(Offset position) {
     // return the snapped position to the grid
     return Offset(
-      (position.dx / gridSize).round() * gridSize,
-      (position.dy / gridSize).round() * gridSize,
+      (position.dx / (gridSize/5)).round() * (gridSize/5),
+      (position.dy / (gridSize/5)).round() * (gridSize/5),
     );
   }
 
