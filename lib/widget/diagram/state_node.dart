@@ -1,6 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fa_simulator/config.dart';
-import 'package:fa_simulator/control.dart';
+import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/component/text.dart';

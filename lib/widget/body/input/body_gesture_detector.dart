@@ -1,4 +1,6 @@
-import 'package:fa_simulator/config.dart';
+import 'package:fa_simulator/action/action.dart';
+import 'package:fa_simulator/action/action_dispatcher.dart';
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,7 @@ class BodyGestureDetector extends StatelessWidget {
       // Add new state on double tap 
       // Todo replace with drag the new state from menu
       onDoubleTapDown: (TapDownDetails details) {
-        StateList().addState(details.localPosition);
+        AppActionDispatcher().execute(CreateStateAction(details.localPosition, ''));
       },
       // Set start position for selection
       onPanStart: (DragStartDetails details) {

@@ -1,4 +1,4 @@
-import 'package:fa_simulator/config.dart';
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -19,7 +19,7 @@ class StateList with ChangeNotifier {
 
   //-------------------State-------------------
   // Add new state
-  void addState(Offset position) {
+  DiagramState addState(Offset position, String name) {
     // Get snapped position
     Offset roundedPosition =
         snapPosition(position - const Offset(stateSize / 2, stateSize / 2));
@@ -27,13 +27,13 @@ class StateList with ChangeNotifier {
     DiagramState state = DiagramState(
       position: roundedPosition,
       id: const Uuid().v4(),
-      name: stateCounter.toString(),
+      name: name,
     );
     // Add the state to the list
     _states.add(state);
-    // Increment the state counter
-    stateCounter++;
-    requestFocus(state.id);
+    notifyListeners();
+    // Return the state
+    return state;
   }
 
   // Delete a state

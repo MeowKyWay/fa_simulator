@@ -1,0 +1,52 @@
+// Todo implement a class that store all action e.g. create a state delete a state
+// Use the class to undo and redo actions
+// Maybe use interface to implement the actions
+// All class need an undo redo and do function
+// do is the function that is called when the action is done
+// Change all the functions to use the class do function
+
+import 'package:fa_simulator/action/action.dart';
+
+class AppActionDispatcher {
+  static final AppActionDispatcher _instance = AppActionDispatcher._internal();
+  AppActionDispatcher._internal();
+  factory AppActionDispatcher() => _instance;
+
+  // Store list of actions
+  final List<AppAction> _actions = [];
+  // Store list of undo actions
+  final List<AppAction> _redoActions = [];
+
+  void execute(AppAction action) {
+    // Execute the action
+    action.execute();
+    // Add the action to the list
+    _actions.add(action);
+    // Empty the redo list
+    _redoActions.clear();
+  }
+
+  void undo() {
+    // If there are actions
+    if (_actions.isNotEmpty) {
+      // Undo the last action
+      _actions.last.undo();
+      // Add the action to the redo list
+      _redoActions.add(_actions.last);
+      // Remove the action from the list
+      _actions.removeLast();
+    }
+  }
+
+  void redo() {
+    // If there are redo actions
+    if (_redoActions.isNotEmpty) {
+      // Redo the last action
+      _redoActions.last.redo();
+      // Add the action to the list
+      _actions.add(_redoActions.last);
+      // Remove the action from the redo list
+      _redoActions.removeLast();
+    }
+  }
+}

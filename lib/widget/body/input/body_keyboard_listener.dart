@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fa_simulator/action/action_dispatcher.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +40,10 @@ class BodyKeyboardListener extends StatelessWidget {
         if (event.logicalKey == LogicalKeyboardKey.enter) {
           _handleEnter();
         }
+        // On undo or redo
+        if (event.logicalKey == LogicalKeyboardKey.keyZ) {
+          _handleZ();
+        }
       },
       child: child,
     );
@@ -56,6 +61,24 @@ class BodyKeyboardListener extends StatelessWidget {
       StateList().startRename(
           StateList().states.firstWhere((element) => element.hasFocus).id);
     }
+  }
+
+  void _handleZ() {
+    // If control is pressed, undo
+    if (!KeyboardSingleton()
+        .pressedKeys
+        .contains(LogicalKeyboardKey.controlLeft)) {
+          return;
+    }
+    // If shift is pressed, redo
+    if (KeyboardSingleton()
+        .pressedKeys
+        .contains(LogicalKeyboardKey.shiftLeft)) {
+      AppActionDispatcher().redo();
+      return;
+    }
+    // Else undo
+    AppActionDispatcher().undo();
   }
 }
 
