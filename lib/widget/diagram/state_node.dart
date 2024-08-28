@@ -70,11 +70,20 @@ class _DiagramStateState extends State<_DiagramState> {
   String newName = '';
   bool isHovered = false;
   late FocusNode _renameFocusNode;
+  late VoidCallback _listener;
 
   @override
   void initState() {
     super.initState();
+    _listener = () {
+      if (!_renameFocusNode.hasFocus) {
+        AppActionDispatcher()
+            .execute(RenameStateAction(widget.state.id, newName));
+        KeyboardSingleton().focusNode.requestFocus();
+      }
+    };
     _renameFocusNode = FocusNode();
+    _renameFocusNode.addListener(_listener);
   }
 
   @override
@@ -138,8 +147,8 @@ class _DiagramStateState extends State<_DiagramState> {
                             newName = value;
                           },
                           onSubmitted: (value) {
-                            StateList().renameState(widget.state.id, newName);
-                            StateList().endRename();
+                            AppActionDispatcher().execute(
+                                RenameStateAction(widget.state.id, newName));
                             KeyboardSingleton().focusNode.requestFocus();
                           },
                         ),

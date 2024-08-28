@@ -69,12 +69,12 @@ class DeleteStatesAction implements AppAction {
   }
 }
 
-class RenameStatesAction implements AppAction {
+class RenameStateAction implements AppAction {
   final String id;
   final String name;
   late String oldName;
 
-  RenameStatesAction(
+  RenameStateAction(
     this.id,
     this.name,
   );
@@ -82,13 +82,12 @@ class RenameStatesAction implements AppAction {
   @override
   void execute() {
     oldName = StateList().renameState(id, name);
-    log(oldName);
+    StateList().endRename();
   }
 
   @override
   void undo() {
     StateList().renameState(id, oldName);
-    log(oldName);
   }
 
   @override
