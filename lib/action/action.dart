@@ -58,8 +58,10 @@ class DeleteStatesAction implements AppAction {
 
   @override
   void undo() {
+    StateList().unfocus();
     for (var i = 0; i < states.length; i++) {
       StateList().addState(states[i].position, states[i].name, states[i].id);
+      StateList().addFocus(states[i].id);
     }
   }
 

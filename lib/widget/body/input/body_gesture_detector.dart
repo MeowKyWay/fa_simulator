@@ -15,7 +15,7 @@ class BodyGestureDetector extends StatelessWidget {
       key: BodySingleton().globalKey,
       // Unfocus the states on tap
       onTap: () {
-        StateList().unFocus();
+        StateList().unfocus();
       },
       // Add new state on double tap 
       // Todo replace with drag the new state from menu
@@ -106,10 +106,10 @@ class SelectionAreaProvider with ChangeNotifier {
     Rect rect = this.rect!;
 
     // Get the size of the DiagramState
-    double stateLeft = state.position.dx;
-    double stateRight = state.position.dx + stateSize;
-    double stateTop = state.position.dy;
-    double stateBottom = state.position.dy + stateSize;
+    double stateLeft = state.position.dx - (stateSize/2);
+    double stateRight = state.position.dx + (stateSize/2);
+    double stateTop = state.position.dy - (stateSize/2);
+    double stateBottom = state.position.dy + (stateSize/2);
 
     Rect stateRect =
         Rect.fromLTRB(stateLeft, stateTop, stateRight, stateBottom);

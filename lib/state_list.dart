@@ -131,7 +131,7 @@ class StateList with ChangeNotifier {
   }
 
   // Remove all focus
-  void unFocus() {
+  void unfocus() {
     for (var i = 0; i < _states.length; i++) {
       _states[i].hasFocus = false;
     }
