@@ -19,18 +19,25 @@ class StateList with ChangeNotifier {
 
   //-------------------State-------------------
   // Add new state
-  DiagramState addState(Offset position, String name) {
+  DiagramState addState(Offset position, String name, [String? id]) {
+    if (_states
+        .any((element) => (element.position - position).distance < stateSize)) {
+      throw Exception("State already exists at this position");
+    }
+    if (_states.any((element) => element.id == id)) {
+      throw Exception("State with this id already exists");
+    }
     // Get snapped position
-    Offset roundedPosition =
-        snapPosition(position - const Offset(stateSize / 2, stateSize / 2));
+    Offset roundedPosition = snapPosition(position);
     // Create a new state
     DiagramState state = DiagramState(
       position: roundedPosition,
-      id: const Uuid().v4(),
+      id: (id != null) ? id : const Uuid().v4(),
       name: name,
     );
     // Add the state to the list
     _states.add(state);
+    _endRename();
     notifyListeners();
     // Return the state
     return state;
@@ -40,6 +47,7 @@ class StateList with ChangeNotifier {
   void deleteState(String id) {
     // Remove the state from the list
     _states.removeWhere((element) => element.id == id);
+    _endRename();
     notifyListeners();
   }
 
@@ -47,6 +55,7 @@ class StateList with ChangeNotifier {
   void deleteFocusedStates() {
     // Remove all focused states from the list
     _states.removeWhere((element) => element.hasFocus);
+    _endRename();
     notifyListeners();
   }
 
@@ -60,6 +69,7 @@ class StateList with ChangeNotifier {
         _states[i].position = roundedPosition;
       }
     }
+    _endRename();
     notifyListeners();
   }
 
@@ -163,7 +173,6 @@ class StateList with ChangeNotifier {
   // End renaming a state
   void _endRename() {
     _renamingStateId = "";
-    KeyboardSingleton().requestFocus();
   }
 
   // End renaming a state
@@ -173,14 +182,20 @@ class StateList with ChangeNotifier {
   }
 
   // Rename a state
-  void renameState(String id, String newName) {
+  String renameState(String id, String newName) {
     // Rename the state
+    String? oldName;
     for (var i = 0; i < _states.length; i++) {
       if (_states[i].id == id) {
+        oldName = _states[i].name;
         _states[i].name = newName;
       }
     }
+    if (oldName == null) {
+      throw Exception("State not found");
+    }
     notifyListeners();
+    return oldName;
   }
 }
 

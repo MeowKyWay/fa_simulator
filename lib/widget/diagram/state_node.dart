@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:dotted_border/dotted_border.dart';
+import 'package:fa_simulator/action/action.dart';
+import 'package:fa_simulator/action/action_dispatcher.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/state_list.dart';
@@ -34,8 +38,8 @@ class StateNode extends StatelessWidget {
     );
 
     return Positioned(
-      left: state.position.dx,
-      top: state.position.dy,
+      left: state.position.dx - stateSize / 2,
+      top: state.position.dy - stateSize / 2,
       child: GestureDetector(
         onTap: () {
           _focus();
@@ -63,12 +67,18 @@ class _DiagramState extends StatefulWidget {
 }
 
 class _DiagramStateState extends State<_DiagramState> {
+  String newName = '';
   bool isHovered = false;
-  final FocusNode _renameFocusNode = FocusNode();
+  late FocusNode _renameFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _renameFocusNode = FocusNode();
+  }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _renameFocusNode.dispose();
   }
@@ -76,8 +86,9 @@ class _DiagramStateState extends State<_DiagramState> {
   @override
   Widget build(BuildContext context) {
     if (widget.isRenaming) {
+      // Unfocus the keyboard listenner
       // Request focus for the rename text field
-      FocusScope.of(context).requestFocus(_renameFocusNode);
+      _renameFocusNode.requestFocus();
     }
     return MouseRegion(
       onEnter: (event) {
@@ -124,10 +135,12 @@ class _DiagramStateState extends State<_DiagramState> {
                             border: InputBorder.none,
                           ),
                           onChanged: (value) {
-                            StateList().renameState(widget.state.id, value);
+                            newName = value;
                           },
                           onSubmitted: (value) {
+                            StateList().renameState(widget.state.id, newName);
                             StateList().endRename();
+                            KeyboardSingleton().focusNode.requestFocus();
                           },
                         ),
                       )

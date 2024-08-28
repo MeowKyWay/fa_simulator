@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/state_list.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +26,7 @@ class CreateStateAction implements AppAction {
   @override
   void execute() {
     state = StateList().addState(position, name);
+    StateList().requestFocus(state.id);
   }
 
   @override
@@ -33,7 +36,8 @@ class CreateStateAction implements AppAction {
 
   @override
   void redo() {
-    execute();
+    StateList().addState(position, name, state.id);
+    StateList().requestFocus(state.id);
   }
 }
 
@@ -55,8 +59,36 @@ class DeleteStatesAction implements AppAction {
   @override
   void undo() {
     for (var i = 0; i < states.length; i++) {
-      StateList().addState(states[i].position, states[i].name);
+      StateList().addState(states[i].position, states[i].name, states[i].id);
     }
+  }
+
+  @override
+  void redo() {
+    execute();
+  }
+}
+
+class RenameStatesAction implements AppAction {
+  final String id;
+  final String name;
+  late String oldName;
+
+  RenameStatesAction(
+    this.id,
+    this.name,
+  );
+
+  @override
+  void execute() {
+    oldName = StateList().renameState(id, name);
+    log(oldName);
+  }
+
+  @override
+  void undo() {
+    StateList().renameState(id, oldName);
+    log(oldName);
   }
 
   @override

@@ -6,7 +6,7 @@ import 'package:fa_simulator/state_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class BodyKeyboardListener extends StatelessWidget {
+class BodyKeyboardListener extends StatefulWidget {
   final Widget child;
   const BodyKeyboardListener({
     super.key,
@@ -14,10 +14,33 @@ class BodyKeyboardListener extends StatelessWidget {
   });
 
   @override
+  State<BodyKeyboardListener> createState() {
+    return _BodyKeyboardListenerState();
+  }
+}
+
+class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
+  @override
+  void initState() {
+    super.initState();
+    KeyboardSingleton().focusNode.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    KeyboardSingleton().dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return KeyboardListener(
-      focusNode: KeyboardSingleton()._focusNode,
+      focusNode: KeyboardSingleton().focusNode,
       onKeyEvent: (KeyEvent event) {
+        if (FocusManager.instance.primaryFocus !=
+            KeyboardSingleton().focusNode) {
+          return;
+        }
         if (event is KeyDownEvent) {
           // Prevent duplicate key presses
           if (KeyboardSingleton().pressedKeys.contains(event.logicalKey)) {
@@ -46,14 +69,14 @@ class BodyKeyboardListener extends StatelessWidget {
           _handleZ();
         }
       },
-      child: child,
+      child: widget.child,
     );
   }
 
   // Delete every focused state
   void _handleBackspace() {
-    List<DiagramState> focusedStates = StateList()
-        .states.where((element) => element.hasFocus).toList();
+    List<DiagramState> focusedStates =
+        StateList().states.where((element) => element.hasFocus).toList();
     if (focusedStates.isEmpty) {
       return;
     }
@@ -74,16 +97,18 @@ class BodyKeyboardListener extends StatelessWidget {
     if (!KeyboardSingleton()
         .pressedKeys
         .contains(LogicalKeyboardKey.controlLeft)) {
-          return;
+      return;
     }
     // If shift is pressed, redo
     if (KeyboardSingleton()
         .pressedKeys
         .contains(LogicalKeyboardKey.shiftLeft)) {
       AppActionDispatcher().redo();
+      log("Redo");
       return;
     }
     // Else undo
+    log("Undo");
     AppActionDispatcher().undo();
   }
 }
@@ -91,19 +116,23 @@ class BodyKeyboardListener extends StatelessWidget {
 class KeyboardSingleton with ChangeNotifier {
   //Singleton
   static final KeyboardSingleton _instance = KeyboardSingleton._internal();
-  KeyboardSingleton._internal();
+  KeyboardSingleton._internal() {
+    _focusNode = FocusNode();
+  }
   factory KeyboardSingleton() {
     return _instance;
   }
 
-  final FocusNode _focusNode = FocusNode();
+  late FocusNode _focusNode;
+  FocusNode get focusNode => _focusNode;
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+  }
 
   //Keyboard listeners
   final Set<LogicalKeyboardKey> pressedKeys = {};
-
-  void requestFocus() {
-    _focusNode.requestFocus();
-  }
 
   void addKey(LogicalKeyboardKey key) {
     pressedKeys.add(key);
