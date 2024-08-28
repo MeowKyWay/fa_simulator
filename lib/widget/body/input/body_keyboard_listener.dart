@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fa_simulator/action/action.dart';
 import 'package:fa_simulator/action/action_dispatcher.dart';
 import 'package:fa_simulator/state_list.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,12 @@ class BodyKeyboardListener extends StatelessWidget {
 
   // Delete every focused state
   void _handleBackspace() {
-    StateList().deleteFocusedStates();
+    List<DiagramState> focusedStates = StateList()
+        .states.where((element) => element.hasFocus).toList();
+    if (focusedStates.isEmpty) {
+      return;
+    }
+    AppActionDispatcher().execute(DeleteStatesAction(focusedStates));
   }
 
   // If only one state is focused, set isRenaming to true
