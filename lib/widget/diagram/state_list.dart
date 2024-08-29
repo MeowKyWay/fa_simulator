@@ -21,7 +21,7 @@ class StateList with ChangeNotifier {
   // Add new state
   DiagramState addState(Offset position, String name, [String? id]) {
     if (_states
-        .any((element) => (element.position - position).distance < stateSize)) {
+        .any((element) => (element.position - position).distance <= stateSize)) {
       throw Exception("State already exists at this position");
     }
     if (_states.any((element) => element.id == id)) {

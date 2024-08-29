@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:fa_simulator/action/action.dart';
 import 'package:fa_simulator/action/action_dispatcher.dart';
-import 'package:fa_simulator/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,6 +56,7 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
         //Only handle key down events
         //Individually handle key down events for each key
         if (event is KeyUpEvent) return;
+        log("Body: " + event.logicalKey.debugName.toString());
         // On backspace
         if (event.logicalKey == LogicalKeyboardKey.backspace) {
           _handleBackspace();
@@ -86,10 +87,10 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
   // If only one state is focused, set isRenaming to true
   void _handleEnter() {
     // If only one state is focused, start renaming
-    if (StateList().states.where((element) => element.hasFocus).length == 1) {
-      StateList().startRename(
-          StateList().states.firstWhere((element) => element.hasFocus).id);
-    }
+    // if (StateList().states.where((element) => element.hasFocus).length == 1) {
+    //   StateList().startRename(
+    //       StateList().states.firstWhere((element) => element.hasFocus).id);
+    // }
   }
 
   void _handleZ() {
@@ -128,6 +129,7 @@ class KeyboardSingleton with ChangeNotifier {
 
   @override
   void dispose() {
+    super.dispose();
     _focusNode.dispose();
   }
 

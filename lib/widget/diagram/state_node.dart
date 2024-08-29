@@ -5,7 +5,7 @@ import 'package:fa_simulator/action/action.dart';
 import 'package:fa_simulator/action/action_dispatcher.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/component/text.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +42,14 @@ class StateNode extends StatelessWidget {
       top: state.position.dy - stateSize / 2,
       child: ClipOval(
         child: GestureDetector(
-          onTap: () {
+          onDoubleTap: () {
             _focus();
+            StateList().startRename(state.id);
           },
-          child: newState,
+          child: Listener(
+            onPointerDown: (event) => _focus(),
+            child: newState,
+          ),
         ),
       ),
     );
@@ -97,7 +101,6 @@ class _DiagramStateState extends State<_DiagramState> {
   @override
   Widget build(BuildContext context) {
     if (widget.isRenaming) {
-      // Unfocus the keyboard listenner
       // Request focus for the rename text field
       _renameFocusNode.requestFocus();
     }
@@ -116,57 +119,60 @@ class _DiagramStateState extends State<_DiagramState> {
       },
       // Change mouse icon to grab when hovered
       cursor: SystemMouseCursors.grab,
-      child: SizedBox(
-        height: stateSize,
-        width: stateSize,
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: stateBackgroundColor,
-                shape: BoxShape.circle,
-                border: !widget.state.hasFocus
-                    ? Border.all(color: stateBorderColor)
-                    : null,
-              ),
-              child: Center(
-                child: widget.isRenaming
-                    ? Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: TextField(
-                          focusNode: _renameFocusNode,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: textColor,
-                            fontSize: textSize,
-                            decoration: textDecoration,
-                            fontWeight: FontWeight.normal,
+      child: GestureDetector(
+        child: SizedBox(
+          height: stateSize,
+          width: stateSize,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: stateBackgroundColor,
+                  shape: BoxShape.circle,
+                  border: !widget.state.hasFocus
+                      ? Border.all(color: stateBorderColor)
+                      : null,
+                ),
+                child: Center(
+                  child: widget.isRenaming
+                      ? Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: TextFormField(
+                            focusNode: _renameFocusNode,
+                            initialValue: widget.state.name,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: textColor,
+                              fontSize: textSize,
+                              decoration: textDecoration,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            onChanged: (value) {
+                              // Set the new name
+                              newName = value;
+                            },
+                            onFieldSubmitted: (value) {
+                              // Let the focus listener handle the rename
+                              _renameFocusNode.unfocus();
+                            },
                           ),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          onChanged: (value) {
-                            newName = value;
-                          },
-                          onSubmitted: (value) {
-                            AppActionDispatcher().execute(
-                                RenameStateAction(widget.state.id, newName));
-                            KeyboardSingleton().focusNode.requestFocus();
-                          },
-                        ),
-                      )
-                    : NormalText(text: widget.state.name),
+                        )
+                      : NormalText(text: widget.state.name),
+                ),
               ),
-            ),
-            if (widget.state.hasFocus)
-              DottedBorder(
-                  padding: const EdgeInsets.all(0.5),
-                  borderType: BorderType.Oval,
-                  dashPattern: const [5, 2.5],
-                  strokeWidth: 1.5,
-                  color: focusColor,
-                  child: Container()),
-          ],
+              if (widget.state.hasFocus)
+                DottedBorder(
+                    padding: const EdgeInsets.all(0.5),
+                    borderType: BorderType.Oval,
+                    dashPattern: const [5, 2.5],
+                    strokeWidth: 1.5,
+                    color: focusColor,
+                    child: Container()),
+            ],
+          ),
         ),
       ),
     );

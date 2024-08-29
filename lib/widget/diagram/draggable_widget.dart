@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/body/body.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:flutter/material.dart';

@@ -13,15 +13,17 @@ class NormalText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        color: textColor,
-        fontSize: textSize,
-        decoration: textDecoration,
-        fontWeight: FontWeight.normal,
-      ),
+      style: normalTextStyle,
     );
   }
 }
+
+TextStyle normalTextStyle = const TextStyle(
+  color: textColor,
+  fontSize: textSize,
+  decoration: textDecoration,
+  fontWeight: FontWeight.normal,
+);
 
 class BoldText extends StatelessWidget {
   final String text;
