@@ -20,12 +20,8 @@ class StateList with ChangeNotifier {
   //-------------------State-------------------
   // Add new state
   DiagramState addState(Offset position, String name, [String? id]) {
-    if (_states
-        .any((element) => (element.position - position).distance <= stateSize)) {
-      throw Exception("State already exists at this position");
-    }
     if (_states.any((element) => element.id == id)) {
-      throw Exception("State with this id already exists");
+      throw Exception("State id $id already exists");
     }
     // Get snapped position
     Offset roundedPosition = snapPosition(position);
@@ -46,7 +42,13 @@ class StateList with ChangeNotifier {
   // Delete a state
   void deleteState(String id) {
     // Remove the state from the list
-    _states.removeWhere((element) => element.id == id);
+
+    int index = _states.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      _states.removeAt(index);
+    } else {
+      throw Exception("State id $id not found");
+    }
     _endRename();
     notifyListeners();
   }
@@ -64,10 +66,11 @@ class StateList with ChangeNotifier {
     // Get snapped position
     Offset roundedPosition = snapPosition(position);
     // Move the state
-    for (var i = 0; i < _states.length; i++) {
-      if (_states[i].id == id) {
-        _states[i].position = roundedPosition;
-      }
+    int index = _states.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      _states[index].position = roundedPosition;
+    } else {
+      throw Exception("State id $id not found");
     }
     _endRename();
     notifyListeners();
@@ -77,22 +80,22 @@ class StateList with ChangeNotifier {
   Offset snapPosition(Offset position) {
     // return the snapped position to the grid
     return Offset(
-      (position.dx / (gridSize/5)).round() * (gridSize/5),
-      (position.dy / (gridSize/5)).round() * (gridSize/5),
+      (position.dx / (gridSize / 5)).round() * (gridSize / 5),
+      (position.dy / (gridSize / 5)).round() * (gridSize / 5),
     );
   }
 
   //-------------------Focus-------------------
   // Request focus for a state
   void requestFocus(String id) {
-    for (var i = 0; i < _states.length; i++) {
+    for (int i = 0; i < states.length; i++) {
       // If the state is the requested state, set hasFocus to true
-      if (_states[i].id == id) {
-        _states[i].hasFocus = true;
+      if (states[i].id == id) {
+        states[i].hasFocus = true;
       }
       // Else set hasFocus to false
       else {
-        _states[i].hasFocus = false;
+        states[i].hasFocus = false;
       }
     }
     // Cancle renaming
@@ -119,11 +122,11 @@ class StateList with ChangeNotifier {
 
   // Add a state to the focus list
   void addFocus(String id) {
-    for (var i = 0; i < _states.length; i++) {
-      // If the state is the requested state, set hasFocus to true
-      if (_states[i].id == id) {
-        _states[i].hasFocus = true;
-      }
+    int index = _states.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      _states[index].hasFocus = true;
+    } else {
+      throw Exception("State id $id not found");
     }
     // Cancle renaming
     _endRename();

@@ -1,7 +1,7 @@
 import 'package:fa_simulator/action/action.dart';
 import 'package:fa_simulator/action/action_dispatcher.dart';
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:flutter/material.dart';
 
 class BodyGestureDetector extends StatelessWidget {

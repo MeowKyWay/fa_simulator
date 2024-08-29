@@ -5,9 +5,12 @@ import 'package:fa_simulator/action/action.dart';
 import 'package:fa_simulator/action/action_dispatcher.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state/draggable_state.dart';
+import 'package:fa_simulator/widget/diagram/state/state_focus_overlay.dart';
+import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/component/text.dart';
+import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
 import 'package:flutter/material.dart';
 
 class StateNode extends StatelessWidget {
@@ -137,40 +140,18 @@ class _DiagramStateState extends State<_DiagramState> {
                   child: widget.isRenaming
                       ? Padding(
                           padding: const EdgeInsets.all(5),
-                          child: TextFormField(
-                            focusNode: _renameFocusNode,
-                            initialValue: widget.state.name,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: textColor,
-                              fontSize: textSize,
-                              decoration: textDecoration,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                            onChanged: (value) {
-                              // Set the new name
-                              newName = value;
-                            },
-                            onFieldSubmitted: (value) {
-                              // Let the focus listener handle the rename
-                              _renameFocusNode.unfocus();
-                            },
-                          ),
+                          child: StateRenameTextField(
+                              focusNode: _renameFocusNode,
+                              stateName: widget.state.name,
+                              onChanged: (value) => newName = value,
+                              onSubmitted: (value) =>
+                                  _renameFocusNode.unfocus()),
                         )
                       : NormalText(text: widget.state.name),
                 ),
               ),
-              if (widget.state.hasFocus)
-                DottedBorder(
-                    padding: const EdgeInsets.all(0.5),
-                    borderType: BorderType.Oval,
-                    dashPattern: const [5, 2.5],
-                    strokeWidth: 1.5,
-                    color: focusColor,
-                    child: Container()),
+              if (widget.state.hasFocus) const StateFocusOverlay(),
+              const DraggableState(),
             ],
           ),
         ),

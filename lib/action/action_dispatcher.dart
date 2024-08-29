@@ -5,6 +5,8 @@
 // do is the function that is called when the action is done
 // Change all the functions to use the class do function
 
+import 'dart:developer';
+
 import 'package:fa_simulator/action/action.dart';
 
 class AppActionDispatcher {
@@ -19,10 +21,14 @@ class AppActionDispatcher {
 
   void execute(AppAction action) {
     // Execute the action
-    action.execute();
-    // Add the action to the list
-    _actions.add(action);
-    // Empty the redo list
+    try {
+      action.execute();
+      // Add the action to the list
+      _actions.add(action);
+      // Empty the redo list
+    } on Exception catch (e) {
+      log(e.toString());
+    }
     _redoActions.clear();
   }
 
@@ -30,9 +36,13 @@ class AppActionDispatcher {
     // If there are actions
     if (_actions.isNotEmpty) {
       // Undo the last action
-      _actions.last.undo();
-      // Add the action to the redo list
-      _redoActions.add(_actions.last);
+      try {
+        _actions.last.undo();
+        // Add the action to the redo list
+        _redoActions.add(_actions.last);
+      } on Exception catch (e) {
+        log(e.toString());
+      }
       // Remove the action from the list
       _actions.removeLast();
     }
@@ -42,9 +52,13 @@ class AppActionDispatcher {
     // If there are redo actions
     if (_redoActions.isNotEmpty) {
       // Redo the last action
-      _redoActions.last.redo();
-      // Add the action to the list
-      _actions.add(_redoActions.last);
+      try {
+        _redoActions.last.redo();
+        // Add the action to the list
+        _actions.add(_redoActions.last);
+      } on Exception catch (e) {
+        log(e.toString());
+      }
       // Remove the action from the redo list
       _redoActions.removeLast();
     }

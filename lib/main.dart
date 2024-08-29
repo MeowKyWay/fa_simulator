@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';

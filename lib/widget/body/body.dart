@@ -1,11 +1,11 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/body/decoration/grid_painter.dart';
 import 'package:fa_simulator/widget/body/selection_box.dart';
 import 'package:fa_simulator/widget/body/zoomable_container.dart';
-import 'package:fa_simulator/widget/diagram/state_node.dart';
+import 'package:fa_simulator/widget/diagram/state/state_node.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
