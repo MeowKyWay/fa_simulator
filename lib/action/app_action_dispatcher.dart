@@ -7,7 +7,7 @@
 
 import 'dart:developer';
 
-import 'package:fa_simulator/action/action.dart';
+import 'package:fa_simulator/action/app_action.dart';
 
 class AppActionDispatcher {
   static final AppActionDispatcher _instance = AppActionDispatcher._internal();
@@ -23,8 +23,8 @@ class AppActionDispatcher {
     // Execute the action
     try {
       action.execute();
-      // Add the action to the list
-      _actions.add(action);
+      // Add the action to the list if it is undoable
+      if (action.isUndoable) _actions.add(action);
       // Empty the redo list
     } on Exception catch (e) {
       log(e.toString());

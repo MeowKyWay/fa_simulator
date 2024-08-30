@@ -1,4 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
@@ -20,6 +22,7 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SelectionAreaProvider()),
         ChangeNotifierProvider(create: (context) => BodySingleton()),
         ChangeNotifierProvider(create: (context) => KeyboardSingleton()),
+        ChangeNotifierProvider(create: (context) => FeedbackPositionProvider()),
 
       ],
       child: const MaterialApp(

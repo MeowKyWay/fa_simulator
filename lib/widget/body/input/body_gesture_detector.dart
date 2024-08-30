@@ -1,6 +1,7 @@
-import 'package:fa_simulator/action/action.dart';
-import 'package:fa_simulator/action/action_dispatcher.dart';
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class BodyGestureDetector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: BodySingleton().globalKey,
+      key: BodySingleton().getGestureDetectorKey,
       // Unfocus the states on tap
       onTap: () {
         StateList().unfocus();
@@ -133,25 +134,5 @@ class SelectionAreaProvider with ChangeNotifier {
 
     // Return true if the coverage is at least 80%
     return coverage >= coveragePercentage;
-  }
-}
-
-class BodySingleton with ChangeNotifier {
-  static final BodySingleton _instance = BodySingleton._internal(); //Singleton
-  BodySingleton._internal();
-  factory BodySingleton() {
-    return _instance;
-  }
-
-  //Position
-  final GlobalKey globalKey = GlobalKey();
-  // Method to get the local position
-  Offset getBodyLocalPosition(Offset position) {
-    RenderBox renderBox =
-        globalKey.currentContext?.findRenderObject() as RenderBox;
-
-    // Convert the global position to local position
-    Offset localPosition = renderBox.globalToLocal(position);
-    return localPosition;
   }
 }

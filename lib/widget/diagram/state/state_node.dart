@@ -1,11 +1,8 @@
-import 'dart:developer';
-
-import 'package:dotted_border/dotted_border.dart';
-import 'package:fa_simulator/action/action.dart';
-import 'package:fa_simulator/action/action_dispatcher.dart';
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/diagram/state/draggable_state.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/state_focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
@@ -13,7 +10,7 @@ import 'package:fa_simulator/widget/component/text.dart';
 import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
 import 'package:flutter/material.dart';
 
-class StateNode extends StatelessWidget {
+class StateNode extends StatefulWidget {
   final DiagramState state;
 
   const StateNode({
@@ -21,36 +18,53 @@ class StateNode extends StatelessWidget {
     required this.state,
   });
 
+  @override
+  State<StateNode> createState() => _StateNodeState();
+}
+
+class _StateNodeState extends State<StateNode> {
+  DateTime? pointerDownTime;
+
   // Focus the state
   void _focus() {
     // If multiple select key is pressed, add state to the focus list
     if (KeyboardSingleton().pressedKeys.contains(multipleSelect)) {
-      StateList().addFocus(state.id);
+      StateList().addFocus(widget.state.id);
       return;
     }
     // Else request focus for the state
-    StateList().requestFocus(state.id);
+    StateList().requestFocus(widget.state.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    _DiagramState newState;
-    newState = _DiagramState(
-      state: state,
-      isRenaming: StateList().renamingStateId == state.id,
+    _State newState;
+    newState = _State(
+      state: widget.state,
+      isRenaming: StateList().renamingStateId == widget.state.id,
     );
 
     return Positioned(
-      left: state.position.dx - stateSize / 2,
-      top: state.position.dy - stateSize / 2,
+      left: widget.state.position.dx - stateSize / 2,
+      top: widget.state.position.dy - stateSize / 2,
       child: ClipOval(
         child: GestureDetector(
           onDoubleTap: () {
-            _focus();
-            StateList().startRename(state.id);
+            StateList().startRename(widget.state.id);
           },
           child: Listener(
-            onPointerDown: (event) => _focus(),
+            onPointerDown: (event) {
+              pointerDownTime = DateTime.now();
+              if (!widget.state.hasFocus) {
+                _focus();
+              }
+            },
+            onPointerUp: (event) {
+              if (DateTime.now().difference(pointerDownTime!).inMilliseconds <
+                  100) {
+                _focus();
+              }
+            },
             child: newState,
           ),
         ),
@@ -59,25 +73,24 @@ class StateNode extends StatelessWidget {
   }
 }
 
-class _DiagramState extends StatefulWidget {
+class _State extends StatefulWidget {
   final DiagramState state;
   final bool isRenaming;
 
   // Diagram State constructor
-  const _DiagramState({
+  const _State({
     required this.state,
     required this.isRenaming,
   });
 
   @override
-  State<_DiagramState> createState() {
-    return _DiagramStateState();
+  State<_State> createState() {
+    return _StateState();
   }
 }
 
-class _DiagramStateState extends State<_DiagramState> {
+class _StateState extends State<_State> {
   String newName = '';
-  bool isHovered = false;
   late FocusNode _renameFocusNode;
   late VoidCallback _listener;
 
@@ -107,53 +120,40 @@ class _DiagramStateState extends State<_DiagramState> {
       // Request focus for the rename text field
       _renameFocusNode.requestFocus();
     }
-    return MouseRegion(
-      onEnter: (event) {
-        // Set the state status to hovered
-        setState(() {
-          isHovered = true;
-        });
-      },
-      onExit: (event) {
-        // Set the state status to not hovered
-        setState(() {
-          isHovered = false;
-        });
-      },
-      // Change mouse icon to grab when hovered
-      cursor: SystemMouseCursors.grab,
-      child: GestureDetector(
-        child: SizedBox(
-          height: stateSize,
-          width: stateSize,
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: stateBackgroundColor,
-                  shape: BoxShape.circle,
-                  border: !widget.state.hasFocus
-                      ? Border.all(color: stateBorderColor)
-                      : null,
-                ),
-                child: Center(
-                  child: widget.isRenaming
-                      ? Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: StateRenameTextField(
-                              focusNode: _renameFocusNode,
-                              stateName: widget.state.name,
-                              onChanged: (value) => newName = value,
-                              onSubmitted: (value) =>
-                                  _renameFocusNode.unfocus()),
-                        )
-                      : NormalText(text: widget.state.name),
-                ),
+    return GestureDetector(
+      // Just to absorb the tap event
+      child: SizedBox(
+        height: stateSize,
+        width: stateSize,
+        child: Stack(
+          children: [
+            // The state
+            Container(
+              decoration: BoxDecoration(
+                color: stateBackgroundColor,
+                shape: BoxShape.circle,
+                border: !widget.state.hasFocus
+                    ? Border.all(color: stateBorderColor)
+                    : null,
               ),
-              if (widget.state.hasFocus) const StateFocusOverlay(),
-              const DraggableState(),
-            ],
-          ),
+              child: Center(
+                // If renaming, show the text field
+                child: widget.isRenaming
+                    ? Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: StateRenameTextField(
+                            focusNode: _renameFocusNode,
+                            stateName: widget.state.name,
+                            onChanged: (value) => newName = value,
+                            onSubmitted: (value) => _renameFocusNode.unfocus()),
+                      )
+                    : NormalText(text: widget.state.name),
+              ),
+            ),
+            // Focus overlay
+            if (widget.state.hasFocus) const StateFocusOverlay(),
+            const DiagramDraggable(),
+          ],
         ),
       ),
     );

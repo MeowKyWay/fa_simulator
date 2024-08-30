@@ -1,7 +1,6 @@
-import 'dart:developer';
 
-import 'package:fa_simulator/action/action.dart';
-import 'package:fa_simulator/action/action_dispatcher.dart';
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/state/delete_states_action.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,7 +55,6 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
         //Only handle key down events
         //Individually handle key down events for each key
         if (event is KeyUpEvent) return;
-        log("Body: " + event.logicalKey.debugName.toString());
         // On backspace
         if (event.logicalKey == LogicalKeyboardKey.backspace) {
           _handleBackspace();
@@ -105,11 +103,9 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
         .pressedKeys
         .contains(LogicalKeyboardKey.shiftLeft)) {
       AppActionDispatcher().redo();
-      log("Redo");
       return;
     }
     // Else undo
-    log("Undo");
     AppActionDispatcher().undo();
   }
 }

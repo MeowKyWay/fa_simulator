@@ -2,6 +2,8 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+//TODO add toggle focus when shift click a state
+
 class StateList with ChangeNotifier {
   //Singleton class
   static final StateList _instance = StateList._internal();
@@ -61,21 +63,28 @@ class StateList with ChangeNotifier {
   }
 
   // Move a state position
-  Offset moveState(String id, Offset distance) {
+  void moveState(String id, Offset position) {
     // Get snapped position
-    Offset oldPositions;
+    Offset roundedPosition = snapPosition(position);
     // Move the state
     int index = _states.indexWhere((element) => element.id == id);
     if (index != -1) {
-      oldPositions = _states[index].position;
-      _states[index].position = snapPosition(_states[index].position + distance);
+      _states[index].position = roundedPosition;
     } else {
       throw Exception("State id $id not found");
     }
     _endRename();
     notifyListeners();
+  }
 
-    return oldPositions;
+  // Move a group of states by delta
+  void moveStatesByDelta(List<String> ids, Offset delta) {
+    for (var i = 0; i < _states.length; i++) {
+      if (ids.contains(_states[i].id)) {
+        _states[i].position += delta;
+      }
+    }
+    notifyListeners();
   }
 
   // Snap a state position to the grid
@@ -145,29 +154,6 @@ class StateList with ChangeNotifier {
     notifyListeners();
   }
 
-  //-------------------Drag-------------------
-  // Start dragging a state
-  void startDrag(String id) {
-    for (var i = 0; i < StateList().states.length; i++) {
-      // If the state is the requested state, set isDragging to true
-      if (StateList().states[i].id == id) {
-        StateList().states[i].isDragging = true;
-      }
-    }
-    notifyListeners();
-  }
-
-  // End dragging a state
-  void endDrag(String id) {
-    for (var i = 0; i < StateList().states.length; i++) {
-      // If the state is the requested state, set isDragging to false
-      if (StateList().states[i].id == id) {
-        StateList().states[i].isDragging = false;
-      }
-    }
-    notifyListeners();
-  }
-
   //-------------------Rename-------------------
   // Start renaming a state
   void startRename(String id) {
@@ -209,7 +195,6 @@ class DiagramState {
   String id;
   String name;
   bool hasFocus;
-  bool isDragging;
   bool isRenaming;
 
   DiagramState({
@@ -217,7 +202,6 @@ class DiagramState {
     required this.id,
     required this.name,
     this.hasFocus = false,
-    this.isDragging = false,
     this.isRenaming = false,
   });
 }

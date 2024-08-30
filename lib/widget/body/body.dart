@@ -1,4 +1,7 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
+import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
@@ -39,7 +42,9 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      // Listen to keyboard input for the entire body
       child: BodyKeyboardListener(
+        // Handle zooming and panning
         child: ZoomableContainer(
           onScaleChange: _updateScale,
           transformationController: _transformationController,
@@ -48,11 +53,20 @@ class _BodyState extends State<Body> {
             height: size.height,
             child: Stack(
               children: [
+                // Draw the grid
                 CustomPaint(
                   size: size,
                   painter: GridPainter(),
                 ),
+                // Overlay of the selected states
+                Consumer<StateList>(builder: (context, stateList, child) {
+                  return DraggableOverlay(
+                    states: stateList.states,
+                  );
+                }),
+                // Detect click and handle
                 const BodyGestureDetector(),
+                // Draw all of the states
                 Consumer<StateList>(builder: (context, stateList, child) {
                   return Stack(children: [
                     ...stateList.states.map((state) {
@@ -62,6 +76,18 @@ class _BodyState extends State<Body> {
                     }),
                   ]);
                 }),
+                Consumer<FeedbackPositionProvider>(
+                    builder: (context, feedbackPositionProvider, child) {
+                  if (feedbackPositionProvider.size == null ||
+                      feedbackPositionProvider.position == null) {
+                    return Container();
+                  }
+                  return DiagramFeedback(
+                    size: feedbackPositionProvider.size!,
+                    position: feedbackPositionProvider.position!,
+                  );
+                }),
+                // Draw the selection box
                 const SelectionBox(),
               ],
             ),
