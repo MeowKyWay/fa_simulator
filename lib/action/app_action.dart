@@ -3,7 +3,7 @@
 //including focus
 
 abstract class AppAction {
-  bool get isUndoable;
+  bool get isRevertable;
   // Do the action
   void execute();
   // Undo the action

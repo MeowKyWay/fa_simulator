@@ -9,7 +9,7 @@ class DeleteStatesAction implements AppAction {
   );
 
   @override
-  bool get isUndoable => true;
+  bool get isRevertable => true;
 
   @override
   void execute() {
