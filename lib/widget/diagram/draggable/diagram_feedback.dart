@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class DiagramFeedback extends StatelessWidget {
@@ -19,8 +20,11 @@ class DiagramFeedback extends StatelessWidget {
       child: SizedBox(
         width: size.width,
         height: size.height,
-        child: Container(
-          color: const Color.fromARGB(100, 33, 149, 243),
+        child: DottedBorder(
+          dashPattern: const [5, 2.5],
+          child: Container(
+            color: Colors.transparent,
+          ),
         ),
       ),
     );

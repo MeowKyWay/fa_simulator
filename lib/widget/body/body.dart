@@ -12,8 +12,6 @@ import 'package:fa_simulator/widget/diagram/state/state_node.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-double scale = 1.0;
-
 class Body extends StatefulWidget {
   const Body({super.key});
 
@@ -32,13 +30,6 @@ class _BodyState extends State<Body> {
     super.initState();
   }
 
-  void _updateScale(double newScale) {
-    if (scale == newScale) return;
-    setState(() {
-      scale = newScale;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -46,7 +37,6 @@ class _BodyState extends State<Body> {
       child: BodyKeyboardListener(
         // Handle zooming and panning
         child: ZoomableContainer(
-          onScaleChange: _updateScale,
           transformationController: _transformationController,
           child: SizedBox(
             width: size.width,

@@ -4,13 +4,11 @@ import 'package:flutter/widgets.dart';
 
 class ZoomableContainer extends StatefulWidget {
   final Widget child;
-  final ValueChanged<double> onScaleChange;
   final TransformationController transformationController;
 
   const ZoomableContainer({
     super.key,
     required this.child,
-    required this.onScaleChange,
     required this.transformationController,
   });
 
@@ -37,9 +35,6 @@ class _ZoomableContainerState extends State<ZoomableContainer> {
       maxScale: maxScale,
       minScale: minScale,
       scaleEnabled: true,
-      onInteractionUpdate: (details) {
-        widget.onScaleChange(getScale());
-      },
       child: widget.child,
     );
   }
