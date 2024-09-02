@@ -1,3 +1,20 @@
-//TODO implement add focus action
-//Use to add focus on a state or multiple states
-//undoable
+import 'dart:developer';
+
+import 'package:fa_simulator/action/app_unrevertable_action.dart';
+import 'package:fa_simulator/widget/diagram/state/state_list.dart';
+
+class AddFocusAction extends AppUnrevertableAction {
+  final List<String> ids;
+
+  AddFocusAction(
+    this.ids,
+  );
+
+  @override
+  void execute() {
+    log(ids.toString());
+    for (String id in ids) {
+      StateList().addFocus(id);
+    }
+  }
+}

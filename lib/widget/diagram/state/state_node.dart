@@ -1,4 +1,8 @@
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/focus/add_focus_action.dart';
+import 'package:fa_simulator/action/focus/focus_action.dart';
+import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
@@ -23,17 +27,25 @@ class StateNode extends StatefulWidget {
 }
 
 class _StateNodeState extends State<StateNode> {
-  DateTime? pointerDownTime;
+  Offset pointerDownPosition = Offset.zero;
+  bool pointerDownFlag = false;
 
   // Focus the state
-  void _focus() {
+  void _handleClick() {
     // If multiple select key is pressed, add state to the focus list
-    if (KeyboardSingleton().pressedKeys.contains(multipleSelect)) {
-      StateList().addFocus(widget.state.id);
+    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+      AppActionDispatcher().execute(AddFocusAction([widget.state.id]));
       return;
     }
     // Else request focus for the state
-    StateList().requestFocus(widget.state.id);
+    AppActionDispatcher().execute(FocusAction([widget.state.id]));
+  }
+
+  void _focus() {
+    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+      AppActionDispatcher().execute(ToggleFocusAction(widget.state.id));
+      return;
+    }
   }
 
   @override
@@ -54,14 +66,18 @@ class _StateNodeState extends State<StateNode> {
           },
           child: Listener(
             onPointerDown: (event) {
-              pointerDownTime = DateTime.now();
+              pointerDownPosition = event.localPosition;
               if (!widget.state.hasFocus) {
-                _focus();
+                _handleClick();
+                pointerDownFlag = true;
               }
             },
             onPointerUp: (event) {
-              if (DateTime.now().difference(pointerDownTime!).inMilliseconds <
-                  100) {
+              if (pointerDownFlag) {
+                pointerDownFlag = false;
+                return;
+              }
+              if ((pointerDownPosition - event.localPosition).distance < 5) {
                 _focus();
               }
             },

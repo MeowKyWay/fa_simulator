@@ -1,7 +1,13 @@
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/focus/add_focus_action.dart';
+import 'package:fa_simulator/action/focus/focus_action.dart';
+import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:flutter/material.dart';
 
@@ -16,12 +22,13 @@ class BodyGestureDetector extends StatelessWidget {
       key: BodySingleton().getGestureDetectorKey,
       // Unfocus the states on tap
       onTap: () {
-        StateList().unfocus();
+        AppActionDispatcher().execute(UnfocusAction());
       },
-      // Add new state on double tap 
+      // Add new state on double tap
       // Todo replace with drag the new state from menu
       onDoubleTapDown: (TapDownDetails details) {
-        AppActionDispatcher().execute(CreateStateAction(details.localPosition, ''));
+        AppActionDispatcher()
+            .execute(CreateStateAction(details.localPosition, ''));
       },
       // Set start position for selection
       onPanStart: (DragStartDetails details) {
@@ -98,7 +105,11 @@ class SelectionAreaProvider with ChangeNotifier {
         .toList();
 
     // Request focus for the selected states
-    StateList().requestGroupFocus(selectedStates);
+    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+      AppActionDispatcher().execute(AddFocusAction(selectedStates));
+      return;
+    }
+    AppActionDispatcher().execute(FocusAction(selectedStates));
   }
 
   bool _isOverlapping(DiagramState state) {
@@ -107,10 +118,10 @@ class SelectionAreaProvider with ChangeNotifier {
     Rect rect = this.rect!;
 
     // Get the size of the DiagramState
-    double stateLeft = state.position.dx - (stateSize/2);
-    double stateRight = state.position.dx + (stateSize/2);
-    double stateTop = state.position.dy - (stateSize/2);
-    double stateBottom = state.position.dy + (stateSize/2);
+    double stateLeft = state.position.dx - (stateSize / 2);
+    double stateRight = state.position.dx + (stateSize / 2);
+    double stateTop = state.position.dy - (stateSize / 2);
+    double stateBottom = state.position.dy + (stateSize / 2);
 
     Rect stateRect =
         Rect.fromLTRB(stateLeft, stateTop, stateRight, stateBottom);

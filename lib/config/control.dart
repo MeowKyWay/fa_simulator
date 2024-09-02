@@ -1,3 +1,3 @@
 import 'package:flutter/services.dart';
 
-const LogicalKeyboardKey multipleSelect = LogicalKeyboardKey.shiftLeft;
+const LogicalKeyboardKey multipleSelectKey = LogicalKeyboardKey.shiftLeft;

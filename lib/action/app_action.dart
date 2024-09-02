@@ -1,7 +1,3 @@
-
-//TODO make everything an action
-//including focus
-
 abstract class AppAction {
   bool get isRevertable;
   // Do the action

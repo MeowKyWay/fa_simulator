@@ -1,15 +1,15 @@
 import 'package:fa_simulator/action/app_unrevertable_action.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 
-class FocusAction extends AppUnrevertableAction {
-  final List<String> ids;
+class ToggleFocusAction extends AppUnrevertableAction {
+  final String id;
 
-  FocusAction(
-    this.ids,
+  ToggleFocusAction(
+    this.id,
   );
 
   @override
   void execute() {
-    StateList().requestGroupFocus(ids);
+    StateList().toggleFocus(id);
   }
 }

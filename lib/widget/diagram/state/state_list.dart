@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -52,14 +53,6 @@ class StateList with ChangeNotifier {
     notifyListeners();
   }
 
-  // Delete all focused states
-  void deleteFocusedStates() {
-    // Remove all focused states from the list
-    _states.removeWhere((element) => element.hasFocus);
-    _endRename();
-    notifyListeners();
-  }
-
   // Move a state position
   Offset moveState(String id, Offset distance) {
     // Get snapped position
@@ -68,7 +61,8 @@ class StateList with ChangeNotifier {
     int index = _states.indexWhere((element) => element.id == id);
     if (index != -1) {
       oldPositions = _states[index].position;
-      _states[index].position = snapPosition(_states[index].position + distance);
+      _states[index].position =
+          BodySingleton().getSnappedPosition(_states[index].position + distance);
     } else {
       throw Exception("State id $id not found");
     }
@@ -124,7 +118,7 @@ class StateList with ChangeNotifier {
 
   // Add a state to the focus list
   void addFocus(String id) {
-    int index = _states.indexWhere((element) => element.id == id);
+    int index = _states.indexWhere((state) => state.id == id);
     if (index != -1) {
       _states[index].hasFocus = true;
     } else {
@@ -145,25 +139,23 @@ class StateList with ChangeNotifier {
     notifyListeners();
   }
 
-  //-------------------Drag-------------------
-  // Start dragging a state
-  void startDrag(String id) {
-    for (var i = 0; i < StateList().states.length; i++) {
-      // If the state is the requested state, set isDragging to true
-      if (StateList().states[i].id == id) {
-        StateList().states[i].isDragging = true;
-      }
+  // Remove focus from a state
+  void removeFocus(String id) {
+    int index = _states.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      _states[index].hasFocus = false;
+    } else {
+      throw Exception("State id $id not found");
     }
     notifyListeners();
   }
 
-  // End dragging a state
-  void endDrag(String id) {
-    for (var i = 0; i < StateList().states.length; i++) {
-      // If the state is the requested state, set isDragging to false
-      if (StateList().states[i].id == id) {
-        StateList().states[i].isDragging = false;
-      }
+  void toggleFocus(String id) {
+    int index = _states.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      _states[index].hasFocus = !_states[index].hasFocus;
+    } else {
+      throw Exception("State id $id not found");
     }
     notifyListeners();
   }
