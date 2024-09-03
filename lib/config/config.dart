@@ -8,8 +8,6 @@ int stateCounter = 1;
 const double stateSize = 100;
 const double stateFocusOverlayButtonSize = 15;
 
-//Focus
-const Color focusColor = Colors.blue;
 // Coverage needed for selection area to focus on a state
 const double coveragePercentage = 0.5;
 

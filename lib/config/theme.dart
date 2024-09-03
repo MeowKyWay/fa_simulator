@@ -9,6 +9,7 @@ const Color gridSecondaryColor = Color.fromARGB(255, 31, 29, 35);
 const Color stateBorderColor = Colors.white;
 const Color stateBackgroundColor = Color.fromARGB(255, 20, 24, 29);
 
+const Color focusColor = Colors.blue;
 const Color feedbackBorderColor = Colors.white;
 
 //Text

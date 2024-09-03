@@ -3,6 +3,8 @@ import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
+import 'package:fa_simulator/widget/diagram/state/state_focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
@@ -23,7 +25,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   @override
   void initState() {
     super.initState();
@@ -63,8 +64,16 @@ class _BodyState extends State<Body> {
                         state: state,
                       );
                     }),
+                    ...stateList.states
+                        .where((state) => state.hasFocus)
+                        .map((state) {
+                      return FocusOverlay(
+                        position: state.position,
+                      );
+                    }),
                   ]);
                 }),
+                // Feedback when drag
                 Consumer<FeedbackPositionProvider>(
                     builder: (context, feedbackPositionProvider, child) {
                   if (feedbackPositionProvider.size == null ||

@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class StateFocusOverlay extends StatelessWidget {

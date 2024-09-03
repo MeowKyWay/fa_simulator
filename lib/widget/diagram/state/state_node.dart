@@ -146,12 +146,9 @@ class _StateState extends State<_State> {
             // The state
             Container(
               decoration: BoxDecoration(
-                color: stateBackgroundColor,
-                shape: BoxShape.circle,
-                border: !widget.state.hasFocus
-                    ? Border.all(color: stateBorderColor, width: 1.5)
-                    : null,
-              ),
+                  color: stateBackgroundColor,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: stateBorderColor, width: 1.5)),
               child: Center(
                 // If renaming, show the text field
                 child: widget.isRenaming
@@ -166,8 +163,6 @@ class _StateState extends State<_State> {
                     : NormalText(text: widget.state.name),
               ),
             ),
-            // Focus overlay
-            if (widget.state.hasFocus) const StateFocusOverlay(),
             const DiagramDraggable(),
           ],
         ),
