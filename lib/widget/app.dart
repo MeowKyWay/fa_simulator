@@ -11,22 +11,22 @@ class App extends StatelessWidget {
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
       child: const Column(
+        verticalDirection: VerticalDirection.up,
         children: [
-          Topbar(),
           Expanded(
             child: Row(
+              textDirection: TextDirection.rtl,
               children: [
-                Sidebar(),
                 Expanded(
                   child: Column(
-                    children: [
-                      Body()
-                    ],
+                    children: [Body()],
                   ),
                 ),
+                Sidebar(),
               ],
             ),
           ),
+          Topbar(),
         ],
       ),
     );

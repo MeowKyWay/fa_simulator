@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/interactive_container.dart';
 import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
@@ -37,15 +38,14 @@ class _BodyState extends State<Body> {
       child: BodyKeyboardListener(
         // Handle zooming and panning
         child: ZoomableContainer(
-          transformationController: _transformationController,
           child: SizedBox(
-            width: size.width,
-            height: size.height,
+            width: bodySize.width,
+            height: bodySize.height,
             child: Stack(
               children: [
                 // Draw the grid
                 CustomPaint(
-                  size: size,
+                  size: bodySize,
                   painter: GridPainter(),
                 ),
                 // Overlay of the selected states
