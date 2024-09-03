@@ -1,4 +1,3 @@
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
@@ -6,6 +5,7 @@ import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/state_focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
@@ -149,7 +149,7 @@ class _StateState extends State<_State> {
                 color: stateBackgroundColor,
                 shape: BoxShape.circle,
                 border: !widget.state.hasFocus
-                    ? Border.all(color: stateBorderColor)
+                    ? Border.all(color: stateBorderColor, width: 1.5)
                     : null,
               ),
               child: Center(

@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class GridPainter extends CustomPainter {
@@ -12,24 +13,35 @@ class GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final primaryPaint = Paint()
-      ..color = gridColor
+      ..color = gridPrimalyColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
     final secondaryPaint = Paint()
-      ..color = gridColor
+      ..color = gridSecondaryColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.5;
+      ..strokeWidth = 1.0;
 
     // Draw vertical grid lines
-    for (double x = 0; x < size.width; x += gridSpacing / 5) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height),
-          (x % gridSpacing == 0) ? primaryPaint : secondaryPaint);
+    for (double x = 0; x < size.width; x += gridSpacing / subGridCount) {
+      if (x % gridSpacing == 0) {
+        continue;
+      }
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), secondaryPaint);
     }
 
     // Draw horizontal grid lines
-    for (double y = 0; y < size.height; y += gridSpacing / 5) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y),
-          (y % gridSpacing == 0) ? primaryPaint : secondaryPaint);
+    for (double y = 0; y < size.height; y += gridSpacing / subGridCount) {
+      if (y % gridSpacing == 0) {
+        continue;
+      }
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), secondaryPaint);
+    }
+
+    for (double x = 0; x < size.width; x += gridSpacing) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), primaryPaint);
+    }
+    for (double y = 0; y < size.height; y += gridSpacing) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), primaryPaint);
     }
   }
 

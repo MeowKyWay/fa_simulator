@@ -54,7 +54,7 @@ class BodySingleton with ChangeNotifier {
   Offset getSnappedPosition(Offset position) {
     double x = position.dx;
     double y = position.dy;
-    double snap = gridSize/5;
+    double snap = gridSize/subGridCount;
     x = (x / snap).round() * snap;
     y = (y / snap).round() * snap;
     return Offset(x, y);

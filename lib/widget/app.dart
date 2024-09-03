@@ -19,7 +19,9 @@ class App extends StatelessWidget {
               children: [
                 Expanded(
                   child: Column(
-                    children: [Body()],
+                    children: [
+                      Body(),
+                    ],
                   ),
                 ),
                 Sidebar(),

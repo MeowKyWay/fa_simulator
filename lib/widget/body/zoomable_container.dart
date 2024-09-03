@@ -21,6 +21,9 @@ class _ZoomableContainerState extends State<ZoomableContainer> {
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
+      onInteractionEnd: (details) {
+        
+      },
       constrained: false,
       maxScale: maxScale,
       minScale: minScale,

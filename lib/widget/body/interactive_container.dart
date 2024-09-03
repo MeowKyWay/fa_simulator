@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/config/config.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 

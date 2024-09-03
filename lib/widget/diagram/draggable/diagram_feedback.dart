@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class DiagramFeedback extends StatelessWidget {
@@ -21,6 +22,7 @@ class DiagramFeedback extends StatelessWidget {
         width: size.width,
         height: size.height,
         child: DottedBorder(
+          color: feedbackBorderColor,
           dashPattern: const [5, 2.5],
           child: Container(
             color: Colors.transparent,

@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/body/interactive_container.dart';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
@@ -23,8 +23,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final TransformationController _transformationController =
-      TransformationController();
 
   @override
   void initState() {
@@ -38,9 +36,10 @@ class _BodyState extends State<Body> {
       child: BodyKeyboardListener(
         // Handle zooming and panning
         child: ZoomableContainer(
-          child: SizedBox(
+          child: Container(
             width: bodySize.width,
             height: bodySize.height,
+            color: primalyColor,
             child: Stack(
               children: [
                 // Draw the grid
