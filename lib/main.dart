@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
