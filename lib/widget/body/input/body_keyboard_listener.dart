@@ -1,4 +1,3 @@
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/delete_states_action.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
@@ -33,42 +32,47 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      focusNode: KeyboardSingleton().focusNode,
-      onKeyEvent: (KeyEvent event) {
-        if (FocusManager.instance.primaryFocus !=
-            KeyboardSingleton().focusNode) {
-          return;
-        }
-        if (event is KeyDownEvent) {
-          // Prevent duplicate key presses
-          if (KeyboardSingleton().pressedKeys.contains(event.logicalKey)) {
+    return Listener(
+      onPointerDown: (event) {
+        KeyboardSingleton().focusNode.requestFocus();
+      },
+      child: KeyboardListener(
+        focusNode: KeyboardSingleton().focusNode,
+        onKeyEvent: (KeyEvent event) {
+          if (FocusManager.instance.primaryFocus !=
+              KeyboardSingleton().focusNode) {
             return;
           }
-          // Add key to pressed keys
-          KeyboardSingleton().addKey(event.logicalKey);
-        } else if (event is KeyUpEvent) {
-          // Remove key from pressed keys
-          KeyboardSingleton().removeKey(event.logicalKey);
-        }
+          if (event is KeyDownEvent) {
+            // Prevent duplicate key presses
+            if (KeyboardSingleton().pressedKeys.contains(event.logicalKey)) {
+              return;
+            }
+            // Add key to pressed keys
+            KeyboardSingleton().addKey(event.logicalKey);
+          } else if (event is KeyUpEvent) {
+            // Remove key from pressed keys
+            KeyboardSingleton().removeKey(event.logicalKey);
+          }
 
-        //Only handle key down events
-        //Individually handle key down events for each key
-        if (event is KeyUpEvent) return;
-        // On backspace
-        if (event.logicalKey == LogicalKeyboardKey.backspace) {
-          _handleBackspace();
-        }
-        // On enter
-        if (event.logicalKey == LogicalKeyboardKey.enter) {
-          _handleEnter();
-        }
-        // On undo or redo
-        if (event.logicalKey == LogicalKeyboardKey.keyZ) {
-          _handleZ();
-        }
-      },
-      child: widget.child,
+          //Only handle key down events
+          //Individually handle key down events for each key
+          if (event is KeyUpEvent) return;
+          // On backspace
+          if (event.logicalKey == LogicalKeyboardKey.backspace) {
+            _handleBackspace();
+          }
+          // On enter
+          if (event.logicalKey == LogicalKeyboardKey.enter) {
+            _handleEnter();
+          }
+          // On undo or redo
+          if (event.logicalKey == LogicalKeyboardKey.keyZ) {
+            _handleZ();
+          }
+        },
+        child: widget.child,
+      ),
     );
   }
 

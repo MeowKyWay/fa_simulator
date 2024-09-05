@@ -7,10 +7,8 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
-import 'package:fa_simulator/widget/diagram/state/state_focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
-import 'package:fa_simulator/widget/component/text.dart';
 import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -138,35 +136,46 @@ class _StateState extends State<_State> {
     }
     return GestureDetector(
       // Just to absorb the tap event
-      child: SizedBox(
-        height: stateSize,
-        width: stateSize,
-        child: Stack(
-          children: [
-            // The state
-            Container(
-              decoration: BoxDecoration(
-                  color: stateBackgroundColor,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: stateBorderColor, width: 1.5)),
-              child: Center(
-                // If renaming, show the text field
-                child: widget.isRenaming
-                    ? Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: StateRenameTextField(
-                            focusNode: _renameFocusNode,
-                            stateName: widget.state.name,
-                            onChanged: (value) => newName = value,
-                            onSubmitted: (value) => _renameFocusNode.unfocus()),
-                      )
-                    : NormalText(text: widget.state.name),
-              ),
+      child: Stack(
+        children: [
+          state(
+            child: Center(
+              // If renaming, show the text field
+              child: widget.isRenaming
+                  ? Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: StateRenameTextField(
+                        focusNode: _renameFocusNode,
+                        stateName: widget.state.name,
+                        onChanged: (value) => newName = value,
+                        onSubmitted: (value) => _renameFocusNode.unfocus(),
+                      ),
+                    )
+                  : Text(
+                      widget.state.name,
+                      style: textLarge,
+                    ),
             ),
-            const DiagramDraggable(),
-          ],
-        ),
+          ),
+          const Positioned.fill(
+            child: DiagramDraggable(),
+          ),
+        ],
       ),
     );
   }
+}
+
+Widget state({Widget? child}) {
+  return SizedBox(
+    height: stateSize,
+    width: stateSize,
+    child: Container(
+      decoration: BoxDecoration(
+          color: stateBackgroundColor,
+          shape: BoxShape.circle,
+          border: Border.all(color: stateBorderColor, width: 1)),
+      child: child,
+    ),
+  );
 }

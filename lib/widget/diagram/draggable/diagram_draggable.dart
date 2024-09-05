@@ -45,7 +45,6 @@ class _DiagramDraggableState extends State<DiagramDraggable> {
         FeedbackPositionProvider().updatePosition(delta);
       },
       onPanEnd: (details) {
-        log("Drag End");
         firstMoveFlag = true;
         FeedbackPositionProvider().reset();
         AppActionDispatcher().execute(MoveStatesAction(

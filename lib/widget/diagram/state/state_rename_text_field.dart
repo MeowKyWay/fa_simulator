@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/component/text.dart';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class StateRenameTextField extends StatelessWidget {
@@ -21,7 +21,7 @@ class StateRenameTextField extends StatelessWidget {
       focusNode: focusNode,
       initialValue: stateName,
       textAlign: TextAlign.center,
-      style: normalTextStyle,
+      style: textLarge,
       decoration: const InputDecoration(
         border: InputBorder.none,
       ),

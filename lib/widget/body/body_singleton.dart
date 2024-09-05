@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/config/config.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,8 @@ class BodySingleton with ChangeNotifier {
     return _instance;
   }
 
+  final GlobalKey _bodyKey = GlobalKey();
+  GlobalKey get bodyKey => _bodyKey;
   //Position
   final GlobalKey _gestureDetectorKey = GlobalKey();
   GlobalKey get getGestureDetectorKey => _gestureDetectorKey;
@@ -54,9 +58,24 @@ class BodySingleton with ChangeNotifier {
   Offset getSnappedPosition(Offset position) {
     double x = position.dx;
     double y = position.dy;
-    double snap = gridSize/subGridCount;
+    double snap = gridSize / subGridCount;
     x = (x / snap).round() * snap;
     y = (y / snap).round() * snap;
     return Offset(x, y);
+  }
+
+  bool isWithinBody(Offset globalPosition) {
+    // Get the RenderBox of the widget using the global key
+    RenderBox renderBox =
+        _bodyKey.currentContext?.findRenderObject() as RenderBox;
+
+    // Convert the global position to a local position relative to the widget
+    Offset localPosition = renderBox.globalToLocal(globalPosition);
+
+    // Log the bounds of the widget for debugging
+    log(renderBox.paintBounds.toString());
+
+    // Check if the local position is within the widget's bounds
+    return renderBox.paintBounds.contains(localPosition);
   }
 }

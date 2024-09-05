@@ -24,7 +24,7 @@ class StateList with ChangeNotifier {
       throw Exception("State id $id already exists");
     }
     // Get snapped position
-    Offset roundedPosition = snapPosition(position);
+    Offset roundedPosition = BodySingleton().getSnappedPosition(position);
     // Create a new state
     DiagramState state = DiagramState(
       position: roundedPosition,
@@ -70,15 +70,6 @@ class StateList with ChangeNotifier {
     notifyListeners();
 
     return oldPositions;
-  }
-
-  // Snap a state position to the grid
-  Offset snapPosition(Offset position) {
-    // return the snapped position to the grid
-    return Offset(
-      (position.dx / (gridSize / 5)).round() * (gridSize / 5),
-      (position.dy / (gridSize / 5)).round() * (gridSize / 5),
-    );
   }
 
   //-------------------Focus-------------------

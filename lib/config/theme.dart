@@ -12,12 +12,31 @@ const Color stateBackgroundColor = Color.fromARGB(255, 20, 24, 29);
 const Color focusColor = Colors.blue;
 const Color feedbackBorderColor = Colors.white;
 
+const Color primaryLineColor = Color.fromARGB(255, 80, 87, 89);
+const Color secondaryLineColor = Color.fromARGB(255, 64, 70, 71);
+
 //Text
-const TextStyle textStyle = TextStyle(
+const TextStyle textLarge = TextStyle(
   color: textColor,
   decoration: textDecoration,
-  fontSize: textSize,
+  fontSize: 20,
 );
-const double textSize = 20;
+
+const TextStyle textMedium = TextStyle(
+  color: textColor,
+  decoration: textDecoration,
+  fontSize: 16,
+);
+
+const TextStyle textSmall = TextStyle(
+  color: textColor,
+  decoration: textDecoration,
+  fontSize: 12,
+);
+
+const double textLargeSize = 20;
+const double textMediumSize = 16;
+const double textSmallSize = 12;
+
 const Color textColor = Colors.white;
 const TextDecoration textDecoration = TextDecoration.none;

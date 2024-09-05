@@ -19,6 +19,7 @@ class CreateStateAction implements AppAction {
   void execute() {
     state = StateList().addState(position, name);
     StateList().requestFocus(state.id);
+    StateList().startRename(state.id);
   }
 
   @override
@@ -30,5 +31,6 @@ class CreateStateAction implements AppAction {
   void redo() {
     StateList().addState(position, name, state.id);
     StateList().requestFocus(state.id);
+    StateList().startRename(state.id);
   }
 }

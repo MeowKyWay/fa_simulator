@@ -1,5 +1,5 @@
 import 'package:fa_simulator/widget/body/body.dart';
-import 'package:fa_simulator/widget/sidebar.dart';
+import 'package:fa_simulator/widget/sidebar/sidebar.dart';
 import 'package:fa_simulator/widget/topbar.dart';
 import 'package:flutter/material.dart';
 
