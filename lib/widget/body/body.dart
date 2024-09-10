@@ -1,6 +1,7 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/body/interactive_container.dart';
 import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
@@ -38,7 +39,7 @@ class _BodyState extends State<Body> {
       // Listen to keyboard input for the entire body
       child: BodyKeyboardListener(
         // Handle zooming and panning
-        child: ZoomableContainer(
+        child: InteractiveContainer(
           child: Container(
             width: bodySize.width,
             height: bodySize.height,

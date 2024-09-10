@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/matrix_gesture_detecture2.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 
@@ -27,11 +29,10 @@ class _InteractiveContainerState extends State<InteractiveContainer> {
     return OverflowBox(
       maxWidth: bodySize.width,
       maxHeight: bodySize.height,
-      child: MatrixGestureDetector(
+      child: MatrixGestureDetector2(
         shouldRotate: false,
         onMatrixUpdate: (m, tm, sm, rm) {
-          log("$sm");
-          matrix = MatrixGestureDetector.compose(matrix, tm, sm, null);
+          matrix = MatrixGestureDetector2.compose(matrix, tm, sm, null);
           notifier.value++;
         },
         child: Container(

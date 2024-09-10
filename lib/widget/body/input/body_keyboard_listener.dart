@@ -62,10 +62,6 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
           if (event.logicalKey == LogicalKeyboardKey.backspace) {
             _handleBackspace();
           }
-          // On enter
-          if (event.logicalKey == LogicalKeyboardKey.enter) {
-            _handleEnter();
-          }
           // On undo or redo
           if (event.logicalKey == LogicalKeyboardKey.keyZ) {
             _handleZ();
@@ -84,15 +80,6 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
       return;
     }
     AppActionDispatcher().execute(DeleteStatesAction(focusedStates));
-  }
-
-  // If only one state is focused, set isRenaming to true
-  void _handleEnter() {
-    // If only one state is focused, start renaming
-    // if (StateList().states.where((element) => element.hasFocus).length == 1) {
-    //   StateList().startRename(
-    //       StateList().states.firstWhere((element) => element.hasFocus).id);
-    // }
   }
 
   void _handleZ() {
