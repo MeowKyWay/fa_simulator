@@ -1,11 +1,11 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/state/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 
 class CreateStateAction implements AppAction {
   final Offset position;
   final String name;
-  late DiagramState state;
+  late StateType state;
 
   CreateStateAction(
     this.position,
@@ -31,6 +31,5 @@ class CreateStateAction implements AppAction {
   void redo() {
     StateList().addState(position, name, state.id);
     StateList().requestFocus(state.id);
-    StateList().startRename(state.id);
   }
 }

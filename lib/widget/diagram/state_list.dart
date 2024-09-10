@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -11,22 +10,22 @@ class StateList with ChangeNotifier {
     return _instance;
   }
 
-  final List<DiagramState> _states = [];
+  final List<StateType> _states = [];
   String _renamingStateId = "";
 
-  List<DiagramState> get states => _states;
+  List<StateType> get states => _states;
   String get renamingStateId => _renamingStateId;
 
   //-------------------State-------------------
   // Add new state
-  DiagramState addState(Offset position, String name, [String? id]) {
+  StateType addState(Offset position, String name, [String? id]) {
     if (_states.any((element) => element.id == id)) {
       throw Exception("State id $id already exists");
     }
     // Get snapped position
     Offset roundedPosition = BodySingleton().getSnappedPosition(position);
     // Create a new state
-    DiagramState state = DiagramState(
+    StateType state = StateType(
       position: roundedPosition,
       id: (id != null) ? id : const Uuid().v4(),
       name: name,
@@ -187,7 +186,7 @@ class StateList with ChangeNotifier {
   }
 }
 
-class DiagramState {
+class StateType {
   Offset position;
   String id;
   String name;
@@ -195,7 +194,7 @@ class DiagramState {
   bool isDragging;
   bool isRenaming;
 
-  DiagramState({
+  StateType({
     required this.position,
     required this.id,
     required this.name,

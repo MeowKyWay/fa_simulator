@@ -1,10 +1,10 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
-import 'package:fa_simulator/widget/diagram/state/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 
 class DraggableOverlay extends StatelessWidget {
-  final List<DiagramState> states;
+  final List<StateType> states;
 
   const DraggableOverlay({
     super.key,
@@ -17,7 +17,7 @@ class DraggableOverlay extends StatelessWidget {
     double right = 0;
     double bottom = 0;
 
-    List<DiagramState> focusedState =
+    List<StateType> focusedState =
         states.where((element) => element.hasFocus).toList();
     if (focusedState.isEmpty) {
       return null;

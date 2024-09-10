@@ -1,0 +1,85 @@
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/focus/add_focus_action.dart';
+import 'package:fa_simulator/action/focus/focus_action.dart';
+import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
+import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/config/control.dart';
+import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
+import 'package:flutter/material.dart';
+
+class DiagramState extends StatefulWidget {
+  final StateType state;
+
+  const DiagramState({
+    super.key,
+    required this.state,
+  });
+
+  @override
+  State<DiagramState> createState() => _DiagramStateState();
+}
+
+class _DiagramStateState extends State<DiagramState> {
+  Offset pointerDownPosition = Offset.zero;
+  bool pointerDownFlag = false;
+
+  // Focus the state
+  void _handleClick() {
+    // If multiple select key is pressed, add state to the focus list
+    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+      AppActionDispatcher().execute(AddFocusAction([widget.state.id]));
+      return;
+    }
+    // Else request focus for the state
+    AppActionDispatcher().execute(FocusAction([widget.state.id]));
+  }
+
+  void _focus() {
+    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+      AppActionDispatcher().execute(ToggleFocusAction(widget.state.id));
+      return;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    StateNode newState;
+    newState = StateNode(
+      state: widget.state,
+      isRenaming: StateList().renamingStateId == widget.state.id,
+    );
+
+    return Positioned(
+      left: widget.state.position.dx - stateSize / 2,
+      top: widget.state.position.dy - stateSize / 2,
+      child: ClipOval(
+        child: GestureDetector(
+          onDoubleTap: () {
+            StateList().startRename(widget.state.id);
+          },
+          child: Listener(
+            onPointerDown: (event) {
+              pointerDownPosition = event.localPosition;
+              if (!widget.state.hasFocus) {
+                _handleClick();
+                pointerDownFlag = true;
+              }
+            },
+            onPointerUp: (event) {
+              if (pointerDownFlag) {
+                pointerDownFlag = false;
+                return;
+              }
+              if ((pointerDownPosition - event.localPosition).distance < 5) {
+                _focus();
+              }
+            },
+            child: newState,
+          ),
+        ),
+      ),
+    );
+  }
+}

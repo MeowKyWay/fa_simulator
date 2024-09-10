@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/sidebar/pallete/pallete_feedback_provider.dart';

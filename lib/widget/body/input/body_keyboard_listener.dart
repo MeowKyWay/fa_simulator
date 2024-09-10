@@ -1,6 +1,6 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/delete_states_action.dart';
-import 'package:fa_simulator/widget/diagram/state/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -78,7 +78,7 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
 
   // Delete every focused state
   void _handleBackspace() {
-    List<DiagramState> focusedStates =
+    List<StateType> focusedStates =
         StateList().states.where((element) => element.hasFocus).toList();
     if (focusedStates.isEmpty) {
       return;

@@ -5,13 +5,13 @@ import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
-import 'package:fa_simulator/widget/diagram/state/state_list.dart';
+import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/body/decoration/grid_painter.dart';
 import 'package:fa_simulator/widget/body/selection_box.dart';
 import 'package:fa_simulator/widget/body/zoomable_container.dart';
-import 'package:fa_simulator/widget/diagram/state/state_node.dart';
+import 'package:fa_simulator/widget/diagram/state/diagram_state.dart';
 import 'package:fa_simulator/widget/sidebar/pallete/pallete_feedback_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +62,7 @@ class _BodyState extends State<Body> {
                 Consumer<StateList>(builder: (context, stateList, child) {
                   return Stack(children: [
                     ...stateList.states.map((state) {
-                      return StateNode(
+                      return DiagramState(
                         state: state,
                       );
                     }),
