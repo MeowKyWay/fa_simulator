@@ -20,7 +20,7 @@ class BodyGestureDetector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: BodySingleton().getGestureDetectorKey,
+      key: BodySingleton().gestureDetectorKey,
       // Unfocus the states on tap
       onTap: () {
         AppActionDispatcher().execute(UnfocusAction());

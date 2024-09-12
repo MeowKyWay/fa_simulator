@@ -19,7 +19,6 @@ class CreateStateAction implements AppAction {
   void execute() {
     state = StateList().addState(position, name);
     StateList().requestFocus(state.id);
-    StateList().startRename(state.id);
   }
 
   @override

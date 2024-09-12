@@ -142,10 +142,10 @@ class _MatrixGestureDetector2State extends State<MatrixGestureDetector2> {
       else if (KeyboardSingleton()
           .pressedKeys
           .contains(alternateTranslateDirectionKey)) {
-        translationDelta = Offset(event.scrollDelta.dy, event.scrollDelta.dx);
-      }
-      else {
-        translationDelta = event.scrollDelta;
+        translationDelta =
+            Offset(event.scrollDelta.dy / 5, event.scrollDelta.dx / 5);
+      } else {
+        translationDelta = event.scrollDelta / 5;
       }
 
       details = ScaleUpdateDetails(

@@ -36,6 +36,7 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
       onPointerDown: (event) {
         KeyboardSingleton().focusNode.requestFocus();
       },
+      //TODO implement naming state in keyboard listener for more customable control
       child: KeyboardListener(
         focusNode: KeyboardSingleton().focusNode,
         onKeyEvent: (KeyEvent event) {

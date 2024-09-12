@@ -14,7 +14,7 @@ class BodySingleton with ChangeNotifier {
   GlobalKey get bodyKey => _bodyKey;
   //Position
   final GlobalKey _gestureDetectorKey = GlobalKey();
-  GlobalKey get getGestureDetectorKey => _gestureDetectorKey;
+  GlobalKey get gestureDetectorKey => _gestureDetectorKey;
   //DraggableOverlay local position
   final GlobalKey _draggableOverlayKey = GlobalKey();
   GlobalKey get getDraggableOverlayKey => _draggableOverlayKey;
