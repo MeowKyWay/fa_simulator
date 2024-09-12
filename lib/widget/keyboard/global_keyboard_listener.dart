@@ -1,23 +1,26 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/delete_states_action.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class BodyKeyboardListener extends StatefulWidget {
+class GlobalKeyboardListener extends StatefulWidget {
   final Widget child;
-  const BodyKeyboardListener({
+  const GlobalKeyboardListener({
     super.key,
     required this.child,
   });
 
   @override
-  State<BodyKeyboardListener> createState() {
-    return _BodyKeyboardListenerState();
+  State<GlobalKeyboardListener> createState() {
+    return _GlobalKeyboardListenerState();
   }
 }
 
-class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
+class _GlobalKeyboardListenerState extends State<GlobalKeyboardListener> {
   @override
   void initState() {
     super.initState();
@@ -36,15 +39,11 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
       onPointerDown: (event) {
         KeyboardSingleton().focusNode.requestFocus();
       },
-      //TODO implement naming state in keyboard listener for more customable control
       child: KeyboardListener(
         focusNode: KeyboardSingleton().focusNode,
         onKeyEvent: (KeyEvent event) {
-          if (FocusManager.instance.primaryFocus !=
-              KeyboardSingleton().focusNode) {
-            return;
-          }
           if (event is KeyDownEvent) {
+            log('Key down: ${event.logicalKey}');
             // Prevent duplicate key presses
             if (KeyboardSingleton().pressedKeys.contains(event.logicalKey)) {
               return;
@@ -99,38 +98,5 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
     }
     // Else undo
     AppActionDispatcher().undo();
-  }
-}
-
-class KeyboardSingleton with ChangeNotifier {
-  //Singleton
-  static final KeyboardSingleton _instance = KeyboardSingleton._internal();
-  KeyboardSingleton._internal() {
-    _focusNode = FocusNode();
-  }
-  factory KeyboardSingleton() {
-    return _instance;
-  }
-
-  late FocusNode _focusNode;
-  FocusNode get focusNode => _focusNode;
-
-  @override
-  void dispose() {
-    super.dispose();
-    _focusNode.dispose();
-  }
-
-  //Keyboard listeners
-  final Set<LogicalKeyboardKey> pressedKeys = {};
-
-  void addKey(LogicalKeyboardKey key) {
-    pressedKeys.add(key);
-    notifyListeners();
-  }
-
-  void removeKey(LogicalKeyboardKey key) {
-    pressedKeys.remove(key);
-    notifyListeners();
   }
 }

@@ -1,11 +1,12 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
+import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
 import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 
 class StateNode extends StatefulWidget {

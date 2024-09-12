@@ -3,7 +3,8 @@ library matrix_gesture_detector;
 import 'dart:math';
 
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
+import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
+import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';

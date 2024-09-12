@@ -1,4 +1,5 @@
 import 'package:fa_simulator/widget/body/body.dart';
+import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
 import 'package:fa_simulator/widget/sidebar/sidebar.dart';
 import 'package:fa_simulator/widget/topbar.dart';
 import 'package:flutter/material.dart';
@@ -10,26 +11,28 @@ class App extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
-      child: const Column(
-        verticalDirection: VerticalDirection.up,
-        children: [
-          Expanded(
-            child: Row(
-              textDirection: TextDirection.rtl,
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Body(),
-                    ],
+      child: const GlobalKeyboardListener(
+        child: Column(
+          verticalDirection: VerticalDirection.up,
+          children: [
+            Expanded(
+              child: Row(
+                textDirection: TextDirection.rtl,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Body(),
+                      ],
+                    ),
                   ),
-                ),
-                Sidebar(),
-              ],
+                  Sidebar(),
+                ],
+              ),
             ),
-          ),
-          Topbar(),
-        ],
+            Topbar(),
+          ],
+        ),
       ),
     );
   }

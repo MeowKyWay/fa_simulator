@@ -6,7 +6,8 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
-import 'package:fa_simulator/widget/body/input/body_keyboard_listener.dart';
+import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
+import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 
 class DiagramState extends StatefulWidget {
