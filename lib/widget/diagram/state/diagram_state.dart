@@ -36,6 +36,11 @@ class _DiagramStateState extends State<DiagramState> {
     AppActionDispatcher().execute(FocusAction([widget.state.id]));
   }
 
+  void _handleDoubleTap() {
+    AppActionDispatcher().execute(FocusAction([widget.state.id]));
+    StateList().startRename(widget.state.id);
+  }
+
   void _focus() {
     if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
       AppActionDispatcher().execute(ToggleFocusAction(widget.state.id));
@@ -56,9 +61,7 @@ class _DiagramStateState extends State<DiagramState> {
       top: widget.state.position.dy - stateSize / 2,
       child: ClipOval(
         child: GestureDetector(
-          onDoubleTap: () {
-            StateList().startRename(widget.state.id);
-          },
+          onDoubleTap: _handleDoubleTap,
           child: Listener(
             onPointerDown: (event) {
               pointerDownPosition = event.localPosition;
