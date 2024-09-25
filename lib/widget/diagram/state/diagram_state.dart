@@ -6,7 +6,6 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
-import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,7 @@ class _DiagramStateState extends State<DiagramState> {
   // Focus the state
   void _handleClick() {
     // If multiple select key is pressed, add state to the focus list
-    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+    if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
       AppActionDispatcher().execute(AddFocusAction([widget.state.id]));
       return;
     }
@@ -38,7 +37,7 @@ class _DiagramStateState extends State<DiagramState> {
   }
 
   void _focus() {
-    if (KeyboardSingleton().pressedKeys.contains(multipleSelectKey)) {
+    if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
       AppActionDispatcher().execute(ToggleFocusAction(widget.state.id));
       return;
     }
@@ -64,6 +63,7 @@ class _DiagramStateState extends State<DiagramState> {
             onPointerDown: (event) {
               pointerDownPosition = event.localPosition;
               if (!widget.state.hasFocus) {
+                // Prevent group dragging to only focus the state when drag start
                 _handleClick();
                 pointerDownFlag = true;
               }
@@ -74,6 +74,8 @@ class _DiagramStateState extends State<DiagramState> {
                 return;
               }
               if ((pointerDownPosition - event.localPosition).distance < 5) {
+                // If the pointer moved less than 5 pixels, focus the state
+                _handleClick();
                 _focus();
               }
             },

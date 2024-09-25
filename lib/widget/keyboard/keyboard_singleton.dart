@@ -1,7 +1,10 @@
+import 'package:fa_simulator/widget/keyboard/key_handler.dart';
+import 'package:fa_simulator/widget/keyboard/key_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class KeyboardSingleton with ChangeNotifier {
+  //TODO improve keyboard handling
   //Singleton
   static final KeyboardSingleton _instance = KeyboardSingleton._internal();
   KeyboardSingleton._internal() {
@@ -21,15 +24,26 @@ class KeyboardSingleton with ChangeNotifier {
   }
 
   //Keyboard listeners
-  final Set<LogicalKeyboardKey> pressedKeys = {};
+  LogicalKeyboardKey? pressedKey;
+  final Set<LogicalKeyboardKey> modifierKeys = {};
 
   void addKey(LogicalKeyboardKey key) {
-    pressedKeys.add(key);
+    if (isModifierKey(key)) {
+      if (modifierKeys.contains(key)) return;
+      modifierKeys.add(key);
+      return;
+    }
+    pressedKey = key;
+    handleKey(key);
     notifyListeners();
   }
 
   void removeKey(LogicalKeyboardKey key) {
-    pressedKeys.remove(key);
+    if (isModifierKey(key)) {
+      modifierKeys.remove(key);
+      return;
+    }
+    pressedKey = null;
     notifyListeners();
   }
 }

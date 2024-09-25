@@ -13,8 +13,6 @@ class StatePallete extends StatelessWidget {
     super.key,
   });
 
-  //TODO implement draggable to add the state to the diagram
-
   @override
   Widget build(BuildContext context) {
     return ClipOval(

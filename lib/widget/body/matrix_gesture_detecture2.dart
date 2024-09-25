@@ -3,12 +3,9 @@ library matrix_gesture_detector;
 import 'dart:math';
 
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 typedef MatrixGestureDetectorCallback = void Function(
     Matrix4 matrix,
@@ -136,12 +133,12 @@ class _MatrixGestureDetector2State extends State<MatrixGestureDetector2> {
       double scaleDelta = 1.0;
       Offset translationDelta = Offset.zero;
       // Scale
-      if (KeyboardSingleton().pressedKeys.contains(scaleKey)) {
+      if (KeyboardSingleton().modifierKeys.contains(scaleKey)) {
         scaleDelta = 1.0 - event.scrollDelta.dy / 1000;
       }
       // Translation
       else if (KeyboardSingleton()
-          .pressedKeys
+          .modifierKeys
           .contains(alternateTranslateDirectionKey)) {
         translationDelta =
             Offset(event.scrollDelta.dy / 5, event.scrollDelta.dx / 5);
