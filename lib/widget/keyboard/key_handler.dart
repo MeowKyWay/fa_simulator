@@ -16,6 +16,9 @@ void handleKey(LogicalKeyboardKey key) {
 }
 
 void _handleBackspace() {
+  if (StateList().renamingStateId.isNotEmpty) {
+    return;
+  }
   List<StateType> focusedStates =
       StateList().states.where((element) => element.hasFocus).toList();
   if (focusedStates.isEmpty) {
