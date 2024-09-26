@@ -37,8 +37,10 @@ class _StateNodeState extends State<StateNode> {
     super.initState();
     _listener = () {
       if (!_renameFocusNode.hasFocus) {
-        AppActionDispatcher()
-            .execute(RenameStateAction(widget.state.id, newName));
+        if (newName != widget.state.name) {
+          AppActionDispatcher()
+              .execute(RenameStateAction(widget.state.id, newName));
+        }
         KeyboardSingleton().focusNode.requestFocus();
       }
     };
@@ -74,7 +76,6 @@ class _StateNodeState extends State<StateNode> {
                             ? StateList().renamingStateInitialName
                             : widget.state.name,
                         onChanged: (value) {
-                          log(value);
                           newName = value;
                         },
                         onSubmitted: (value) => _renameFocusNode.unfocus(),
