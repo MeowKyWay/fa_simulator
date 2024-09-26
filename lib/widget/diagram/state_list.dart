@@ -12,9 +12,11 @@ class StateList with ChangeNotifier {
 
   final List<StateType> _states = [];
   String _renamingStateId = "";
+  String _renamingStateInitialName = "";
 
   List<StateType> get states => _states;
   String get renamingStateId => _renamingStateId;
+  String get renamingStateInitialName => _renamingStateInitialName;
 
   //-------------------State-------------------
   // Add new state
@@ -60,8 +62,8 @@ class StateList with ChangeNotifier {
     int index = _states.indexWhere((element) => element.id == id);
     if (index != -1) {
       oldPositions = _states[index].position;
-      _states[index].position =
-          BodySingleton().getSnappedPosition(_states[index].position + distance);
+      _states[index].position = BodySingleton()
+          .getSnappedPosition(_states[index].position + distance);
     } else {
       throw Exception("State id $id not found");
     }
@@ -73,6 +75,10 @@ class StateList with ChangeNotifier {
 
   //-------------------Focus-------------------
   // Request focus for a state
+  List<StateType> getFocusedStates() {
+    return _states.where((element) => element.hasFocus).toList();
+  }
+
   void requestFocus(String id) {
     for (int i = 0; i < states.length; i++) {
       // If the state is the requested state, set hasFocus to true
@@ -152,14 +158,16 @@ class StateList with ChangeNotifier {
 
   //-------------------Rename-------------------
   // Start renaming a state
-  void startRename(String id) {
+  void startRename(String id, {String initialName = ""}) {
     _renamingStateId = id;
+    _renamingStateInitialName = initialName;
     notifyListeners();
   }
 
   // End renaming a state
   void _endRename() {
     _renamingStateId = "";
+    _renamingStateInitialName = "";
   }
 
   // End renaming a state

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,7 @@ class StateRenameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    onChanged(stateName);
     return TextFormField(
       focusNode: focusNode,
       initialValue: stateName,

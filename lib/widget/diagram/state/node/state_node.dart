@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/theme.dart';
@@ -68,8 +70,13 @@ class _StateNodeState extends State<StateNode> {
                       padding: const EdgeInsets.all(5),
                       child: StateRenameTextField(
                         focusNode: _renameFocusNode,
-                        stateName: widget.state.name,
-                        onChanged: (value) => newName = value,
+                        stateName: StateList().renamingStateInitialName != ""
+                            ? StateList().renamingStateInitialName
+                            : widget.state.name,
+                        onChanged: (value) {
+                          log(value);
+                          newName = value;
+                        },
                         onSubmitted: (value) => _renameFocusNode.unfocus(),
                       ),
                     )
