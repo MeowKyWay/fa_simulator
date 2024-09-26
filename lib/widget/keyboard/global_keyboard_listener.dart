@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,9 +38,11 @@ class _GlobalKeyboardListenerState extends State<GlobalKeyboardListener> {
         focusNode: KeyboardSingleton().focusNode,
         onKeyEvent: (KeyEvent event) {
           if (event is KeyDownEvent || event is KeyRepeatEvent) {
-            log('Key down: ${event.logicalKey}');
             // Add key to pressed keys
             KeyboardSingleton().addKey(event.logicalKey);
+            if (event.character != null) {
+              KeyboardSingleton().character = event.character;
+            }
           } else if (event is KeyUpEvent) {
             // Remove key from pressed keys
             KeyboardSingleton().removeKey(event.logicalKey);

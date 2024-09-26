@@ -1,3 +1,7 @@
+import 'dart:developer';
+import 'dart:ffi';
+
+import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler.dart';
 import 'package:fa_simulator/widget/keyboard/key_type.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +29,7 @@ class KeyboardSingleton with ChangeNotifier {
 
   //Keyboard listeners
   LogicalKeyboardKey? pressedKey;
+  String? _character;
   final Set<LogicalKeyboardKey> modifierKeys = {};
 
   void addKey(LogicalKeyboardKey key) {
@@ -35,7 +40,6 @@ class KeyboardSingleton with ChangeNotifier {
     }
     pressedKey = key;
     handleKey(key);
-    notifyListeners();
   }
 
   void removeKey(LogicalKeyboardKey key) {
@@ -44,6 +48,12 @@ class KeyboardSingleton with ChangeNotifier {
       return;
     }
     pressedKey = null;
-    notifyListeners();
+  }
+
+  String? get character => _character;
+
+  set character(String? value) {
+    _character = value;
+    handleChar(value);
   }
 }

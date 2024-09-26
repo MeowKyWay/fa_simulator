@@ -141,9 +141,9 @@ class _MatrixGestureDetector2State extends State<MatrixGestureDetector2> {
           .modifierKeys
           .contains(alternateTranslateDirectionKey)) {
         translationDelta =
-            Offset(event.scrollDelta.dy / 5, event.scrollDelta.dx / 5);
+            Offset(event.scrollDelta.dy / 3, event.scrollDelta.dx / 3);
       } else {
-        translationDelta = event.scrollDelta / 5;
+        translationDelta = event.scrollDelta / 3;
       }
 
       details = ScaleUpdateDetails(
