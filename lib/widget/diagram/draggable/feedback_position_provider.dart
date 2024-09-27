@@ -39,7 +39,6 @@ class FeedbackPositionProvider with ChangeNotifier {
       return;
     }
     previousPosition = _position;
-    // log("FeedbackPositionProvider: ${_position.toString()}");
     notifyListeners();
   }
 

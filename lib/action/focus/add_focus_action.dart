@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_unrevertable_action.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
 
@@ -12,7 +10,6 @@ class AddFocusAction extends AppUnrevertableAction {
 
   @override
   void execute() {
-    log(ids.toString());
     for (String id in ids) {
       StateList().addFocus(id);
     }

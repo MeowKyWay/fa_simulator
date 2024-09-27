@@ -1,5 +1,4 @@
-import 'dart:developer';
-import 'dart:ffi';
+
 
 import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class KeyboardSingleton with ChangeNotifier {
-  //TODO improve keyboard handling
+  //TODO handle macos and window cmd and ctrl keys
   //Singleton
   static final KeyboardSingleton _instance = KeyboardSingleton._internal();
   KeyboardSingleton._internal() {

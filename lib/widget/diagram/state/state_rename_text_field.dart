@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/theme.dart';
@@ -40,6 +38,8 @@ class _StateNodeState extends State<StateNode> {
         if (newName != widget.state.name) {
           AppActionDispatcher()
               .execute(RenameStateAction(widget.state.id, newName));
+        } else {
+          StateList().endRename();
         }
         KeyboardSingleton().focusNode.requestFocus();
       }

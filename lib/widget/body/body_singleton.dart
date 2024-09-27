@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/config/config.dart';
 import 'package:flutter/material.dart';
 
@@ -71,9 +69,6 @@ class BodySingleton with ChangeNotifier {
 
     // Convert the global position to a local position relative to the widget
     Offset localPosition = renderBox.globalToLocal(globalPosition);
-
-    // Log the bounds of the widget for debugging
-    log(renderBox.paintBounds.toString());
 
     // Check if the local position is within the widget's bounds
     return renderBox.paintBounds.contains(localPosition);

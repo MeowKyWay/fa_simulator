@@ -15,6 +15,10 @@ void handleKey(LogicalKeyboardKey key) {
     _handleAlt(key);
     return;
   }
+  if (key == LogicalKeyboardKey.enter) {
+    _handleEnter();
+    return;
+  }
   _handleKey(key);
 }
 
@@ -44,12 +48,21 @@ void _handleBackspace() {
   if (StateList().renamingStateId.isNotEmpty) {
     return;
   }
-  List<StateType> focusedStates =
-      StateList().states.where((element) => element.hasFocus).toList();
+  List<StateType> focusedStates = StateList().getFocusedStates();
   if (focusedStates.isEmpty) {
     return;
   }
   AppActionDispatcher().execute(DeleteStatesAction(focusedStates));
+}
+
+void _handleEnter() {
+  if (StateList().renamingStateId.isNotEmpty) return;
+
+  List<StateType> focusedStates = StateList().getFocusedStates();
+  if (focusedStates.length != 1) return;
+
+  StateList()
+      .startRename(focusedStates[0].id, initialName: focusedStates[0].name);
 }
 
 void _handleUndoRedo() {

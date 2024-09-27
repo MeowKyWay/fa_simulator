@@ -3,6 +3,7 @@ import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';
 import 'package:flutter/material.dart';
 
 class Pallete extends StatefulWidget {
+  //TODO prevent feedback showing when dragging outside the body
   final String label;
   final Widget child;
 
