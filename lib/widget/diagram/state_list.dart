@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';

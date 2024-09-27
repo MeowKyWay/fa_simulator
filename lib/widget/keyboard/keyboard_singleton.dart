@@ -53,6 +53,7 @@ class KeyboardSingleton with ChangeNotifier {
 
   set character(String? value) {
     _character = value;
+    if (modifierKeys.isNotEmpty) return;
     handleChar(value);
   }
 }

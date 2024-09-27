@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class CreateStateAction implements AppAction {
 
   @override
   void redo() {
+    log(name);
     StateList().addState(position, name, state.id);
     StateList().requestFocus(state.id);
   }
