@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 

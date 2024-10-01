@@ -1,7 +1,7 @@
 
 
 import 'package:fa_simulator/widget/keyboard/char_handler.dart';
-import 'package:fa_simulator/widget/keyboard/key_handler.dart';
+import 'package:fa_simulator/widget/keyboard/key_handler/key_distributor.dart';
 import 'package:fa_simulator/widget/keyboard/key_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

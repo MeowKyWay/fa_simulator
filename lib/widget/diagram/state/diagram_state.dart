@@ -4,6 +4,7 @@ import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';

@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -77,7 +76,12 @@ class StateList with ChangeNotifier {
 
   //-------------------Focus-------------------
   // Request focus for a state
-  List<StateType> getFocusedStates() {
+  List<StateType> get focusedStates {
+    return _states.where((element) => element.hasFocus).toList();
+  }
+
+  List<DiagramType> get focusedItems {
+    //TODO add transition to the list
     return _states.where((element) => element.hasFocus).toList();
   }
 
@@ -194,22 +198,4 @@ class StateList with ChangeNotifier {
     notifyListeners();
     return oldName;
   }
-}
-
-class StateType {
-  Offset position;
-  String id;
-  String name;
-  bool hasFocus;
-  bool isDragging;
-  bool isRenaming;
-
-  StateType({
-    required this.position,
-    required this.id,
-    required this.name,
-    this.hasFocus = false,
-    this.isDragging = false,
-    this.isRenaming = false,
-  });
 }

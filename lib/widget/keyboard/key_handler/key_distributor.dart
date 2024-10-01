@@ -1,6 +1,8 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/delete_states_action.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/keyboard/key_handler/handle_ctrl.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/services.dart';
 
@@ -8,7 +10,7 @@ void handleKey(LogicalKeyboardKey key) {
   if (KeyboardSingleton()
       .modifierKeys
       .contains(LogicalKeyboardKey.controlLeft)) {
-    _handleCtrl(key);
+    handleCtrl(key);
     return;
   }
   if (KeyboardSingleton().modifierKeys.contains(LogicalKeyboardKey.altLeft)) {
@@ -20,15 +22,6 @@ void handleKey(LogicalKeyboardKey key) {
     return;
   }
   _handleKey(key);
-}
-
-void _handleCtrl(LogicalKeyboardKey key) {
-  switch (key) {
-    case LogicalKeyboardKey.keyZ:
-      _handleUndoRedo();
-    default:
-      break;
-  }
 }
 
 void _handleAlt(LogicalKeyboardKey key) {
@@ -48,7 +41,8 @@ void _handleBackspace() {
   if (StateList().renamingStateId.isNotEmpty) {
     return;
   }
-  List<StateType> focusedStates = StateList().getFocusedStates();
+  //TODO handle transition
+  List<StateType> focusedStates = StateList().focusedStates;
   if (focusedStates.isEmpty) {
     return;
   }
@@ -58,20 +52,10 @@ void _handleBackspace() {
 void _handleEnter() {
   if (StateList().renamingStateId.isNotEmpty) return;
 
-  List<StateType> focusedStates = StateList().getFocusedStates();
+  //TODO handle transition
+  List<StateType> focusedStates = StateList().focusedStates;
   if (focusedStates.length != 1) return;
 
   StateList()
       .startRename(focusedStates[0].id, initialName: focusedStates[0].name);
-}
-
-void _handleUndoRedo() {
-  if (!KeyboardSingleton().focusNode.hasPrimaryFocus) return;
-  // If shift is pressed, redo
-  if (KeyboardSingleton().modifierKeys.contains(LogicalKeyboardKey.shiftLeft)) {
-    AppActionDispatcher().redo();
-    return;
-  }
-  // Else undo
-  AppActionDispatcher().undo();
 }

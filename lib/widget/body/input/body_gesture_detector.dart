@@ -8,6 +8,7 @@ import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
