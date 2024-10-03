@@ -15,5 +15,6 @@ const double coveragePercentage = 0.5;
 const Size bodySize = Size(7680, 4320);
 const double gridSize = 50;
 const int subGridCount = 4;
+const double subGridSize = gridSize / subGridCount;
 const double maxScale = 5.0;
 const double minScale = 0.15;

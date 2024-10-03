@@ -32,10 +32,10 @@ void _handleUndoRedo() {
 
 void _handleCopy() {
   log('Copy');
-  CopyAction().execute();
+  AppActionDispatcher().execute(CopyAction());
 }
 
 void _handlePaste() {
   log('Paste');
-  PasteAction().execute();
+  AppActionDispatcher().execute(PasteAction());
 }

@@ -1,39 +1,58 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/action/clipboard.dart';
+import 'package:fa_simulator/action/diagram_clipboard.dart';
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 
 class PasteAction extends AppAction {
   @override
-  bool isRevertable = false;
+  bool isRevertable = true;
 
-  List<DiagramType> _items = [];
+  final List<DiagramType> _items = [];
 
   @override
   void execute() {
     List<DiagramType> items = DiagramClipboard().items;
 
+    DiagramClipboard().incrementCount();
+
+    Offset margin = const Offset(subGridSize, subGridSize) *
+        DiagramClipboard().count.toDouble();
+
     for (DiagramType item in items) {
-      DiagramType newItem;
+      DiagramType? newItem;
       if (item is StateType) {
-        newItem =  StateList().addState(item.position + const Offset(10, 10), item.name);
-      }
-      else if (item is TransitionType) {
+        newItem = StateList().addState(item.position + margin, item.name);
+      } else if (item is TransitionType) {
         //TODO implement
       }
-      newItem = DiagramType(id: "error", name: "error");
-      _items.add(newItem);
+      if (newItem != null) _items.add(newItem);
     }
+    StateList().requestGroupFocus(_items.map((e) => e.id).toList());
   }
 
   @override
   void undo() {
-    
+    DiagramClipboard().decrementCount();
+    for (DiagramType item in _items) {
+      if (item is StateType) {
+        StateList().deleteState(item.id);
+      } else if (item is TransitionType) {
+        //TODO implement
+      }
+    }
   }
 
   @override
   void redo() {
-
+    for (DiagramType item in _items) {
+      if (item is StateType) {
+        StateList().addState(item.position, item.name, item.id);
+      } else if (item is TransitionType) {
+        //TODO implement
+      }
+    }
+    StateList().requestGroupFocus(_items.map((e) => e.id).toList());
   }
 }
