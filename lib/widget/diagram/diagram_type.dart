@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 class DiagramType {
   final String id;
   String name;
+  bool hasFocus;
 
   DiagramType({
     required this.id,
     required this.name,
+    this.hasFocus = false,
   });
 }
 
 class StateType extends DiagramType {
   Offset position;
-  bool hasFocus;
   bool isDragging;
   bool isRenaming;
 
@@ -20,7 +21,7 @@ class StateType extends DiagramType {
     required this.position,
     required super.id,
     required super.name,
-    this.hasFocus = false,
+    super.hasFocus,
     this.isDragging = false,
     this.isRenaming = false,
   });
@@ -33,6 +34,7 @@ class TransitionType extends DiagramType {
   TransitionType({
     required super.id,
     required super.name,
+    super.hasFocus,
     required this.from,
     required this.to,
   });

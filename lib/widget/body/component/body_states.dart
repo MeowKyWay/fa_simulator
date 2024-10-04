@@ -1,6 +1,6 @@
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/diagram_state.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,14 +11,14 @@ class BodyStates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<StateList>(builder: (context, stateList, child) {
+    return Consumer<DiagramList>(builder: (context, diagramList, child) {
       return Stack(children: [
-        ...stateList.states.map((state) {
+        ...DiagramList().states.map((state) {
           return DiagramState(
             state: state,
           );
         }),
-        ...stateList.states.where((state) => state.hasFocus).map((state) {
+        ...DiagramList().focusedStates.map((state) {
           return FocusOverlay(
             position: state.position,
           );

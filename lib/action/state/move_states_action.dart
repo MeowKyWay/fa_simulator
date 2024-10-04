@@ -1,5 +1,5 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:flutter/material.dart';
 
 class MoveStatesAction extends AppAction {
@@ -17,15 +17,15 @@ class MoveStatesAction extends AppAction {
 
   @override
   void execute() {
-    for (int i = 0; i < stateIds.length; i++) {
-      oldPositions.add(StateList().moveState(stateIds[i], distance));
+    for (String id in stateIds) {
+      oldPositions.add(moveState(id, distance));
     }
   }
 
   @override
   void undo() {
-    for (int i = 0; i < stateIds.length; i++) {
-      StateList().moveState(stateIds[i], -distance);
+    for (String id in stateIds) {
+      moveState(id, -distance);
     }
     oldPositions.clear();
   }

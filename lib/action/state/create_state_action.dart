@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:flutter/material.dart';
 
 class CreateStateAction implements AppAction {
@@ -20,19 +21,19 @@ class CreateStateAction implements AppAction {
 
   @override
   void execute() {
-    state = StateList().addState(position, name);
-    StateList().requestFocus(state.id);
+    state = addState(position, name);
+    requestFocus([state.id]);
   }
 
   @override
   void undo() {
-    StateList().deleteState(state.id);
+    deleteState(state.id);
   }
 
   @override
   void redo() {
     log(name);
-    StateList().addState(position, name, state.id);
-    StateList().requestFocus(state.id);
+    addState(position, name, state.id);
+    requestFocus([state.id]);
   }
 }

@@ -4,9 +4,9 @@ import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 
@@ -39,12 +39,12 @@ class _DiagramStateState extends State<DiagramState> {
 
   void _handleDoubleTap() {
     AppActionDispatcher().execute(FocusAction([widget.state.id]));
-    StateList().startRename(widget.state.id);
+    DiagramList().startRename(widget.state.id);
   }
 
   void _focus() {
     if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
-      AppActionDispatcher().execute(ToggleFocusAction(widget.state.id));
+      AppActionDispatcher().execute(ToggleFocusAction([widget.state.id]));
       return;
     }
   }
@@ -54,7 +54,7 @@ class _DiagramStateState extends State<DiagramState> {
     StateNode newState;
     newState = StateNode(
       state: widget.state,
-      isRenaming: StateList().renamingStateId == widget.state.id,
+      isRenaming: DiagramList().renamingItemId == widget.state.id,
     );
 
     return Positioned(

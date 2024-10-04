@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 
 class DeleteStatesAction implements AppAction {
   late List<StateType> states;
@@ -15,17 +16,16 @@ class DeleteStatesAction implements AppAction {
   @override
   void execute() {
     for (var i = 0; i < states.length; i++) {
-      StateList().deleteState(states[i].id);
+      deleteState(states[i].id);
     }
   }
 
   @override
   void undo() {
-    StateList().unfocus();
     for (var i = 0; i < states.length; i++) {
-      StateList().addState(states[i].position, states[i].name, states[i].id);
-      StateList().addFocus(states[i].id);
+      addState(states[i].position, states[i].name, states[i].id);
     }
+    requestFocus(states.map((e) => e.id).toList());
   }
 
   @override

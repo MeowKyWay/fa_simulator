@@ -1,7 +1,7 @@
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
@@ -19,7 +19,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => StateList()),
+        ChangeNotifierProvider(create: (context) => DiagramList()),
         ChangeNotifierProvider(create: (context) => SelectionAreaProvider()),
         ChangeNotifierProvider(create: (context) => BodySingleton()),
         ChangeNotifierProvider(create: (context) => KeyboardSingleton()),

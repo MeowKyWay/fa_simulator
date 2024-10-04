@@ -1,8 +1,9 @@
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/action/diagram_clipboard.dart';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:flutter/material.dart';
 
 class PasteAction extends AppAction {
@@ -23,13 +24,13 @@ class PasteAction extends AppAction {
     for (DiagramType item in items) {
       DiagramType? newItem;
       if (item is StateType) {
-        newItem = StateList().addState(item.position + margin, item.name);
+        newItem = addState(item.position + margin, item.name);
       } else if (item is TransitionType) {
         //TODO implement
       }
       if (newItem != null) _items.add(newItem);
     }
-    StateList().requestGroupFocus(_items.map((e) => e.id).toList());
+    requestFocus(_items.map((e) => e.id).toList());
   }
 
   @override
@@ -37,7 +38,7 @@ class PasteAction extends AppAction {
     DiagramClipboard().decrementCount();
     for (DiagramType item in _items) {
       if (item is StateType) {
-        StateList().deleteState(item.id);
+        deleteState(item.id);
       } else if (item is TransitionType) {
         //TODO implement
       }
@@ -48,11 +49,11 @@ class PasteAction extends AppAction {
   void redo() {
     for (DiagramType item in _items) {
       if (item is StateType) {
-        StateList().addState(item.position, item.name, item.id);
+        addState(item.position, item.name, item.id);
       } else if (item is TransitionType) {
         //TODO implement
       }
     }
-    StateList().requestGroupFocus(_items.map((e) => e.id).toList());
+    requestFocus(_items.map((e) => e.id).toList());
   }
 }

@@ -1,11 +1,11 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/rename_state_action.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
 import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _StateNodeState extends State<StateNode> {
           AppActionDispatcher()
               .execute(RenameStateAction(widget.state.id, newName));
         } else {
-          StateList().endRename();
+          DiagramList().endRename();
         }
         KeyboardSingleton().focusNode.requestFocus();
       }
@@ -73,8 +73,8 @@ class _StateNodeState extends State<StateNode> {
                       padding: const EdgeInsets.all(5),
                       child: StateRenameTextField(
                         focusNode: _renameFocusNode,
-                        stateName: StateList().renamingStateInitialName != ""
-                            ? StateList().renamingStateInitialName
+                        stateName: DiagramList().renamingItemInitialName != ""
+                            ? DiagramList().renamingItemInitialName
                             : widget.state.name,
                         onChanged: (value) {
                           newName = value;

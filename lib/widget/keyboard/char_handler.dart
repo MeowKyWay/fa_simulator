@@ -1,16 +1,16 @@
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
 
 void handleChar(String? char) {
   if (char == null) {
     return;
   }
-  if (StateList().renamingStateId.isNotEmpty) {
+  if (DiagramList().renamingItemId.isNotEmpty) {
     return;
   }
   //TODO handle transition
-  List<StateType> focusedStates = StateList().focusedStates;
+  List<StateType> focusedStates = DiagramList().focusedStates;
   if (focusedStates.length == 1) {
-    StateList().startRename(focusedStates[0].id, initialName: char);
+    DiagramList().startRename(focusedStates[0].id, initialName: char);
   }
 }

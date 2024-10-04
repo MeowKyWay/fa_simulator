@@ -1,14 +1,13 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
 
 class DraggableOverlay extends StatelessWidget {
-  final List<StateType> states;
 
   const DraggableOverlay({
     super.key,
-    required this.states,
   });
 
   Rect? overlayRect() {
@@ -17,17 +16,16 @@ class DraggableOverlay extends StatelessWidget {
     double right = 0;
     double bottom = 0;
 
-    List<StateType> focusedState =
-        states.where((element) => element.hasFocus).toList();
-    if (focusedState.isEmpty) {
+    List<StateType> focusedStates = DiagramList().focusedStates;
+    if (focusedStates.isEmpty) {
       return null;
     }
 
-    for (int i = 0; i < focusedState.length; i++) {
+    for (int i = 0; i < focusedStates.length; i++) {
       double padding = stateSize / 2;
       Offset position = Offset(
-        focusedState[i].position.dx,
-        focusedState[i].position.dy,
+        focusedStates[i].position.dx,
+        focusedStates[i].position.dy,
       );
       left = left < position.dx - padding ? left : position.dx - padding;
       top = top < position.dy - padding ? top : position.dy - padding;

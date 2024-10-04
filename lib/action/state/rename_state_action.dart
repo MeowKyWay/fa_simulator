@@ -1,5 +1,6 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 
 class RenameStateAction implements AppAction {
   final String id;
@@ -16,13 +17,13 @@ class RenameStateAction implements AppAction {
 
   @override
   void execute() {
-    oldName = StateList().renameState(id, name);
-    StateList().endRename();
+    oldName = renameState(id, name);
+    DiagramList().endRename();
   }
 
   @override
   void undo() {
-    StateList().renameState(id, oldName);
+    renameState(id, oldName);
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:fa_simulator/action/app_unrevertable_action.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 
 class RemoveFocusAction extends AppUnrevertableAction {
   final List<String> ids;
@@ -10,8 +10,6 @@ class RemoveFocusAction extends AppUnrevertableAction {
 
   @override
   void execute() {
-    for (String id in ids) {
-      StateList().removeFocus(id);
-    }
+    removeFocus(ids);
   }
 }

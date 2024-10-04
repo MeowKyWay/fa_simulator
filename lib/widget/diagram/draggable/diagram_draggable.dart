@@ -1,9 +1,8 @@
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/move_states_action.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
-import 'package:fa_simulator/widget/diagram/state_list.dart';
 import 'package:flutter/material.dart';
 
 class DiagramDraggable extends StatefulWidget {
@@ -47,11 +46,8 @@ class _DiagramDraggableState extends State<DiagramDraggable> {
         firstMoveFlag = true;
         FeedbackPositionProvider().reset();
         AppActionDispatcher().execute(MoveStatesAction(
-          StateList()
-              .states
-              .where((state) => state.hasFocus)
-              .map((state) => state.id)
-              .toList(),
+          //TODO implement move transition
+          DiagramList().focusedStates.map((state) => state.id).toList(),
           details.localPosition - startPosition,
         ));
       },
