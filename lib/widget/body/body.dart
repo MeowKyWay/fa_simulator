@@ -5,7 +5,7 @@ import 'package:fa_simulator/widget/body/component/body_palette_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_states.dart';
 import 'package:fa_simulator/widget/body/component/body_dragging_overlay.dart';
 import 'package:fa_simulator/widget/body/component/body_feedback.dart';
-import 'package:fa_simulator/widget/body/interactive_container.dart';
+import 'package:fa_simulator/widget/body/interactive_container/interactive_container.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/decoration/grid_painter.dart';
 import 'package:fa_simulator/widget/body/selection_box.dart';
