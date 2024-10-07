@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
@@ -17,6 +19,7 @@ class DraggableOverlay extends StatelessWidget {
     double bottom = 0;
 
     List<StateType> focusedStates = DiagramList().focusedStates;
+    log('focusedStates: $focusedStates');
     if (focusedStates.isEmpty) {
       return null;
     }
@@ -33,11 +36,13 @@ class DraggableOverlay extends StatelessWidget {
       bottom = bottom > position.dy + padding ? bottom : position.dy + padding;
     }
 
+    log('overlayRect: $left, $top, $right, $bottom');
     return Rect.fromLTRB(left, top, right, bottom);
   }
 
   @override
   Widget build(BuildContext context) {
+    log('DraggableOverlay');
     Rect? rect = overlayRect();
     if (rect == null) {
       return Container();

@@ -29,7 +29,6 @@ class AppActionDispatcher {
     } on Exception catch (e) {
       log(e.toString());
     }
-    log(_actions.toString());
     _redoActions.clear();
   }
 

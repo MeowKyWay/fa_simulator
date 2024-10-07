@@ -1,3 +1,4 @@
+
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/draggable/draggable_overlay.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ class BodyDraggingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, diagramList, child) {
-      return const DraggableOverlay();
+      // Do not add const here the widget need to be rebuilt when the focusedStates change
+      // ignore: prefer_const_constructors
+      return DraggableOverlay();
     });
   }
 }
