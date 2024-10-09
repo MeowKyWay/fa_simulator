@@ -24,12 +24,15 @@ class AppActionDispatcher {
     try {
       action.execute();
       // Add the action to the list if it is undoable
-      if (action.isRevertable) _actions.add(action);
+      if (action.isRevertable) {
+        _actions.add(action);
+        _redoActions.clear();
+      }
       // Empty the redo list
     } on Exception catch (e) {
       log(e.toString());
     }
-    _redoActions.clear();
+    
   }
 
   void undo() {

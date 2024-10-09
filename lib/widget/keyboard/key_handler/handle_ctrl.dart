@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/copy_action.dart';
@@ -31,11 +30,9 @@ void _handleUndoRedo() {
 }
 
 void _handleCopy() {
-  log('Copy');
   AppActionDispatcher().execute(CopyAction());
 }
 
 void _handlePaste() {
-  log('Paste');
   AppActionDispatcher().execute(PasteAction());
 }

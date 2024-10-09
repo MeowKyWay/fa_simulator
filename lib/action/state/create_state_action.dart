@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
@@ -32,7 +30,6 @@ class CreateStateAction implements AppAction {
 
   @override
   void redo() {
-    log(name);
     addState(position, name, state.id);
     requestFocus([state.id]);
   }
