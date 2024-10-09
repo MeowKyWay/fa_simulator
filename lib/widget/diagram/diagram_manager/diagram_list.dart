@@ -21,8 +21,10 @@ class DiagramList with ChangeNotifier {
   //Renaming infomation
   String _renamingItemId = "";
   String _renamingItemInitialName = "";
+  String renamingItemNewName = "";
   String get renamingItemId => _renamingItemId;
   String get renamingItemInitialName => _renamingItemInitialName;
+
 
   void startRename(String id, {String? initialName}) {
     _renamingItemId = id;
@@ -33,6 +35,7 @@ class DiagramList with ChangeNotifier {
   void resetRename() {
     _renamingItemId = "";
     _renamingItemInitialName = "";
+    renamingItemNewName = "";
   }
 
   void endRename() {

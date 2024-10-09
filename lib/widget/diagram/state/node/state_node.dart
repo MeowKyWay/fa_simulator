@@ -27,7 +27,6 @@ class StateNode extends StatefulWidget {
 }
 
 class _StateNodeState extends State<StateNode> {
-  String newName = '';
   late FocusNode _renameFocusNode;
   late VoidCallback _listener;
 
@@ -36,6 +35,7 @@ class _StateNodeState extends State<StateNode> {
     super.initState();
     _listener = () {
       if (!_renameFocusNode.hasFocus) {
+        String newName = DiagramList().renamingItemNewName;
         if (newName != widget.state.name) {
           AppActionDispatcher()
               .execute(RenameStateAction(widget.state.id, newName));
@@ -77,7 +77,7 @@ class _StateNodeState extends State<StateNode> {
                             ? DiagramList().renamingItemInitialName
                             : widget.state.name,
                         onChanged: (value) {
-                          newName = value;
+                          DiagramList().renamingItemNewName = value;
                         },
                         onSubmitted: (value) => _renameFocusNode.unfocus(),
                       ),

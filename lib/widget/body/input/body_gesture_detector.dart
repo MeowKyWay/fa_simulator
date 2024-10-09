@@ -22,7 +22,9 @@ class BodyGestureDetector extends StatelessWidget {
       key: BodySingleton().gestureDetectorKey,
       // Unfocus the states on tap
       onTap: () {
+        FocusScope.of(context).unfocus();
         AppActionDispatcher().execute(UnfocusAction());
+        KeyboardSingleton().focusNode.requestFocus();
       },
       // Add new state on double tap
       // Todo replace with drag the new state from menu

@@ -51,18 +51,6 @@ class _DiagramStateState extends State<DiagramState> {
     }
   }
 
-  void _onMouseEnter(PointerEnterEvent event) {
-    setState(() {
-      isHovered = true;
-    });
-  }
-
-  void _onMouseExit(PointerExitEvent event) {
-    setState(() {
-      isHovered = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     StateNode newState;
@@ -79,8 +67,6 @@ class _DiagramStateState extends State<DiagramState> {
           onDoubleTap: _handleDoubleTap,
           child: MouseRegion(
             cursor: SystemMouseCursors.move,
-            onEnter: _onMouseEnter,
-            onExit: _onMouseExit,
             child: Listener(
               onPointerDown: (event) {
                 pointerDownPosition = event.localPosition;
@@ -95,8 +81,7 @@ class _DiagramStateState extends State<DiagramState> {
                   pointerDownFlag = false;
                   return;
                 }
-                if ((pointerDownPosition - event.localPosition).distance <
-                    5) {
+                if ((pointerDownPosition - event.localPosition).distance < 5) {
                   // If the pointer moved less than 5 pixels, focus the state
                   _handleClick();
                   _focus();
