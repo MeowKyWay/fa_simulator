@@ -27,6 +27,7 @@ class StateNode extends StatefulWidget {
 }
 
 class _StateNodeState extends State<StateNode> {
+  //Do not use set state in this class
   late FocusNode _renameFocusNode;
   late VoidCallback _listener;
 
@@ -60,6 +61,10 @@ class _StateNodeState extends State<StateNode> {
     if (widget.isRenaming) {
       // Request focus for the rename text field
       _renameFocusNode.requestFocus();
+      if (DiagramList().renamingItemInitialName == "") {
+        DiagramList().renamingItemNewName =
+            DiagramList().renamingItemInitialName;
+      }
     }
     return GestureDetector(
       // Just to absorb the tap event

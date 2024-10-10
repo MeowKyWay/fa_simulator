@@ -18,7 +18,6 @@ class StateRenameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    onChanged(stateName);
     return TextFormField(
       focusNode: focusNode,
       initialValue: stateName,
