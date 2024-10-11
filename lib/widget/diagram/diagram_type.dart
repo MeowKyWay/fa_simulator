@@ -16,6 +16,7 @@ class StateType extends DiagramType {
   Offset position;
   bool isDragging;
   bool isRenaming;
+  bool isHovering;
 
   StateType({
     required this.position,
@@ -24,6 +25,7 @@ class StateType extends DiagramType {
     super.hasFocus,
     this.isDragging = false,
     this.isRenaming = false,
+    this.isHovering = false,
   });
 }
 

@@ -25,10 +25,18 @@ class DiagramList with ChangeNotifier {
   String get renamingItemId => _renamingItemId;
   String get renamingItemInitialName => _renamingItemInitialName;
 
+  String _hoveringStateId = "";
+  String get hoveringStateId => _hoveringStateId;
+  set hoveringStateId(String id) {
+    _hoveringStateId = id;
+    notifyListeners();
+  }
+
+  bool hoveringStateFlag = false;
 
   void startRename(String id, {String? initialName}) {
     _renamingItemId = id;
-    _renamingItemInitialName = initialName?? item(id).name;
+    _renamingItemInitialName = initialName ?? item(id).name;
     notifyListeners();
   }
 
@@ -47,16 +55,25 @@ class DiagramList with ChangeNotifier {
   List<DiagramType> get focusedItems {
     return items.where((element) => element.hasFocus).toList();
   }
+
   List<StateType> get focusedStates {
-    return items.whereType<StateType>().where((element) => element.hasFocus).toList();
+    return items
+        .whereType<StateType>()
+        .where((element) => element.hasFocus)
+        .toList();
   }
+
   List<TransitionType> get focusedTransitions {
-    return items.whereType<TransitionType>().where((element) => element.hasFocus).toList();
+    return items
+        .whereType<TransitionType>()
+        .where((element) => element.hasFocus)
+        .toList();
   }
 
   List<StateType> get states {
     return items.whereType<StateType>().toList();
   }
+
   List<TransitionType> get transitions {
     return items.whereType<TransitionType>().toList();
   }

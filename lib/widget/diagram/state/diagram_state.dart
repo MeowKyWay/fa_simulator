@@ -1,6 +1,3 @@
-import 'dart:developer' as developer;
-import 'dart:math';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
@@ -10,10 +7,8 @@ import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
-import 'package:fa_simulator/widget/diagram/state/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class DiagramState extends StatefulWidget {
   final StateType state;
@@ -32,9 +27,6 @@ class _DiagramStateState extends State<DiagramState> {
   bool pointerDownFlag = false;
   bool isHovered = false;
 
-  final Offset middle =
-      const Offset(stateSize / 2, stateSize / 2) + const Offset(10, 10);
-
   @override
   Widget build(BuildContext context) {
     StateNode newState;
@@ -44,8 +36,8 @@ class _DiagramStateState extends State<DiagramState> {
     );
 
     return Positioned(
-      left: widget.state.position.dx - stateSize / 2 - 10,
-      top: widget.state.position.dy - stateSize / 2 - 10,
+      left: widget.state.position.dx - stateSize / 2,
+      top: widget.state.position.dy - stateSize / 2,
       child: Stack(
         children: [
           ClipOval(
@@ -72,12 +64,21 @@ class _DiagramStateState extends State<DiagramState> {
                     _focus();
                   }
                 },
-                onPointerHover: _handlePointerHover,
-                child: Container(
-                  color: Colors.transparent,
-                  width: stateSize + 20,
-                  height: stateSize + 20,
-                  child: Center(child: newState),
+                child: MouseRegion(
+                  onEnter: (event) {
+                    DiagramList().hoveringStateFlag = false;
+                    DiagramList().hoveringStateId = widget.state.id;
+                  },
+                  onExit: (event) {
+                    DiagramList().hoveringStateFlag = true;
+                    DiagramList().notify();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    width: stateSize,
+                    height: stateSize,
+                    child: Center(child: newState),
+                  ),
                 ),
               ),
             ),
@@ -86,17 +87,6 @@ class _DiagramStateState extends State<DiagramState> {
         ],
       ),
     );
-  }
-
-  void _handlePointerHover(PointerHoverEvent event) {
-    double radius = (stateSize / 2);
-    double distance = (event.localPosition - middle).distance;
-    if (distance < radius * 8 / 10) {
-      return;
-    }
-    double angle = (event.localPosition - middle).direction * 180 / (pi);
-
-    developer.log('Distance: $distance, Angle: $angle');
   }
 
   // Focus the state

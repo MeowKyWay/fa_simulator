@@ -5,6 +5,7 @@ import 'package:fa_simulator/widget/body/component/body_palette_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_states.dart';
 import 'package:fa_simulator/widget/body/component/body_dragging_overlay.dart';
 import 'package:fa_simulator/widget/body/component/body_feedback.dart';
+import 'package:fa_simulator/widget/body/component/body_states_hover_overlay.dart';
 import 'package:fa_simulator/widget/body/interactive_container/interactive_container.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/body/decoration/grid_painter.dart';
@@ -55,6 +56,8 @@ class _BodyState extends State<Body> {
               const BodyGestureDetector(),
               // Draw all of the states
               const BodyStates(),
+              // Hover Overlay
+              const BodyStateHoverOverlay(),
               // Feedback when drag
               const BodyFeedback(),
               // Feedback when dragging from the pallete
