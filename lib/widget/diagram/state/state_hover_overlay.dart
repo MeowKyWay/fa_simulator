@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
@@ -20,11 +20,13 @@ class StateHoverOverlay extends StatefulWidget {
 }
 
 class _StateHoverOverlayState extends State<StateHoverOverlay> {
-  final double _ringWidth = 5.0;
+  final double _ringWidth = 7.5;
   late double _innerRadius;
   late double _outerRadius;
   late Offset _center;
   late Offset _localCenter;
+
+  Offset? _floatingButtonPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
     _innerRadius = stateSize / 2 - _ringWidth;
     _outerRadius = stateSize / 2 + _ringWidth;
-    _localCenter = const Offset(stateSize / 2, stateSize / 2);
+    _localCenter = Offset(stateSize / 2 + _ringWidth, stateSize / 2 + _ringWidth);
 
     return Positioned(
       left: _center.dx - _ringWidth,
@@ -52,15 +54,33 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
           innerRadius: _innerRadius,
           outerRadius: _outerRadius,
         ),
-        child: MouseRegion(
-          onHover: _onHover,
-          onExit: _onExit,
-          onEnter: _onEnter,
-          child: Container(
-            width: stateSize + (_ringWidth * 2),
-            height: stateSize + (_ringWidth * 2),
-            color: Colors.red,
-          ),
+        child: Stack(
+          children: [
+            MouseRegion(
+              onHover: _onHover,
+              onExit: _onExit,
+              onEnter: _onEnter,
+              child: SizedBox(
+                width: stateSize + (_ringWidth * 2),
+                height: stateSize + (_ringWidth * 2),
+              ),
+            ),
+            if (_floatingButtonPosition != null)
+              Positioned(
+                left: _floatingButtonPosition!.dx - _ringWidth,
+                top: _floatingButtonPosition!.dy - _ringWidth,
+                child: IgnorePointer(
+                  child: Container(
+                    width: _ringWidth * 2,
+                    height: _ringWidth * 2,
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.75),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -68,7 +88,10 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
   void _onHover(PointerHoverEvent event) {
     double angle = (event.localPosition - _localCenter).direction;
-    log("Hover: $angle");
+    Offset newPoint = calculateNewPoint(_localCenter, stateSize / 2, angle);
+    setState(() {
+      _floatingButtonPosition = newPoint;
+    });
   }
 
   void _onEnter(PointerEnterEvent event) {
@@ -80,5 +103,18 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
       DiagramList().hoveringStateFlag = false;
       DiagramList().hoveringStateId = "";
     }
+    setState(() {
+      _floatingButtonPosition = null;
+    });
+  }
+
+  Offset calculateNewPoint(Offset startPoint, double distance, double angle) {
+    // Convert the angle to radians
+
+    // Calculate the new x and y coordinates
+    double x = startPoint.dx + distance * cos(angle);
+    double y = startPoint.dy + distance * sin(angle);
+
+    return Offset(x, y);
   }
 }
