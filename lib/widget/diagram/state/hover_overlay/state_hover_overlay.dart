@@ -51,32 +51,28 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     _localCenter =
         Offset(stateSize / 2 + _ringWidth, stateSize / 2 + _ringWidth);
 
-    return Positioned(
-      left: _center.dx - _ringWidth,
-      top: _center.dy - _ringWidth,
-      child: ClipPath(
-        clipper: RingClipper(
-          innerRadius: _innerRadius,
-          outerRadius: _outerRadius,
-        ),
-        child: Stack(
-          children: [
-            const DiagramDraggable(),
-            NewTransitionDraggable(
-              child: MouseRegion(
-                onHover: _onHover,
-                onExit: _onExit,
-                onEnter: _onEnter,
-                child: SizedBox(
-                  width: stateSize + (_ringWidth * 2),
-                  height: stateSize + (_ringWidth * 2),
-                ),
+    return ClipPath(
+      clipper: RingClipper(
+        innerRadius: _innerRadius,
+        outerRadius: _outerRadius,
+      ),
+      child: Stack(
+        children: [
+          const DiagramDraggable(),
+          NewTransitionDraggable(
+            child: MouseRegion(
+              onHover: _onHover,
+              onExit: _onExit,
+              onEnter: _onEnter,
+              child: SizedBox(
+                width: stateSize + (_ringWidth * 2),
+                height: stateSize + (_ringWidth * 2),
               ),
             ),
-            if (_floatingButtonPosition != null)
-              NewTransitionButton(position: _floatingButtonPosition!),
-          ],
-        ),
+          ),
+          if (_floatingButtonPosition != null)
+            NewTransitionButton(position: _floatingButtonPosition!),
+        ],
       ),
     );
   }

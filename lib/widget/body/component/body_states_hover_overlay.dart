@@ -16,9 +16,9 @@ class BodyStateHoverOverlay extends StatelessWidget {
       }
       return Stack(
         children: [
-          StateHoverOverlay(
-            state: diagramList.state(DiagramList().hoveringStateId),
-          ),
+          // StateHoverOverlay(
+          //   state: diagramList.state(DiagramList().hoveringStateId),
+          // ),
         ],
       );
     });

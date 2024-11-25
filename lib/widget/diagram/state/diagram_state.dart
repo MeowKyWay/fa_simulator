@@ -6,6 +6,7 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,8 @@ class _DiagramStateState extends State<DiagramState> {
     );
 
     return Positioned(
-      left: widget.state.position.dx - stateSize / 2,
-      top: widget.state.position.dy - stateSize / 2,
+      left: widget.state.position.dx - stateSize / 2 - 7.5,
+      top: widget.state.position.dy - stateSize / 2 - 7.5,
       child: Stack(
         children: [
           ClipOval(
@@ -74,6 +75,7 @@ class _DiagramStateState extends State<DiagramState> {
                     DiagramList().notify();
                   },
                   child: Container(
+                    margin: const EdgeInsets.all(7.5),
                     color: Colors.transparent,
                     width: stateSize,
                     height: stateSize,
@@ -83,7 +85,7 @@ class _DiagramStateState extends State<DiagramState> {
               ),
             ),
           ),
-          // StateHoverOverlay(),
+          StateHoverOverlay(state: widget.state),
         ],
       ),
     );
