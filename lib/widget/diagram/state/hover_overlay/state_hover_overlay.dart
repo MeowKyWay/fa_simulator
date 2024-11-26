@@ -49,6 +49,7 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
         children: [
           const DiagramDraggable(),
           NewTransitionDraggable(
+            data: widget.state,
             child: MouseRegion(
               onExit: _onExit,
               onEnter: _onEnter,
