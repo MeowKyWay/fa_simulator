@@ -1,7 +1,7 @@
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';

@@ -4,8 +4,8 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
-import 'package:fa_simulator/widget/diagram/draggable/new_transition_draggable.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
+import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

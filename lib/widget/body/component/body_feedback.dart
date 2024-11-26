@@ -1,5 +1,5 @@
-import 'package:fa_simulator/widget/diagram/draggable/diagram_feedback.dart';
-import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_feedback.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/feedback_position_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

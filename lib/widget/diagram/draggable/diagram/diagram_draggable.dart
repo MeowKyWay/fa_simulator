@@ -2,7 +2,7 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/move_states_action.dart';
 import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/draggable/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/feedback_position_provider.dart';
 import 'package:flutter/material.dart';
 
 class DiagramDraggable extends StatefulWidget {
