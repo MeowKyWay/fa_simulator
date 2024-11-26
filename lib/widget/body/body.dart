@@ -8,7 +8,7 @@ import 'package:fa_simulator/widget/body/component/body_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_states_hover_overlay.dart';
 import 'package:fa_simulator/widget/body/interactive_container/interactive_container.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
-import 'package:fa_simulator/widget/body/decoration/grid_painter.dart';
+import 'package:fa_simulator/widget/painter/grid_painter.dart';
 import 'package:fa_simulator/widget/body/selection_box.dart';
 import 'package:flutter/material.dart';
 

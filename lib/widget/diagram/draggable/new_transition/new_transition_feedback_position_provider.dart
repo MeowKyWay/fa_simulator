@@ -9,17 +9,25 @@ class NewTransitionFeedbackPositionProvider with ChangeNotifier {
     return _instance;
   }
 
-  Offset? _position;
+  Offset? _startPosition;
+  Offset? _endPosition;
 
-  void updatePosition(Offset position) {
-    _position = position;
+  Offset? get startPosition => _startPosition;
+  Offset? get endPosition => _endPosition;
+
+  set startPosition(Offset? position) {
+    _startPosition = position;
     notifyListeners();
   }
 
-  Offset? get position => _position;
+  set endPosition(Offset? position) {
+    _endPosition = position;
+    notifyListeners();
+  }
 
   void resetPosition() {
-    _position = null;
+    _startPosition = null;
+    _endPosition = null;
     notifyListeners();
   }
 }
