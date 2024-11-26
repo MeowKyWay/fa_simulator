@@ -4,7 +4,6 @@ import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram_draggable.dart';
-import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
 import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';

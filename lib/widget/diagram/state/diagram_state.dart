@@ -37,8 +37,8 @@ class _DiagramStateState extends State<DiagramState> {
     );
 
     return Positioned(
-      left: widget.state.position.dx - stateSize / 2 - 7.5,
-      top: widget.state.position.dy - stateSize / 2 - 7.5,
+      left: widget.state.position.dx - stateSize / 2 - stateFocusOverlayRingWidth,
+      top: widget.state.position.dy - stateSize / 2 - stateFocusOverlayRingWidth,
       child: Stack(
         children: [
           ClipOval(
@@ -75,7 +75,7 @@ class _DiagramStateState extends State<DiagramState> {
                     DiagramList().notify();
                   },
                   child: Container(
-                    margin: const EdgeInsets.all(7.5),
+                    margin: const EdgeInsets.all(stateFocusOverlayRingWidth),
                     color: Colors.transparent,
                     width: stateSize,
                     height: stateSize,

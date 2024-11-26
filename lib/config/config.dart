@@ -7,6 +7,7 @@ int stateCounter = 1;
 //State
 const double stateSize = 100;
 const double stateFocusOverlayButtonSize = 15;
+const double stateFocusOverlayRingWidth = 5;
 
 // Coverage needed for selection area to focus on a state
 const double coveragePercentage = 0.5;
