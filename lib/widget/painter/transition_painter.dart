@@ -2,18 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class LineWithPointerPainter extends CustomPainter {
+class TransitionPainter extends CustomPainter {
   final Offset start;
   final Offset end;
 
-  LineWithPointerPainter({required this.start, required this.end});
+  TransitionPainter({required this.start, required this.end});
 
   @override
   void paint(Canvas canvas, Size size) {
     // Paint object for the line
     final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2.0
+      ..color = Colors.white
+      ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
     // Draw the line
@@ -21,10 +21,10 @@ class LineWithPointerPainter extends CustomPainter {
 
     // Calculate the arrowhead points
     final arrowPaint = Paint()
-      ..color = Colors.black
+      ..color = Colors.white
       ..style = PaintingStyle.fill;
 
-    const arrowSize = 10.0;
+    const arrowSize = 10;
     final angle = atan2(end.dy - start.dy, end.dx - start.dx);
 
     // Points for the arrowhead
@@ -48,7 +48,9 @@ class LineWithPointerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  @override
+  bool shouldRepaint(covariant TransitionPainter oldDelegate) {
+    // Repaint if start or end positions change
+    return start != oldDelegate.start || end != oldDelegate.end;
   }
 }

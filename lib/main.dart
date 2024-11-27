@@ -4,6 +4,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
+import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_feedback_position_provider.dart';
 import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
 import 'package:fa_simulator/widget/sidebar/pallete/pallete_feedback_provider.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => KeyboardSingleton()),
         ChangeNotifierProvider(create: (context) => FeedbackPositionProvider()),
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
+        ChangeNotifierProvider(create: (context) => NewTransitionFeedbackPositionProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
