@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ StateType addState(Offset position, String name, [String? id]) {
     throw Exception("State id $id already exists");
   }
   // Get snapped position
-  Offset roundedPosition = BodySingleton().getSnappedPosition(position);
+  Offset roundedPosition = BodyProvider().getSnappedPosition(position);
   // Create a new state
   StateType state = StateType(
     position: roundedPosition,
@@ -45,7 +45,7 @@ void deleteState(String id) {
 
 // Move a state position
 Offset moveState(String id, Offset distance) {
-  Offset deltaPosition = BodySingleton().getSnappedPosition(distance);
+  Offset deltaPosition = BodyProvider().getSnappedPosition(distance);
   // Get the state index
   StateType state;
   try {

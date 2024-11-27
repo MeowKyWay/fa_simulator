@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:flutter/material.dart';
 
 class PalleteFeedbackProvider with ChangeNotifier {
@@ -31,8 +31,8 @@ class PalleteFeedbackProvider with ChangeNotifier {
       notifyListeners();
       return;
     }
-    _position = BodySingleton().getSnappedPosition(
-      BodySingleton().getBodyLocalPosition(position) - _margin,
+    _position = BodyProvider().getSnappedPosition(
+      BodyProvider().getBodyLocalPosition(position) - _margin,
     );
     if (_position == _previousPosition) return;
     notifyListeners();

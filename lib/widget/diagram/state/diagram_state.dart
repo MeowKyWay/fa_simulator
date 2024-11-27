@@ -6,13 +6,12 @@ import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/body/body_singleton.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/new_transition_feedback_position_provider.dart';
 import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
-import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class DiagramState extends StatefulWidget {
@@ -53,7 +52,7 @@ class _DiagramStateState extends State<DiagramState> {
                 if ((details.data as StateType).id == widget.state.id) {
                   return false;
                 }
-                NewTransitionFeedbackPositionProvider().targetStateposition =
+                NewTransitionFeedbackPositionProvider().targetStatePosition =
                     widget.state.position;
                 return true;
               }
@@ -62,10 +61,8 @@ class _DiagramStateState extends State<DiagramState> {
               NewTransitionFeedbackPositionProvider().resetPosition();
               StateType state = details.data as StateType;
               log('State ${state.id} accepted by ${widget.state.id}');
-            }, onMove: (DragTargetDetails details) {
-              log(BodySingleton()
-                  .getBodyLocalPosition(details.offset)
-                  .toString());
+            }, onLeave: (details) {
+              NewTransitionFeedbackPositionProvider().targetStatePosition = null;
             }, builder: (context, candidateData, rejectedData) {
               return GestureDetector(
                 onDoubleTap: _handleDoubleTap,
@@ -120,7 +117,7 @@ class _DiagramStateState extends State<DiagramState> {
   // Focus the state
   void _handleClick() {
     // If multiple select key is pressed, add state to the focus list
-    if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
+    if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
       AppActionDispatcher().execute(AddFocusAction([widget.state.id]));
       return;
     }
@@ -134,7 +131,7 @@ class _DiagramStateState extends State<DiagramState> {
   }
 
   void _focus() {
-    if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
+    if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
       AppActionDispatcher().execute(ToggleFocusAction([widget.state.id]));
       return;
     }

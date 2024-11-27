@@ -3,17 +3,17 @@ import 'package:fa_simulator/action/state/delete_states_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/handle_ctrl.dart';
-import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/services.dart';
 
 void handleKey(LogicalKeyboardKey key) {
-  if (KeyboardSingleton()
+  if (KeyboardProvider()
       .modifierKeys
       .contains(LogicalKeyboardKey.controlLeft)) {
     handleCtrl(key);
     return;
   }
-  if (KeyboardSingleton().modifierKeys.contains(LogicalKeyboardKey.altLeft)) {
+  if (KeyboardProvider().modifierKeys.contains(LogicalKeyboardKey.altLeft)) {
     _handleAlt(key);
     return;
   }

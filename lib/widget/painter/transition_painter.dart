@@ -19,7 +19,7 @@ class TransitionPainter extends CustomPainter {
     final direction = (end - start).normalize();
 
     // Adjust the end position to offset the arrowhead by 50 pixels
-    const double arrowOffset = 50.0;
+    const double arrowOffset = 0;
     final adjustedEnd = end - direction * arrowOffset;
 
     // Draw the line up to the adjusted end

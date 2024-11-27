@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class DraggableOverlay extends StatelessWidget {
       left: rect.left,
       top: rect.top,
       child: SizedBox(
-        key: BodySingleton().getDraggableOverlayKey,
+        key: BodyProvider().getDraggableOverlayKey,
         width: rect.right - rect.left,
         height: rect.bottom - rect.top,
         child: Container(

@@ -1,6 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_new_transition_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_palette_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_states.dart';
@@ -30,7 +30,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      key: BodySingleton().bodyKey,
+      key: BodyProvider().bodyKey,
       // Listen to keyboard input for the entire body
       child: InteractiveContainer(
         child: Container(

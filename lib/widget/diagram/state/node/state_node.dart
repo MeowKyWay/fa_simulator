@@ -6,7 +6,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
 import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
-import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class StateNode extends StatefulWidget {
@@ -43,7 +43,7 @@ class _StateNodeState extends State<StateNode> {
         } else {
           DiagramList().endRename();
         }
-        KeyboardSingleton().focusNode.requestFocus();
+        KeyboardProvider().focusNode.requestFocus();
       }
     };
     _renameFocusNode = FocusNode();

@@ -1,6 +1,6 @@
 
-import 'package:fa_simulator/widget/body/body_singleton.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/pallete_feedback_provider.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
+import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:flutter/material.dart';
 
 class PalleteDraggable extends StatefulWidget {
@@ -33,7 +33,7 @@ class _PalleteDraggableState extends State<PalleteDraggable> {
         PalleteFeedbackProvider().position = details.globalPosition;
       },
       onPanEnd: (details) {
-        if (BodySingleton().isWithinBody(details.globalPosition)) {
+        if (BodyProvider().isWithinBody(details.globalPosition)) {
           widget.onDragEnd(PalleteFeedbackProvider().position! + widget.margin);
         }
         PalleteFeedbackProvider().reset();

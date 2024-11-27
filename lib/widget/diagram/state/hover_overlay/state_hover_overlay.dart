@@ -1,15 +1,19 @@
 import 'dart:math';
 
+import 'dart:developer' as developer;
+
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_button.dart';
-import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_button_singleton.dart';
+import 'package:fa_simulator/widget/provider/new_transition_button_provider.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
+import 'package:fa_simulator/widget/provider/new_transition_feedback_position_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class StateHoverOverlay extends StatefulWidget {
   final StateType state;
@@ -29,7 +33,10 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
   late double _outerRadius;
   late Offset _localCenter;
 
-  Offset? _floatingButtonPosition = null;
+  final GlobalKey _key = GlobalKey();
+
+  Offset? _floatingButtonPosition;
+  bool _isHovering = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,29 +54,49 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
         Offset(stateSize / 2 + _ringWidth, stateSize / 2 + _ringWidth);
 
     return ClipPath(
+      key: _key,
       clipper: RingClipper(
         innerRadius: _innerRadius,
         outerRadius: _outerRadius,
       ),
-      child: Stack(
-        children: [
-          const DiagramDraggable(),
-          NewTransitionDraggable(
-            data: widget.state,
-            child: MouseRegion(
-              onHover: _onHover,
-              onExit: _onExit,
-              onEnter: _onEnter,
-              child: SizedBox(
-                width: stateSize + (_ringWidth * 2),
-                height: stateSize + (_ringWidth * 2),
-              ),
-            ),
-          ),
-          if (_floatingButtonPosition != null)
-            NewTransitionButton(position: _floatingButtonPosition!),
-        ],
-      ),
+      child: DragTarget(
+          onWillAcceptWithDetails: (DragTargetDetails details) {
+            _onEnter(null);
+            if (details.data is StateType) {
+              if ((details.data as StateType).id == widget.state.id) {
+                return false;
+              }
+              return true;
+            }
+            return false;
+          },
+          onLeave: (details) {
+            _onExit(null);
+          },
+          hitTestBehavior: HitTestBehavior.translucent,
+          builder: (context, candidateData, rejectedData) {
+            return Stack(
+              children: [
+                const DiagramDraggable(),
+                NewTransitionDraggable(
+                  data: widget.state,
+                  child: MouseRegion(
+                    onHover: (event) {
+                      _onHover(event.localPosition);
+                    },
+                    onExit: _onExit,
+                    onEnter: _onEnter,
+                    child: SizedBox(
+                      width: stateSize + (_ringWidth * 2),
+                      height: stateSize + (_ringWidth * 2),
+                    ),
+                  ),
+                ),
+                if (_floatingButtonPosition != null)
+                  NewTransitionButton(position: _floatingButtonPosition!),
+              ],
+            );
+          }),
     );
   }
 
@@ -83,30 +110,35 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     return Offset(x, y);
   }
 
-  void _onHover(PointerHoverEvent event) {
-    double angle = (event.localPosition - _localCenter).direction;
+  void _onHover(Offset localPosition) {
+    developer.log(localPosition.toString());
+    double angle = (localPosition - _localCenter).direction;
     Offset newPoint = calculateNewPoint(_localCenter, stateSize / 2, angle);
     setState(() {
-      NewTransitionButtonSingleton().position = newPoint;
+      NewTransitionButtonProvider().position = newPoint;
       _floatingButtonPosition = newPoint;
     });
   }
 
-  void _onEnter(PointerEnterEvent event) {
+  void _onEnter(PointerEnterEvent? event) {
     DiagramList().hoveringStateFlag = false;
+    setState(() {
+      _isHovering = true;
+    });
   }
 
-  void _onExit(PointerExitEvent event) {
+  void _onExit(PointerExitEvent? event) {
     if (!DiagramList().hoveringStateFlag) {
       DiagramList().hoveringStateFlag = false;
       DiagramList().hoveringStateId = "";
     }
-    if (NewTransitionButtonSingleton().isHovering) {
+    if (NewTransitionButtonProvider().isHovering) {
       return;
     }
     setState(() {
-      NewTransitionButtonSingleton().position = null;
+      NewTransitionButtonProvider().position = null;
       _floatingButtonPosition = null;
+      _isHovering = false;
     });
   }
 }

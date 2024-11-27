@@ -1,10 +1,10 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:flutter/material.dart';
 
-class BodySingleton with ChangeNotifier {
-  static final BodySingleton _instance = BodySingleton._internal(); //Singleton
-  BodySingleton._internal();
-  factory BodySingleton() {
+class BodyProvider with ChangeNotifier {
+  static final BodyProvider _instance = BodyProvider._internal(); //Singleton
+  BodyProvider._internal();
+  factory BodyProvider() {
     return _instance;
   }
 

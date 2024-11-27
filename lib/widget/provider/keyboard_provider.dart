@@ -6,14 +6,14 @@ import 'package:fa_simulator/widget/keyboard/key_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class KeyboardSingleton with ChangeNotifier {
+class KeyboardProvider with ChangeNotifier {
   //TODO handle macos and window cmd and ctrl keys
   //Singleton
-  static final KeyboardSingleton _instance = KeyboardSingleton._internal();
-  KeyboardSingleton._internal() {
+  static final KeyboardProvider _instance = KeyboardProvider._internal();
+  KeyboardProvider._internal() {
     _focusNode = FocusNode();
   }
-  factory KeyboardSingleton() {
+  factory KeyboardProvider() {
     return _instance;
   }
 

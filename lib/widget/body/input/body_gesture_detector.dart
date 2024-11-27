@@ -5,10 +5,10 @@ import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class BodyGestureDetector extends StatelessWidget {
@@ -19,12 +19,12 @@ class BodyGestureDetector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: BodySingleton().gestureDetectorKey,
+      key: BodyProvider().gestureDetectorKey,
       // Unfocus the states on tap
       onTap: () {
         FocusScope.of(context).unfocus();
         AppActionDispatcher().execute(UnfocusAction());
-        KeyboardSingleton().focusNode.requestFocus();
+        KeyboardProvider().focusNode.requestFocus();
       },
       // Add new state on double tap
       // Todo replace with drag the new state from menu
@@ -108,7 +108,7 @@ class SelectionAreaProvider with ChangeNotifier {
         .toList();
 
     // Request focus for the selected states
-    if (KeyboardSingleton().modifierKeys.contains(multipleSelectKey)) {
+    if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
       AppActionDispatcher().execute(AddFocusAction(selectedStates));
       return;
     }

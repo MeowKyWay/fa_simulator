@@ -1,8 +1,8 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/move_states_action.dart';
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/draggable/diagram/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/feedback_position_provider.dart';
 import 'package:flutter/material.dart';
 
 class DiagramDraggable extends StatefulWidget {
@@ -35,9 +35,9 @@ class _DiagramDraggableState extends State<DiagramDraggable> {
       onPanUpdate: (details) {
         if (firstMoveFlag) {
           FeedbackPositionProvider().size =
-              BodySingleton().getDraggableOverlaySize();
+              BodyProvider().getDraggableOverlaySize();
           FeedbackPositionProvider().startPosition =
-              BodySingleton().getDraggableOverlayPosition();
+              BodyProvider().getDraggableOverlayPosition();
         }
         Offset delta = details.localPosition - startPosition;
         FeedbackPositionProvider().updatePosition(delta);

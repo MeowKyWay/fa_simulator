@@ -1,12 +1,13 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/body/body_singleton.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/draggable/diagram/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
-import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_feedback_position_provider.dart';
-import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/pallete_feedback_provider.dart';
+import 'package:fa_simulator/widget/provider/new_transition_button_provider.dart';
+import 'package:fa_simulator/widget/provider/new_transition_feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
+import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,10 +23,11 @@ class Main extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => DiagramList()),
         ChangeNotifierProvider(create: (context) => SelectionAreaProvider()),
-        ChangeNotifierProvider(create: (context) => BodySingleton()),
-        ChangeNotifierProvider(create: (context) => KeyboardSingleton()),
+        ChangeNotifierProvider(create: (context) => BodyProvider()),
+        ChangeNotifierProvider(create: (context) => KeyboardProvider()),
         ChangeNotifierProvider(create: (context) => FeedbackPositionProvider()),
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
+        ChangeNotifierProvider(create: (context) => NewTransitionButtonProvider()),
         ChangeNotifierProvider(create: (context) => NewTransitionFeedbackPositionProvider()),
       ],
       child: MaterialApp(

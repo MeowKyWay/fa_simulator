@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/sidebar/pallete/pallete_feedback_provider.dart';
+import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

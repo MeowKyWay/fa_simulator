@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/new_transition_feedback_position_provider.dart';
 import 'package:fa_simulator/widget/painter/transition_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

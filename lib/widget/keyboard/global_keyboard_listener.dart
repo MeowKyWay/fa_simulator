@@ -1,5 +1,5 @@
 
-import 'package:fa_simulator/widget/keyboard/keyboard_singleton.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,35 +20,35 @@ class _GlobalKeyboardListenerState extends State<GlobalKeyboardListener> {
   @override
   void initState() {
     super.initState();
-    KeyboardSingleton().focusNode.requestFocus();
+    KeyboardProvider().focusNode.requestFocus();
   }
 
   @override
   void dispose() {
     super.dispose();
-    KeyboardSingleton().dispose();
+    KeyboardProvider().dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Listener(
       onPointerDown: (event) {
-        KeyboardSingleton().focusNode.requestFocus();
+        KeyboardProvider().focusNode.requestFocus();
       },
       child: KeyboardListener(
-        focusNode: KeyboardSingleton().focusNode,
+        focusNode: KeyboardProvider().focusNode,
         onKeyEvent: (KeyEvent event) {
           if (event is KeyDownEvent || event is KeyRepeatEvent) {
             // Add key to pressed keys
-            KeyboardSingleton().addKey(event.logicalKey);
+            KeyboardProvider().addKey(event.logicalKey);
             if (event.character != null) {
               if (event.character!.trim().isNotEmpty) {
-                KeyboardSingleton().character = event.character;
+                KeyboardProvider().character = event.character;
               }
             }
           } else if (event is KeyUpEvent) {
             // Remove key from pressed keys
-            KeyboardSingleton().removeKey(event.logicalKey);
+            KeyboardProvider().removeKey(event.logicalKey);
           }
         },
         child: widget.child,
