@@ -5,6 +5,8 @@ import 'package:fa_simulator/widget/clip/ring_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
+import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_button.dart';
+import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_button_singleton.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,8 +27,9 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
   final double _ringWidth = stateFocusOverlayRingWidth;
   late double _innerRadius;
   late double _outerRadius;
+  late Offset _localCenter;
 
-  bool isHovered = false;
+  Offset? _floatingButtonPosition = null;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,9 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     _innerRadius = stateSize / 2 - _ringWidth;
     _outerRadius = stateSize / 2 + _ringWidth;
 
+    _localCenter =
+        Offset(stateSize / 2 + _ringWidth, stateSize / 2 + _ringWidth);
+
     return ClipPath(
       clipper: RingClipper(
         innerRadius: _innerRadius,
@@ -51,36 +57,20 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
           NewTransitionDraggable(
             data: widget.state,
             child: MouseRegion(
+              onHover: _onHover,
               onExit: _onExit,
               onEnter: _onEnter,
-              child: Container(
+              child: SizedBox(
                 width: stateSize + (_ringWidth * 2),
                 height: stateSize + (_ringWidth * 2),
-                color: isHovered //If hovered set the color to green
-                    ? Colors.green.withOpacity(0.75)
-                    : Colors.transparent,
               ),
             ),
           ),
+          if (_floatingButtonPosition != null)
+            NewTransitionButton(position: _floatingButtonPosition!),
         ],
       ),
     );
-  }
-
-  void _onEnter(PointerEnterEvent event) {
-    setState(() {
-      isHovered = true;
-    });
-  }
-
-  void _onExit(PointerExitEvent event) {
-    if (!DiagramList().hoveringStateFlag) {
-      DiagramList().hoveringStateFlag = false;
-      DiagramList().hoveringStateId = "";
-    }
-    setState(() {
-      isHovered = false;
-    });
   }
 
   Offset calculateNewPoint(Offset startPoint, double distance, double angle) {
@@ -91,5 +81,32 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     double y = startPoint.dy + distance * sin(angle);
 
     return Offset(x, y);
+  }
+
+  void _onHover(PointerHoverEvent event) {
+    double angle = (event.localPosition - _localCenter).direction;
+    Offset newPoint = calculateNewPoint(_localCenter, stateSize / 2, angle);
+    setState(() {
+      NewTransitionButtonSingleton().position = newPoint;
+      _floatingButtonPosition = newPoint;
+    });
+  }
+
+  void _onEnter(PointerEnterEvent event) {
+    DiagramList().hoveringStateFlag = false;
+  }
+
+  void _onExit(PointerExitEvent event) {
+    if (!DiagramList().hoveringStateFlag) {
+      DiagramList().hoveringStateFlag = false;
+      DiagramList().hoveringStateId = "";
+    }
+    if (NewTransitionButtonSingleton().isHovering) {
+      return;
+    }
+    setState(() {
+      NewTransitionButtonSingleton().position = null;
+      _floatingButtonPosition = null;
+    });
   }
 }
