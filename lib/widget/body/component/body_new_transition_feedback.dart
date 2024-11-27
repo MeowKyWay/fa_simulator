@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_feedback_position_provider.dart';
 import 'package:fa_simulator/widget/painter/transition_painter.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,6 @@ class BodyNewTransitionFeedback extends StatelessWidget {
       if (position.startPosition == null || position.endPosition == null) {
         return Container();
       }
-      log(position.startPosition.toString() + " " + position.endPosition.toString());
       return Positioned.fill(
         child: CustomPaint(
           painter: TransitionPainter(

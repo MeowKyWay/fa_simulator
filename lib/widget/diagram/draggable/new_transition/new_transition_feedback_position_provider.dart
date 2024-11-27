@@ -11,9 +11,11 @@ class NewTransitionFeedbackPositionProvider with ChangeNotifier {
 
   Offset? _startPosition;
   Offset? _endPosition;
+  Offset? _targetStateposition;
 
   Offset? get startPosition => _startPosition;
-  Offset? get endPosition => _endPosition;
+  Offset? get endPosition => _targetStateposition ?? _endPosition;
+  Offset? get targetStateposition => _targetStateposition;
 
   set startPosition(Offset? position) {
     _startPosition = position;
@@ -25,9 +27,15 @@ class NewTransitionFeedbackPositionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set targetStateposition(Offset? position) {
+    _targetStateposition = position;
+    notifyListeners();
+  }
+
   void resetPosition() {
     _startPosition = null;
     _endPosition = null;
+    _targetStateposition = null;
     notifyListeners();
   }
 }

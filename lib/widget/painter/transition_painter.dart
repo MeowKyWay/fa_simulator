@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class TransitionPainter extends CustomPainter {
@@ -16,30 +15,37 @@ class TransitionPainter extends CustomPainter {
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
-    // Draw the line
-    canvas.drawLine(start, end, paint);
+    // Calculate the direction vector (normalized)
+    final direction = (end - start).normalize();
 
-    // Calculate the arrowhead points
+    // Adjust the end position to offset the arrowhead by 50 pixels
+    const double arrowOffset = 50.0;
+    final adjustedEnd = end - direction * arrowOffset;
+
+    // Draw the line up to the adjusted end
+    canvas.drawLine(start, adjustedEnd, paint);
+
+    // Paint object for the arrowhead
     final arrowPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
 
-    const arrowSize = 10;
-    final angle = atan2(end.dy - start.dy, end.dx - start.dx);
+    const arrowSize = 10.0;
+    final angle = atan2(direction.dy, direction.dx);
 
     // Points for the arrowhead
     final arrowPoint1 = Offset(
-      end.dx - arrowSize * cos(angle - pi / 6),
-      end.dy - arrowSize * sin(angle - pi / 6),
+      adjustedEnd.dx - arrowSize * cos(angle - pi / 6),
+      adjustedEnd.dy - arrowSize * sin(angle - pi / 6),
     );
     final arrowPoint2 = Offset(
-      end.dx - arrowSize * cos(angle + pi / 6),
-      end.dy - arrowSize * sin(angle + pi / 6),
+      adjustedEnd.dx - arrowSize * cos(angle + pi / 6),
+      adjustedEnd.dy - arrowSize * sin(angle + pi / 6),
     );
 
     // Draw the arrowhead as a filled triangle
     final path = Path()
-      ..moveTo(end.dx, end.dy)
+      ..moveTo(adjustedEnd.dx, adjustedEnd.dy)
       ..lineTo(arrowPoint1.dx, arrowPoint1.dy)
       ..lineTo(arrowPoint2.dx, arrowPoint2.dy)
       ..close();
@@ -48,9 +54,16 @@ class TransitionPainter extends CustomPainter {
   }
 
   @override
-  @override
   bool shouldRepaint(covariant TransitionPainter oldDelegate) {
     // Repaint if start or end positions change
     return start != oldDelegate.start || end != oldDelegate.end;
+  }
+}
+
+extension OffsetExtension on Offset {
+  /// Normalize the vector (make its magnitude 1)
+  Offset normalize() {
+    final length = this.distance;
+    return length == 0 ? this : this / length;
   }
 }
