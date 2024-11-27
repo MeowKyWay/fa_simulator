@@ -1,5 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/body/component/body_new_transition_button.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_new_transition_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_palette_feedback.dart';
@@ -58,6 +59,8 @@ class _BodyState extends State<Body> {
               const BodyNewTransitionFeedback(),
               // Draw all of the states
               const BodyStates(),
+              // Draw the new transition button
+              const BodyNewTransitionButton(),
               // Feedback when drag
               const BodyFeedback(),
               // Feedback when dragging from the pallete

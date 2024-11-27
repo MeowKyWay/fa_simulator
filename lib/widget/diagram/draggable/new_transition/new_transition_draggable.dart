@@ -1,8 +1,7 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/provider/new_transition_button_provider.dart';
-import 'package:fa_simulator/widget/provider/new_transition_feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 
 class NewTransitionDraggable extends StatefulWidget {
@@ -32,19 +31,15 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
     return Draggable(
       data: widget.data,
       onDragStarted: () {
-        NewTransitionFeedbackPositionProvider().startPosition = widget
-                .data.position +
-            NewTransitionButtonProvider().position! -
-            const Offset(stateSize, stateSize) / 2 -
-            const Offset(stateFocusOverlayButtonSize, stateFocusOverlayButtonSize) / 2;
+        NewTransitionProvider().startPosition = NewTransitionProvider().position;
       },
       onDragUpdate: (DragUpdateDetails details) {
-        NewTransitionFeedbackPositionProvider().endPosition =
+        NewTransitionProvider().endPosition =
             BodyProvider().getBodyLocalPosition(details.globalPosition);
       },
       onDragEnd: (DraggableDetails details) {
-        NewTransitionFeedbackPositionProvider().startPosition = null;
-        NewTransitionFeedbackPositionProvider().endPosition = null;
+        NewTransitionProvider().startPosition = null;
+        NewTransitionProvider().endPosition = null;
       },
       hitTestBehavior: HitTestBehavior.translucent,
       feedback: IgnorePointer(child: Container()),

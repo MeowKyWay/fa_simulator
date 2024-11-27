@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/provider/new_transition_feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/painter/transition_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,7 @@ class BodyNewTransitionFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewTransitionFeedbackPositionProvider>(
+    return Consumer<NewTransitionProvider>(
         builder: (context, position, child) {
       if (position.startPosition == null || position.endPosition == null) {
         return Container();
