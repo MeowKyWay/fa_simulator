@@ -9,9 +9,11 @@ import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.
 import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay_drag_target.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class StateHoverOverlay extends StatefulWidget {
   final StateType state;
@@ -32,8 +34,13 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
   final GlobalKey _key = GlobalKey();
 
+  bool _isHovered = false;
+  bool _shouldShowHoverRing = false;
+
   @override
   Widget build(BuildContext context) {
+    NewTransitionProvider provider = NewTransitionProvider();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (DiagramList().hoveringStateFlag) {
         DiagramList().hoveringStateFlag = false;
@@ -44,33 +51,48 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     _innerRadius = stateSize / 2 - _ringWidth;
     _outerRadius = stateSize / 2 + _ringWidth;
 
-    return ClipPath(
-      key: _key,
-      clipper: RingClipper(
-        innerRadius: _innerRadius,
-        outerRadius: _outerRadius,
-      ),
-      child: StateHoverOverlayDragTarget(
-        state: widget.state,
-        child: Stack(
-          children: [
-            const DiagramDraggable(),
-            NewTransitionDraggable(
-              state: widget.state,
-              child: MouseRegion(
-                onHover: _onHover,
-                onExit: _onExit,
-                onEnter: _onEnter,
-                child: SizedBox(
-                  width: stateSize + (_ringWidth * 2),
-                  height: stateSize + (_ringWidth * 2),
+    return Consumer<KeyboardProvider>(
+        builder: (context, keyboardProvider, child) {
+      if (keyboardProvider.isShiftPressed) {
+        _shouldShowHoverRing = provider.destinationState == widget.state &&
+            provider.destinationStateCentered;
+      } else {
+        _shouldShowHoverRing =
+            provider.destinationState == widget.state
+                ? provider.destinationStateCentered
+                : _isHovered;
+      }
+      return ClipPath(
+        key: _key,
+        clipper: RingClipper(
+          innerRadius: _innerRadius,
+          outerRadius: _outerRadius,
+        ),
+        child: StateHoverOverlayDragTarget(
+          state: widget.state,
+          child: Stack(
+            children: [
+              const DiagramDraggable(),
+              NewTransitionDraggable(
+                state: widget.state,
+                child: MouseRegion(
+                  onHover: _onHover,
+                  onExit: _onExit,
+                  onEnter: _onEnter,
+                  child: Container(
+                    width: stateSize + (_ringWidth * 2),
+                    height: stateSize + (_ringWidth * 2),
+                    color: _shouldShowHoverRing
+                        ? Colors.green.withOpacity(0.75)
+                        : Colors.transparent,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Offset calculateNewPoint(Offset startPoint, double distance, double angle) {
@@ -94,6 +116,9 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
   }
 
   void _onEnter(PointerEnterEvent? event) {
+    setState(() {
+      _isHovered = true;
+    });
     DiagramList().hoveringStateFlag = false;
     if (!NewTransitionProvider().isDraggingNewTransition) {
       return;
@@ -109,6 +134,9 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
   }
 
   void _onExit(PointerExitEvent? event) {
+    setState(() {
+      _isHovered = false;
+    });
     if (!DiagramList().hoveringStateFlag) {
       DiagramList().hoveringStateFlag = false;
       DiagramList().hoveringStateId = "";

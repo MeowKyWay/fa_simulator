@@ -1,3 +1,4 @@
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/painter/transition_painter.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class BodyNewTransitionFeedback extends StatelessWidget {
           painter: TransitionPainter(
             start: provider.sourcePosition!,
             end: provider.destinationPosition ?? provider.draggingPosition!,
+            sourceOffset: provider.sourceStateCentered? stateSize / 2 : 0,
+            destinationOffset: provider.destinationStateCentered? stateSize / 2 : 0,
           ),
           child: Container(),
         ),

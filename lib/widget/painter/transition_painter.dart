@@ -4,8 +4,15 @@ import 'package:flutter/material.dart';
 class TransitionPainter extends CustomPainter {
   final Offset start;
   final Offset end;
+  final double sourceOffset;
+  final double destinationOffset;
 
-  TransitionPainter({required this.start, required this.end});
+  TransitionPainter({
+    required this.start,
+    required this.end,
+    this.sourceOffset = 0,
+    this.destinationOffset = 0,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -18,12 +25,12 @@ class TransitionPainter extends CustomPainter {
     // Calculate the direction vector (normalized)
     final direction = (end - start).normalize();
 
-    // Adjust the end position to offset the arrowhead by 50 pixels
-    const double arrowOffset = 0;
-    final adjustedEnd = end - direction * arrowOffset;
+    // Adjust the start and end positions using the offsets
+    final adjustedStart = start + direction * sourceOffset;
+    final adjustedEnd = end - direction * destinationOffset;
 
-    // Draw the line up to the adjusted end
-    canvas.drawLine(start, adjustedEnd, paint);
+    // Draw the line between the adjusted points
+    canvas.drawLine(adjustedStart, adjustedEnd, paint);
 
     // Paint object for the arrowhead
     final arrowPaint = Paint()
@@ -55,8 +62,11 @@ class TransitionPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant TransitionPainter oldDelegate) {
-    // Repaint if start or end positions change
-    return start != oldDelegate.start || end != oldDelegate.end;
+    // Repaint if start or end positions, or offsets, change
+    return start != oldDelegate.start ||
+        end != oldDelegate.end ||
+        sourceOffset != oldDelegate.sourceOffset ||
+        destinationOffset != oldDelegate.destinationOffset;
   }
 }
 

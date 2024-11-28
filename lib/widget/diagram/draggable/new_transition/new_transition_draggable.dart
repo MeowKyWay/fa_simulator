@@ -1,5 +1,6 @@
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/utility/offsetUtil.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,9 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
         NewTransitionProvider().sourceStateAngle =
             NewTransitionProvider().hoveringStateAngle;
         NewTransitionProvider().isDraggingNewTransition = true;
+        if (!KeyboardProvider().isShiftPressed) {
+          NewTransitionProvider().sourceStateCentered = true;
+        }
       },
       onDragUpdate: (DragUpdateDetails details) {
         NewTransitionProvider().draggingPosition =

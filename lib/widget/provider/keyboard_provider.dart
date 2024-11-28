@@ -1,5 +1,3 @@
-
-
 import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/key_distributor.dart';
 import 'package:fa_simulator/widget/keyboard/key_type.dart';
@@ -27,33 +25,43 @@ class KeyboardProvider with ChangeNotifier {
   }
 
   //Keyboard listeners
-  LogicalKeyboardKey? pressedKey;
+  LogicalKeyboardKey? _pressedKey;
   String? _character;
-  final Set<LogicalKeyboardKey> modifierKeys = {};
+  final Set<LogicalKeyboardKey> _modifierKeys = {};
+  
+  String? get character => _character;
+  Set<LogicalKeyboardKey> get modifierKeys => _modifierKeys;
 
   void addKey(LogicalKeyboardKey key) {
     if (isModifierKey(key)) {
-      if (modifierKeys.contains(key)) return;
-      modifierKeys.add(key);
+      if (_modifierKeys.contains(key)) return;
+      _modifierKeys.add(key);
+      notifyListeners();
       return;
     }
-    pressedKey = key;
+    _pressedKey = key;
     handleKey(key);
+    notifyListeners();
   }
 
   void removeKey(LogicalKeyboardKey key) {
     if (isModifierKey(key)) {
       modifierKeys.remove(key);
+      notifyListeners();
       return;
     }
-    pressedKey = null;
+    _pressedKey = null;
+    notifyListeners();
   }
-
-  String? get character => _character;
 
   set character(String? value) {
     _character = value;
     if (modifierKeys.isNotEmpty) return;
     handleChar(value);
+    notifyListeners();
   }
+
+  bool get isShiftPressed =>
+      modifierKeys.contains(LogicalKeyboardKey.shiftLeft) ||
+      modifierKeys.contains(LogicalKeyboardKey.shiftRight);
 }
