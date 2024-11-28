@@ -3,6 +3,14 @@ import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 
+class NewTransitionType {
+  final StateType from;
+
+  const NewTransitionType({
+    required this.from,
+  });
+}
+
 class NewTransitionDraggable extends StatefulWidget {
   final Widget child;
   final StateType data;
@@ -27,8 +35,12 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
 
   @override
   Widget build(BuildContext context) {
+    NewTransitionType newTransition = NewTransitionType(
+      from: widget.data,
+    );
+
     return Draggable(
-      data: widget.data,
+      data: newTransition,
       onDragStarted: () {
         NewTransitionProvider().startPosition =
             NewTransitionProvider().position;

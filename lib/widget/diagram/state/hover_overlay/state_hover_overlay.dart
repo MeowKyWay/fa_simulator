@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'dart:developer' as developer;
 
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
@@ -31,7 +31,6 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
   final GlobalKey _key = GlobalKey();
 
-
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -53,13 +52,18 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
       child: DragTarget(
           onWillAcceptWithDetails: (DragTargetDetails details) {
             _onEnter(null);
-            if (details.data is StateType) {
-              if ((details.data as StateType).id == widget.state.id) {
+            
+            if (details.data is NewTransitionType) {
+              if ((details.data as NewTransitionType).from.id == widget.state.id) {
                 return false;
               }
               return true;
             }
             return false;
+          },
+          onAcceptWithDetails: (details) {
+            StateType state = (details.data as NewTransitionType).from;
+            developer.log(state.id);
           },
           onLeave: (details) {
             _onExit(null);

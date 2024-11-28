@@ -8,6 +8,7 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
@@ -49,8 +50,8 @@ class _DiagramStateState extends State<DiagramState> {
           ClipOval(
             child: DragTarget(
                 onWillAcceptWithDetails: (details) {
-                  if (details.data is StateType) {
-                    if ((details.data as StateType).id == widget.state.id) {
+                  if (details.data is NewTransitionType) {
+                    if ((details.data as NewTransitionType).from.id == widget.state.id) {
                       return false;
                     }
                     NewTransitionProvider().targetState = widget.state;
@@ -61,7 +62,7 @@ class _DiagramStateState extends State<DiagramState> {
                 },
                 onAcceptWithDetails: (details) {
                   NewTransitionProvider().resetPosition();
-                  StateType state = details.data as StateType;
+                  StateType state = (details.data as NewTransitionType).from;
                   log('State ${state.id} accepted by ${widget.state.id}');
                 },
                 onLeave: (details) {
