@@ -6,6 +6,7 @@ import 'package:fa_simulator/widget/clip/ring_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
+import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay_drag_target.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
@@ -49,43 +50,26 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
         innerRadius: _innerRadius,
         outerRadius: _outerRadius,
       ),
-      child: DragTarget(
-          onWillAcceptWithDetails: (DragTargetDetails details) {
-            if (details.data is NewTransitionType) {
-              if ((details.data as NewTransitionType).from.id ==
-                  widget.state.id) {
-                return false;
-              }
-              return true;
-            }
-            return false;
-          },
-          onAcceptWithDetails: (details) {
-            StateType state = (details.data as NewTransitionType).from;
-            developer.log(state.id);
-          },
-          onLeave: (details) {
-          },
-          hitTestBehavior: HitTestBehavior.translucent,
-          builder: (context, candidateData, rejectedData) {
-            return Stack(
-              children: [
-                const DiagramDraggable(),
-                NewTransitionDraggable(
-                  state: widget.state,
-                  child: MouseRegion(
-                    onHover: _onHover,
-                    onExit: _onExit,
-                    onEnter: _onEnter,
-                    child: SizedBox(
-                      width: stateSize + (_ringWidth * 2),
-                      height: stateSize + (_ringWidth * 2),
-                    ),
-                  ),
+      child: StateHoverOverlayDragTarget(
+        state: widget.state,
+        child: Stack(
+          children: [
+            const DiagramDraggable(),
+            NewTransitionDraggable(
+              state: widget.state,
+              child: MouseRegion(
+                onHover: _onHover,
+                onExit: _onExit,
+                onEnter: _onEnter,
+                child: SizedBox(
+                  width: stateSize + (_ringWidth * 2),
+                  height: stateSize + (_ringWidth * 2),
                 ),
-              ],
-            );
-          }),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
