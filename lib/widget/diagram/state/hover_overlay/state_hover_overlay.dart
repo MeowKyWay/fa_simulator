@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'dart:developer' as developer;
 
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
@@ -32,8 +31,6 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
   final GlobalKey _key = GlobalKey();
 
-  Offset? _floatingButtonPosition;
-  bool _isHovering = false;
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +103,12 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     Offset newPoint = calculateNewPoint(widget.state.position, stateSize / 2, angle);
     setState(() {
       NewTransitionProvider().position = newPoint;
-      _floatingButtonPosition = newPoint;
     });
   }
 
   void _onEnter(PointerEnterEvent? event) {
     DiagramList().hoveringStateFlag = false;
     setState(() {
-      _isHovering = true;
       NewTransitionProvider().targetState = widget.state;
     });
   }
@@ -128,8 +123,6 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     }
     setState(() {
       NewTransitionProvider().position = null;
-      _floatingButtonPosition = null;
-      _isHovering = false;
       NewTransitionProvider().targetState = null;
     });
   }

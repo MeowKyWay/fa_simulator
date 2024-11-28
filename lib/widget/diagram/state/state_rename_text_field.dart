@@ -3,6 +3,7 @@ import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class StateRenameTextField extends StatelessWidget {
+  //TODO Bug when renaming into 1 character long name
   final FocusNode focusNode;
   final String stateName;
   final Function(String) onChanged;

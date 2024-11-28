@@ -1,5 +1,4 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +13,7 @@ class BodyStateHoverOverlay extends StatelessWidget {
       if (DiagramList().hoveringStateId == "") {
         return Container();
       }
-      return Stack(
+      return const Stack(
         children: [
           // StateHoverOverlay(
           //   state: diagramList.state(DiagramList().hoveringStateId),

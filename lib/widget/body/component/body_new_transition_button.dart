@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_button.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';

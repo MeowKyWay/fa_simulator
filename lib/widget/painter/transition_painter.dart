@@ -63,7 +63,7 @@ class TransitionPainter extends CustomPainter {
 extension OffsetExtension on Offset {
   /// Normalize the vector (make its magnitude 1)
   Offset normalize() {
-    final length = this.distance;
+    final length = distance;
     return length == 0 ? this : this / length;
   }
 }

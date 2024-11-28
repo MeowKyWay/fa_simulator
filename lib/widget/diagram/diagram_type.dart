@@ -32,6 +32,11 @@ class StateType extends DiagramType {
 class TransitionType extends DiagramType {
   final StateType from;
   final StateType to;
+  final bool centeredFrom;
+  final bool centeredTo;
+
+  final double? angleFrom;
+  final double? angleTo;
 
   TransitionType({
     required super.id,
@@ -39,5 +44,9 @@ class TransitionType extends DiagramType {
     super.hasFocus,
     required this.from,
     required this.to,
+    required this.centeredFrom,
+    required this.centeredTo,
+    this.angleFrom,
+    this.angleTo,
   });
 }

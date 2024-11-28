@@ -16,6 +16,7 @@ class NewTransitionProvider with ChangeNotifier {
 
   bool isHovering = false;
   Offset? _position;
+  StateType? _startState;
   StateType? _targetState;
   bool _targetStateFlag = false;
 
@@ -23,8 +24,10 @@ class NewTransitionProvider with ChangeNotifier {
   Offset? get endPosition =>
       (_targetStateFlag) ? _targetState!.position : _endPosition;
   StateType? get targetState => _targetState;
-  Offset? get position => (_targetStateFlag) ? null : _position;
+  Offset? get position =>
+      (_targetStateFlag || _startState == targetState) ? null : _position;
   bool get targetStateFlag => _targetStateFlag;
+  StateType? get startState => _startState;
 
   set targetStateFlag(bool value) {
     _targetStateFlag = value;
@@ -38,7 +41,9 @@ class NewTransitionProvider with ChangeNotifier {
 
   set endPosition(Offset? position) {
     _endPosition = position;
-    if (_endPosition != null && _targetState != null) {
+    if (_endPosition != null &&
+        _targetState != null &&
+        _startState != targetState) {
       _position = calculatePoint(
         _targetState!.position,
         _endPosition!,
@@ -55,11 +60,17 @@ class NewTransitionProvider with ChangeNotifier {
     _targetState = null;
     _position = null;
     _targetStateFlag = false;
+    _startState = null;
     notifyListeners();
   }
 
   set targetState(StateType? value) {
     _targetState = value;
+    notifyListeners();
+  }
+
+  set startState(StateType? value) {
+    _startState = value;
     notifyListeners();
   }
 

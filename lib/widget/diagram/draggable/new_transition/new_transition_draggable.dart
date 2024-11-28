@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
@@ -31,15 +30,16 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
     return Draggable(
       data: widget.data,
       onDragStarted: () {
-        NewTransitionProvider().startPosition = NewTransitionProvider().position;
+        NewTransitionProvider().startPosition =
+            NewTransitionProvider().position;
+        NewTransitionProvider().startState = widget.data;
       },
       onDragUpdate: (DragUpdateDetails details) {
         NewTransitionProvider().endPosition =
             BodyProvider().getBodyLocalPosition(details.globalPosition);
       },
       onDragEnd: (DraggableDetails details) {
-        NewTransitionProvider().startPosition = null;
-        NewTransitionProvider().endPosition = null;
+        NewTransitionProvider().resetPosition();
       },
       hitTestBehavior: HitTestBehavior.translucent,
       feedback: IgnorePointer(child: Container()),
