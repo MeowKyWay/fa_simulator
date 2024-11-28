@@ -10,16 +10,18 @@ class BodyNewTransitionFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewTransitionProvider>(
-        builder: (context, position, child) {
-      if (position.startPosition == null || position.endPosition == null) {
+    return Consumer<NewTransitionProvider>(builder: (context, provider, child) {
+      if (!provider.isDraggingNewTransition) {
         return Container();
+      }
+      if (provider.draggingPosition == null) {
+        throw Exception('isDraggingNewTransition is true but draggingPosition is null');
       }
       return Positioned.fill(
         child: CustomPaint(
           painter: TransitionPainter(
-            start: position.startPosition!,
-            end: position.endPosition!,
+            start: provider.sourcePosition!,
+            end: provider.destinationPosition ?? provider.draggingPosition!,
           ),
           child: Container(),
         ),

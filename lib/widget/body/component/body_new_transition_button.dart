@@ -1,4 +1,3 @@
-
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_button.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,11 @@ class BodyNewTransitionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<NewTransitionProvider>(builder: (context, provider, child) {
       Offset? position;
-      position = provider.position;
+      if (provider.destinationPosition != null &&
+          !provider.destinationStateCentered) {
+        position = provider.destinationPosition;
+      }
+      position = position ?? provider.buttonPosition;
       return position != null
           ? NewTransitionButton(position: position)
           : Container();

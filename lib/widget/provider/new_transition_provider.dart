@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:developer' as developer;
+
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
@@ -11,74 +14,130 @@ class NewTransitionProvider with ChangeNotifier {
     return _instance;
   }
 
-  Offset? _startPosition;
-  Offset? _endPosition;
+  StateType? _sourceState;
+  StateType? _destinationState;
 
-  bool isHovering = false;
-  Offset? _position;
-  StateType? _startState;
-  StateType? _targetState;
-  bool _targetStateFlag = false;
+  bool destinationStateFlag = false;
 
-  Offset? get startPosition => _startPosition;
-  Offset? get endPosition =>
-      (_targetStateFlag) ? _targetState!.position : _endPosition;
-  StateType? get targetState => _targetState;
-  Offset? get position =>
-      (_targetStateFlag || _startState == targetState) ? null : _position;
-  bool get targetStateFlag => _targetStateFlag;
-  StateType? get startState => _startState;
+  bool? _sourceStateCentered;
+  bool? _destinationStateCentered;
 
-  set targetStateFlag(bool value) {
-    _targetStateFlag = value;
+  double? _sourceStateAngle;
+  double? _destinationStateAngle;
+
+  StateType? _hoveringState;
+  double? _hoveringStateAngle;
+
+  bool isDraggingNewTransition = false;
+
+  Offset? _draggingPosition;
+
+  //setter
+  set sourceState(StateType? state) {
+    _sourceState = state;
+    notifyListeners();
+  }
+  set destinationState(StateType? state) {
+    _destinationState = state;
+    notifyListeners();
+  }
+  set sourceStateCentered(bool? centered) {
+    _sourceStateCentered = centered;
+    notifyListeners();
+  }
+  set destinationStateCentered(bool? centered) {
+    _destinationStateCentered = centered;
+    notifyListeners();
+  }
+  set sourceStateAngle(double? angle) {
+    _sourceStateAngle = angle;
+    notifyListeners();
+  }
+  set destinationStateAngle(double? angle) {
+    _destinationStateAngle = angle;
+    notifyListeners();
+  }
+  set hoveringState(StateType? state) {
+    _hoveringState = state;
+    notifyListeners();
+  }
+  set hoveringStateAngle(double? angle) {
+    _hoveringStateAngle = angle;
+    notifyListeners();
+  }
+  set draggingPosition(Offset? position) {
+    _draggingPosition = position;
     notifyListeners();
   }
 
-  set startPosition(Offset? position) {
-    _startPosition = position;
+  void reset() {
+    _sourceState = null;
+    _destinationState = null;
+    _sourceStateCentered = null;
+    _destinationStateCentered = null;
+    _sourceStateAngle = null;
+    _destinationStateAngle = null;
+    _hoveringState = null;
+    _hoveringStateAngle = null;
+    _draggingPosition = null;
+    isDraggingNewTransition = false;
     notifyListeners();
   }
 
-  set endPosition(Offset? position) {
-    _endPosition = position;
-    if (_endPosition != null &&
-        _targetState != null &&
-        _startState != targetState) {
-      _position = calculatePoint(
-        _targetState!.position,
-        _endPosition!,
-        stateSize / 2,
-      );
-      _endPosition = _position;
+  //getter
+  StateType? get sourceState => _sourceState;
+  StateType? get destinationState => _destinationState;
+  bool get sourceStateCentered => _sourceStateCentered ?? false;
+  bool get destinationStateCentered => _destinationStateCentered ?? false;
+  double get sourceStateAngle => _sourceStateAngle ?? 0;
+  double get destinationStateAngle => _destinationStateAngle ?? 0;
+  StateType? get hoveringState => _hoveringState;
+  double get hoveringStateAngle => _hoveringStateAngle ?? 0;
+  Offset? get draggingPosition => _draggingPosition;
+
+  Offset? get buttonPosition {
+    if (_hoveringState == null || _hoveringStateAngle == null) {
+      return null;
     }
-    notifyListeners();
+    return offsetByAngleAndDistance(_hoveringState!.position, _hoveringStateAngle!, stateSize / 2);
   }
 
-  void resetPosition() {
-    _startPosition = null;
-    _endPosition = null;
-    _targetState = null;
-    _position = null;
-    _targetStateFlag = false;
-    _startState = null;
-    notifyListeners();
+  Offset? get sourcePosition {
+    if (_sourceState == null) {
+      return null;
+    }
+    if (_sourceStateCentered == true) {
+      return _sourceState!.position;
+    }
+    if (_sourceStateAngle == null) {
+      throw Exception('Source state angle is null');
+    }
+    return offsetByAngleAndDistance(_sourceState!.position, _sourceStateAngle!, stateSize / 2);
   }
 
-  set targetState(StateType? value) {
-    _targetState = value;
-    notifyListeners();
+  Offset? get destinationPosition {
+    if (_destinationState == null) {
+      return null;
+    }
+    if (_destinationStateCentered == true) {
+      return _destinationState!.position;
+    }
+    if (_destinationStateAngle == null) {
+      throw Exception('Destination state angle is null');
+    }
+    return offsetByAngleAndDistance(_destinationState!.position, _destinationStateAngle!, stateSize / 2);
   }
 
-  set startState(StateType? value) {
-    _startState = value;
-    notifyListeners();
-  }
+  Offset offsetByAngleAndDistance(
+      Offset startPoint, double angle, double distance) {
 
-  set position(Offset? value) {
-    _position = value;
-    notifyListeners();
-  }
+    // Calculate the new x and y coordinates
+    final double x = startPoint.dx + distance * cos(angle);
+    final double y = startPoint.dy + distance * sin(angle);
 
+    return Offset(x, y);
+  }
+  
   Offset calculatePoint(Offset a, Offset b, double distanceFromA) {
     // Calculate the direction vector
     final direction = b - a;

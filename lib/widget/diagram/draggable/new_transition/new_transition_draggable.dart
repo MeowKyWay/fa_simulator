@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
+import 'package:fa_simulator/widget/utility/offsetUtil.dart';
 import 'package:flutter/material.dart';
 
 class NewTransitionType {
@@ -13,12 +16,12 @@ class NewTransitionType {
 
 class NewTransitionDraggable extends StatefulWidget {
   final Widget child;
-  final StateType data;
+  final StateType state;
 
   const NewTransitionDraggable({
     super.key,
     required this.child,
-    required this.data,
+    required this.state,
   });
 
   @override
@@ -36,22 +39,32 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
   @override
   Widget build(BuildContext context) {
     NewTransitionType newTransition = NewTransitionType(
-      from: widget.data,
+      from: widget.state,
     );
 
     return Draggable(
       data: newTransition,
       onDragStarted: () {
-        NewTransitionProvider().startPosition =
-            NewTransitionProvider().position;
-        NewTransitionProvider().startState = widget.data;
+        NewTransitionProvider().sourceState = widget.state;
+        NewTransitionProvider().sourceStateAngle =
+            NewTransitionProvider().hoveringStateAngle;
+        NewTransitionProvider().isDraggingNewTransition = true;
       },
       onDragUpdate: (DragUpdateDetails details) {
-        NewTransitionProvider().endPosition =
+        NewTransitionProvider().draggingPosition =
             BodyProvider().getBodyLocalPosition(details.globalPosition);
+        if (NewTransitionProvider().destinationState != null) {
+          StateType destinationState =
+              NewTransitionProvider().destinationState!;
+          Offset draggingPosition = NewTransitionProvider().draggingPosition!;
+          NewTransitionProvider().destinationStateAngle = calculateAngle(
+            destinationState.position,
+            draggingPosition,
+          );
+        }
       },
       onDragEnd: (DraggableDetails details) {
-        NewTransitionProvider().resetPosition();
+        NewTransitionProvider().reset();
       },
       hitTestBehavior: HitTestBehavior.translucent,
       feedback: IgnorePointer(child: Container()),

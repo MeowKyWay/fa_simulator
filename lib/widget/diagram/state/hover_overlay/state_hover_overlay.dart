@@ -51,10 +51,9 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
       ),
       child: DragTarget(
           onWillAcceptWithDetails: (DragTargetDetails details) {
-            _onEnter(null);
-            
             if (details.data is NewTransitionType) {
-              if ((details.data as NewTransitionType).from.id == widget.state.id) {
+              if ((details.data as NewTransitionType).from.id ==
+                  widget.state.id) {
                 return false;
               }
               return true;
@@ -66,7 +65,6 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
             developer.log(state.id);
           },
           onLeave: (details) {
-            _onExit(null);
           },
           hitTestBehavior: HitTestBehavior.translucent,
           builder: (context, candidateData, rejectedData) {
@@ -74,7 +72,7 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
               children: [
                 const DiagramDraggable(),
                 NewTransitionDraggable(
-                  data: widget.state,
+                  state: widget.state,
                   child: MouseRegion(
                     onHover: _onHover,
                     onExit: _onExit,
@@ -102,18 +100,27 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
   }
 
   void _onHover(PointerHoverEvent event) {
-    Offset bodyLocalPosition = BodyProvider().getBodyLocalPosition(event.position);
+    Offset bodyLocalPosition =
+        BodyProvider().getBodyLocalPosition(event.position);
     double angle = (bodyLocalPosition - widget.state.position).direction;
-    Offset newPoint = calculateNewPoint(widget.state.position, stateSize / 2, angle);
     setState(() {
-      NewTransitionProvider().position = newPoint;
+      NewTransitionProvider().hoveringState = widget.state;
+      NewTransitionProvider().hoveringStateAngle = angle;
     });
   }
 
   void _onEnter(PointerEnterEvent? event) {
     DiagramList().hoveringStateFlag = false;
+    if (!NewTransitionProvider().isDraggingNewTransition) {
+      return;
+    }
+    if (NewTransitionProvider().sourceState == widget.state) {
+      return;
+    }
+    developer.log("Hovering state: ${widget.state.id}");
     setState(() {
-      NewTransitionProvider().targetState = widget.state;
+      NewTransitionProvider().destinationState = widget.state;
+      NewTransitionProvider().destinationStateFlag = true;
     });
   }
 
@@ -122,12 +129,17 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
       DiagramList().hoveringStateFlag = false;
       DiagramList().hoveringStateId = "";
     }
-    if (NewTransitionProvider().isHovering) {
-      return;
-    }
+    // if (NewTransitionProvider().isHovering) {
+    //   return;
+    // }
     setState(() {
-      NewTransitionProvider().position = null;
-      NewTransitionProvider().targetState = null;
+      if (NewTransitionProvider().destinationState == widget.state) {
+        NewTransitionProvider().destinationState = null;
+        NewTransitionProvider().destinationStateFlag = false;
+      }
+      if (NewTransitionProvider().hoveringState == widget.state) {
+        NewTransitionProvider().hoveringState = null;
+      }
     });
   }
 }
