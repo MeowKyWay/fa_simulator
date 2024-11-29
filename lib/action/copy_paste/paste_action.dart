@@ -24,7 +24,7 @@ class PasteAction extends AppAction {
     for (DiagramType item in items) {
       DiagramType? newItem;
       if (item is StateType) {
-        newItem = addState(item.position + margin, item.name);
+        newItem = addState(item.position + margin, item.label);
       } else if (item is TransitionType) {
         //TODO implement
       }
@@ -49,7 +49,7 @@ class PasteAction extends AppAction {
   void redo() {
     for (DiagramType item in _items) {
       if (item is StateType) {
-        addState(item.position, item.name, item.id);
+        addState(item.position, item.label, item.id);
       } else if (item is TransitionType) {
         //TODO implement
       }

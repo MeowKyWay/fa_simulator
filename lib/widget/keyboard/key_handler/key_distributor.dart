@@ -57,5 +57,5 @@ void _handleEnter() {
   if (focusedStates.length != 1) return;
 
   DiagramList()
-      .startRename(focusedStates[0].id, initialName: focusedStates[0].name);
+      .startRename(focusedStates[0].id, initialName: focusedStates[0].label);
 }

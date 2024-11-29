@@ -36,7 +36,7 @@ class DiagramList with ChangeNotifier {
 
   void startRename(String id, {String? initialName}) {
     _renamingItemId = id;
-    _renamingItemInitialName = initialName ?? item(id).name;
+    _renamingItemInitialName = initialName ?? item(id).label;
     notifyListeners();
   }
 

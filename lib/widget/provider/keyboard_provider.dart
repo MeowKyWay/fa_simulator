@@ -31,6 +31,7 @@ class KeyboardProvider with ChangeNotifier {
   
   String? get character => _character;
   Set<LogicalKeyboardKey> get modifierKeys => _modifierKeys;
+  LogicalKeyboardKey? get pressedKey => _pressedKey;
 
   void addKey(LogicalKeyboardKey key) {
     if (isModifierKey(key)) {

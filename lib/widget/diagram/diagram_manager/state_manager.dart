@@ -18,7 +18,7 @@ StateType addState(Offset position, String name, [String? id]) {
   StateType state = StateType(
     position: roundedPosition,
     id: id,
-    name: name,
+    label: name,
   );
   // Add the state to the list
   DiagramList().resetRename();
@@ -71,8 +71,8 @@ String renameState(String id, String newName) {
   } catch (e) {
     throw Exception("State id $id not found");
   }
-  String oldName = state.name;
-  state.name = newName;
+  String oldName = state.label;
+  state.label = newName;
   DiagramList().notify();
   return oldName;
 }

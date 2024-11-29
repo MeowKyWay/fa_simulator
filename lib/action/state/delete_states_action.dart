@@ -23,7 +23,7 @@ class DeleteStatesAction implements AppAction {
   @override
   void undo() {
     for (var i = 0; i < states.length; i++) {
-      addState(states[i].position, states[i].name, states[i].id);
+      addState(states[i].position, states[i].label, states[i].id);
     }
     requestFocus(states.map((e) => e.id).toList());
   }

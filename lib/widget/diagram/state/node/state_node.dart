@@ -37,7 +37,7 @@ class _StateNodeState extends State<StateNode> {
     _listener = () {
       if (!_renameFocusNode.hasFocus) {
         String newName = DiagramList().renamingItemNewName;
-        if (newName != widget.state.name) {
+        if (newName != widget.state.label) {
           AppActionDispatcher()
               .execute(RenameStateAction(widget.state.id, newName));
         } else {
@@ -80,7 +80,7 @@ class _StateNodeState extends State<StateNode> {
                         focusNode: _renameFocusNode,
                         stateName: DiagramList().renamingItemInitialName != ""
                             ? DiagramList().renamingItemInitialName
-                            : widget.state.name,
+                            : widget.state.label,
                         onChanged: (value) {
                           DiagramList().renamingItemNewName = value;
                         },
@@ -88,7 +88,7 @@ class _StateNodeState extends State<StateNode> {
                       ),
                     )
                   : Text(
-                      widget.state.name,
+                      widget.state.label,
                       style: textLarge,
                     ),
             ),

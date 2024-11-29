@@ -2,7 +2,7 @@ import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
-import 'package:fa_simulator/widget/utility/offsetUtil.dart';
+import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
 class NewTransitionType {

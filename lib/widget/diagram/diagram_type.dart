@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class DiagramType {
   final String id;
-  String name;
   bool hasFocus;
+  String label;
 
   DiagramType({
     required this.id,
-    required this.name,
+    required this.label,
     this.hasFocus = false,
   });
 }
@@ -21,7 +21,7 @@ class StateType extends DiagramType {
   StateType({
     required this.position,
     required super.id,
-    required super.name,
+    required super.label,
     super.hasFocus,
     this.isDragging = false,
     this.isRenaming = false,
@@ -30,23 +30,23 @@ class StateType extends DiagramType {
 }
 
 class TransitionType extends DiagramType {
-  final StateType from;
-  final StateType to;
-  final bool centeredFrom;
-  final bool centeredTo;
+  final StateType sourceState;
+  final StateType destinationState;
+  final bool sourceStateCentered;
+  final bool destinationStateCentered;
 
-  final double? angleFrom;
-  final double? angleTo;
+  final double sourceStateAngle;
+  final double destinationStateAngle;
 
   TransitionType({
     required super.id,
-    required super.name,
+    required super.label,
     super.hasFocus,
-    required this.from,
-    required this.to,
-    required this.centeredFrom,
-    required this.centeredTo,
-    this.angleFrom,
-    this.angleTo,
+    required this.sourceState,
+    required this.destinationState,
+    required this.sourceStateCentered,
+    required this.destinationStateCentered,
+    required this.sourceStateAngle,
+    required this.destinationStateAngle,
   });
 }
