@@ -7,8 +7,6 @@ double calculateAngle(Offset startPoint, Offset endPoint) {
 }
 
 Offset calculateNewPoint(Offset startPoint, double distance, double angle) {
-  // Convert the angle to radians
-  angle = angle * (pi / 180);
 
   // Calculate the new x and y coordinates
   double x = startPoint.dx + distance * cos(angle);

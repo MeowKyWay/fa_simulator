@@ -1,3 +1,5 @@
+import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
 class DiagramType {
@@ -49,4 +51,27 @@ class TransitionType extends DiagramType {
     required this.sourceStateAngle,
     required this.destinationStateAngle,
   });
+
+  Offset get startPosition {
+    if (sourceStateCentered) {
+      return sourceState.position;
+    }
+    return calculateNewPoint(
+      sourceState.position,
+      stateSize / 2,
+      sourceStateAngle,
+    );
+  }
+
+  Offset get endPosition {
+    if (destinationStateCentered) {
+      return destinationState.position;
+    }
+    // log('destinationStateAngle: $destinationStateAngle');
+    return calculateNewPoint(
+      destinationState.position,
+      stateSize / 2,
+      destinationStateAngle,
+    );
+  }
 }

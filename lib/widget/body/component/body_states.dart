@@ -12,18 +12,20 @@ class BodyStates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, diagramList, child) {
-      return Stack(children: [
-        ...DiagramList().states.map((state) {
-          return DiagramState(
-            state: state,
-          );
-        }),
-        ...DiagramList().focusedStates.map((state) {
-          return FocusOverlay(
-            position: state.position,
-          );
-        }),
-      ]);
+      return Stack(
+        children: [
+          ...diagramList.states.map((state) {
+            return DiagramState(
+              state: state,
+            );
+          }),
+          ...diagramList.focusedStates.map((state) {
+            return FocusOverlay(
+              position: state.position,
+            );
+          }),
+        ],
+      );
     });
   }
 }

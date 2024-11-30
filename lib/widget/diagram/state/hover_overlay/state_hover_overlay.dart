@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:developer' as developer;
 
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
@@ -126,7 +125,6 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     if (NewTransitionProvider().sourceState == widget.state) {
       return;
     }
-    developer.log("Hovering state: ${widget.state.id}");
     setState(() {
       NewTransitionProvider().destinationState = widget.state;
       NewTransitionProvider().destinationStateFlag = true;

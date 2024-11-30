@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
@@ -28,10 +29,18 @@ class StateHoverOverlayDragTarget extends StatelessWidget {
         return false;
       },
       onAcceptWithDetails: (details) {
-        StateType state = (details.data as NewTransitionType).from;
+        StateType sourceState = (details.data as NewTransitionType).from;
 
-        log('State ${state.id} accepted by ${state.id}');
-        log('source angle: ${NewTransitionProvider().sourceStateAngle} destination angle: ${NewTransitionProvider().destinationStateAngle}');
+        log(NewTransitionProvider().sourceStateCentered.toString());
+        addTransition(
+          sourceState,
+          state,
+          "",
+          NewTransitionProvider().sourceStateCentered,
+          false,
+          NewTransitionProvider().sourceStateAngle,
+          NewTransitionProvider().destinationStateAngle,
+        );
       },
       onLeave: (details) {},
       hitTestBehavior: HitTestBehavior.translucent,
