@@ -29,6 +29,18 @@ class StateType extends DiagramType {
     this.isRenaming = false,
     this.isHovering = false,
   });
+
+  @override
+  String toString() {
+    return {
+      'id': id,
+      'label': label,
+      'position': position,
+      'isDragging': isDragging,
+      'isRenaming': isRenaming,
+      'isHovering': isHovering,
+    }.toString();
+  }
 }
 
 class TransitionType extends DiagramType {
@@ -112,5 +124,21 @@ class TransitionType extends DiagramType {
       stateSize / 2,
       destinationStateAngle!,
     );
+  }
+
+  @override
+  String toString() {
+    return {
+      'id': id,
+      'label': label,
+      'sourceState': sourceState,
+      'destinationState': destinationState,
+      'sourceStateCentered': sourceStateCentered,
+      'destinationStateCentered': destinationStateCentered,
+      'sourceStateAngle': sourceStateAngle,
+      'destinationStateAngle': destinationStateAngle,
+      'sourcePosition': sourcePosition,
+      'destinationPosition': destinationPosition,
+    }.toString();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/body/component/body_new_transition_button.dart';
 import 'package:fa_simulator/widget/body/component/body_transitions.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
@@ -56,6 +57,8 @@ class _BodyState extends State<Body> {
               const BodyDraggingOverlay(),
               // Detect click and handle
               const BodyGestureDetector(),
+              // Drag Target
+              const BodyDragTarget(),
               // Draw all the states
               const BodyStates(),
               //// Draw new transition feedback
