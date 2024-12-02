@@ -18,7 +18,7 @@ class StateHoverOverlayDragTarget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget(
+    return DragTarget<NewTransitionType>(
       onWillAcceptWithDetails: (DragTargetDetails details) {
         if (details.data is NewTransitionType) {
           if ((details.data as NewTransitionType).from.id == state.id) {
@@ -29,17 +29,23 @@ class StateHoverOverlayDragTarget extends StatelessWidget {
         return false;
       },
       onAcceptWithDetails: (details) {
-        StateType sourceState = (details.data as NewTransitionType).from;
+        StateType sourceState = details.data.from;
 
-        log(NewTransitionProvider().sourceStateCentered.toString());
+        log({
+          'sourceState': sourceState,
+          'destinationState': state,
+          'sourceStateCentered': NewTransitionProvider().sourceStateCentered,
+          'sourceStateAngle': NewTransitionProvider().sourceStateAngle,
+          'destinationStateCentered': false,
+          'destinationStateAngle': NewTransitionProvider().destinationStateAngle,
+        }.toString());
         addTransition(
-          sourceState,
-          state,
-          "",
-          NewTransitionProvider().sourceStateCentered,
-          false,
-          NewTransitionProvider().sourceStateAngle,
-          NewTransitionProvider().destinationStateAngle,
+          sourceState: sourceState,
+          destinationState: state,
+          sourceStateCentered: NewTransitionProvider().sourceStateCentered,
+          soruceStateAngle: NewTransitionProvider().sourceStateAngle,
+          destinationStateCentered: false,
+          destinationStateAngle: NewTransitionProvider().destinationStateAngle,
         );
       },
       onLeave: (details) {},

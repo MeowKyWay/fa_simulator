@@ -17,8 +17,10 @@ class DiagramTransition extends StatelessWidget {
       painter: TransitionPainter(
         start: transition.startPosition,
         end: transition.endPosition,
-        sourceOffset: transition.sourceStateCentered ? stateSize / 2 : 0,
-        destinationOffset: transition.destinationStateCentered ? stateSize / 2 : 0,
+        sourceOffset:
+            transition.sourceStateCentered ?? false ? stateSize / 2 : 0,
+        destinationOffset:
+            transition.destinationStateCentered ?? false ? stateSize / 2 : 0,
       ),
     );
   }

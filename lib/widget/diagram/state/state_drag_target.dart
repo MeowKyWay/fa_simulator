@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
@@ -28,7 +26,6 @@ class StateDragTarget extends StatelessWidget {
   }
 
   bool _onWillAcceptWithDetails(DragTargetDetails<NewTransitionType> details) {
-    log("Will accept");
     if (details.data.from.id == state.id) {
       return false;
     }
@@ -40,16 +37,13 @@ class StateDragTarget extends StatelessWidget {
   void _onAcceptWithDetails(DragTargetDetails<NewTransitionType> details) {
     StateType sourceState = details.data.from;
 
-    log(NewTransitionProvider().sourceStateCentered.toString());
-
     addTransition(
-      sourceState,
-      state,
-      "",
-      NewTransitionProvider().sourceStateCentered,
-      true,
-      NewTransitionProvider().sourceStateAngle,
-      NewTransitionProvider().destinationStateAngle,
+      sourceState: sourceState,
+      destinationState: state,
+      sourceStateCentered: NewTransitionProvider().sourceStateCentered,
+      soruceStateAngle: NewTransitionProvider().sourceStateAngle,
+      destinationStateCentered: true,
+      destinationStateAngle: NewTransitionProvider().destinationStateAngle,
     );
   }
 

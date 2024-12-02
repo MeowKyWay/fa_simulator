@@ -32,46 +32,85 @@ class StateType extends DiagramType {
 }
 
 class TransitionType extends DiagramType {
-  final StateType sourceState;
-  final StateType destinationState;
-  final bool sourceStateCentered;
-  final bool destinationStateCentered;
+  final StateType? sourceState;
+  final StateType? destinationState;
+  final bool? sourceStateCentered;
+  final bool? destinationStateCentered;
 
-  final double sourceStateAngle;
-  final double destinationStateAngle;
+  final double? sourceStateAngle;
+  final double? destinationStateAngle;
+
+  final Offset? sourcePosition;
+  final Offset? destinationPosition;
 
   TransitionType({
     required super.id,
     required super.label,
     super.hasFocus,
-    required this.sourceState,
-    required this.destinationState,
-    required this.sourceStateCentered,
-    required this.destinationStateCentered,
-    required this.sourceStateAngle,
-    required this.destinationStateAngle,
-  });
+    this.sourceState,
+    this.destinationState,
+    this.sourceStateCentered,
+    this.destinationStateCentered,
+    this.sourceStateAngle,
+    this.destinationStateAngle,
+    this.sourcePosition,
+    this.destinationPosition,
+  }) : super() {
+    // Validation logic moved to constructor body
+    if ((sourcePosition ?? sourceState) == null) {
+      throw ArgumentError(
+          "Either sourcePosition or sourceState must be provided");
+    }
+
+    if ((destinationPosition ?? destinationState) == null) {
+      throw ArgumentError(
+          "Either destinationPosition or destinationState must be provided");
+    }
+
+    if (sourceState == destinationState) {
+      throw ArgumentError("Source and destination states must be different");
+    }
+
+    if (((sourceStateCentered ?? false) ? false : sourceStateAngle == null)) {
+      if (sourceState != null) {
+        throw ArgumentError("Source state information must be provided");
+      }
+    }
+
+    if (((destinationStateCentered ?? false)
+        ? false
+        : destinationStateAngle == null)) {
+      if (destinationState != null) {
+        throw ArgumentError("Destination state information must be provided");
+      }
+    }
+  }
 
   Offset get startPosition {
-    if (sourceStateCentered) {
-      return sourceState.position;
+    if (sourcePosition != null) {
+      return sourcePosition!;
+    }
+    if (sourceStateCentered!) {
+      return sourceState!.position;
     }
     return calculateNewPoint(
-      sourceState.position,
+      sourceState!.position,
       stateSize / 2,
-      sourceStateAngle,
+      sourceStateAngle!,
     );
   }
 
   Offset get endPosition {
-    if (destinationStateCentered) {
-      return destinationState.position;
+    if (destinationPosition != null) {
+      return destinationPosition!;
     }
-    // log('destinationStateAngle: $destinationStateAngle');
+    if (destinationStateCentered!) {
+      return destinationState!.position;
+    }
     return calculateNewPoint(
-      destinationState.position,
+      destinationState!.position,
       stateSize / 2,
-      destinationStateAngle,
+      destinationStateAngle!,
     );
   }
 }

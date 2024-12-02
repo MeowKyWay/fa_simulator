@@ -1,17 +1,20 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-TransitionType addTransition(
-  StateType sourceState,
-  StateType destinationState,
-  String label,
-  bool sourceStateCentered,
-  bool destinationStateCentered,
-  double soruceStateAngle,
-  double destinationStateAngle, [
+TransitionType addTransition({
+  Offset? sourcePosition,
+  Offset? destinationPosition,
+  StateType? sourceState,
+  StateType? destinationState,
+  String label = "",
+  bool? sourceStateCentered,
+  bool? destinationStateCentered,
+  double? soruceStateAngle,
+  double? destinationStateAngle,
   String? id,
-]) {
+}) {
   TransitionType transition = TransitionType(
     id: id ?? const Uuid().v4(),
     label: label,
@@ -21,6 +24,8 @@ TransitionType addTransition(
     destinationStateCentered: destinationStateCentered,
     sourceStateAngle: soruceStateAngle,
     destinationStateAngle: destinationStateAngle,
+    sourcePosition: sourcePosition,
+    destinationPosition: destinationPosition,
   );
   // Add the transition to the list
   DiagramList().resetRename();
