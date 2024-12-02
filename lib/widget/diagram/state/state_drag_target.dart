@@ -18,7 +18,7 @@ class StateDragTarget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget(
+    return DragTarget<NewTransitionType>(
       onWillAcceptWithDetails: _onWillAcceptWithDetails,
       onAcceptWithDetails: _onAcceptWithDetails,
       onLeave: _onLeave,
@@ -27,20 +27,18 @@ class StateDragTarget extends StatelessWidget {
     );
   }
 
-  bool _onWillAcceptWithDetails(DragTargetDetails details) {
-    if (details.data is NewTransitionType) {
-      if ((details.data as NewTransitionType).from.id == state.id) {
-        return false;
-      }
-      NewTransitionProvider().destinationState = state;
-      NewTransitionProvider().destinationStateCentered = true;
-      return true;
+  bool _onWillAcceptWithDetails(DragTargetDetails<NewTransitionType> details) {
+    log("Will accept");
+    if (details.data.from.id == state.id) {
+      return false;
     }
-    return false;
+    NewTransitionProvider().destinationState = state;
+    NewTransitionProvider().destinationStateCentered = true;
+    return true;
   }
 
-  void _onAcceptWithDetails(DragTargetDetails details) {
-    StateType sourceState = (details.data as NewTransitionType).from;
+  void _onAcceptWithDetails(DragTargetDetails<NewTransitionType> details) {
+    StateType sourceState = details.data.from;
 
     log(NewTransitionProvider().sourceStateCentered.toString());
 

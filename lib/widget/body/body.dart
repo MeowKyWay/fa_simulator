@@ -56,10 +56,10 @@ class _BodyState extends State<Body> {
               const BodyDraggingOverlay(),
               // Detect click and handle
               const BodyGestureDetector(),
-              // Draw all the states              
+              // Draw all the states
+              const BodyStates(),
               //// Draw new transition feedback
               const BodyNewTransitionFeedback(),
-              const BodyStates(),
               // Draw all the transitions
               const BodyTransitions(),
               // Draw the new transition button

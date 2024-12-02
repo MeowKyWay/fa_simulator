@@ -70,7 +70,6 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
       onDragEnd: (DraggableDetails details) {
         NewTransitionProvider().reset();
       },
-      hitTestBehavior: HitTestBehavior.translucent,
       feedback: IgnorePointer(child: Container()),
       child: widget.child,
     );
