@@ -1,27 +1,103 @@
+import 'dart:developer' as developer;
+import 'dart:math';
+
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/clip/transition/staight_line_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
-import 'package:fa_simulator/widget/painter/transition_painter.dart';
+import 'package:fa_simulator/widget/painter/transition/arrow_head_painter.dart';
+import 'package:fa_simulator/widget/painter/transition/staight_line_painter.dart';
 import 'package:flutter/material.dart';
 
-class DiagramTransition extends StatelessWidget {
+class DiagramTransition {
   final TransitionType transition;
 
   const DiagramTransition({
-    super.key,
     required this.transition,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: TransitionPainter(
-        start: transition.startPosition,
-        end: transition.endPosition,
-        sourceOffset:
-            transition.sourceStateCentered ?? false ? stateSize / 2 : 0,
-        destinationOffset:
-            transition.destinationStateCentered ?? false ? stateSize / 2 : 0,
-      ),
+  List<Widget> build() {
+    double transitionHitBoxWidth = 10;
+
+    double angle =
+        (transition.startPosition - transition.endPosition).direction;
+
+    double lineHeight = sin(angle + pi / 2).abs() * transitionHitBoxWidth;
+    double lineWidth = cos(angle + pi / 2).abs() * transitionHitBoxWidth;
+
+    developer.log('Line Height: $lineHeight');
+
+    Offset globalToLocalDelta = Offset(
+      min(transition.startPosition.dx, transition.endPosition.dx) -
+          lineWidth / 2,
+      min(transition.startPosition.dy, transition.endPosition.dy) -
+          lineHeight / 2,
     );
+
+    Offset start = transition.startPosition - globalToLocalDelta;
+    Offset end = transition.endPosition - globalToLocalDelta;
+
+    double offsetLength = stateSize / 2;
+
+    return [
+      Positioned(
+        top: min(transition.startPosition.dy, transition.endPosition.dy) -
+            lineHeight / 2,
+        left: min(transition.startPosition.dx, transition.endPosition.dx) -
+            lineWidth / 2,
+        child: ClipPath(
+          clipper: StaightLineClipper(
+            start: start,
+            end: end,
+            startOffset:
+                transition.sourceStateCentered ?? false ? offsetLength : 0,
+            endOffset:
+                transition.destinationStateCentered ?? false ? offsetLength : 0,
+            width: 10,
+          ),
+          child: GestureDetector(
+            onTap: () {
+              developer.log('Transition: ${transition.toString()}');
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.precise,
+              onEnter: (event) {
+                developer.log('Mouse Enter');
+              },
+              child: Container(
+                width: (transition.startPosition.dx - transition.endPosition.dx)
+                        .abs() +
+                    lineWidth,
+                height:
+                    (transition.startPosition.dy - transition.endPosition.dy)
+                            .abs() +
+                        lineHeight,
+                color: Colors.white.withOpacity(0.5),
+              ),
+            ),
+          ),
+        ),
+      ),
+      CustomPaint(
+        painter: ArrowHeadPainter(
+          position: transition.endPosition,
+          angle: angle,
+          arrowSize: 10,
+          offset: transition.destinationStateCentered ?? false ? offsetLength : 0,
+        ),
+        child: Container(),
+      ),
+      CustomPaint(
+        painter: StaightLinePainter(
+          start: transition.startPosition,
+          end: transition.endPosition,
+          startOffset:
+              transition.sourceStateCentered ?? false ? stateSize / 2 : 0,
+          endOffset:
+              transition.destinationStateCentered ?? false ? stateSize / 2 : 0,
+        ),
+        child: Container(),
+      ),
+    ];
   }
 }

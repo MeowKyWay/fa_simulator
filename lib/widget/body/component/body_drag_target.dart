@@ -83,11 +83,11 @@ class BodyDragTarget extends StatelessWidget {
   void _onAcceptNewTransition(NewTransitionType newTransition) {
     StateType sourceState = newTransition.from;
 
-    log(addTransition(
+    addTransition(
       sourceState: newTransition.from,
       sourceStateCentered: NewTransitionProvider().sourceStateCentered,
       soruceStateAngle: NewTransitionProvider().sourceStateAngle,
       destinationPosition: NewTransitionProvider().draggingPosition,
-    ).toString());
+    );
   }
 }

@@ -11,13 +11,11 @@ class BodyTransitions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, diagramList, child) {
-      return Stack(children: [
-        ...diagramList.transitions.map((transition) {
-          return DiagramTransition(
-            transition: transition,
-          );
-        }),
-      ]);
+      return Stack(
+        children: diagramList.transitions.expand((transition) {
+          return DiagramTransition(transition: transition).build();
+        }).toList(),
+      );
     });
   }
 }
