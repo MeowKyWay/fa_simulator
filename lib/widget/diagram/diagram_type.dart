@@ -55,6 +55,8 @@ class TransitionType extends DiagramType {
   final Offset? sourcePosition;
   final Offset? destinationPosition;
 
+  final Offset? centerPivot;
+
   TransitionType({
     required super.id,
     required super.label,
@@ -67,6 +69,7 @@ class TransitionType extends DiagramType {
     this.destinationStateAngle,
     this.sourcePosition,
     this.destinationPosition,
+    this.centerPivot,
   }) : super() {
     // Validation logic moved to constructor body
     if ((sourcePosition ?? sourceState) == null) {
@@ -77,10 +80,6 @@ class TransitionType extends DiagramType {
     if ((destinationPosition ?? destinationState) == null) {
       throw ArgumentError(
           "Either destinationPosition or destinationState must be provided");
-    }
-
-    if (sourceState == destinationState) {
-      throw ArgumentError("Source and destination states must be different");
     }
 
     if (((sourceStateCentered ?? false) ? false : sourceStateAngle == null)) {
@@ -124,6 +123,14 @@ class TransitionType extends DiagramType {
       stateSize / 2,
       destinationStateAngle!,
     );
+  }
+
+  double get startAngle {
+    return (startPosition-endPosition).direction;
+  }
+
+  double get endAngle {
+    return (endPosition-startPosition).direction;
   }
 
   @override
