@@ -11,7 +11,7 @@ TransitionType addTransition({
   String label = "",
   bool? sourceStateCentered,
   bool? destinationStateCentered,
-  double? soruceStateAngle,
+  double? sourceStateAngle,
   double? destinationStateAngle,
   String? id,
 }) {
@@ -22,7 +22,7 @@ TransitionType addTransition({
     destinationState: destinationState,
     sourceStateCentered: sourceStateCentered,
     destinationStateCentered: destinationStateCentered,
-    sourceStateAngle: soruceStateAngle,
+    sourceStateAngle: sourceStateAngle,
     destinationStateAngle: destinationStateAngle,
     sourcePosition: sourcePosition,
     destinationPosition: destinationPosition,
@@ -33,4 +33,22 @@ TransitionType addTransition({
   DiagramList().notify();
   // Return the transition
   return transition;
+}
+
+// Delete a state
+void deleteTransition(String id) {
+  // Get the state index
+  int index = DiagramList().itemIndex(id);
+
+  DiagramList().resetRename();
+  if (index != -1) {
+    if (DiagramList().items[index] is! TransitionType) {
+      throw Exception("Item id $id is not a transition");
+    }
+    DiagramList().items.removeAt(index);
+  } else {
+    throw Exception("Transition id $id not found");
+  }
+
+  DiagramList().notify();
 }

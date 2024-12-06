@@ -9,10 +9,10 @@ class CreateStateAction implements AppAction {
   final String name;
   late StateType state;
 
-  CreateStateAction(
-    this.position,
-    this.name,
-  );
+  CreateStateAction({
+    required this.position,
+    required this.name,
+  });
 
   @override
   bool get isRevertable => true;

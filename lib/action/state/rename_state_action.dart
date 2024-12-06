@@ -3,29 +3,29 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 
 class RenameStateAction implements AppAction {
-  final String id;
+  final String stateId;
   final String name;
   late String? oldName;
 
-  RenameStateAction(
-    this.id,
-    this.name, [
+  RenameStateAction({
+    required this.stateId,
+    required this.name,
     this.oldName,
-  ]);
+  });
 
   @override
   bool get isRevertable => true;
 
   @override
   void execute() {
-    oldName ?? renameState(id, name);
-    oldName ??= renameState(id, name);
+    String old = renameState(stateId, name);
+    oldName ??= old;
     DiagramList().endRename();
   }
 
   @override
   void undo() {
-    renameState(id, oldName!);
+    renameState(stateId, oldName!);
   }
 
   @override

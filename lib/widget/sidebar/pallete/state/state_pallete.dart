@@ -37,6 +37,9 @@ class StatePallete extends StatelessWidget {
   }
 
   void onDragEnd(Offset position) {
-    AppActionDispatcher().execute(CreateStateAction(position, ''));
+    AppActionDispatcher().execute(CreateStateAction(
+      position: position,
+      name: '',
+    ));
   }
 }

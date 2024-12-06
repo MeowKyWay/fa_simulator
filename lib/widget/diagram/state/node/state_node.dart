@@ -38,8 +38,8 @@ class _StateNodeState extends State<StateNode> {
       if (!_renameFocusNode.hasFocus) {
         String newName = DiagramList().renamingItemNewName;
         if (newName != widget.state.label) {
-          AppActionDispatcher()
-              .execute(RenameStateAction(widget.state.id, newName));
+          AppActionDispatcher().execute(
+              RenameStateAction(stateId: widget.state.id, name: newName));
         } else {
           DiagramList().endRename();
         }

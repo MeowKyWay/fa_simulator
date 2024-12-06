@@ -46,9 +46,8 @@ class _DiagramDraggableState extends State<DiagramDraggable> {
         firstMoveFlag = true;
         FeedbackPositionProvider().reset();
         AppActionDispatcher().execute(MoveStatesAction(
-          //TODO implement move transition
-          DiagramList().focusedStates.map((state) => state.id).toList(),
-          details.localPosition - startPosition,
+          stateIds: DiagramList().focusedStates.map((state) => state.id).toList(),
+          deltaOffset: details.localPosition - startPosition,
         ));
       },
       child: Container(

@@ -42,11 +42,12 @@ void _handleBackspace() {
     return;
   }
   //TODO handle transition
-  List<StateType> focusedStates = DiagramList().focusedStates;
-  if (focusedStates.isEmpty) {
+  List<String> focusedStatesIds =
+      DiagramList().focusedStates.map((state) => state.id).toList();
+  if (focusedStatesIds.isEmpty) {
     return;
   }
-  AppActionDispatcher().execute(DeleteStatesAction(focusedStates));
+  AppActionDispatcher().execute(DeleteStatesAction(stateIds: focusedStatesIds));
 }
 
 void _handleEnter() {

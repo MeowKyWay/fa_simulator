@@ -32,12 +32,15 @@ class TransitionPivot {
     return [
       TransitionPivotButton(
         position: transition.centerPivot ?? centerPivotPosition,
+        hasFocus: transition.hasFocus,
       ),
       TransitionPivotButton(
         position: startPivotPosition,
+        hasFocus: transition.hasFocus,
       ),
       TransitionPivotButton(
         position: endPivotPosition,
+        hasFocus: transition.hasFocus,
       ),
     ];
   }

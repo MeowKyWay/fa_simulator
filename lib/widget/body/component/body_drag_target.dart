@@ -1,6 +1,6 @@
-import 'dart:developer';
 
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
@@ -81,13 +81,13 @@ class BodyDragTarget extends StatelessWidget {
   void _onAcceptDraggingTransition(DraggingTransitionType draggingTransition) {}
 
   void _onAcceptNewTransition(NewTransitionType newTransition) {
-    StateType sourceState = newTransition.from;
-
-    addTransition(
-      sourceState: newTransition.from,
-      sourceStateCentered: NewTransitionProvider().sourceStateCentered,
-      soruceStateAngle: NewTransitionProvider().sourceStateAngle,
-      destinationPosition: NewTransitionProvider().draggingPosition,
+    AppActionDispatcher().execute(
+      CreateTransitionAction(
+        sourceState: newTransition.from,
+        sourceStateCentered: NewTransitionProvider().sourceStateCentered,
+        sourceStateAngle: NewTransitionProvider().sourceStateAngle,
+        destinationPosition: NewTransitionProvider().draggingPosition,
+      ),
     );
   }
 }

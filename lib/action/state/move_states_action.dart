@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 
 class MoveStatesAction extends AppAction {
   final List<String> stateIds;
-  final Offset distance;
+  final Offset deltaOffset;
   final List<Offset> oldPositions = [];
 
-  MoveStatesAction(
-    this.stateIds,
-    this.distance,
-  );
+  MoveStatesAction({
+    required this.stateIds,
+    required this.deltaOffset,
+  });
 
   @override
   bool get isRevertable => true;
@@ -20,7 +20,7 @@ class MoveStatesAction extends AppAction {
   void execute() {
     unfocus();
     for (String id in stateIds) {
-      oldPositions.add(moveState(id, distance));
+      oldPositions.add(moveState(id, deltaOffset));
     }
     addFocus(stateIds);
   }
@@ -28,7 +28,7 @@ class MoveStatesAction extends AppAction {
   @override
   void undo() {
     for (String id in stateIds) {
-      moveState(id, -distance);
+      moveState(id, -deltaOffset);
     }
     addFocus(stateIds);
     oldPositions.clear();

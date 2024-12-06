@@ -1,13 +1,19 @@
 import 'dart:developer' as developer;
 import 'dart:math';
 
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/transition/staight_line_clipper.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
 
 class TransitionGestureDetector extends StatelessWidget {
   final TransitionType transition;
+
+  final bool _showTransitionHitBox = false;
 
   const TransitionGestureDetector({
     super.key,
@@ -53,7 +59,10 @@ class TransitionGestureDetector extends StatelessWidget {
         ),
         child: GestureDetector(
           onTap: () {
-            developer.log('Transition: ${transition.toString()}');
+            developer.log('Transition Tapped');
+            AppActionDispatcher().execute(FocusAction(
+              [transition.id],
+            ));
           },
           child: MouseRegion(
             cursor: SystemMouseCursors.precise,
@@ -67,7 +76,9 @@ class TransitionGestureDetector extends StatelessWidget {
               height: (transition.startPosition.dy - transition.endPosition.dy)
                       .abs() +
                   lineHeight,
-              color: Colors.white.withOpacity(0.5),
+              color: _showTransitionHitBox
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.transparent,
             ),
           ),
         ),

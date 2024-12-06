@@ -35,6 +35,9 @@ void deleteState(String id) {
 
   DiagramList().resetRename();
   if (index != -1) {
+    if (DiagramList().items[index] is! StateType) {
+      throw Exception("Item id $id is not a state");
+    }
     DiagramList().items.removeAt(index);
   } else {
     throw Exception("State id $id not found");

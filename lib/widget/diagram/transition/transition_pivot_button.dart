@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class TransitionPivotButton extends StatefulWidget {
   final Offset position;
   final Offset offset;
+  final bool hasFocus;
 
   const TransitionPivotButton({
     super.key,
     required this.position,
     this.offset = Offset.zero,
+    this.hasFocus = false,
   });
 
   @override
@@ -40,7 +42,7 @@ class _TransitionPivotButtonState extends State<TransitionPivotButton> {
             child: Container(
               width: buttonSize,
               height: buttonSize,
-              decoration: _isHovered
+              decoration: _isHovered || widget.hasFocus
                   ? BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.blue,

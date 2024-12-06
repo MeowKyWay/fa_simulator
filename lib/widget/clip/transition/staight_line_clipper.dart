@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/config.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 

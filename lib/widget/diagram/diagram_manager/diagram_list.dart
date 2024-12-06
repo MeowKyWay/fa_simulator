@@ -10,7 +10,8 @@ class DiagramList with ChangeNotifier {
   }
 
   //Store the states and transitions
-  final List<DiagramType> items = [];
+  final List<DiagramType> _items = [];
+  List<DiagramType> get items => _items;
 
   StateType state(id) =>
       items.firstWhere((element) => element.id == id) as StateType;
@@ -76,6 +77,14 @@ class DiagramList with ChangeNotifier {
 
   List<TransitionType> get transitions {
     return items.whereType<TransitionType>().toList();
+  }
+
+  List<StateType> getStates(List<String> ids) {
+    return states.where((element) => ids.contains(element.id)).toList();
+  }
+
+  List<TransitionType> getTransitions(List<String> ids) {
+    return transitions.where((element) => ids.contains(element.id)).toList();
   }
 
   //return if state with the id already exist

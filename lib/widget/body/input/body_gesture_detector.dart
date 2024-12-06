@@ -29,8 +29,10 @@ class BodyGestureDetector extends StatelessWidget {
       // Add new state on double tap
       // Todo replace with drag the new state from menu
       onDoubleTapDown: (TapDownDetails details) {
-        AppActionDispatcher()
-            .execute(CreateStateAction(details.localPosition, ''));
+        AppActionDispatcher().execute(CreateStateAction(
+          position: details.localPosition,
+          name: '',
+        ));
       },
       // Set start position for selection
       onPanStart: (DragStartDetails details) {

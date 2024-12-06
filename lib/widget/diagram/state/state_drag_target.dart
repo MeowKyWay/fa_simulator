@@ -1,3 +1,5 @@
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
@@ -37,13 +39,15 @@ class StateDragTarget extends StatelessWidget {
   void _onAcceptWithDetails(DragTargetDetails<NewTransitionType> details) {
     StateType sourceState = details.data.from;
 
-    addTransition(
-      sourceState: sourceState,
-      destinationState: state,
-      sourceStateCentered: NewTransitionProvider().sourceStateCentered,
-      soruceStateAngle: NewTransitionProvider().sourceStateAngle,
-      destinationStateCentered: true,
-      destinationStateAngle: NewTransitionProvider().destinationStateAngle,
+    AppActionDispatcher().execute(
+      CreateTransitionAction(
+        sourceState: sourceState,
+        destinationState: state,
+        sourceStateCentered: NewTransitionProvider().sourceStateCentered,
+        sourceStateAngle: NewTransitionProvider().sourceStateAngle,
+        destinationStateCentered: true,
+        destinationStateAngle: NewTransitionProvider().destinationStateAngle,
+      ),
     );
   }
 
