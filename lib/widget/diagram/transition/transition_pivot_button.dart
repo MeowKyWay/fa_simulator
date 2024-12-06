@@ -1,3 +1,9 @@
+import 'dart:developer';
+
+import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
+import 'package:fa_simulator/widget/provider/dragging_provider.dart';
 import 'package:flutter/material.dart';
 
 class TransitionPivotButton extends StatefulWidget {
@@ -5,11 +11,16 @@ class TransitionPivotButton extends StatefulWidget {
   final Offset offset;
   final bool hasFocus;
 
+  final TransitionType transition;
+  final TransitionPivotType type;
+
   const TransitionPivotButton({
     super.key,
     required this.position,
     this.offset = Offset.zero,
     this.hasFocus = false,
+    required this.transition,
+    required this.type,
   });
 
   @override
@@ -23,36 +34,54 @@ class _TransitionPivotButtonState extends State<TransitionPivotButton> {
   Widget build(BuildContext context) {
     double buttonSize = 15;
 
+    DraggingTransitionType data;
+
+    data = DraggingTransitionType(
+      transition: widget.transition,
+      draggingPivot: widget.type,
+    );
+
     return Positioned(
       left: widget.position.dx - buttonSize / 2,
       top: widget.position.dy - buttonSize / 2,
       child: ClipOval(
-        child: MouseRegion(
-            onEnter: (event) {
-              setState(() {
-                _isHovered = true;
-              });
-            },
-            onExit: (event) {
-              setState(() {
-                _isHovered = false;
-              });
-            },
-            cursor: SystemMouseCursors.grab,
-            child: Container(
-              width: buttonSize,
-              height: buttonSize,
-              decoration: _isHovered || widget.hasFocus
-                  ? BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.blue,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    )
-                  : const BoxDecoration(),
-            )),
+        //Drag to change the transition start center or end point
+        child: Draggable(
+          data: data,
+          onDragStarted: () {
+            DraggingProvider().startPosition = widget.position;
+          },
+          onDragUpdate: (details) {
+            DraggingProvider().endPosition = BodyProvider().getBodyLocalPosition(details.globalPosition);
+          },
+          feedback: Container(),
+          child: MouseRegion(
+              onEnter: (event) {
+                setState(() {
+                  _isHovered = true;
+                });
+              },
+              onExit: (event) {
+                setState(() {
+                  _isHovered = false;
+                });
+              },
+              cursor: SystemMouseCursors.grab,
+              child: Container(
+                width: buttonSize,
+                height: buttonSize,
+                decoration: _isHovered || widget.hasFocus
+                    ? BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                      )
+                    : const BoxDecoration(),
+              )),
+        ),
       ),
     );
   }

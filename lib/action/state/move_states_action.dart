@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class MoveStatesAction extends AppAction {
   final List<String> stateIds;
   final Offset deltaOffset;
-  final List<Offset> oldPositions = [];
 
   MoveStatesAction({
     required this.stateIds,
@@ -20,7 +19,7 @@ class MoveStatesAction extends AppAction {
   void execute() {
     unfocus();
     for (String id in stateIds) {
-      oldPositions.add(moveState(id, deltaOffset));
+      moveState(id, deltaOffset);
     }
     addFocus(stateIds);
   }
@@ -31,7 +30,6 @@ class MoveStatesAction extends AppAction {
       moveState(id, -deltaOffset);
     }
     addFocus(stateIds);
-    oldPositions.clear();
   }
 
   @override

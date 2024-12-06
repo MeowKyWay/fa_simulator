@@ -44,18 +44,18 @@ class StateType extends DiagramType {
 }
 
 class TransitionType extends DiagramType {
-  final StateType? sourceState;
-  final StateType? destinationState;
-  final bool? sourceStateCentered;
-  final bool? destinationStateCentered;
+  StateType? sourceState;
+  StateType? destinationState;
+  bool? sourceStateCentered;
+  bool? destinationStateCentered;
 
-  final double? sourceStateAngle;
-  final double? destinationStateAngle;
+  double? sourceStateAngle;
+  double? destinationStateAngle;
 
-  final Offset? sourcePosition;
-  final Offset? destinationPosition;
+  Offset? sourcePosition;
+  Offset? destinationPosition;
 
-  final Offset? centerPivot;
+  Offset? centerPivot;
 
   TransitionType({
     required super.id,
@@ -98,9 +98,11 @@ class TransitionType extends DiagramType {
   }
 
   Offset get startPosition {
+    // Does not have source state
     if (sourcePosition != null) {
       return sourcePosition!;
     }
+    // Source state is centered
     if (sourceStateCentered!) {
       return sourceState!.position;
     }
@@ -112,9 +114,11 @@ class TransitionType extends DiagramType {
   }
 
   Offset get endPosition {
+    // Does not have destination state
     if (destinationPosition != null) {
       return destinationPosition!;
     }
+    // Destination state is centered
     if (destinationStateCentered!) {
       return destinationState!.position;
     }
@@ -125,12 +129,86 @@ class TransitionType extends DiagramType {
     );
   }
 
+  Offset get startButtonPosition {
+    if (sourcePosition != null) {
+      return sourcePosition!;
+    }
+    if (sourceStateCentered!) {
+      return calculateNewPoint(sourceState!.position, stateSize / 2, endAngle);
+    }
+    return startPosition;
+  }
+
+  Offset get endButtonPosition {
+    if (destinationPosition != null) {
+      return destinationPosition!;
+    }
+    if (destinationStateCentered!) {
+      return calculateNewPoint(
+          destinationState!.position, stateSize / 2, startAngle);
+    }
+    return endPosition;
+  }
+
+  Offset get centerPosition {
+    if (centerPivot != null) {
+      return centerPivot!;
+    }
+    return (startButtonPosition + endButtonPosition) / 2;
+  }
+
   double get startAngle {
-    return (startPosition-endPosition).direction;
+    return (startPosition - endPosition).direction;
   }
 
   double get endAngle {
-    return (endPosition-startPosition).direction;
+    return (endPosition - startPosition).direction;
+  }
+
+  void resetSourceState() {
+    if (sourcePosition == null) {
+      throw Exception(
+          "Source position must be provided before reseting the source state");
+    }
+    sourceState = null;
+    sourceStateCentered = null;
+    sourceStateAngle = null;
+  }
+
+  void resetDestinationState() {
+    if (destinationPosition == null) {
+      throw Exception(
+          "Destination position must be provided before reseting the destination state");
+    }
+    destinationState = null;
+    destinationStateCentered = null;
+    destinationStateAngle = null;
+  }
+
+  void resetSourcePosition() {
+    if (sourceState != null) {
+      throw Exception(
+          "Source state must be provided before reseting the source position");
+    }
+    if (sourceStateCentered ?? false ? false : sourceStateAngle == null) {
+      throw Exception(
+          "If source state is not centered or not provided, source state angle must be provided");
+    }
+    sourcePosition = null;
+  }
+
+  void resetDestinationPosition() {
+    if (destinationState != null) {
+      throw Exception(
+          "Destination state must be provided before reseting the destination position");
+    }
+    if (destinationStateCentered ?? false
+        ? false
+        : destinationStateAngle == null) {
+      throw Exception(
+          "If destination state is not centered or not provided, destination state angle must be provided");
+    }
+    destinationPosition = null;
   }
 
   @override

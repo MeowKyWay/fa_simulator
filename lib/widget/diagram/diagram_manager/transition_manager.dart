@@ -1,3 +1,4 @@
+import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
@@ -50,5 +51,49 @@ void deleteTransition(String id) {
     throw Exception("Transition id $id not found");
   }
 
+  DiagramList().notify();
+}
+
+void moveTransition(
+    String id, TransitionPivotType pivotType, Offset distance) {
+  // Get the transition
+  TransitionType transition;
+  try {
+    transition = DiagramList().transition(id);
+  } catch (e) {
+    throw Exception("Transition id $id not found");
+  }
+
+  DiagramList().resetRename();
+  switch (pivotType) {
+    case TransitionPivotType.start:
+      transition.sourcePosition = transition.startButtonPosition + distance;
+      transition.resetSourceState();
+      break;
+    case TransitionPivotType.end:
+      transition.destinationPosition = transition.endButtonPosition + distance;
+      transition.resetDestinationState();
+      break;
+    case TransitionPivotType.center:
+      if (transition.centerPivot == null) {
+        transition.centerPivot = transition.centerPosition + distance;
+      }
+      else {
+        transition.centerPivot = transition.centerPivot! + distance;
+      }
+      break;
+    case TransitionPivotType.all:
+      if ((transition.sourceState??transition.destinationState) != null) {
+        throw Exception("Cannot move all pivot on transition that attached to a state");
+      }
+      transition.sourcePosition = transition.startButtonPosition + distance;
+      transition.destinationPosition = transition.endButtonPosition + distance;
+      transition.resetSourceState();
+      transition.resetDestinationState();
+      if (transition.centerPivot != null) {
+        transition.centerPivot = transition.centerPivot! + distance;
+      }
+      break;
+  }
   DiagramList().notify();
 }

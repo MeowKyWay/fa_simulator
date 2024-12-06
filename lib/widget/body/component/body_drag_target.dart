@@ -1,8 +1,9 @@
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
+import 'package:fa_simulator/action/transition/move_transitions_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
+import 'package:fa_simulator/widget/provider/dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -16,15 +17,20 @@ class DraggingStateType extends DraggingDiagramType {
   });
 }
 
-enum TransitionEnd { source, destination }
+enum TransitionPivotType {
+  center,
+  start,
+  end,
+  all,
+}
 
 class DraggingTransitionType extends DraggingDiagramType {
   final TransitionType transition;
-  TransitionEnd draggingEnd;
+  TransitionPivotType draggingPivot;
 
   DraggingTransitionType({
     required this.transition,
-    required this.draggingEnd,
+    required this.draggingPivot,
   });
 }
 
@@ -37,19 +43,24 @@ class BodyDragTarget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DragTarget<Object>(
       onWillAcceptWithDetails: (details) {
-        if (details.data is DraggingStateType) {
-          return _onWillAcceptDraggingState(details.data as DraggingStateType);
-        } else if (details.data is DraggingTransitionType) {
+        //On drag state of the entire transition move all focus state/transition
+        if (details.data is DraggingDiagramType) {
+          return _onWillAcceptDraggingDiagram(details.data as DraggingDiagramType);
+        } 
+        //On drag transition pivot move the pivot
+        else if (details.data is DraggingTransitionType) {
           return _onWillAcceptDraggingTransition(
               details.data as DraggingTransitionType);
-        } else if (details.data is NewTransitionType) {
+        } 
+        //On drag new transition add the transition
+        else if (details.data is NewTransitionType) {
           return _onWillAcceptNewTransition(details.data as NewTransitionType);
         }
         return false;
       },
       onAcceptWithDetails: (details) {
         if (details.data is DraggingStateType) {
-          _onAcceptDraggingState(details.data as DraggingStateType);
+          _onAcceptDraggingDiagram(details.data as DraggingStateType);
         } else if (details.data is DraggingTransitionType) {
           _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         } else if (details.data is NewTransitionType) {
@@ -63,27 +74,40 @@ class BodyDragTarget extends StatelessWidget {
     );
   }
 
-  bool _onWillAcceptDraggingState(DraggingStateType draggingState) {
+  bool _onWillAcceptDraggingDiagram(DraggingDiagramType data) {
     return true;
   }
 
   bool _onWillAcceptDraggingTransition(
-      DraggingTransitionType draggingTransition) {
+      DraggingTransitionType data) {
     return true;
   }
 
-  bool _onWillAcceptNewTransition(NewTransitionType newTransition) {
+  bool _onWillAcceptNewTransition(NewTransitionType data) {
     return true;
   }
 
-  void _onAcceptDraggingState(DraggingStateType draggingState) {}
+  void _onAcceptDraggingDiagram(DraggingDiagramType data) {}
 
-  void _onAcceptDraggingTransition(DraggingTransitionType draggingTransition) {}
+  void _onAcceptDraggingTransition(DraggingTransitionType data) {
+    AppActionDispatcher().execute(
+      MoveTransitionsAction(
+        //TODO move all the focus transition
+        inputs: [
+          MoveTransitionActionInput(
+            id: data.transition.id,
+            pivotType: data.draggingPivot,
+          ),
+        ],
+        deltaOffset: DraggingProvider().deltaOffset,
+      ),
+    );
+  }
 
-  void _onAcceptNewTransition(NewTransitionType newTransition) {
+  void _onAcceptNewTransition(NewTransitionType data) {
     AppActionDispatcher().execute(
       CreateTransitionAction(
-        sourceState: newTransition.from,
+        sourceState: data.from,
         sourceStateCentered: NewTransitionProvider().sourceStateCentered,
         sourceStateAngle: NewTransitionProvider().sourceStateAngle,
         destinationPosition: NewTransitionProvider().draggingPosition,

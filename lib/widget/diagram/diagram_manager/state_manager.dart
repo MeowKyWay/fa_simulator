@@ -47,9 +47,9 @@ void deleteState(String id) {
 }
 
 // Move a state position
-Offset moveState(String id, Offset distance) {
+void moveState(String id, Offset distance) {
   Offset deltaPosition = BodyProvider().getSnappedPosition(distance);
-  // Get the state index
+  // Get the state
   StateType state;
   try {
     state = DiagramList().state(id);
@@ -58,11 +58,8 @@ Offset moveState(String id, Offset distance) {
   }
 
   DiagramList().resetRename();
-  Offset oldPositions = state.position;
   state.position += deltaPosition;
   DiagramList().notify();
-
-  return oldPositions;
 }
 
 // Rename a state
