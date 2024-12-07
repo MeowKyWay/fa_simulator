@@ -1,7 +1,9 @@
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
 
 //This action only work when moving transition pivot from state/position to another position
@@ -9,6 +11,9 @@ import 'package:flutter/material.dart';
 class MoveTransitionActionInput {
   final String id;
   final TransitionPivotType pivotType;
+  String? oldStateId;
+  bool? isCentered;
+  double? angle;
 
   MoveTransitionActionInput({
     required this.id,
@@ -33,15 +38,51 @@ class MoveTransitionsAction extends AppAction {
     //TODO if the center pivot is null do not move on multiple selection move
     unfocus();
     for (MoveTransitionActionInput input in inputs) {
-      moveTransition(input.id, input.pivotType, deltaOffset);
+      TransitionType transition = DiagramList().transition(input.id);
+      switch (input.pivotType) {
+        case TransitionPivotType.start:
+          input.oldStateId = transition.sourceStateId;
+          input.isCentered = transition.sourceStateCentered;
+          input.angle = transition.sourceStateAngle;
+          break;
+        case TransitionPivotType.end:
+          input.oldStateId = transition.destinationStateId;
+          input.isCentered = transition.destinationStateCentered;
+          input.angle = transition.destinationStateAngle;
+          break;
+        default:
+          break;
+      }
+      moveTransition(
+        id: input.id,
+        pivotType: input.pivotType,
+        distance: deltaOffset,
+      );
     }
     addFocus(inputs.map((item) => item.id).toList());
   }
 
   @override
   void undo() {
+    //TODO if the action detached the transition from the state, the transition should be reattached to the state
     for (MoveTransitionActionInput input in inputs) {
-      moveTransition(input.id, input.pivotType, -deltaOffset);
+      if (input.oldStateId != null) {
+        attachTransition(
+          id: input.id,
+          stateId: input.oldStateId!,
+          isCentered: input.isCentered,
+          angle: input.angle,
+          endPoint: input.pivotType == TransitionPivotType.start
+              ? TransitionEndPointType.start
+              : TransitionEndPointType.end,
+        );
+        return;
+      }
+      moveTransition(
+        id: input.id,
+        pivotType: input.pivotType,
+        distance: -deltaOffset,
+      );
     }
     addFocus(inputs.map((item) => item.id).toList());
   }

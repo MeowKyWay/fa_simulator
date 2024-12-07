@@ -11,6 +11,9 @@ class DraggingProvider {
   Offset? startPosition;
   Offset? endPosition;
 
+  //Dragging a state
+  double? draggingAngle;
+
   Offset get deltaOffset {
     if (startPosition == null || endPosition == null) {
       return Offset.zero;

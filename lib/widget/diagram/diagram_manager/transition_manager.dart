@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
@@ -7,8 +9,8 @@ import 'package:uuid/uuid.dart';
 TransitionType addTransition({
   Offset? sourcePosition,
   Offset? destinationPosition,
-  StateType? sourceState,
-  StateType? destinationState,
+  String? sourceStateId,
+  String? destinationStateId,
   String label = "",
   bool? sourceStateCentered,
   bool? destinationStateCentered,
@@ -19,8 +21,8 @@ TransitionType addTransition({
   TransitionType transition = TransitionType(
     id: id ?? const Uuid().v4(),
     label: label,
-    sourceState: sourceState,
-    destinationState: destinationState,
+    sourceStateId: sourceStateId,
+    destinationStateId: destinationStateId,
     sourceStateCentered: sourceStateCentered,
     destinationStateCentered: destinationStateCentered,
     sourceStateAngle: sourceStateAngle,
@@ -54,8 +56,12 @@ void deleteTransition(String id) {
   DiagramList().notify();
 }
 
+//Only use to detach transition from state to body
+//Or move a pivot from body to body
 void moveTransition(
-    String id, TransitionPivotType pivotType, Offset distance) {
+    {required String id,
+    required TransitionPivotType pivotType,
+    required Offset distance}) {
   // Get the transition
   TransitionType transition;
   try {
@@ -77,14 +83,14 @@ void moveTransition(
     case TransitionPivotType.center:
       if (transition.centerPivot == null) {
         transition.centerPivot = transition.centerPosition + distance;
-      }
-      else {
+      } else {
         transition.centerPivot = transition.centerPivot! + distance;
       }
       break;
     case TransitionPivotType.all:
-      if ((transition.sourceState??transition.destinationState) != null) {
-        throw Exception("Cannot move all pivot on transition that attached to a state");
+      if ((transition.sourceState ?? transition.destinationState) != null) {
+        throw Exception(
+            "Cannot move all pivot on transition that attached to a state");
       }
       transition.sourcePosition = transition.startButtonPosition + distance;
       transition.destinationPosition = transition.endButtonPosition + distance;
@@ -93,6 +99,44 @@ void moveTransition(
       if (transition.centerPivot != null) {
         transition.centerPivot = transition.centerPivot! + distance;
       }
+      break;
+  }
+  DiagramList().notify();
+}
+
+void attachTransition({
+  required String id,
+  required String stateId,
+  bool? isCentered,
+  double? angle,
+  required TransitionEndPointType endPoint,
+}) {
+  if (isCentered == null && angle == null) {
+    throw Exception(
+        "Either isCentered or angle must be provided to attach transition to state");
+  }
+  // Get the transition
+  TransitionType transition;
+  try {
+    transition = DiagramList().transition(id);
+  } catch (e) {
+    throw Exception("Transition id $id not found");
+  }
+
+  DiagramList().resetRename();
+  switch (endPoint) {
+    case TransitionEndPointType.start:
+      log("TransitionEndPointType.start");
+      transition.sourceStateId = stateId;
+      transition.sourceStateCentered = isCentered;
+      transition.sourceStateAngle = angle;
+      transition.resetSourcePosition();
+      break;
+    case TransitionEndPointType.end:
+      transition.destinationStateId = stateId;
+      transition.destinationStateCentered = isCentered;
+      transition.destinationStateAngle = angle;
+      transition.resetDestinationPosition();
       break;
   }
   DiagramList().notify();

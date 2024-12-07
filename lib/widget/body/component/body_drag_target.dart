@@ -24,6 +24,11 @@ enum TransitionPivotType {
   all,
 }
 
+enum TransitionEndPointType {
+  start,
+  end,
+}
+
 class DraggingTransitionType extends DraggingDiagramType {
   final TransitionType transition;
   TransitionPivotType draggingPivot;
@@ -107,7 +112,7 @@ class BodyDragTarget extends StatelessWidget {
   void _onAcceptNewTransition(NewTransitionType data) {
     AppActionDispatcher().execute(
       CreateTransitionAction(
-        sourceState: data.from,
+        sourceStateId: data.from.id,
         sourceStateCentered: NewTransitionProvider().sourceStateCentered,
         sourceStateAngle: NewTransitionProvider().sourceStateAngle,
         destinationPosition: NewTransitionProvider().draggingPosition,

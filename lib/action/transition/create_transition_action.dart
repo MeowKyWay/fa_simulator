@@ -8,8 +8,8 @@ class CreateTransitionAction extends AppAction {
   final Offset? sourcePosition;
   final Offset? destinationPosition;
 
-  final StateType? sourceState;
-  final StateType? destinationState;
+  final String? sourceStateId;
+  final String? destinationStateId;
 
   final bool? sourceStateCentered;
   final bool? destinationStateCentered;
@@ -23,8 +23,8 @@ class CreateTransitionAction extends AppAction {
   CreateTransitionAction({
     this.sourcePosition,
     this.destinationPosition,
-    this.sourceState,
-    this.destinationState,
+    this.sourceStateId,
+    this.destinationStateId,
     this.sourceStateCentered,
     this.destinationStateCentered,
     this.sourceStateAngle,
@@ -40,8 +40,8 @@ class CreateTransitionAction extends AppAction {
     transition = addTransition(
       sourcePosition: sourcePosition,
       destinationPosition: destinationPosition,
-      sourceState: sourceState,
-      destinationState: destinationState,
+      sourceStateId: sourceStateId,
+      destinationStateId: destinationStateId,
       sourceStateCentered: sourceStateCentered,
       destinationStateCentered: destinationStateCentered,
       sourceStateAngle: sourceStateAngle,
@@ -61,8 +61,8 @@ class CreateTransitionAction extends AppAction {
     addTransition(
       sourcePosition: sourcePosition,
       destinationPosition: destinationPosition,
-      sourceState: sourceState,
-      destinationState: destinationState,
+      sourceStateId: sourceStateId,
+      destinationStateId: destinationStateId,
       sourceStateCentered: sourceStateCentered,
       destinationStateCentered: destinationStateCentered,
       sourceStateAngle: sourceStateAngle,

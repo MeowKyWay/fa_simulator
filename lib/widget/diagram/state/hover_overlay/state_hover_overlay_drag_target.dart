@@ -32,8 +32,8 @@ class StateHoverOverlayDragTarget extends StatelessWidget {
 
         AppActionDispatcher().execute(
           CreateTransitionAction(
-            sourceState: sourceState,
-            destinationState: state,
+            sourceStateId: sourceState.id,
+            destinationStateId: state.id,
             sourceStateCentered: NewTransitionProvider().sourceStateCentered,
             sourceStateAngle: NewTransitionProvider().sourceStateAngle,
             destinationStateCentered: false,

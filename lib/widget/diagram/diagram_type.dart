@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
@@ -44,8 +45,8 @@ class StateType extends DiagramType {
 }
 
 class TransitionType extends DiagramType {
-  StateType? sourceState;
-  StateType? destinationState;
+  String? sourceStateId;
+  String? destinationStateId;
   bool? sourceStateCentered;
   bool? destinationStateCentered;
 
@@ -61,8 +62,8 @@ class TransitionType extends DiagramType {
     required super.id,
     required super.label,
     super.hasFocus,
-    this.sourceState,
-    this.destinationState,
+    this.sourceStateId,
+    this.destinationStateId,
     this.sourceStateCentered,
     this.destinationStateCentered,
     this.sourceStateAngle,
@@ -72,18 +73,18 @@ class TransitionType extends DiagramType {
     this.centerPivot,
   }) : super() {
     // Validation logic moved to constructor body
-    if ((sourcePosition ?? sourceState) == null) {
+    if ((sourcePosition ?? sourceStateId) == null) {
       throw ArgumentError(
           "Either sourcePosition or sourceState must be provided");
     }
 
-    if ((destinationPosition ?? destinationState) == null) {
+    if ((destinationPosition ?? destinationStateId) == null) {
       throw ArgumentError(
           "Either destinationPosition or destinationState must be provided");
     }
 
     if (((sourceStateCentered ?? false) ? false : sourceStateAngle == null)) {
-      if (sourceState != null) {
+      if (sourceStateId != null) {
         throw ArgumentError("Source state information must be provided");
       }
     }
@@ -91,10 +92,24 @@ class TransitionType extends DiagramType {
     if (((destinationStateCentered ?? false)
         ? false
         : destinationStateAngle == null)) {
-      if (destinationState != null) {
+      if (destinationStateId != null) {
         throw ArgumentError("Destination state information must be provided");
       }
     }
+  }
+
+  StateType? get sourceState {
+    if (sourceStateId == null) {
+      return null;
+    }
+    return DiagramList().state(sourceStateId!);
+  }
+
+  StateType? get destinationState {
+    if (destinationStateId == null) {
+      return null;
+    }
+    return DiagramList().state(destinationStateId!);
   }
 
   Offset get startPosition {
@@ -170,7 +185,7 @@ class TransitionType extends DiagramType {
       throw Exception(
           "Source position must be provided before reseting the source state");
     }
-    sourceState = null;
+    sourceStateId = null;
     sourceStateCentered = null;
     sourceStateAngle = null;
   }
@@ -180,13 +195,13 @@ class TransitionType extends DiagramType {
       throw Exception(
           "Destination position must be provided before reseting the destination state");
     }
-    destinationState = null;
+    destinationStateId = null;
     destinationStateCentered = null;
     destinationStateAngle = null;
   }
 
   void resetSourcePosition() {
-    if (sourceState != null) {
+    if (sourceState == null) {
       throw Exception(
           "Source state must be provided before reseting the source position");
     }
@@ -198,7 +213,7 @@ class TransitionType extends DiagramType {
   }
 
   void resetDestinationPosition() {
-    if (destinationState != null) {
+    if (destinationState == null) {
       throw Exception(
           "Destination state must be provided before reseting the destination position");
     }

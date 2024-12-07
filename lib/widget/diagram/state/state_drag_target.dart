@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/transition/attach_transitions_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
@@ -35,7 +38,7 @@ class StateDragTarget extends StatelessWidget {
           _onAcceptNewTransitionWithDetails(details.data as NewTransitionType);
         }
         if (details.data is DraggingTransitionType) {
-          //TODO move transition pivot
+          _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         }
       },
       onLeave: _onLeave,
@@ -56,6 +59,9 @@ class StateDragTarget extends StatelessWidget {
 
   bool _onWillAcceptDraggingTransition(DraggingTransitionType data) {
     //TODO handle self loop transition
+    if (data.draggingPivot == TransitionPivotType.center) {
+      return false;
+    }
     return true;
   }
 
@@ -64,8 +70,8 @@ class StateDragTarget extends StatelessWidget {
 
     AppActionDispatcher().execute(
       CreateTransitionAction(
-        sourceState: sourceState,
-        destinationState: state,
+        sourceStateId: sourceState.id,
+        destinationStateId: state.id,
         sourceStateCentered: NewTransitionProvider().sourceStateCentered,
         sourceStateAngle: NewTransitionProvider().sourceStateAngle,
         destinationStateCentered: true,
@@ -75,7 +81,17 @@ class StateDragTarget extends StatelessWidget {
   }
 
   void _onAcceptDraggingTransition(DraggingTransitionType data) {
-    
+    log("StateDragTarget._onAcceptDraggingTransition()");
+    TransitionEndPointType endPoint =
+        data.draggingPivot == TransitionPivotType.start
+            ? TransitionEndPointType.start
+            : TransitionEndPointType.end;
+    AppActionDispatcher().execute(AttachTransitionAction(
+      id: data.transition.id,
+      endPoint: endPoint,
+      stateId: state.id,
+      isCentered: true,
+    ));
   }
 
   void _onLeave(details) {
