@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';

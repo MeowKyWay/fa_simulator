@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/transition/staight_line_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';

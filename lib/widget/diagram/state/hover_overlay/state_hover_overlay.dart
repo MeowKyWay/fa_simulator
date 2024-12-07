@@ -5,7 +5,6 @@ import 'package:fa_simulator/widget/clip/ring_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
-import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
@@ -51,12 +50,8 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
     return Consumer<KeyboardProvider>(
         builder: (context, keyboardProvider, child) {
-      if (keyboardProvider.isShiftPressed) {
-        _shouldShowHoverRing = provider.destinationState == widget.state;
-      } else {
-        _shouldShowHoverRing =
-            provider.destinationState == widget.state ? true : _isHovered;
-      }
+      _shouldShowHoverRing =
+          provider.destinationState == widget.state ? true : _isHovered;
       return ClipPath(
         key: _key,
         clipper: RingClipper(
