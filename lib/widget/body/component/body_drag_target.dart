@@ -113,8 +113,6 @@ class BodyDragTarget extends StatelessWidget {
     AppActionDispatcher().execute(
       CreateTransitionAction(
         sourceStateId: data.from.id,
-        sourceStateCentered: NewTransitionProvider().sourceStateCentered,
-        sourceStateAngle: NewTransitionProvider().sourceStateAngle,
         destinationPosition: NewTransitionProvider().draggingPosition,
       ),
     );

@@ -65,8 +65,6 @@ class _BodyState extends State<Body> {
               const BodyNewTransitionFeedback(),
               // Draw all the transitions
               const BodyTransitions(),
-              // Draw the new transition button
-              const BodyNewTransitionButton(),
               // Feedback when drag
               const BodyFeedback(),
               // Feedback when dragging from the pallete

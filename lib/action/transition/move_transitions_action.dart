@@ -42,13 +42,9 @@ class MoveTransitionsAction extends AppAction {
       switch (input.pivotType) {
         case TransitionPivotType.start:
           input.oldStateId = transition.sourceStateId;
-          input.isCentered = transition.sourceStateCentered;
-          input.angle = transition.sourceStateAngle;
           break;
         case TransitionPivotType.end:
           input.oldStateId = transition.destinationStateId;
-          input.isCentered = transition.destinationStateCentered;
-          input.angle = transition.destinationStateAngle;
           break;
         default:
           break;
@@ -70,8 +66,6 @@ class MoveTransitionsAction extends AppAction {
         attachTransition(
           id: input.id,
           stateId: input.oldStateId!,
-          isCentered: input.isCentered,
-          angle: input.angle,
           endPoint: input.pivotType == TransitionPivotType.start
               ? TransitionEndPointType.start
               : TransitionEndPointType.end,

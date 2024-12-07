@@ -45,25 +45,11 @@ class _NewTransitionDraggableState extends State<NewTransitionDraggable> {
       data: newTransition,
       onDragStarted: () {
         NewTransitionProvider().sourceState = widget.state;
-        NewTransitionProvider().sourceStateAngle =
-            NewTransitionProvider().hoveringStateAngle;
         NewTransitionProvider().isDraggingNewTransition = true;
-        if (!KeyboardProvider().isShiftPressed) {
-          NewTransitionProvider().sourceStateCentered = true;
-        }
       },
       onDragUpdate: (DragUpdateDetails details) {
         NewTransitionProvider().draggingPosition =
             BodyProvider().getBodyLocalPosition(details.globalPosition);
-        if (NewTransitionProvider().destinationState != null) {
-          StateType destinationState =
-              NewTransitionProvider().destinationState!;
-          Offset draggingPosition = NewTransitionProvider().draggingPosition!;
-          NewTransitionProvider().destinationStateAngle = calculateAngle(
-            destinationState.position,
-            draggingPosition,
-          );
-        }
       },
       onDragEnd: (DraggableDetails details) {
         NewTransitionProvider().reset();

@@ -12,10 +12,6 @@ TransitionType addTransition({
   String? sourceStateId,
   String? destinationStateId,
   String label = "",
-  bool? sourceStateCentered,
-  bool? destinationStateCentered,
-  double? sourceStateAngle,
-  double? destinationStateAngle,
   String? id,
 }) {
   TransitionType transition = TransitionType(
@@ -23,10 +19,6 @@ TransitionType addTransition({
     label: label,
     sourceStateId: sourceStateId,
     destinationStateId: destinationStateId,
-    sourceStateCentered: sourceStateCentered,
-    destinationStateCentered: destinationStateCentered,
-    sourceStateAngle: sourceStateAngle,
-    destinationStateAngle: destinationStateAngle,
     sourcePosition: sourcePosition,
     destinationPosition: destinationPosition,
   );
@@ -58,10 +50,11 @@ void deleteTransition(String id) {
 
 //Only use to detach transition from state to body
 //Or move a pivot from body to body
-void moveTransition(
-    {required String id,
-    required TransitionPivotType pivotType,
-    required Offset distance}) {
+void moveTransition({
+  required String id,
+  required TransitionPivotType pivotType,
+  required Offset distance,
+}) {
   // Get the transition
   TransitionType transition;
   try {
@@ -107,14 +100,8 @@ void moveTransition(
 void attachTransition({
   required String id,
   required String stateId,
-  bool? isCentered,
-  double? angle,
   required TransitionEndPointType endPoint,
 }) {
-  if (isCentered == null && angle == null) {
-    throw Exception(
-        "Either isCentered or angle must be provided to attach transition to state");
-  }
   // Get the transition
   TransitionType transition;
   try {
@@ -128,14 +115,10 @@ void attachTransition({
     case TransitionEndPointType.start:
       log("TransitionEndPointType.start");
       transition.sourceStateId = stateId;
-      transition.sourceStateCentered = isCentered;
-      transition.sourceStateAngle = angle;
       transition.resetSourcePosition();
       break;
     case TransitionEndPointType.end:
       transition.destinationStateId = stateId;
-      transition.destinationStateCentered = isCentered;
-      transition.destinationStateAngle = angle;
       transition.resetDestinationPosition();
       break;
   }

@@ -5,8 +5,6 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/transition/staight_line_clipper.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:flutter/material.dart';
 
@@ -37,10 +35,8 @@ class TransitionGestureDetector extends StatelessWidget {
           lineHeight / 2,
     );
 
-    Offset start = transition.startPosition - globalToLocalDelta;
-    Offset end = transition.endPosition - globalToLocalDelta;
-
-    double offsetLength = stateSize / 2;
+    Offset start = transition.startButtonPosition - globalToLocalDelta;
+    Offset end = transition.endButtonPosition - globalToLocalDelta;
 
     return Positioned(
       top: min(transition.startPosition.dy, transition.endPosition.dy) -
@@ -51,10 +47,6 @@ class TransitionGestureDetector extends StatelessWidget {
         clipper: StaightLineClipper(
           start: start,
           end: end,
-          startOffset:
-              transition.sourceStateCentered ?? false ? offsetLength : 0,
-          endOffset:
-              transition.destinationStateCentered ?? false ? offsetLength : 0,
           width: 10,
         ),
         child: GestureDetector(

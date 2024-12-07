@@ -47,11 +47,6 @@ class StateType extends DiagramType {
 class TransitionType extends DiagramType {
   String? sourceStateId;
   String? destinationStateId;
-  bool? sourceStateCentered;
-  bool? destinationStateCentered;
-
-  double? sourceStateAngle;
-  double? destinationStateAngle;
 
   Offset? sourcePosition;
   Offset? destinationPosition;
@@ -64,10 +59,6 @@ class TransitionType extends DiagramType {
     super.hasFocus,
     this.sourceStateId,
     this.destinationStateId,
-    this.sourceStateCentered,
-    this.destinationStateCentered,
-    this.sourceStateAngle,
-    this.destinationStateAngle,
     this.sourcePosition,
     this.destinationPosition,
     this.centerPivot,
@@ -81,20 +72,6 @@ class TransitionType extends DiagramType {
     if ((destinationPosition ?? destinationStateId) == null) {
       throw ArgumentError(
           "Either destinationPosition or destinationState must be provided");
-    }
-
-    if (((sourceStateCentered ?? false) ? false : sourceStateAngle == null)) {
-      if (sourceStateId != null) {
-        throw ArgumentError("Source state information must be provided");
-      }
-    }
-
-    if (((destinationStateCentered ?? false)
-        ? false
-        : destinationStateAngle == null)) {
-      if (destinationStateId != null) {
-        throw ArgumentError("Destination state information must be provided");
-      }
     }
   }
 
@@ -117,15 +94,7 @@ class TransitionType extends DiagramType {
     if (sourcePosition != null) {
       return sourcePosition!;
     }
-    // Source state is centered
-    if (sourceStateCentered!) {
-      return sourceState!.position;
-    }
-    return calculateNewPoint(
-      sourceState!.position,
-      stateSize / 2,
-      sourceStateAngle!,
-    );
+    return sourceState!.position;
   }
 
   Offset get endPosition {
@@ -133,36 +102,29 @@ class TransitionType extends DiagramType {
     if (destinationPosition != null) {
       return destinationPosition!;
     }
-    // Destination state is centered
-    if (destinationStateCentered!) {
-      return destinationState!.position;
-    }
-    return calculateNewPoint(
-      destinationState!.position,
-      stateSize / 2,
-      destinationStateAngle!,
-    );
+    return destinationState!.position;
   }
 
   Offset get startButtonPosition {
     if (sourcePosition != null) {
       return sourcePosition!;
     }
-    if (sourceStateCentered!) {
-      return calculateNewPoint(sourceState!.position, stateSize / 2, endAngle);
-    }
-    return startPosition;
+    return calculateNewPoint(
+      sourceState!.position,
+      stateSize / 2,
+      endAngle,
+    );
   }
 
   Offset get endButtonPosition {
     if (destinationPosition != null) {
       return destinationPosition!;
     }
-    if (destinationStateCentered!) {
-      return calculateNewPoint(
-          destinationState!.position, stateSize / 2, startAngle);
-    }
-    return endPosition;
+    return calculateNewPoint(
+      destinationState!.position,
+      stateSize / 2,
+      startAngle,
+    );
   }
 
   Offset get centerPosition {
@@ -186,8 +148,6 @@ class TransitionType extends DiagramType {
           "Source position must be provided before reseting the source state");
     }
     sourceStateId = null;
-    sourceStateCentered = null;
-    sourceStateAngle = null;
   }
 
   void resetDestinationState() {
@@ -196,18 +156,12 @@ class TransitionType extends DiagramType {
           "Destination position must be provided before reseting the destination state");
     }
     destinationStateId = null;
-    destinationStateCentered = null;
-    destinationStateAngle = null;
   }
 
   void resetSourcePosition() {
     if (sourceState == null) {
       throw Exception(
           "Source state must be provided before reseting the source position");
-    }
-    if (sourceStateCentered ?? false ? false : sourceStateAngle == null) {
-      throw Exception(
-          "If source state is not centered or not provided, source state angle must be provided");
     }
     sourcePosition = null;
   }
@@ -216,12 +170,6 @@ class TransitionType extends DiagramType {
     if (destinationState == null) {
       throw Exception(
           "Destination state must be provided before reseting the destination position");
-    }
-    if (destinationStateCentered ?? false
-        ? false
-        : destinationStateAngle == null) {
-      throw Exception(
-          "If destination state is not centered or not provided, destination state angle must be provided");
     }
     destinationPosition = null;
   }
@@ -233,10 +181,6 @@ class TransitionType extends DiagramType {
       'label': label,
       'sourceState': sourceState,
       'destinationState': destinationState,
-      'sourceStateCentered': sourceStateCentered,
-      'destinationStateCentered': destinationStateCentered,
-      'sourceStateAngle': sourceStateAngle,
-      'destinationStateAngle': destinationStateAngle,
       'sourcePosition': sourcePosition,
       'destinationPosition': destinationPosition,
     }.toString();

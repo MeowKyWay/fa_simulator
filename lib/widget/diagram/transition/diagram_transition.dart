@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_gesture_detector.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot.dart';
@@ -15,44 +14,30 @@ class DiagramTransition {
   });
 
   List<Widget> build() {
-    double angle =
-        (transition.startPosition - transition.endPosition).direction;
-
-    double offsetLength = stateSize / 2;
+    double angle = transition.startAngle;
 
     return [
       TransitionGestureDetector(transition: transition),
       CustomPaint(
         painter: ArrowHeadPainter(
-          position: transition.endPosition,
+          position: transition.endButtonPosition,
           angle: angle,
           arrowSize: 10,
-          offset:
-              transition.destinationStateCentered ?? false ? offsetLength : 0,
         ),
         child: Container(),
       ),
       CustomPaint(
         painter: StaightLinePainter(
-          start: transition.startPosition,
-          end: transition.endPosition,
-          startOffset:
-              transition.sourceStateCentered ?? false ? stateSize / 2 : 0,
-          endOffset:
-              transition.destinationStateCentered ?? false ? stateSize / 2 : 0,
+          start: transition.startButtonPosition,
+          end: transition.endButtonPosition,
         ),
         child: Container(),
       ),
       transition.hasFocus
           ? CustomPaint(
               painter: DashLinePainter(
-                start: transition.startPosition,
-                end: transition.endPosition,
-                startOffset:
-                    transition.sourceStateCentered ?? false ? stateSize / 2 : 0,
-                endOffset: transition.destinationStateCentered ?? false
-                    ? stateSize / 2
-                    : 0,
+                start: transition.startButtonPosition,
+                end: transition.endButtonPosition,
               ),
               child: Container(),
             )

@@ -16,16 +16,18 @@ class BodyNewTransitionFeedback extends StatelessWidget {
         return Container();
       }
       if (provider.draggingPosition == null) {
-        throw Exception('isDraggingNewTransition is true but draggingPosition is null');
+        throw Exception(
+            'isDraggingNewTransition is true but draggingPosition is null');
       }
       return Positioned.fill(
         child: IgnorePointer(
           child: CustomPaint(
             painter: TransitionPainter(
-              start: provider.sourcePosition!,
-              end: provider.destinationPosition ?? provider.draggingPosition!,
-              sourceOffset: provider.sourceStateCentered? stateSize / 2 : 0,
-              destinationOffset: provider.destinationStateCentered? stateSize / 2 : 0,
+              start: provider.sourceStatePosition!,
+              end: provider.destinationStatePosition ?? provider.draggingPosition!,
+              sourceOffset: stateSize / 2,
+              destinationOffset:
+                  provider.destinationStatePosition != null ? stateSize / 2 : 0,
             ),
             child: Container(),
           ),

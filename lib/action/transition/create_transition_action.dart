@@ -11,11 +11,6 @@ class CreateTransitionAction extends AppAction {
   final String? sourceStateId;
   final String? destinationStateId;
 
-  final bool? sourceStateCentered;
-  final bool? destinationStateCentered;
-  final double? sourceStateAngle;
-  final double? destinationStateAngle;
-
   final String label;
 
   late TransitionType transition;
@@ -25,10 +20,6 @@ class CreateTransitionAction extends AppAction {
     this.destinationPosition,
     this.sourceStateId,
     this.destinationStateId,
-    this.sourceStateCentered,
-    this.destinationStateCentered,
-    this.sourceStateAngle,
-    this.destinationStateAngle,
     this.label = "",
   });
 
@@ -42,10 +33,6 @@ class CreateTransitionAction extends AppAction {
       destinationPosition: destinationPosition,
       sourceStateId: sourceStateId,
       destinationStateId: destinationStateId,
-      sourceStateCentered: sourceStateCentered,
-      destinationStateCentered: destinationStateCentered,
-      sourceStateAngle: sourceStateAngle,
-      destinationStateAngle: destinationStateAngle,
       label: label,
     );
     //TODO add focus
@@ -63,10 +50,6 @@ class CreateTransitionAction extends AppAction {
       destinationPosition: destinationPosition,
       sourceStateId: sourceStateId,
       destinationStateId: destinationStateId,
-      sourceStateCentered: sourceStateCentered,
-      destinationStateCentered: destinationStateCentered,
-      sourceStateAngle: sourceStateAngle,
-      destinationStateAngle: destinationStateAngle,
       label: label,
       id: transition.id,
     );

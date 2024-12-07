@@ -40,8 +40,6 @@ class AttachTransitionAction extends AppAction {
       id: id,
       endPoint: endPoint,
       stateId: stateId,
-      isCentered: isCentered,
-      angle: angle,
     );
   }
 

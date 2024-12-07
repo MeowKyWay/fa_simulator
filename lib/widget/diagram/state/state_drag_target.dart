@@ -53,7 +53,6 @@ class StateDragTarget extends StatelessWidget {
       return false;
     }
     NewTransitionProvider().destinationState = state;
-    NewTransitionProvider().destinationStateCentered = true;
     return true;
   }
 
@@ -72,10 +71,6 @@ class StateDragTarget extends StatelessWidget {
       CreateTransitionAction(
         sourceStateId: sourceState.id,
         destinationStateId: state.id,
-        sourceStateCentered: NewTransitionProvider().sourceStateCentered,
-        sourceStateAngle: NewTransitionProvider().sourceStateAngle,
-        destinationStateCentered: true,
-        destinationStateAngle: NewTransitionProvider().destinationStateAngle,
       ),
     );
   }
@@ -98,6 +93,5 @@ class StateDragTarget extends StatelessWidget {
     if (!NewTransitionProvider().destinationStateFlag) {
       NewTransitionProvider().destinationState = null;
     }
-    NewTransitionProvider().destinationStateCentered = null;
   }
 }
