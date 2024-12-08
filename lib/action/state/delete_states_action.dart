@@ -1,8 +1,8 @@
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 
 class DeleteStatesAction implements AppAction {
   final List<String> stateIds;

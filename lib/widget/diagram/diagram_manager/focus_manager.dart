@@ -1,6 +1,6 @@
 // Request focus for a state
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 
 void requestFocus(List<String> ids) {
   List<DiagramType> items = DiagramList().items;

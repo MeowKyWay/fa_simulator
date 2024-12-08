@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class StaightLinePainter extends CustomPainter {
   final Offset start;
+  final Offset? center;
   final Offset end;
 
   final double startOffset;
@@ -12,6 +13,7 @@ class StaightLinePainter extends CustomPainter {
 
   StaightLinePainter({
     required this.start,
+    this.center,
     required this.end,
     this.startOffset = 0,
     this.endOffset = 0,
@@ -27,8 +29,14 @@ class StaightLinePainter extends CustomPainter {
     Offset adjustedEnd = _adjustedEnd();
 
     _path.moveTo(adjustedStart.dx, adjustedStart.dy);
+    if (center != null) {
+      _path.lineTo(center!.dx, center!.dy);
+    }
     // _path.lineTo(start.dx+10, start.dy+10);
     _path.lineTo(adjustedEnd.dx, adjustedEnd.dy);
+    if (center != null) {
+      _path.lineTo(center!.dx, center!.dy);
+    }
     _path.lineTo(adjustedStart.dx, adjustedStart.dy);
     _path.close();
 

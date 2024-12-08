@@ -2,8 +2,10 @@ import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/action/diagram_clipboard.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:flutter/material.dart';
 
 class PasteAction extends AppAction {

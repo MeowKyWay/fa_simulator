@@ -1,4 +1,6 @@
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'dart:math';
+
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_gesture_detector.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot.dart';
 import 'package:fa_simulator/widget/painter/transition/arrow_head_painter.dart';
@@ -14,7 +16,8 @@ class DiagramTransition {
   });
 
   List<Widget> build() {
-    double angle = transition.startAngle;
+
+    double angle = transition.endAngle + pi;
 
     return [
       TransitionGestureDetector(transition: transition),
@@ -29,6 +32,7 @@ class DiagramTransition {
       CustomPaint(
         painter: StaightLinePainter(
           start: transition.startButtonPosition,
+          center: transition.centerPivot,
           end: transition.endButtonPosition,
         ),
         child: Container(),
@@ -37,6 +41,7 @@ class DiagramTransition {
           ? CustomPaint(
               painter: DashLinePainter(
                 start: transition.startButtonPosition,
+                center: transition.centerPivot,
                 end: transition.endButtonPosition,
               ),
               child: Container(),

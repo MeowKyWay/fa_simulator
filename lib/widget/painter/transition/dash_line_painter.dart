@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class DashLinePainter extends CustomPainter {
   final Offset start;
+  Offset? center;
   final Offset end;
 
   final double startOffset;
@@ -13,6 +14,7 @@ class DashLinePainter extends CustomPainter {
 
   DashLinePainter({
     required this.start,
+    this.center,
     required this.end,
     this.startOffset = 0,
     this.endOffset = 0,
@@ -25,29 +27,50 @@ class DashLinePainter extends CustomPainter {
       ..strokeWidth = transitionLineWidth
       ..style = PaintingStyle.stroke;
 
-    double angle = calculateAngle(start, end);
+    center = center ?? (start + end) / 2;
+
+    double startAngle = (start - center!).direction;
+    double centerAngle = (center! - end).direction;
 
     // Define the start and end points of the line
-    Offset adjustedStart = calculateNewPoint(start, startOffset, angle);
-    Offset adjustedEnd = calculateNewPoint(end, endOffset, angle + pi);
+    Offset s = calculateNewPoint(start, startOffset, startAngle);
+    Offset e = calculateNewPoint(end, endOffset, centerAngle + pi);
 
     // Dashed line properties
     double dashLength = 2.5; // Length of each dash
     double gapLength = 2.5; // Gap between dashes
 
-    // Calculate the distance between start and end
-    double totalDistance = (adjustedEnd - adjustedStart).distance;
+    // Calculate the distance between start and center
+    double firstHalfDistance = (center! - s).distance;
+    // Calculate the distance between center and end
+    double secondHalfDistance = (e - center!).distance;
 
     // Calculate the direction vector for the line
-    Offset direction = (adjustedEnd - adjustedStart) / totalDistance;
+    Offset firstHalfDirection = (center! - s) / firstHalfDistance;
+    Offset secondHalfDirection = (e - center!) / secondHalfDistance;
 
     // Draw the dashed line
     double currentDistance = 0;
-    while (currentDistance < totalDistance) {
+    while (currentDistance < firstHalfDistance) {
       // Calculate the start and end of the current dash
-      Offset dashStart = adjustedStart + direction * currentDistance;
-      Offset dashEnd = adjustedStart +
-          direction * min(currentDistance + dashLength, totalDistance);
+      Offset dashStart = s + firstHalfDirection * currentDistance;
+      Offset dashEnd = s +
+          firstHalfDirection *
+              min(currentDistance + dashLength, firstHalfDistance);
+
+      // Draw the current dash
+      canvas.drawLine(dashStart, dashEnd, paint);
+
+      // Move to the next dash position
+      currentDistance += dashLength + gapLength;
+    }
+    currentDistance = 0;
+    while (currentDistance < secondHalfDistance) {
+      // Calculate the start and end of the current dash
+      Offset dashStart = center! + secondHalfDirection * currentDistance;
+      Offset dashEnd = center! +
+          secondHalfDirection *
+              min(currentDistance + dashLength, secondHalfDistance);
 
       // Draw the current dash
       canvas.drawLine(dashStart, dashEnd, paint);
@@ -65,6 +88,7 @@ class DashLinePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant DashLinePainter oldDelegate) {
     return oldDelegate.start != start ||
+        oldDelegate.center != center ||
         oldDelegate.end != end ||
         oldDelegate.startOffset != startOffset ||
         oldDelegate.endOffset != endOffset;

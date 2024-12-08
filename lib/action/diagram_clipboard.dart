@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 
 class DiagramClipboard {
   static final DiagramClipboard _instance = DiagramClipboard._internal();

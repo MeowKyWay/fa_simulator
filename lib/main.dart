@@ -1,6 +1,7 @@
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/provider/dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/feedback_position_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
@@ -27,6 +28,7 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FeedbackPositionProvider()),
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
         ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
+        ChangeNotifierProvider(create: (context) => DraggingProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(

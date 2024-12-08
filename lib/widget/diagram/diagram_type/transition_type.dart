@@ -1,48 +1,11 @@
+import 'dart:math';
+
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
-
-class DiagramType {
-  final String id;
-  bool hasFocus;
-  String label;
-
-  DiagramType({
-    required this.id,
-    required this.label,
-    this.hasFocus = false,
-  });
-}
-
-class StateType extends DiagramType {
-  Offset position;
-  bool isDragging;
-  bool isRenaming;
-  bool isHovering;
-
-  StateType({
-    required this.position,
-    required super.id,
-    required super.label,
-    super.hasFocus,
-    this.isDragging = false,
-    this.isRenaming = false,
-    this.isHovering = false,
-  });
-
-  @override
-  String toString() {
-    return {
-      'id': id,
-      'label': label,
-      'position': position,
-      'isDragging': isDragging,
-      'isRenaming': isRenaming,
-      'isHovering': isHovering,
-    }.toString();
-  }
-}
 
 class TransitionType extends DiagramType {
   String? sourceStateId;
@@ -112,7 +75,7 @@ class TransitionType extends DiagramType {
     return calculateNewPoint(
       sourceState!.position,
       stateSize / 2,
-      endAngle,
+      startAngle + pi,
     );
   }
 
@@ -123,7 +86,7 @@ class TransitionType extends DiagramType {
     return calculateNewPoint(
       destinationState!.position,
       stateSize / 2,
-      startAngle,
+      endAngle + pi,
     );
   }
 
@@ -135,11 +98,11 @@ class TransitionType extends DiagramType {
   }
 
   double get startAngle {
-    return (startPosition - endPosition).direction;
+    return (startPosition - (centerPivot ?? endPosition)).direction;
   }
 
   double get endAngle {
-    return (endPosition - startPosition).direction;
+    return (endPosition - (centerPivot ?? startPosition)).direction;
   }
 
   void resetSourceState() {

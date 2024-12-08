@@ -2,10 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-double calculateAngle(Offset startPoint, Offset endPoint) {
-  return (endPoint - startPoint).direction;
-}
-
 Offset calculateNewPoint(Offset startPoint, double distance, double angle) {
 
   // Calculate the new x and y coordinates

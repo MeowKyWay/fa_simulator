@@ -3,7 +3,7 @@ import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:flutter/material.dart';
 
 //This action only work when moving transition pivot from state/position to another position

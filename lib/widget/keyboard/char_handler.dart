@@ -1,5 +1,5 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 
 void handleChar(String? char) {
   if (char == null) {
