@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
@@ -14,6 +12,11 @@ TransitionType addTransition({
   String label = "",
   String? id,
 }) {
+  if (sourceStateId != null && destinationStateId != null) {
+    if (DiagramList().getTransitionByState(sourceStateId!, destinationStateId!) != null) {
+      throw Exception(transitionAlreadyExistErrorMessage);
+    }
+  }
   TransitionType transition = TransitionType(
     id: id ?? const Uuid().v4(),
     label: label,
@@ -58,7 +61,7 @@ void moveTransition({
   // Get the transition
   TransitionType transition;
   try {
-    transition = DiagramList().transition(id);
+    transition = DiagramList().transition(id)!;
   } catch (e) {
     throw Exception("Transition id $id not found");
   }
@@ -105,7 +108,7 @@ void attachTransition({
   // Get the transition
   TransitionType transition;
   try {
-    transition = DiagramList().transition(id);
+    transition = DiagramList().transition(id)!;
   } catch (e) {
     throw Exception("Transition id $id not found");
   }
@@ -113,14 +116,29 @@ void attachTransition({
   DiagramList().resetRename();
   switch (endPoint) {
     case TransitionEndPointType.start:
-      log("TransitionEndPointType.start");
+      if (transition.destinationStateId != null) {
+        if (DiagramList().getTransitionByState(
+                stateId, transition.destinationStateId!) !=
+            null) {
+          throw Exception(transitionAlreadyExistErrorMessage);
+        }
+      }
       transition.sourceStateId = stateId;
       transition.resetSourcePosition();
       break;
     case TransitionEndPointType.end:
+      if (transition.sourceStateId != null) {
+        if (DiagramList()
+                .getTransitionByState(transition.sourceStateId!, stateId) !=
+            null) {
+          throw Exception(transitionAlreadyExistErrorMessage);
+        }
+      }
       transition.destinationStateId = stateId;
       transition.resetDestinationPosition();
       break;
   }
   DiagramList().notify();
 }
+
+String get transitionAlreadyExistErrorMessage => "Transition with the same source state and destination state already exist";

@@ -15,11 +15,29 @@ class DiagramList with ChangeNotifier {
   final List<DiagramType> _items = [];
   List<DiagramType> get items => _items;
 
-  StateType state(id) =>
-      items.firstWhere((element) => element.id == id) as StateType;
-  TransitionType transition(id) =>
-      items.firstWhere((element) => element.id == id) as TransitionType;
-  DiagramType item(id) => items.firstWhere((element) => element.id == id);
+  StateType? state(id) {
+    try {
+      return items.firstWhere((element) => element.id == id) as StateType;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  TransitionType? transition(id) {
+    try {
+      return items.firstWhere((element) => element.id == id) as TransitionType;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  DiagramType? item(id) {
+    try {
+      return items.firstWhere((element) => element.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
 
   //Renaming infomation
   String _renamingItemId = "";
@@ -39,7 +57,7 @@ class DiagramList with ChangeNotifier {
 
   void startRename(String id, {String? initialName}) {
     _renamingItemId = id;
-    _renamingItemInitialName = initialName ?? item(id).label;
+    _renamingItemInitialName = initialName ?? item(id)!.label;
     notifyListeners();
   }
 
@@ -87,6 +105,17 @@ class DiagramList with ChangeNotifier {
 
   List<TransitionType> getTransitions(List<String> ids) {
     return transitions.where((element) => ids.contains(element.id)).toList();
+  }
+
+  TransitionType? getTransitionByState(
+      String sourceStateId, String destinationStateId) {
+    try {
+      return transitions.firstWhere((element) =>
+          element.sourceStateId == sourceStateId &&
+          element.destinationStateId == destinationStateId);
+    } catch (e) {
+      return null;
+    }
   }
 
   //return if state with the id already exist

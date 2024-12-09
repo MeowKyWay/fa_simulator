@@ -32,7 +32,7 @@ class AppActionDispatcher {
     } on Exception catch (e) {
       log(e.toString());
     }
-    
+    _postAction();
   }
 
   void undo() {
@@ -49,6 +49,7 @@ class AppActionDispatcher {
       // Remove the action from the list
       _actions.removeLast();
     }
+    _postAction();
   }
 
   void redo() {
@@ -65,5 +66,10 @@ class AppActionDispatcher {
       // Remove the action from the redo list
       _redoActions.removeLast();
     }
+    _postAction();
+  }
+
+  void _postAction() {
+    // log(_actions.toString());
   }
 }

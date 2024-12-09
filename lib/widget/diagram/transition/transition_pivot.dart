@@ -17,9 +17,15 @@ class TransitionPivot {
     double offset = 7.5;
 
     Offset startPivotPosition = calculateNewPoint(
-        transition.startButtonPosition, offset, transition.startAngle + pi);
+      transition.startButtonPosition,
+      transition.sourceState != null ? offset : 0,
+      transition.startAngle + pi,
+    );
     Offset endPivotPosition = calculateNewPoint(
-        transition.endButtonPosition, offset, transition.endAngle + pi);
+      transition.endButtonPosition,
+      transition.destinationState != null ? offset : 0,
+      transition.endAngle + pi,
+    );
     Offset centerPivotPosition = transition.centerPosition;
 
     return [

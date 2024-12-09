@@ -38,7 +38,7 @@ class MoveTransitionsAction extends AppAction {
     //TODO if the center pivot is null do not move on multiple selection move
     unfocus();
     for (MoveTransitionActionInput input in inputs) {
-      TransitionType transition = DiagramList().transition(input.id);
+      TransitionType transition = DiagramList().transition(input.id)!;
       switch (input.pivotType) {
         case TransitionPivotType.start:
           input.oldStateId = transition.sourceStateId;

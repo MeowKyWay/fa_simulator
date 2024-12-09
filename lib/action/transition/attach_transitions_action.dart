@@ -12,7 +12,8 @@ class AttachTransitionAction extends AppAction {
   final String stateId;
   final bool? isCentered;
   final double? angle;
-  late Offset oldPosition;
+  String? oldStateId;
+  Offset? oldPosition;
 
   AttachTransitionAction({
     required this.id,
@@ -32,10 +33,31 @@ class AttachTransitionAction extends AppAction {
 
   @override
   void execute() {
-    TransitionType transition = DiagramList().transition(id);
-    oldPosition = endPoint == TransitionEndPointType.start
-        ? transition.sourcePosition!
-        : transition.destinationPosition!;
+    TransitionType transition = DiagramList().transition(id)!;
+    if (endPoint == TransitionEndPointType.start) {
+      try {
+        DiagramList().getTransitionByState(stateId, transition.destinationStateId!);
+      }
+      catch (e) {
+
+      }
+      if (transition.sourceState != null) {
+        oldStateId = transition.sourceState!.id;
+      } else if (transition.sourcePosition != null) {
+        oldPosition = transition.sourcePosition!;
+      } else {
+        throw StateError("Transition has no both source state and position");
+      }
+    } else {
+      if (transition.destinationState != null) {
+        oldStateId = transition.destinationState!.id;
+      } else if (transition.destinationPosition != null) {
+        oldPosition = transition.destinationPosition!;
+      } else {
+        throw StateError(
+            "Transition has no both destination state and position");
+      }
+    }
     attachTransition(
       id: id,
       endPoint: endPoint,
@@ -45,15 +67,23 @@ class AttachTransitionAction extends AppAction {
 
   @override
   void undo() {
-    TransitionType transition = DiagramList().transition(id);
+    TransitionType transition = DiagramList().transition(id)!;
     switch (endPoint) {
       case TransitionEndPointType.start:
-        transition.sourcePosition = oldPosition;
-        transition.resetSourceState();
+        if (oldStateId != null) {
+          attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
+        } else if (oldPosition != null) {
+          transition.sourcePosition = oldPosition;
+          transition.resetSourceState();
+        }
         break;
       case TransitionEndPointType.end:
-        transition.destinationPosition = oldPosition;
-        transition.resetDestinationState();
+        if (oldStateId != null) {
+          attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
+        } else if (oldPosition != null) {
+          transition.destinationPosition = oldPosition;
+          transition.resetDestinationState();
+        }
         break;
     }
     DiagramList().notify();

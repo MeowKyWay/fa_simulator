@@ -15,11 +15,13 @@ class DraggingProvider with ChangeNotifier {
 
   //transition
   TransitionPivotType? _pivotType;
+  String? _hoveringStateId;
 
   String? get draggingItemId => _draggingItemId;
   Offset? get startPosition => _startPosition;
   Offset? get endPosition => _endPosition;
   TransitionPivotType? get pivotType => _pivotType;
+  String? get hoveringStateId => _hoveringStateId;
 
   Offset get deltaOffset {
     if (_startPosition == null || _endPosition == null) {
@@ -48,11 +50,19 @@ class DraggingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set hoveringStateId(String? value) {
+    _hoveringStateId = value;
+    notifyListeners();
+  }
+
   void reset() {
     _draggingItemId = null;
     _startPosition = null;
     _endPosition = null;
     _pivotType = null;
+    _hoveringStateId = null;
     notifyListeners();
   }
+
+  get isDragging => _draggingItemId != null;
 }

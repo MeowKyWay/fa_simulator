@@ -6,6 +6,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
+import 'package:fa_simulator/widget/provider/dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,8 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
           outerRadius: _outerRadius,
         ),
         child: IgnorePointer(
-          ignoring: NewTransitionProvider().isDraggingNewTransition,
+          ignoring: NewTransitionProvider().isDraggingNewTransition ||
+              DraggingProvider().isDragging,
           child: Stack(
             children: [
               const DiagramDraggable(),
@@ -105,38 +107,11 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     setState(() {
       _isHovered = true;
     });
-    DiagramList().hoveringStateFlag = false;
-    if (!NewTransitionProvider().isDraggingNewTransition) {
-      return;
-    }
-    if (NewTransitionProvider().sourceState == widget.state) {
-      return;
-    }
-    setState(() {
-      NewTransitionProvider().destinationState = widget.state;
-      NewTransitionProvider().destinationStateFlag = true;
-    });
   }
 
   void _onExit(PointerExitEvent? event) {
     setState(() {
       _isHovered = false;
-    });
-    if (!DiagramList().hoveringStateFlag) {
-      DiagramList().hoveringStateFlag = false;
-      DiagramList().hoveringStateId = "";
-    }
-    // if (NewTransitionProvider().isHovering) {
-    //   return;
-    // }
-    setState(() {
-      if (NewTransitionProvider().destinationState == widget.state) {
-        NewTransitionProvider().destinationState = null;
-        NewTransitionProvider().destinationStateFlag = false;
-      }
-      if (NewTransitionProvider().hoveringState == widget.state) {
-        NewTransitionProvider().hoveringState = null;
-      }
     });
   }
 }

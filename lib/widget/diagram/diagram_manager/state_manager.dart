@@ -52,7 +52,7 @@ void moveState(String id, Offset distance) {
   // Get the state
   StateType state;
   try {
-    state = DiagramList().state(id);
+    state = DiagramList().state(id)!;
   } catch (e) {
     throw Exception("State id $id not found");
   }
@@ -67,7 +67,7 @@ String renameState(String id, String newName) {
   // Rename the state
   StateType state;
   try {
-    state = DiagramList().state(id);
+    state = DiagramList().state(id)!;
   } catch (e) {
     throw Exception("State id $id not found");
   }
