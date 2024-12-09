@@ -1,11 +1,12 @@
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:flutter/material.dart';
 
-class DraggingProvider with ChangeNotifier {
+class TransitionDragingProvider with ChangeNotifier {
   //Singleton
-  static final DraggingProvider _instance = DraggingProvider._internal();
-  DraggingProvider._internal();
-  factory DraggingProvider() {
+  static final TransitionDragingProvider _instance = TransitionDragingProvider._internal();
+  TransitionDragingProvider._internal();
+  factory TransitionDragingProvider() {
     return _instance;
   }
 
@@ -32,6 +33,7 @@ class DraggingProvider with ChangeNotifier {
 
   set draggingItemId(String? value) {
     _draggingItemId = value;
+    DiagramList().notify();
     notifyListeners();
   }
 

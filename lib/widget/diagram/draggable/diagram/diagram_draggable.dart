@@ -1,13 +1,16 @@
-import 'package:fa_simulator/action/app_action_dispatcher.dart';
-import 'package:fa_simulator/action/state/move_states_action.dart';
+import 'dart:developer';
+
+import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/provider/feedback_position_provider.dart';
+import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:flutter/material.dart';
 
 class DiagramDraggable extends StatefulWidget {
+  final Widget child;
+
   const DiagramDraggable({
     super.key,
+    required this.child,
   });
 
   @override
@@ -24,35 +27,28 @@ class _DiagramDraggableState extends State<DiagramDraggable> {
 
   @override
   Widget build(BuildContext context) {
-    Offset startPosition = Offset.zero;
 
-    bool firstMoveFlag = true;
+    DraggingDiagramType data = DraggingDiagramType();
 
-    return GestureDetector(
-      onPanStart: (details) {
-        startPosition = details.localPosition;
+    return Draggable(
+      data: data,
+      onDragStarted: () {
+        DiagramDraggingProvider().calculateOffset();
       },
-      onPanUpdate: (details) {
-        if (firstMoveFlag) {
-          FeedbackPositionProvider().size =
-              BodyProvider().getDraggableOverlaySize();
-          FeedbackPositionProvider().startPosition =
-              BodyProvider().getDraggableOverlayPosition();
+      onDragUpdate: (details) {
+        if (DiagramDraggingProvider().firstMoveFlag) {
+          DiagramDraggingProvider().firstMoveFlag = false;
+          DiagramDraggingProvider().startPosition =
+              BodyProvider().getBodyLocalPosition(details.globalPosition);
         }
-        Offset delta = details.localPosition - startPosition;
-        FeedbackPositionProvider().updatePosition(delta);
+        DiagramDraggingProvider().endPosition =
+            BodyProvider().getBodyLocalPosition(details.globalPosition);
       },
-      onPanEnd: (details) {
-        firstMoveFlag = true;
-        FeedbackPositionProvider().reset();
-        AppActionDispatcher().execute(MoveStatesAction(
-          stateIds: DiagramList().focusedStates.map((state) => state.id).toList(),
-          deltaOffset: details.localPosition - startPosition,
-        ));
+      onDragEnd: (details) {
+        DiagramDraggingProvider().reset();
       },
-      child: Container(
-        color: Colors.transparent,
-      ),
+      feedback: Container(),
+      child: widget.child,
     );
   }
 }

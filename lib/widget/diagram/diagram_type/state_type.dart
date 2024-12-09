@@ -1,3 +1,4 @@
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/material.dart';
 
@@ -28,4 +29,13 @@ class StateType extends DiagramType {
       'isHovering': isHovering,
     }.toString();
   }
+
+  @override
+  double get top => position.dy - stateSize / 2;
+  @override
+  double get left => position.dx - stateSize / 2;
+  @override
+  double get bottom => position.dy + stateSize / 2;
+  @override
+  double get right => position.dx + stateSize / 2;
 }

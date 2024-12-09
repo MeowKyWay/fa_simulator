@@ -1,3 +1,4 @@
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class NewTransitionProvider with ChangeNotifier {
 
   StateType? _hoveringState;
 
-  bool isDraggingNewTransition = false;
+  bool _isDraggingNewTransition = false;
 
   Offset? _draggingPosition;
 
@@ -34,6 +35,12 @@ class NewTransitionProvider with ChangeNotifier {
 
   set hoveringState(StateType? state) {
     _hoveringState = state;
+    notifyListeners();
+  }
+
+  set isDraggingNewTransition(bool value) {
+    _isDraggingNewTransition = value;
+    DiagramList().notify();
     notifyListeners();
   }
 
@@ -55,6 +62,7 @@ class NewTransitionProvider with ChangeNotifier {
   StateType? get sourceState => _sourceState;
   StateType? get destinationState => _destinationState;
   StateType? get hoveringState => _hoveringState;
+  bool get isDraggingNewTransition => _isDraggingNewTransition;
   Offset? get draggingPosition => _draggingPosition;
 
   Offset? get sourceStatePosition {

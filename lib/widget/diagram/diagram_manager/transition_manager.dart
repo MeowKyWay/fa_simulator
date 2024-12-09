@@ -13,7 +13,7 @@ TransitionType addTransition({
   String? id,
 }) {
   if (sourceStateId != null && destinationStateId != null) {
-    if (DiagramList().getTransitionByState(sourceStateId!, destinationStateId!) != null) {
+    if (DiagramList().getTransitionByState(sourceStateId, destinationStateId) != null) {
       throw Exception(transitionAlreadyExistErrorMessage);
     }
   }

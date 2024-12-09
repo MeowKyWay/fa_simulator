@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/state/move_states_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
-import 'package:fa_simulator/widget/provider/dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +35,7 @@ enum TransitionEndPointType {
   end,
 }
 
-class DraggingTransitionType extends DraggingDiagramType {
+class DraggingTransitionType {
   final TransitionType transition;
   TransitionPivotType draggingPivot;
 
@@ -65,8 +70,8 @@ class BodyDragTarget extends StatelessWidget {
         return false;
       },
       onAcceptWithDetails: (details) {
-        if (details.data is DraggingStateType) {
-          _onAcceptDraggingDiagram(details.data as DraggingStateType);
+        if (details.data is DraggingDiagramType) {
+          _onAcceptDraggingDiagram(details.data as DraggingDiagramType);
         } else if (details.data is DraggingTransitionType) {
           _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         } else if (details.data is NewTransitionType) {
@@ -93,7 +98,15 @@ class BodyDragTarget extends StatelessWidget {
     return true;
   }
 
-  void _onAcceptDraggingDiagram(DraggingDiagramType data) {}
+  void _onAcceptDraggingDiagram(DraggingDiagramType data) {
+    AppActionDispatcher().execute(
+      MoveStatesAction(
+        //TODO move all the focus transition
+        stateIds: DiagramList().focusedItems.map((e) => e.id).toList(),
+        deltaOffset: DiagramDraggingProvider().deltaPosition,
+      ),
+    );
+  }
 
   void _onAcceptDraggingTransition(DraggingTransitionType data) {
     AppActionDispatcher().execute(
@@ -105,7 +118,7 @@ class BodyDragTarget extends StatelessWidget {
             pivotType: data.draggingPivot,
           ),
         ],
-        deltaOffset: DraggingProvider().deltaOffset,
+        deltaOffset: TransitionDragingProvider().deltaOffset,
       ),
     );
   }

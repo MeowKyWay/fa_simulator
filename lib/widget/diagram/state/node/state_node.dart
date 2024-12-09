@@ -70,31 +70,30 @@ class _StateNodeState extends State<StateNode> {
       // Just to absorb the tap event
       child: Stack(
         children: [
-          state(
-            child: Center(
-              // If renaming, show the text field
-              child: widget.isRenaming
-                  ? Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: StateRenameTextField(
-                        focusNode: _renameFocusNode,
-                        stateName: DiagramList().renamingItemInitialName != ""
-                            ? DiagramList().renamingItemInitialName
-                            : widget.state.label,
-                        onChanged: (value) {
-                          DiagramList().renamingItemNewName = value;
-                        },
-                        onSubmitted: (value) => _renameFocusNode.unfocus(),
+          DiagramDraggable(
+            child: state(
+              child: Center(
+                // If renaming, show the text field
+                child: widget.isRenaming
+                    ? Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: StateRenameTextField(
+                          focusNode: _renameFocusNode,
+                          stateName: DiagramList().renamingItemInitialName != ""
+                              ? DiagramList().renamingItemInitialName
+                              : widget.state.label,
+                          onChanged: (value) {
+                            DiagramList().renamingItemNewName = value;
+                          },
+                          onSubmitted: (value) => _renameFocusNode.unfocus(),
+                        ),
+                      )
+                    : Text(
+                        widget.state.label,
+                        style: textLarge,
                       ),
-                    )
-                  : Text(
-                      widget.state.label,
-                      style: textLarge,
-                    ),
+              ),
             ),
-          ),
-          const Positioned.fill(
-            child: DiagramDraggable(),
           ),
         ],
       ),

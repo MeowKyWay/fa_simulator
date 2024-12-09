@@ -4,7 +4,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/painter/transition/dash_line_painter.dart';
-import 'package:fa_simulator/widget/provider/dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,7 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DraggingProvider>(builder: (context, provider, child) {
+    return Consumer<TransitionDragingProvider>(builder: (context, provider, child) {
       if (provider.draggingItemId == null) {
         return Container();
       }

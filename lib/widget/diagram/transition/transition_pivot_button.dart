@@ -1,7 +1,7 @@
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
-import 'package:fa_simulator/widget/provider/dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:flutter/material.dart';
 
 class TransitionPivotButton extends StatefulWidget {
@@ -47,16 +47,16 @@ class _TransitionPivotButtonState extends State<TransitionPivotButton> {
         child: Draggable(
           data: data,
           onDragStarted: () {
-            DraggingProvider().startPosition = widget.position;
-            DraggingProvider().draggingItemId = widget.transition.id;
-            DraggingProvider().pivotType = widget.type;
+            TransitionDragingProvider().startPosition = widget.position;
+            TransitionDragingProvider().draggingItemId = widget.transition.id;
+            TransitionDragingProvider().pivotType = widget.type;
           },
           onDragUpdate: (details) {
-            DraggingProvider().endPosition =
+            TransitionDragingProvider().endPosition =
                 BodyProvider().getBodyLocalPosition(details.globalPosition);
           },
           onDragCompleted: () {
-            DraggingProvider().reset();
+            TransitionDragingProvider().reset();
           },
           feedback: Container(),
           child: MouseRegion(

@@ -138,6 +138,19 @@ class TransitionType extends DiagramType {
   }
 
   @override
+  double get top =>
+      min(min(startButtonPosition.dy, endButtonPosition.dy), centerPosition.dy);
+  @override
+  double get left =>
+      min(min(startButtonPosition.dx, endButtonPosition.dx), centerPosition.dx);
+  @override
+  double get bottom =>
+      max(max(startButtonPosition.dy, endButtonPosition.dy), centerPosition.dy);
+  @override
+  double get right =>
+      max(max(startButtonPosition.dx, endButtonPosition.dx), centerPosition.dx);
+
+  @override
   String toString() {
     return {
       'id': id,

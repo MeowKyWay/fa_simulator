@@ -18,14 +18,16 @@ class DiagramFeedback extends StatelessWidget {
     return Positioned(
       left: position.dx,
       top: position.dy,
-      child: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: DottedBorder(
-          color: feedbackBorderColor,
-          dashPattern: const [5, 2.5],
-          child: Container(
-            color: Colors.transparent,
+      child: IgnorePointer(
+        child: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: DottedBorder(
+            color: feedbackBorderColor,
+            dashPattern: const [5, 2.5],
+            child: Container(
+              color: Colors.transparent,
+            ),
           ),
         ),
       ),

@@ -6,7 +6,7 @@ import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
-import 'package:fa_simulator/widget/provider/dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +62,7 @@ class StateDragTarget extends StatelessWidget {
     if (data.draggingPivot == TransitionPivotType.center) {
       return false;
     }
-    DraggingProvider().hoveringStateId = state.id;
+    TransitionDragingProvider().hoveringStateId = state.id;
     return true;
   }
 
@@ -95,8 +95,8 @@ class StateDragTarget extends StatelessWidget {
     if (!NewTransitionProvider().destinationStateFlag) {
       NewTransitionProvider().destinationState = null;
     }
-    if (DraggingProvider().hoveringStateId == state.id) {
-      DraggingProvider().hoveringStateId = null;
+    if (TransitionDragingProvider().hoveringStateId == state.id) {
+      TransitionDragingProvider().hoveringStateId = null;
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class CreateTransitionAction extends AppAction {
       destinationStateId: destinationStateId,
       label: label,
     );
-    //TODO add focus
+    requestFocus([transition.id]);
   }
 
   @override
@@ -53,6 +54,6 @@ class CreateTransitionAction extends AppAction {
       label: label,
       id: transition.id,
     );
-    //TODO add focus
+    requestFocus([transition.id]);
   }
 }

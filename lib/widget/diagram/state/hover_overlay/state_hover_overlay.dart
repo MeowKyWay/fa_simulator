@@ -4,9 +4,8 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
-import 'package:fa_simulator/widget/provider/dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
@@ -61,10 +60,9 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
         ),
         child: IgnorePointer(
           ignoring: NewTransitionProvider().isDraggingNewTransition ||
-              DraggingProvider().isDragging,
+              TransitionDragingProvider().isDragging,
           child: Stack(
             children: [
-              const DiagramDraggable(),
               NewTransitionDraggable(
                 state: widget.state,
                 child: MouseRegion(
