@@ -161,4 +161,12 @@ class TransitionType extends DiagramType {
       'destinationPosition': destinationPosition,
     }.toString();
   }
+
+  @override
+  bool isContained(Offset topLeft, Offset bottomRight) {
+    return topLeft.dx < left &&
+        topLeft.dy < top &&
+        bottomRight.dx > right &&
+        bottomRight.dy > bottom;
+  }
 }

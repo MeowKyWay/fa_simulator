@@ -5,6 +5,7 @@ import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/control.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
@@ -102,53 +103,18 @@ class SelectionAreaProvider with ChangeNotifier {
 
   void _updateSelection() {
     // Get the selected states
-    //TODO implement transition selection
-    List<String> selectedStates = DiagramList()
-        .states
-        .where((state) => _isOverlapping(state))
-        .map((state) => state.id)
+    if (rect == null) return;
+    List<String> selectedItems = DiagramList()
+        .items
+        .where((item) => item.isContained(rect!.topLeft, rect!.bottomRight))
+        .map((item) => item.id)
         .toList();
 
     // Request focus for the selected states
     if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
-      AppActionDispatcher().execute(AddFocusAction(selectedStates));
+      AppActionDispatcher().execute(AddFocusAction(selectedItems));
       return;
     }
-    AppActionDispatcher().execute(FocusAction(selectedStates));
-  }
-
-  bool _isOverlapping(StateType state) {
-    // Check if the selection rectangle is available
-    if (this.rect == null) return false;
-    Rect rect = this.rect!;
-
-    // Get the size of the DiagramState
-    double stateLeft = state.position.dx - (stateSize / 2);
-    double stateRight = state.position.dx + (stateSize / 2);
-    double stateTop = state.position.dy - (stateSize / 2);
-    double stateBottom = state.position.dy + (stateSize / 2);
-
-    Rect stateRect =
-        Rect.fromLTRB(stateLeft, stateTop, stateRight, stateBottom);
-
-    // Calculate the intersection area between the state and the selection rectangle
-    Rect intersection = rect.intersect(stateRect);
-
-    // If there is no intersection, return false
-    if (intersection.isEmpty) {
-      return false;
-    }
-
-    // Calculate the area of the intersection
-    double intersectionArea = intersection.width * intersection.height;
-
-    // Calculate the total area of the DiagramState
-    double stateArea = stateSize * stateSize;
-
-    // Calculate the coverage percentage
-    double coverage = intersectionArea / stateArea;
-
-    // Return true if the coverage is at least 80%
-    return coverage >= coveragePercentage;
+    AppActionDispatcher().execute(FocusAction(selectedItems));
   }
 }

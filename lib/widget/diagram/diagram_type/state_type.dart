@@ -38,4 +38,12 @@ class StateType extends DiagramType {
   double get bottom => position.dy + stateSize / 2;
   @override
   double get right => position.dx + stateSize / 2;
+
+  @override
+  bool isContained(Offset topLeft, Offset bottomRight) {
+    return topLeft.dx < left &&
+        topLeft.dy < top &&
+        bottomRight.dx > right &&
+        bottomRight.dy > bottom;
+  }
 }

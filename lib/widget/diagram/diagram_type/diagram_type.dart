@@ -15,4 +15,6 @@ abstract class DiagramType {
   double get left;
   double get bottom;
   double get right;
+
+  bool isContained(Offset topLeft, Offset bottomRight);
 }
