@@ -60,7 +60,6 @@ class MoveTransitionsAction extends AppAction {
 
   @override
   void undo() {
-    //TODO if the action detached the transition from the state, the transition should be reattached to the state
     for (MoveTransitionActionInput input in inputs) {
       if (input.oldStateId != null) {
         attachTransition(

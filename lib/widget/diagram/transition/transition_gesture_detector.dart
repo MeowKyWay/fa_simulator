@@ -24,9 +24,6 @@ class TransitionGestureDetector extends StatelessWidget {
     Offset br = bottomRight;
 
     Offset start = transition.startButtonPosition - tl;
-    Offset? center = transition.centerPivot != null
-        ? transition.centerPivot! - tl
-        : null;
     Offset end = transition.endButtonPosition - tl;
 
     return Positioned(
@@ -35,7 +32,6 @@ class TransitionGestureDetector extends StatelessWidget {
       child: ClipPath(
         clipper: StaightLineClipper(
           start: start,
-          center: center,
           end: end,
           width: 10,
         ),
@@ -67,14 +63,8 @@ class TransitionGestureDetector extends StatelessWidget {
   Offset get topLeft {
     double dx =
         min(transition.startButtonPosition.dx, transition.endButtonPosition.dx);
-    if (transition.centerPivot != null) {
-      dx = min(dx, transition.centerPivot!.dx);
-    }
     double dy =
         min(transition.startButtonPosition.dy, transition.endButtonPosition.dy);
-    if (transition.centerPivot != null) {
-      dy = min(dy, transition.centerPivot!.dy);
-    }
     dx -= transitionHitBoxWidth / 2;
     dy -= transitionHitBoxWidth / 2;
 
@@ -84,14 +74,8 @@ class TransitionGestureDetector extends StatelessWidget {
   Offset get bottomRight {
     double dx =
         max(transition.startButtonPosition.dx, transition.endButtonPosition.dx);
-    if (transition.centerPivot != null) {
-      dx = max(dx, transition.centerPivot!.dx);
-    }
     double dy =
         max(transition.startButtonPosition.dy, transition.endButtonPosition.dy);
-    if (transition.centerPivot != null) {
-      dy = max(dy, transition.centerPivot!.dy);
-    }
     dx += transitionHitBoxWidth / 2;
     dy += transitionHitBoxWidth / 2;
 

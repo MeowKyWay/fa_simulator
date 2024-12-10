@@ -35,12 +35,6 @@ class AttachTransitionAction extends AppAction {
   void execute() {
     TransitionType transition = DiagramList().transition(id)!;
     if (endPoint == TransitionEndPointType.start) {
-      try {
-        DiagramList().getTransitionByState(stateId, transition.destinationStateId!);
-      }
-      catch (e) {
-
-      }
       if (transition.sourceState != null) {
         oldStateId = transition.sourceState!.id;
       } else if (transition.sourcePosition != null) {
@@ -73,7 +67,7 @@ class AttachTransitionAction extends AppAction {
         if (oldStateId != null) {
           attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
         } else if (oldPosition != null) {
-          transition.sourcePosition = oldPosition;
+          moveTransition(id: id, pivotType: TransitionPivotType.start, position: oldPosition);
           transition.resetSourceState();
         }
         break;
@@ -81,7 +75,7 @@ class AttachTransitionAction extends AppAction {
         if (oldStateId != null) {
           attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
         } else if (oldPosition != null) {
-          transition.destinationPosition = oldPosition;
+          moveTransition(id: id, pivotType: TransitionPivotType.end, position: oldPosition);
           transition.resetDestinationState();
         }
         break;

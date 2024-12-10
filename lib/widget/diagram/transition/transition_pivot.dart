@@ -26,15 +26,8 @@ class TransitionPivot {
       transition.destinationState != null ? offset : 0,
       transition.endAngle + pi,
     );
-    Offset centerPivotPosition = transition.centerPosition;
 
     return [
-      TransitionPivotButton(
-        position: transition.centerPivot ?? centerPivotPosition,
-        hasFocus: transition.hasFocus,
-        transition: transition,
-        type: TransitionPivotType.center,
-      ),
       TransitionPivotButton(
         position: startPivotPosition,
         hasFocus: transition.hasFocus,

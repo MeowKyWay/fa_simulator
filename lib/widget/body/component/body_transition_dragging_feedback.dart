@@ -29,7 +29,6 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
       }
 
       Offset start = transition.startButtonPosition;
-      Offset? center = transition.centerPivot;
       Offset end = transition.endButtonPosition;
 
       StateType? hoveringState;
@@ -47,7 +46,7 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
           if (hoveringState != null) {
             start = hoveringState.position;
           }
-          if (center == null && transition.destinationState != null) {
+          if (transition.destinationState != null) {
             Offset desPos = transition.destinationState!.position;
             end = calculateNewPoint(
                 desPos, stateSize / 2, (start - desPos).direction);
@@ -56,25 +55,12 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
             start = calculateNewPoint(start, stateSize/2, (end - start).direction);
           }
           break;
-        case TransitionPivotType.center:
-          center = provider.endPosition!;
-          if (transition.sourceState != null) {
-            Offset srcPos = transition.sourceState!.position;
-            start = calculateNewPoint(
-                srcPos, stateSize / 2, (center - srcPos).direction);
-          }
-          if (transition.destinationState != null) {
-            Offset desPos = transition.destinationState!.position;
-            end = calculateNewPoint(
-                desPos, stateSize / 2, (center - desPos).direction);
-          }
-          break;
         case TransitionPivotType.end:
           end = provider.endPosition!;
           if (hoveringState != null) {
             end = hoveringState.position;
           }
-          if (center == null && transition.sourceState != null) {
+          if (transition.sourceState != null) {
             Offset srcPos = transition.sourceState!.position;
             start = calculateNewPoint(
                 srcPos, stateSize / 2, (end - srcPos).direction);
@@ -88,7 +74,7 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
       }
 
       return CustomPaint(
-          painter: DashLinePainter(start: start, center: center, end: end));
+          painter: DashLinePainter(start: start, end: end));
     });
   }
 }

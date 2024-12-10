@@ -12,8 +12,10 @@ TransitionType addTransition({
   String label = "",
   String? id,
 }) {
+  bool isCurved = false;
   if (sourceStateId != null && destinationStateId != null) {
-    if (DiagramList().getTransitionByState(sourceStateId, destinationStateId) != null) {
+    if (DiagramList().getTransitionByState(sourceStateId, destinationStateId) !=
+        null) {
       throw Exception(transitionAlreadyExistErrorMessage);
     }
   }
@@ -24,7 +26,9 @@ TransitionType addTransition({
     destinationStateId: destinationStateId,
     sourcePosition: sourcePosition,
     destinationPosition: destinationPosition,
+    isCurved: isCurved,
   );
+  transition.updateIsCurved(true);
   // Add the transition to the list
   DiagramList().resetRename();
   DiagramList().items.add(transition);
@@ -43,7 +47,16 @@ void deleteTransition(String id) {
     if (DiagramList().items[index] is! TransitionType) {
       throw Exception("Item id $id is not a transition");
     }
+    TransitionType transition = DiagramList().items[index] as TransitionType;
     DiagramList().items.removeAt(index);
+    try {
+      DiagramList()
+          .getTransitionByState(
+              transition.destinationStateId!, transition.sourceStateId!)!
+          .isCurved = false;
+    } catch (e) {
+      // Do nothing
+    }
   } else {
     throw Exception("Transition id $id not found");
   }
@@ -56,8 +69,13 @@ void deleteTransition(String id) {
 void moveTransition({
   required String id,
   required TransitionPivotType pivotType,
-  required Offset distance,
+  Offset? distance,
+  Offset? position,
 }) {
+  if ((distance ?? position) == null) {
+    throw ArgumentError(
+        "Either provide distance or position to move a transition pivot");
+  }
   // Get the transition
   TransitionType transition;
   try {
@@ -65,36 +83,17 @@ void moveTransition({
   } catch (e) {
     throw Exception("Transition id $id not found");
   }
+  transition.updateIsCurved(false);
 
   DiagramList().resetRename();
   switch (pivotType) {
     case TransitionPivotType.start:
-      transition.sourcePosition = transition.startButtonPosition + distance;
+      transition.sourcePosition = position ?? (transition.startButtonPosition + distance!);
       transition.resetSourceState();
       break;
     case TransitionPivotType.end:
-      transition.destinationPosition = transition.endButtonPosition + distance;
+      transition.destinationPosition = position ?? (transition.endButtonPosition + distance!);
       transition.resetDestinationState();
-      break;
-    case TransitionPivotType.center:
-      if (transition.centerPivot == null) {
-        transition.centerPivot = transition.centerPosition + distance;
-      } else {
-        transition.centerPivot = transition.centerPivot! + distance;
-      }
-      break;
-    case TransitionPivotType.all:
-      if ((transition.sourceState ?? transition.destinationState) != null) {
-        throw Exception(
-            "Cannot move all pivot on transition that attached to a state");
-      }
-      transition.sourcePosition = transition.startButtonPosition + distance;
-      transition.destinationPosition = transition.endButtonPosition + distance;
-      transition.resetSourceState();
-      transition.resetDestinationState();
-      if (transition.centerPivot != null) {
-        transition.centerPivot = transition.centerPivot! + distance;
-      }
       break;
   }
   DiagramList().notify();
@@ -138,7 +137,9 @@ void attachTransition({
       transition.resetDestinationPosition();
       break;
   }
+  transition.updateIsCurved(true);
   DiagramList().notify();
 }
 
-String get transitionAlreadyExistErrorMessage => "Transition with the same source state and destination state already exist";
+String get transitionAlreadyExistErrorMessage =>
+    "Transition with the same source state and destination state already exist";

@@ -58,10 +58,6 @@ class StateDragTarget extends StatelessWidget {
   }
 
   bool _onWillAcceptDraggingTransition(DraggingTransitionType data) {
-    //TODO handle self loop transition
-    if (data.draggingPivot == TransitionPivotType.center) {
-      return false;
-    }
     TransitionDragingProvider().hoveringStateId = state.id;
     return true;
   }

@@ -24,10 +24,8 @@ class DraggingStateType extends DraggingDiagramType {
 }
 
 enum TransitionPivotType {
-  center,
   start,
   end,
-  all,
 }
 
 enum TransitionEndPointType {
