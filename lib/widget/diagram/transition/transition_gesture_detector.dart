@@ -37,7 +37,7 @@ class TransitionGestureDetector extends StatelessWidget {
         ),
         child: GestureDetector(
           onTap: () {
-            developer.log('Transition Tapped');
+            developer.log(transition.id);
             AppActionDispatcher().execute(FocusAction(
               [transition.id],
             ));
@@ -45,7 +45,6 @@ class TransitionGestureDetector extends StatelessWidget {
           child: MouseRegion(
             cursor: SystemMouseCursors.precise,
             onEnter: (event) {
-              developer.log('Mouse Enter');
             },
             child: Container(
               width: (br.dx - tl.dx).abs(),

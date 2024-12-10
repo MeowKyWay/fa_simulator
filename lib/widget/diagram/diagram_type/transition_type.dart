@@ -52,9 +52,7 @@ class TransitionType extends DiagramType {
 
     return Path()
       ..moveTo(start.dx, start.dy)
-      ..lineTo(end.dx, end.dy)
-      ..lineTo(start.dx, start.dy)
-      ..close();
+      ..lineTo(end.dx, end.dy);
   }
 
   StateType? get sourceState {
@@ -234,5 +232,32 @@ class TransitionType extends DiagramType {
         topLeft.dy < top &&
         bottomRight.dx > right &&
         bottomRight.dy > bottom;
+  }
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      label.hashCode ^
+      hasFocus.hashCode ^
+      sourceStateId.hashCode ^
+      destinationStateId.hashCode ^
+      sourcePosition.hashCode ^
+      destinationPosition.hashCode ^
+      isCurved.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true; // Check for identical references
+    if (other is TransitionType) {
+      return other.id == id &&
+          other.label == label &&
+          other.hasFocus == hasFocus &&
+          other.sourceStateId == sourceStateId &&
+          other.destinationStateId == destinationStateId &&
+          other.sourcePosition == sourcePosition &&
+          other.destinationPosition == destinationPosition &&
+          other.isCurved == isCurved;
+    }
+    return false;
   }
 }

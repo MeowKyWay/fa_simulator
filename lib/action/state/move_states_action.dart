@@ -17,11 +17,10 @@ class MoveStatesAction extends AppAction {
 
   @override
   void execute() {
-    unfocus();
     for (String id in stateIds) {
       moveState(id, deltaOffset);
     }
-    addFocus(stateIds);
+    requestFocus(stateIds);
   }
 
   @override
@@ -29,7 +28,7 @@ class MoveStatesAction extends AppAction {
     for (String id in stateIds) {
       moveState(id, -deltaOffset);
     }
-    addFocus(stateIds);
+    requestFocus(stateIds);
   }
 
   @override

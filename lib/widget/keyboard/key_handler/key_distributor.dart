@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/diagram/delete_diagrams_action.dart';
 import 'package:fa_simulator/action/state/delete_states_action.dart';
+import 'package:fa_simulator/action/transition/delete_transitions_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/handle_ctrl.dart';
@@ -41,13 +45,27 @@ void _handleBackspace() {
   if (DiagramList().renamingItemId.isNotEmpty) {
     return;
   }
-  //TODO handle transition
-  List<String> focusedStatesIds =
-      DiagramList().focusedStates.map((state) => state.id).toList();
-  if (focusedStatesIds.isEmpty) {
+  List<String> focusItemIds =
+      DiagramList().focusedItems.map((item) => item.id).toList();
+  if (focusItemIds.isEmpty) {
     return;
   }
-  AppActionDispatcher().execute(DeleteStatesAction(stateIds: focusedStatesIds));
+
+  // Delete transition that connected to focused states before delete the states
+  Set<String> transitionToBeDeleted = {};
+  List<StateType> focusStates = DiagramList().focusedStates;
+  for (StateType state in focusStates) {
+    List<String> transitionIds = state.transitionIds;
+    transitionIds = transitionIds
+        .where((id) => !focusItemIds.contains(id))
+        .toList();
+    transitionToBeDeleted.addAll(transitionIds);
+  }
+  if (transitionToBeDeleted.isNotEmpty) {
+    AppActionDispatcher().execute(
+        DeleteTransitionsAction(ids: transitionToBeDeleted.toList()));
+  }
+  AppActionDispatcher().execute(DeleteDiagramsAction(ids: focusItemIds));
 }
 
 void _handleEnter() {

@@ -107,6 +107,10 @@ class DiagramList with ChangeNotifier {
     return transitions.where((element) => ids.contains(element.id)).toList();
   }
 
+  List<DiagramType> getItems(List<String> ids) {
+    return items.where((element) => ids.contains(element.id)).toList();
+  }
+
   TransitionType? getTransitionByState(
       String sourceStateId, String destinationStateId) {
     try {

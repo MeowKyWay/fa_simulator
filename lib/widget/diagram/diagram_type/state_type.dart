@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,14 @@ class StateType extends DiagramType {
     this.isRenaming = false,
     this.isHovering = false,
   });
+
+  List<String> get transitionIds {
+    return DiagramList()
+        .transitions
+        .where((t) => t.sourceStateId == id || t.destinationStateId == id)
+        .map((t) => t.id)
+        .toList();
+  }
 
   @override
   String toString() {

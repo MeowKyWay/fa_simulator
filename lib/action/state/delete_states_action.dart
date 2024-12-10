@@ -5,11 +5,11 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 
 class DeleteStatesAction implements AppAction {
-  final List<String> stateIds;
-  late List<StateType> states;
+  final List<String> ids;
+  final List<StateType> states = [];
 
   DeleteStatesAction({
-    required this.stateIds,
+    required this.ids,
   });
 
   @override
@@ -17,8 +17,16 @@ class DeleteStatesAction implements AppAction {
 
   @override
   void execute() {
-    states = DiagramList().getStates(stateIds);
+    states.clear();
+    states.addAll(DiagramList().getStates(ids));
     for (var i = 0; i < states.length; i++) {
+      try {
+        if (DiagramList().state(states[i].id)!.transitionIds.isNotEmpty) {
+          throw Exception("Cannot delete a state that has transitions");
+        }
+      } catch (e) {
+        throw Exception("Cannot fint state ${states[i].id}");
+      }
       deleteState(states[i].id);
     }
   }

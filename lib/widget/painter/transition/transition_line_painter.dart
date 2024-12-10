@@ -9,8 +9,6 @@ class TransitionLinePainter extends CustomPainter {
     required this.transition,
   });
 
-  final Path _path = Path();
-
   @override
   void paint(Canvas canvas, Size size) {
     Path path = transition.path;
@@ -25,11 +23,7 @@ class TransitionLinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant TransitionLinePainter oldDelegate) {
-    return oldDelegate.transition.sourceStateId != transition.sourceStateId ||
-        oldDelegate.transition.destinationStateId != transition.destinationStateId ||
-        oldDelegate.transition.sourcePosition != transition.sourcePosition ||
-        oldDelegate.transition.destinationPosition != transition.destinationPosition ||
-        oldDelegate.transition.isCurved != transition.isCurved;
+    return oldDelegate.transition != transition;
   }
 
   @override

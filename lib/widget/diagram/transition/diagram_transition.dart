@@ -36,8 +36,7 @@ class DiagramTransition {
       transition.hasFocus
           ? CustomPaint(
               painter: DashLinePainter(
-                start: transition.startButtonPosition,
-                end: transition.endButtonPosition,
+                transition: transition,
               ),
               child: Container(),
             )

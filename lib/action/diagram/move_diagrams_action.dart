@@ -1,5 +1,7 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
@@ -31,16 +33,44 @@ class MoveDiagramsAction extends AppAction {
         moveState(id, deltaOffset);
       }
       if (item is TransitionType) {
-        // moveTransition(id: id, pivotType: pivotType, distance: distance);
+        if ((item.sourceStateId ?? item.destinationStateId) == null) {
+          moveTransition(
+            id: id,
+            pivotType: TransitionPivotType.all,
+            distance: deltaOffset,
+          );
+        }
       }
     }
+    requestFocus(ids);
   }
 
   @override
   void undo() {
+    for (String id in ids) {
+      DiagramType? item = DiagramList().item(id);
+      if (item == null) {
+        continue;
+      }
+
+      if (item is StateType) {
+        moveState(id, -deltaOffset);
+      }
+      if (item is TransitionType) {
+        if ((item.sourceStateId ?? item.destinationStateId) == null) {
+          moveTransition(
+            id: id,
+            pivotType: TransitionPivotType.all,
+            distance: -deltaOffset,
+          );
+        }
+      }
+    }
+    requestFocus(ids);
   }
 
   @override
   void redo() {
+    execute();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/diagram/move_diagrams_action.dart';
 import 'package:fa_simulator/action/state/move_states_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
@@ -26,6 +27,7 @@ class DraggingStateType extends DraggingDiagramType {
 enum TransitionPivotType {
   start,
   end,
+  all,
 }
 
 enum TransitionEndPointType {
@@ -98,9 +100,8 @@ class BodyDragTarget extends StatelessWidget {
 
   void _onAcceptDraggingDiagram(DraggingDiagramType data) {
     AppActionDispatcher().execute(
-      MoveStatesAction(
-        //TODO move all the focus transition
-        stateIds: DiagramList().focusedItems.map((e) => e.id).toList(),
+      MoveDiagramsAction(
+        ids: DiagramList().focusedItems.map((e) => e.id).toList(),
         deltaOffset: DiagramDraggingProvider().deltaPosition,
       ),
     );

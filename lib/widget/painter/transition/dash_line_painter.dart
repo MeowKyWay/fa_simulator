@@ -1,83 +1,58 @@
-import 'dart:math';
-
-import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/utility/offset_util.dart';
+import 'dart:ui';
+import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 
 class DashLinePainter extends CustomPainter {
-  final Offset start;
-  Offset? center;
-  final Offset end;
-
-  final double startOffset;
-  final double endOffset;
+  TransitionType? transition;
+  Offset? start;
+  Offset? end;
 
   DashLinePainter({
-    required this.start,
-    this.center,
-    required this.end,
-    this.startOffset = 0,
-    this.endOffset = 0,
-  });
+    this.transition,
+    this.start,
+    this.end,
+  }) {
+    if (transition == null && (start == null || end == null)) {
+      throw Exception("Either transition or start and end must be provided");
+    }
+  }
+
+  Path _path = Path();
+
+  final Paint _paint = Paint()
+    ..color = focusColor
+    ..strokeWidth = 1
+    ..style = PaintingStyle.stroke
+    ..strokeJoin = StrokeJoin.round;
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = transitionLineWidth
-      ..style = PaintingStyle.stroke;
-
-    center = center ?? (start + end) / 2;
-
-    double startAngle = (start - center!).direction;
-    double centerAngle = (center! - end).direction;
-
-    // Define the start and end points of the line
-    Offset s = calculateNewPoint(start, startOffset, startAngle);
-    Offset e = calculateNewPoint(end, endOffset, centerAngle + pi);
-
-    // Dashed line properties
-    double dashLength = 2.5; // Length of each dash
-    double gapLength = 2.5; // Gap between dashes
-
-    // Calculate the distance between start and center
-    double firstHalfDistance = (center! - s).distance;
-    // Calculate the distance between center and end
-    double secondHalfDistance = (e - center!).distance;
-
-    // Calculate the direction vector for the line
-    Offset firstHalfDirection = (center! - s) / firstHalfDistance;
-    Offset secondHalfDirection = (e - center!) / secondHalfDistance;
-
-    // Draw the dashed line
-    double currentDistance = 0;
-    while (currentDistance < firstHalfDistance) {
-      // Calculate the start and end of the current dash
-      Offset dashStart = s + firstHalfDirection * currentDistance;
-      Offset dashEnd = s +
-          firstHalfDirection *
-              min(currentDistance + dashLength, firstHalfDistance);
-
-      // Draw the current dash
-      canvas.drawLine(dashStart, dashEnd, paint);
-
-      // Move to the next dash position
-      currentDistance += dashLength + gapLength;
+    if (transition != null) {
+      _path = transition!.path;
+    } else {
+      _path = Path()
+        ..moveTo(start!.dx, start!.dy)
+        ..lineTo(end!.dx, end!.dy);
     }
-    currentDistance = 0;
-    while (currentDistance < secondHalfDistance) {
-      // Calculate the start and end of the current dash
-      Offset dashStart = center! + secondHalfDirection * currentDistance;
-      Offset dashEnd = center! +
-          secondHalfDirection *
-              min(currentDistance + dashLength, secondHalfDistance);
 
-      // Draw the current dash
-      canvas.drawLine(dashStart, dashEnd, paint);
+    Path dashPath = Path();
 
-      // Move to the next dash position
-      currentDistance += dashLength + gapLength;
+    double dashWidth = 5;
+    double dashSpace = 2.5;
+    double distance = 0.0;
+
+    for (PathMetric pathMetric in _path.computeMetrics()) {
+      while (distance < pathMetric.length) {
+        dashPath.addPath(
+          pathMetric.extractPath(distance, distance + dashWidth),
+          Offset.zero,
+        );
+        distance += dashWidth;
+        distance += dashSpace;
+      }
     }
+    canvas.drawPath(dashPath, _paint);
   }
 
   @override
@@ -87,10 +62,13 @@ class DashLinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant DashLinePainter oldDelegate) {
-    return oldDelegate.start != start ||
-        oldDelegate.center != center ||
-        oldDelegate.end != end ||
-        oldDelegate.startOffset != startOffset ||
-        oldDelegate.endOffset != endOffset;
+    try {
+      if (transition != null) {
+        return transition != oldDelegate.transition;
+      }
+      return start != oldDelegate.start || end != oldDelegate.end;
+    } catch (e) {
+      return true;
+    }
   }
 }

@@ -1,4 +1,9 @@
+import 'dart:developer';
+
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/transition/delete_transitions_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +38,8 @@ void deleteState(String id) {
   // Get the state index
   int index = DiagramList().itemIndex(id);
 
+  log("test");
+
   DiagramList().resetRename();
   if (index != -1) {
     if (DiagramList().items[index] is! StateType) {
@@ -40,7 +47,7 @@ void deleteState(String id) {
     }
     DiagramList().items.removeAt(index);
   } else {
-    throw Exception("State id $id not found");
+    throw Exception("state_manager: State id $id not found");
   }
 
   DiagramList().notify();

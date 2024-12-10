@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
@@ -48,17 +50,10 @@ void deleteTransition(String id) {
       throw Exception("Item id $id is not a transition");
     }
     TransitionType transition = DiagramList().items[index] as TransitionType;
+    transition.updateIsCurved(false);
     DiagramList().items.removeAt(index);
-    try {
-      DiagramList()
-          .getTransitionByState(
-              transition.destinationStateId!, transition.sourceStateId!)!
-          .isCurved = false;
-    } catch (e) {
-      // Do nothing
-    }
   } else {
-    throw Exception("Transition id $id not found");
+    throw Exception("transition_manager.dart/deleteTransition: Transition id $id not found");
   }
 
   DiagramList().notify();
@@ -81,7 +76,7 @@ void moveTransition({
   try {
     transition = DiagramList().transition(id)!;
   } catch (e) {
-    throw Exception("Transition id $id not found");
+    throw Exception("transition_manager.dart/moveTransition: Transition id $id not found");
   }
   transition.updateIsCurved(false);
 
@@ -93,6 +88,12 @@ void moveTransition({
       break;
     case TransitionPivotType.end:
       transition.destinationPosition = position ?? (transition.endButtonPosition + distance!);
+      transition.resetDestinationState();
+      break;
+    case TransitionPivotType.all:
+      transition.sourcePosition = position ?? (transition.startButtonPosition + distance!);
+      transition.destinationPosition = position ?? (transition.endButtonPosition + distance!);
+      transition.resetSourceState();
       transition.resetDestinationState();
       break;
   }
@@ -109,7 +110,7 @@ void attachTransition({
   try {
     transition = DiagramList().transition(id)!;
   } catch (e) {
-    throw Exception("Transition id $id not found");
+    throw Exception("transition_manager.dart/attachTransition: Transition id $id not found");
   }
 
   DiagramList().resetRename();

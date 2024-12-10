@@ -22,6 +22,7 @@ class AppActionDispatcher {
   void execute(AppAction action) {
     // Execute the action
     try {
+      log(action.toString());
       action.execute();
       // Add the action to the list if it is undoable
       if (action.isRevertable) {
@@ -40,6 +41,7 @@ class AppActionDispatcher {
     if (_actions.isNotEmpty) {
       // Undo the last action
       try {
+        log(_actions.last.toString());
         _actions.last.undo();
         // Add the action to the redo list
         _redoActions.add(_actions.last);
@@ -57,6 +59,7 @@ class AppActionDispatcher {
     if (_redoActions.isNotEmpty) {
       // Redo the last action
       try {
+        log(_redoActions.last.toString());
         _redoActions.last.redo();
         // Add the action to the list
         _actions.add(_redoActions.last);
