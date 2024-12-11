@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_gesture_detector.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot.dart';

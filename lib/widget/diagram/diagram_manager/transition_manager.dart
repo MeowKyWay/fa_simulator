@@ -78,21 +78,24 @@ void moveTransition({
   } catch (e) {
     throw Exception("transition_manager.dart/moveTransition: Transition id $id not found");
   }
+
+  Offset startPos = transition.startButtonPosition;
+  Offset endPos = transition.endButtonPosition;
   transition.updateIsCurved(false);
 
   DiagramList().resetRename();
   switch (pivotType) {
     case TransitionPivotType.start:
-      transition.sourcePosition = position ?? (transition.startButtonPosition + distance!);
+      transition.sourcePosition = position ?? (startPos + distance!);
       transition.resetSourceState();
       break;
     case TransitionPivotType.end:
-      transition.destinationPosition = position ?? (transition.endButtonPosition + distance!);
+      transition.destinationPosition = position ?? (endPos + distance!);
       transition.resetDestinationState();
       break;
     case TransitionPivotType.all:
-      transition.sourcePosition = position ?? (transition.startButtonPosition + distance!);
-      transition.destinationPosition = position ?? (transition.endButtonPosition + distance!);
+      transition.sourcePosition = position ?? (startPos + distance!);
+      transition.destinationPosition = position ?? (endPos + distance!);
       transition.resetSourceState();
       transition.resetDestinationState();
       break;

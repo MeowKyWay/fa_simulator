@@ -1,10 +1,13 @@
-import 'dart:developer' as developer;
 import 'dart:math';
 
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
+import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/clip/transition/staight_line_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
+import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class TransitionGestureDetector extends StatelessWidget {
@@ -35,23 +38,26 @@ class TransitionGestureDetector extends StatelessWidget {
           end: end,
           width: 10,
         ),
-        child: GestureDetector(
-          onTap: () {
-            developer.log(transition.id);
-            AppActionDispatcher().execute(FocusAction(
-              [transition.id],
-            ));
-          },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.precise,
-            onEnter: (event) {
+        child: DiagramDraggable(
+          child: Listener(
+            onPointerDown: (event) {
+              if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
+                AppActionDispatcher()
+                    .execute(AddFocusAction([transition.id]));
+                return;
+              }
+              AppActionDispatcher().execute(FocusAction([transition.id]));
             },
-            child: Container(
-              width: (br.dx - tl.dx).abs(),
-              height: (br.dy - tl.dy).abs(),
-              color: _showTransitionHitBox
-                  ? Colors.white.withOpacity(0.5)
-                  : Colors.transparent,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.precise,
+              onEnter: (event) {},
+              child: Container(
+                width: (br.dx - tl.dx).abs(),
+                height: (br.dy - tl.dy).abs(),
+                color: _showTransitionHitBox
+                    ? Colors.white.withOpacity(0.5)
+                    : Colors.transparent,
+              ),
             ),
           ),
         ),

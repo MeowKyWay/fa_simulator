@@ -134,15 +134,6 @@ class TransitionType extends DiagramType {
         (startPosition + endPosition) / 2, stateSize / 2, startAngle + pi / 2);
   }
 
-  Offset get circleCenter {
-    try {
-      return findCircumcenter(
-          startButtonPosition, controlPoint, endButtonPosition)!;
-    } catch (e) {
-      throw Exception("Cannot find circumcenter of transition $id");
-    }
-  }
-
   double get arrowAngle {
     if (!isCurved) {
       return endAngle + pi;
@@ -206,13 +197,32 @@ class TransitionType extends DiagramType {
   }
 
   @override
-  double get top => min(startButtonPosition.dy, endButtonPosition.dy);
+  double get top {
+    double min1 = min(startButtonPosition.dy, endButtonPosition.dy);
+    double min2 = min(min1, controlPoint.dy);
+    return isCurved ? min2 : min1;
+  }
+
   @override
-  double get left => min(startButtonPosition.dx, endButtonPosition.dx);
+  double get left {
+    double min1 = min(startButtonPosition.dx, endButtonPosition.dx);
+    double min2 = min(min1, controlPoint.dx);
+    return isCurved ? min2 : min1;
+  }
+
   @override
-  double get bottom => max(startButtonPosition.dy, endButtonPosition.dy);
+  double get bottom {
+    double max1 = max(startButtonPosition.dy, endButtonPosition.dy);
+    double max2 = max(max1, controlPoint.dy);
+    return isCurved ? max2 : max1;
+  }
+
   @override
-  double get right => max(startButtonPosition.dx, endButtonPosition.dx);
+  double get right {
+    double max1 = max(startButtonPosition.dx, endButtonPosition.dx);
+    double max2 = max(max1, controlPoint.dx);
+    return isCurved ? max2 : max1;
+  }
 
   @override
   String toString() {

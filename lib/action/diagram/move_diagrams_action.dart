@@ -9,9 +9,22 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:flutter/material.dart';
 
+class TransitionMoveInfo {
+  final String id;
+  final String? oldSourceStateId;
+  final String? oldDestinationStateId;
+
+  TransitionMoveInfo({
+    required this.id,
+    this.oldSourceStateId,
+    this.oldDestinationStateId,
+  });
+}
+
 class MoveDiagramsAction extends AppAction {
   final List<String> ids;
   final Offset deltaOffset;
+  final List<TransitionMoveInfo> moveInfos = [];
 
   MoveDiagramsAction({
     required this.ids,
@@ -29,17 +42,31 @@ class MoveDiagramsAction extends AppAction {
         continue;
       }
 
+      if (item is TransitionType) {
+        TransitionPivotType pivotType = TransitionPivotType.all;
+        TransitionMoveInfo moveInfo = TransitionMoveInfo(
+          id: id,
+          oldSourceStateId: item.sourceStateId,
+          oldDestinationStateId: item.destinationStateId,
+        );
+        moveInfos.add(moveInfo);
+        if (ids.contains(item.sourceStateId)) {
+          if (ids.contains(item.destinationStateId)) {
+            continue;
+          }
+          pivotType = TransitionPivotType.end;
+        }
+        if (ids.contains(item.destinationStateId)) {
+          pivotType = TransitionPivotType.start;
+        }
+        moveTransition(
+          id: id,
+          pivotType: pivotType,
+          distance: deltaOffset,
+        );
+      }
       if (item is StateType) {
         moveState(id, deltaOffset);
-      }
-      if (item is TransitionType) {
-        if ((item.sourceStateId ?? item.destinationStateId) == null) {
-          moveTransition(
-            id: id,
-            pivotType: TransitionPivotType.all,
-            distance: deltaOffset,
-          );
-        }
       }
     }
     requestFocus(ids);
@@ -57,10 +84,34 @@ class MoveDiagramsAction extends AppAction {
         moveState(id, -deltaOffset);
       }
       if (item is TransitionType) {
-        if ((item.sourceStateId ?? item.destinationStateId) == null) {
+        TransitionMoveInfo moveInfo = moveInfos.firstWhere(
+          (element) => element.id == id,
+        );
+
+        TransitionPivotType? pivotType;
+
+        if (moveInfo.oldSourceStateId != null) {
+          attachTransition(
+            id: id,
+            stateId: moveInfo.oldSourceStateId!,
+            endPoint: TransitionEndPointType.start,
+          );
+          pivotType = TransitionPivotType.end;
+        }
+        if (moveInfo.oldDestinationStateId != null) {
+          attachTransition(
+            id: id,
+            stateId: moveInfo.oldDestinationStateId!,
+            endPoint: TransitionEndPointType.end,
+          );
+          pivotType = (pivotType == TransitionPivotType.end)
+              ? null
+              : TransitionPivotType.start;
+        }
+        if (pivotType != null) {
           moveTransition(
             id: id,
-            pivotType: TransitionPivotType.all,
+            pivotType: pivotType,
             distance: -deltaOffset,
           );
         }
