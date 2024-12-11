@@ -1,10 +1,8 @@
-import 'dart:math';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/clip/transition/staight_line_clipper.dart';
+import 'package:fa_simulator/widget/clip/transition/transition_hitbox_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
@@ -13,7 +11,7 @@ import 'package:flutter/material.dart';
 class TransitionGestureDetector extends StatelessWidget {
   final TransitionType transition;
 
-  final bool _showTransitionHitBox = false;
+  final bool _showTransitionHitBox = true;
   final double transitionHitBoxWidth = 10;
 
   const TransitionGestureDetector({
@@ -33,17 +31,15 @@ class TransitionGestureDetector extends StatelessWidget {
       top: tl.dy,
       left: tl.dx,
       child: ClipPath(
-        clipper: StaightLineClipper(
-          start: start,
-          end: end,
+        clipper: TransitionHitboxClipper(
+          transition: transition,
           width: 10,
         ),
         child: DiagramDraggable(
           child: Listener(
             onPointerDown: (event) {
               if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
-                AppActionDispatcher()
-                    .execute(AddFocusAction([transition.id]));
+                AppActionDispatcher().execute(AddFocusAction([transition.id]));
                 return;
               }
               AppActionDispatcher().execute(FocusAction([transition.id]));
@@ -66,24 +62,12 @@ class TransitionGestureDetector extends StatelessWidget {
   }
 
   Offset get topLeft {
-    double dx =
-        min(transition.startButtonPosition.dx, transition.endButtonPosition.dx);
-    double dy =
-        min(transition.startButtonPosition.dy, transition.endButtonPosition.dy);
-    dx -= transitionHitBoxWidth / 2;
-    dy -= transitionHitBoxWidth / 2;
-
-    return Offset(dx, dy);
+    return Offset(transition.left, transition.top) -
+        Offset(transitionHitBoxWidth / 2, transitionHitBoxWidth / 2);
   }
 
   Offset get bottomRight {
-    double dx =
-        max(transition.startButtonPosition.dx, transition.endButtonPosition.dx);
-    double dy =
-        max(transition.startButtonPosition.dy, transition.endButtonPosition.dy);
-    dx += transitionHitBoxWidth / 2;
-    dy += transitionHitBoxWidth / 2;
-
-    return Offset(dx, dy);
+    return Offset(transition.right, transition.bottom) +
+        Offset(transitionHitBoxWidth / 2, transitionHitBoxWidth / 2);
   }
 }

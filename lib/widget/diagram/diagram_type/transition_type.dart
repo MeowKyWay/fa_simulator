@@ -38,6 +38,46 @@ class TransitionType extends DiagramType {
     }
   }
 
+  Path getHitBox(double offset) {
+    Offset start = startButtonPosition - Offset(left - 5, top -5);
+    Offset end = endButtonPosition - Offset(left - 5, top - 5);
+
+    Offset point1 = calculateNewPoint(start, offset, startAngle + pi / 2);
+    Offset point2 = calculateNewPoint(end, offset, startAngle + pi / 2);
+
+    Offset point3 = calculateNewPoint(start, offset, startAngle - pi / 2);
+    Offset point4 = calculateNewPoint(end, offset, startAngle - pi / 2);
+
+    if (isCurved && sourceState != null && destinationState != null) {
+      // Calculate the center of the control points
+      Offset controlPoint = this.controlPoint - Offset(left - 5, top - 5);
+      Offset controlPoint1 =
+          calculateNewPoint(controlPoint, offset, startAngle + pi / 2);
+      Offset controlPoint2 =
+          calculateNewPoint(controlPoint, offset, startAngle - pi / 2);
+
+      Path path = Path();
+      path.moveTo(point1.dx, point1.dy);
+      path.quadraticBezierTo(
+          controlPoint1.dx, controlPoint1.dy, point2.dx, point2.dy);
+      path.lineTo(point4.dx, point4.dy);
+      path.quadraticBezierTo(
+          controlPoint2.dx, controlPoint2.dy, point3.dx, point3.dy);
+      path.lineTo(point1.dx, point1.dy);
+      path.close();
+      return path;
+    }
+
+    Path path = Path();
+    path.moveTo(point1.dx, point1.dy);
+    path.lineTo(point2.dx, point2.dy);
+    path.lineTo(point4.dx, point4.dy);
+    path.lineTo(point3.dx, point3.dy);
+    path.lineTo(point1.dx, point1.dy);
+    path.close();
+    return path;
+  }
+
   Path get path {
     Offset start = startButtonPosition;
     Offset end = endButtonPosition;
