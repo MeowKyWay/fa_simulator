@@ -1,9 +1,11 @@
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_gesture_detector.dart';
+import 'package:fa_simulator/widget/diagram/transition/transition_label.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot.dart';
 import 'package:fa_simulator/widget/painter/transition/arrow_head_painter.dart';
 import 'package:fa_simulator/widget/painter/transition/dash_line_painter.dart';
 import 'package:fa_simulator/widget/painter/transition/transition_line_painter.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
 class DiagramTransition {
@@ -14,7 +16,6 @@ class DiagramTransition {
   });
 
   List<Widget> build() {
-
     return [
       TransitionGestureDetector(transition: transition),
       CustomPaint(
@@ -25,21 +26,29 @@ class DiagramTransition {
         ),
         child: Container(),
       ),
-      CustomPaint(
-        painter: TransitionLinePainter(
-          transition: transition,
-        ),
-        child: Container(),
+      Stack(
+        children: [
+          CustomPaint(
+            painter: TransitionLinePainter(
+              transition: transition,
+            ),
+            child: Container(),
+          ),
+          transition.hasFocus
+              ? CustomPaint(
+                  painter: DashLinePainter(
+                    transition: transition,
+                  ),
+                  child: Container(),
+                )
+              : Container(),
+        ],
       ),
-      transition.hasFocus
-          ? CustomPaint(
-              painter: DashLinePainter(
-                transition: transition,
-              ),
-              child: Container(),
-            )
-          : Container(),
       ...TransitionPivot(transition: transition).build(),
+      TransitionLabel(
+        transition: transition,
+        isRenaming: RenamingProvider().renamingItemId == transition.id,
+      ),
     ];
   }
 }

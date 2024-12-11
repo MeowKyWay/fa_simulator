@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/move_diagrams_action.dart';
-import 'package:fa_simulator/action/state/move_states_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';

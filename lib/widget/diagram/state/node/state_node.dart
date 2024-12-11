@@ -1,12 +1,11 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
-import 'package:fa_simulator/action/state/rename_state_action.dart';
+import 'package:fa_simulator/action/diagram/rename_diagrams_action.dart';
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
-import 'package:fa_simulator/widget/diagram/state/state_rename_text_field.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
+import 'package:fa_simulator/widget/diagram/draggable/diagram/rename_text_field.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
 class StateNode extends StatefulWidget {
@@ -28,6 +27,7 @@ class StateNode extends StatefulWidget {
 
 class _StateNodeState extends State<StateNode> {
   //Do not use set state in this class
+  final TextEditingController _controller = RenamingProvider().controller;
   late FocusNode _renameFocusNode;
   late VoidCallback _listener;
 
@@ -36,14 +36,13 @@ class _StateNodeState extends State<StateNode> {
     super.initState();
     _listener = () {
       if (!_renameFocusNode.hasFocus) {
-        String newName = DiagramList().renamingItemNewName;
+        String newName = _controller.text;
         if (newName != widget.state.label) {
-          AppActionDispatcher().execute(
-              RenameStateAction(stateId: widget.state.id, name: newName));
-        } else {
-          DiagramList().endRename();
+          AppActionDispatcher().execute(RenameDiagramsAction(
+            id: widget.state.id,
+            name: newName,
+          ));
         }
-        KeyboardProvider().focusNode.requestFocus();
       }
     };
     _renameFocusNode = FocusNode();
@@ -61,10 +60,6 @@ class _StateNodeState extends State<StateNode> {
     if (widget.isRenaming) {
       // Request focus for the rename text field
       _renameFocusNode.requestFocus();
-      if (DiagramList().renamingItemInitialName == "") {
-        DiagramList().renamingItemNewName =
-            DiagramList().renamingItemInitialName;
-      }
     }
     return GestureDetector(
       // Just to absorb the tap event
@@ -77,15 +72,9 @@ class _StateNodeState extends State<StateNode> {
                 child: widget.isRenaming
                     ? Padding(
                         padding: const EdgeInsets.all(5),
-                        child: StateRenameTextField(
+                        child: RenameTextField(
+                          controller: _controller,
                           focusNode: _renameFocusNode,
-                          stateName: DiagramList().renamingItemInitialName != ""
-                              ? DiagramList().renamingItemInitialName
-                              : widget.state.label,
-                          onChanged: (value) {
-                            DiagramList().renamingItemNewName = value;
-                          },
-                          onSubmitted: (value) => _renameFocusNode.unfocus(),
                         ),
                       )
                     : Text(

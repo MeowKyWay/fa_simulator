@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -32,7 +31,7 @@ TransitionType addTransition({
   );
   transition.updateIsCurved(true);
   // Add the transition to the list
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   DiagramList().items.add(transition);
   DiagramList().notify();
   // Return the transition
@@ -44,7 +43,7 @@ void deleteTransition(String id) {
   // Get the state index
   int index = DiagramList().itemIndex(id);
 
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   if (index != -1) {
     if (DiagramList().items[index] is! TransitionType) {
       throw Exception("Item id $id is not a transition");
@@ -53,7 +52,8 @@ void deleteTransition(String id) {
     transition.updateIsCurved(false);
     DiagramList().items.removeAt(index);
   } else {
-    throw Exception("transition_manager.dart/deleteTransition: Transition id $id not found");
+    throw Exception(
+        "transition_manager.dart/deleteTransition: Transition id $id not found");
   }
 
   DiagramList().notify();
@@ -76,14 +76,15 @@ void moveTransition({
   try {
     transition = DiagramList().transition(id)!;
   } catch (e) {
-    throw Exception("transition_manager.dart/moveTransition: Transition id $id not found");
+    throw Exception(
+        "transition_manager.dart/moveTransition: Transition id $id not found");
   }
 
   Offset startPos = transition.startButtonPosition;
   Offset endPos = transition.endButtonPosition;
   transition.updateIsCurved(false);
 
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   switch (pivotType) {
     case TransitionPivotType.start:
       transition.sourcePosition = position ?? (startPos + distance!);
@@ -113,10 +114,11 @@ void attachTransition({
   try {
     transition = DiagramList().transition(id)!;
   } catch (e) {
-    throw Exception("transition_manager.dart/attachTransition: Transition id $id not found");
+    throw Exception(
+        "transition_manager.dart/attachTransition: Transition id $id not found");
   }
 
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   switch (endPoint) {
     case TransitionEndPointType.start:
       if (transition.destinationStateId != null) {

@@ -2,12 +2,13 @@ import 'dart:developer';
 
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/delete_diagrams_action.dart';
-import 'package:fa_simulator/action/state/delete_states_action.dart';
 import 'package:fa_simulator/action/transition/delete_transitions_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/handle_ctrl.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/services.dart';
 
 void handleKey(LogicalKeyboardKey key) {
@@ -42,9 +43,8 @@ void _handleKey(LogicalKeyboardKey key) {
 
 void _handleBackspace() {
   //Prevent delete a state when renaming
-  if (DiagramList().renamingItemId.isNotEmpty) {
-    return;
-  }
+  if (RenamingProvider().renamingItemId != null) return;
+
   List<String> focusItemIds =
       DiagramList().focusedItems.map((item) => item.id).toList();
   if (focusItemIds.isEmpty) {
@@ -56,25 +56,25 @@ void _handleBackspace() {
   List<StateType> focusStates = DiagramList().focusedStates;
   for (StateType state in focusStates) {
     List<String> transitionIds = state.transitionIds;
-    transitionIds = transitionIds
-        .where((id) => !focusItemIds.contains(id))
-        .toList();
+    transitionIds =
+        transitionIds.where((id) => !focusItemIds.contains(id)).toList();
     transitionToBeDeleted.addAll(transitionIds);
   }
   if (transitionToBeDeleted.isNotEmpty) {
-    AppActionDispatcher().execute(
-        DeleteTransitionsAction(ids: transitionToBeDeleted.toList()));
+    AppActionDispatcher()
+        .execute(DeleteTransitionsAction(ids: transitionToBeDeleted.toList()));
   }
   AppActionDispatcher().execute(DeleteDiagramsAction(ids: focusItemIds));
 }
 
 void _handleEnter() {
-  if (DiagramList().renamingItemId.isNotEmpty) return;
+  log("Enter");
+  if (RenamingProvider().renamingItemId != null) return;
 
-  //TODO handle transition
-  List<StateType> focusedStates = DiagramList().focusedStates;
-  if (focusedStates.length != 1) return;
+  List<DiagramType> focusedItems = DiagramList().focusedItems;
+  if (focusedItems.length != 1) return;
 
-  DiagramList()
-      .startRename(focusedStates[0].id, initialName: focusedStates[0].label);
+  RenamingProvider().startRename(
+    id: focusedItems.first.id,
+  );
 }

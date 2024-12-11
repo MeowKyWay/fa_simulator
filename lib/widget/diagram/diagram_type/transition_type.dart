@@ -125,6 +125,13 @@ class TransitionType extends DiagramType {
     return destinationState!.position;
   }
 
+  Offset get centerPosition {
+    if (isCurved && sourceState != null && destinationState != null) {
+      return controlPoint;
+    }
+    return (startButtonPosition + endButtonPosition) / 2;
+  }
+
   Offset get startButtonPosition {
     if (sourcePosition != null) {
       return sourcePosition!;
@@ -176,7 +183,8 @@ class TransitionType extends DiagramType {
 
   double get startLineAngle {
     if (!isCurved) {
-      return startAngle; // For a straight line, the angle remains unchanged
+      return startAngle +
+          pi; // For a straight line, the angle remains unchanged
     }
 
     // Calculate the tangent vector at the start of the curve (t = 0)

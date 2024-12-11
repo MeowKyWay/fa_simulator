@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot_button.dart';

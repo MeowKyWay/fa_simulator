@@ -39,13 +39,6 @@ class DiagramList with ChangeNotifier {
     }
   }
 
-  //Renaming infomation
-  String _renamingItemId = "";
-  String _renamingItemInitialName = "";
-  String renamingItemNewName = "";
-  String get renamingItemId => _renamingItemId;
-  String get renamingItemInitialName => _renamingItemInitialName;
-
   String _hoveringStateId = "";
   String get hoveringStateId => _hoveringStateId;
   set hoveringStateId(String id) {
@@ -54,23 +47,6 @@ class DiagramList with ChangeNotifier {
   }
 
   bool hoveringStateFlag = false;
-
-  void startRename(String id, {String? initialName}) {
-    _renamingItemId = id;
-    _renamingItemInitialName = initialName ?? item(id)!.label;
-    notifyListeners();
-  }
-
-  void resetRename() {
-    _renamingItemId = "";
-    _renamingItemInitialName = "";
-    renamingItemNewName = "";
-  }
-
-  void endRename() {
-    resetRename();
-    notifyListeners();
-  }
 
   //return list of focused items
   List<DiagramType> get focusedItems {
@@ -120,6 +96,17 @@ class DiagramList with ChangeNotifier {
     } catch (e) {
       return null;
     }
+  }
+
+  String renameItem(String id, String name) {
+    DiagramType? item = this.item(id);
+    if (item == null) {
+      throw Exception("diagram_list/renameItem: Item with id $id not found");
+    }
+    String oldName = item.label;
+    item.label = name;
+    notifyListeners();
+    return oldName;
   }
 
   //return if state with the id already exist

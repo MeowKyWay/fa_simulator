@@ -1,14 +1,14 @@
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 
-class RenameStateAction implements AppAction {
-  final String stateId;
+class RenameDiagramsAction extends AppAction {
+  final String id;
   final String name;
   late String? oldName;
 
-  RenameStateAction({
-    required this.stateId,
+  RenameDiagramsAction({
+    required this.id,
     required this.name,
     this.oldName,
   });
@@ -18,14 +18,14 @@ class RenameStateAction implements AppAction {
 
   @override
   void execute() {
-    String old = renameState(stateId, name);
+    String old = DiagramList().renameItem(id, name);
     oldName ??= old;
-    DiagramList().endRename();
+    RenamingProvider().endRename();
   }
 
   @override
   void undo() {
-    renameState(stateId, oldName!);
+    DiagramList().renameItem(id, oldName!);
   }
 
   @override

@@ -10,6 +10,7 @@ import 'package:fa_simulator/widget/diagram/state/state_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
 class DiagramState extends StatefulWidget {
@@ -25,16 +26,15 @@ class DiagramState extends StatefulWidget {
 }
 
 class _DiagramStateState extends State<DiagramState> {
-  Offset pointerDownPosition = Offset.zero;
-  bool pointerDownFlag = false;
-  bool isHovered = false;
+  Offset _pointerDownPosition = Offset.zero;
+  bool _pointerDownFlag = false;
 
   @override
   Widget build(BuildContext context) {
     StateNode newState;
     newState = StateNode(
       state: widget.state,
-      isRenaming: DiagramList().renamingItemId == widget.state.id,
+      isRenaming: RenamingProvider().renamingItemId == widget.state.id,
     );
 
     return Positioned(
@@ -51,20 +51,19 @@ class _DiagramStateState extends State<DiagramState> {
                 onDoubleTap: _handleDoubleTap,
                 child: Listener(
                   onPointerDown: (event) {
-                    pointerDownPosition = event.localPosition;
+                    _pointerDownPosition = event.localPosition;
                     if (!widget.state.hasFocus) {
                       // Prevent group dragging to only focus the state when drag start
                       _handleClick();
-                      pointerDownFlag = true;
+                      _pointerDownFlag = true;
                     }
                   },
                   onPointerUp: (event) {
-                    if (pointerDownFlag) {
-                      pointerDownFlag = false;
+                    if (_pointerDownFlag) {
+                      _pointerDownFlag = false;
                       return;
                     }
-                    if ((pointerDownPosition - event.localPosition)
-                            .distance <
+                    if ((_pointerDownPosition - event.localPosition).distance <
                         5) {
                       // If the pointer moved less than 5 pixels, focus the state
                       _handleClick();
@@ -81,8 +80,7 @@ class _DiagramStateState extends State<DiagramState> {
                       DiagramList().notify();
                     },
                     child: Container(
-                      margin:
-                          const EdgeInsets.all(stateFocusOverlayRingWidth),
+                      margin: const EdgeInsets.all(stateFocusOverlayRingWidth),
                       color: Colors.transparent,
                       width: stateSize,
                       height: stateSize,
@@ -112,7 +110,7 @@ class _DiagramStateState extends State<DiagramState> {
 
   void _handleDoubleTap() {
     AppActionDispatcher().execute(FocusAction([widget.state.id]));
-    DiagramList().startRename(widget.state.id);
+    RenamingProvider().startRename(id: widget.state.id);
   }
 
   void _focus() {

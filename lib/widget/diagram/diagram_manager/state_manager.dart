@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:fa_simulator/action/app_action_dispatcher.dart';
-import 'package:fa_simulator/action/transition/delete_transitions_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,7 +24,7 @@ StateType addState(Offset position, String name, [String? id]) {
     label: name,
   );
   // Add the state to the list
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   DiagramList().items.add(state);
   DiagramList().notify();
   // Return the state
@@ -40,7 +38,7 @@ void deleteState(String id) {
 
   log("test");
 
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   if (index != -1) {
     if (DiagramList().items[index] is! StateType) {
       throw Exception("Item id $id is not a state");
@@ -64,7 +62,7 @@ void moveState(String id, Offset distance) {
     throw Exception("State id $id not found");
   }
 
-  DiagramList().resetRename();
+  RenamingProvider().endRename();
   state.position += deltaPosition;
   DiagramList().notify();
 }
