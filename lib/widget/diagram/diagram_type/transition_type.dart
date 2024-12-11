@@ -39,7 +39,7 @@ class TransitionType extends DiagramType {
   }
 
   Path getHitBox(double offset) {
-    Offset start = startButtonPosition - Offset(left - 5, top -5);
+    Offset start = startButtonPosition - Offset(left - 5, top - 5);
     Offset end = endButtonPosition - Offset(left - 5, top - 5);
 
     Offset point1 = calculateNewPoint(start, offset, startAngle + pi / 2);
@@ -174,7 +174,20 @@ class TransitionType extends DiagramType {
         (startPosition + endPosition) / 2, stateSize / 2, startAngle + pi / 2);
   }
 
-  double get arrowAngle {
+  double get startLineAngle {
+    if (!isCurved) {
+      return startAngle; // For a straight line, the angle remains unchanged
+    }
+
+    // Calculate the tangent vector at the start of the curve (t = 0)
+    double dx = controlPoint.dx - startButtonPosition.dx;
+    double dy = controlPoint.dy - startButtonPosition.dy;
+
+    // Calculate the angle using atan2 (returns the angle in radians)
+    return atan2(dy, dx);
+  }
+
+  double get endLineAngle {
     if (!isCurved) {
       return endAngle + pi;
     }

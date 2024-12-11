@@ -20,7 +20,7 @@ class DiagramTransition {
       CustomPaint(
         painter: ArrowHeadPainter(
           position: transition.endButtonPosition,
-          angle: transition.arrowAngle,
+          angle: transition.endLineAngle,
           arrowSize: 10,
         ),
         child: Container(),

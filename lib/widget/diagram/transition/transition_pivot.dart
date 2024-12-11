@@ -19,12 +19,12 @@ class TransitionPivot {
     Offset startPivotPosition = calculateNewPoint(
       transition.startButtonPosition,
       transition.sourceState != null ? offset : 0,
-      transition.startAngle + pi,
+      transition.startLineAngle,
     );
     Offset endPivotPosition = calculateNewPoint(
       transition.endButtonPosition,
       transition.destinationState != null ? offset : 0,
-      transition.endAngle + pi,
+      transition.endLineAngle,
     );
 
     return [
