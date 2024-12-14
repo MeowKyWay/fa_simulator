@@ -14,14 +14,20 @@ class TransitionPivot {
   List<Widget> build() {
     double offset = 7.5;
 
+    double startOffset = transition.sourceStateId != null ? offset : 0;
+    double endOffset = transition.destinationStateId != null ? offset : 0;
+
+    startOffset = transition.sourceStateId == transition.destinationStateId ? 0 : startOffset;
+    endOffset = transition.sourceStateId == transition.destinationStateId ? 0 : endOffset;
+
     Offset startPivotPosition = calculateNewPoint(
       transition.startButtonPosition,
-      transition.sourceState != null ? offset : 0,
+      startOffset,
       transition.startLineAngle,
     );
     Offset endPivotPosition = calculateNewPoint(
       transition.endButtonPosition,
-      transition.destinationState != null ? offset : 0,
+      endOffset,
       transition.endLineAngle,
     );
 

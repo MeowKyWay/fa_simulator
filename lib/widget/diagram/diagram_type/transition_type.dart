@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:developer' as developer;
 
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
@@ -14,7 +15,12 @@ class TransitionType extends DiagramType {
   Offset? sourcePosition;
   Offset? destinationPosition;
 
+  double loopAngle;
+
   bool isCurved;
+
+  final double _offset = 10;
+  final double _loopRadius = stateSize / 3;
 
   TransitionType({
     required super.id,
@@ -24,6 +30,7 @@ class TransitionType extends DiagramType {
     this.destinationStateId,
     this.sourcePosition,
     this.destinationPosition,
+    this.loopAngle = -pi / 2,
     this.isCurved = false,
   }) : super() {
     // Validation logic moved to constructor body
@@ -47,6 +54,27 @@ class TransitionType extends DiagramType {
 
     Offset point3 = calculateNewPoint(start, offset, startAngle - pi / 2);
     Offset point4 = calculateNewPoint(end, offset, startAngle - pi / 2);
+
+    if (loopCenter != null) {
+      double radius1 = _loopRadius + offset;
+      double radius2 = _loopRadius - offset;
+      Offset center = loopCenter! - Offset(left - 5, top - 5);
+      Rect rect1 = Rect.fromCircle(center: center, radius: radius1);
+      Rect rect2 = Rect.fromCircle(center: center, radius: radius2);
+      Offset p1 = calculateNewPoint(center, radius1, endLineAngle + pi);
+      Offset p2 = calculateNewPoint(
+          center, radius2, -endLineAngle + pi + 2 * loopAngle);
+      Path path = Path();
+      path.addArc(
+          rect1, endLineAngle + pi, 2 * pi - (endLineAngle - loopAngle) * 2);
+      path.lineTo(p2.dx, p2.dy);
+      path.arcTo(rect2, -endLineAngle + pi - 2 * loopAngle,
+          -(2 * pi - (endLineAngle - loopAngle) * 2), false);
+      path.lineTo(p1.dx, p1.dy);
+      path.close();
+      developer.log('path1: $path');
+      return path;
+    }
 
     if (isCurved && sourceState != null && destinationState != null) {
       // Calculate the center of the control points
@@ -81,6 +109,15 @@ class TransitionType extends DiagramType {
   Path get path {
     Offset start = startButtonPosition;
     Offset end = endButtonPosition;
+    if (loopCenter != null) {
+      double radius = _loopRadius;
+      Offset center = loopCenter!;
+      Path path = Path();
+      Rect rect = Rect.fromCircle(center: center, radius: radius);
+      path.addArc(
+          rect, endLineAngle + pi, 2 * pi - (endLineAngle - loopAngle) * 2);
+      return path;
+    }
     if (isCurved && sourceState != null && destinationState != null) {
       // Calculate the center of the control points
       Offset controlPoint = this.controlPoint;
@@ -93,6 +130,15 @@ class TransitionType extends DiagramType {
     return Path()
       ..moveTo(start.dx, start.dy)
       ..lineTo(end.dx, end.dy);
+  }
+
+  Offset? get loopCenter {
+    if (sourceStateId == destinationStateId && sourceState != null) {
+      double radius = _loopRadius;
+      return calculateNewPoint(
+          sourceState!.position, stateSize / 2 + radius - _offset, loopAngle);
+    }
+    return null;
   }
 
   StateType? get sourceState {
@@ -126,6 +172,9 @@ class TransitionType extends DiagramType {
   }
 
   Offset get centerPosition {
+    if (loopCenter != null) {
+      return calculateNewPoint(loopCenter!, _loopRadius, loopAngle);
+    }
     if (isCurved && sourceState != null && destinationState != null) {
       return controlPoint;
     }
@@ -136,7 +185,14 @@ class TransitionType extends DiagramType {
     if (sourcePosition != null) {
       return sourcePosition!;
     }
-    if (isCurved && sourceState != null && destinationState != null) {
+    if (loopCenter != null) {
+      return calculateNewPoint(
+        sourceState!.position,
+        stateSize / 2,
+        -startLineAngle + 2 * loopAngle,
+      );
+    }
+    if (isCurved) {
       return calculateNewPoint(
         sourceState!.position,
         stateSize / 2,
@@ -154,7 +210,14 @@ class TransitionType extends DiagramType {
     if (destinationPosition != null) {
       return destinationPosition!;
     }
-    if (isCurved && sourceState != null && destinationState != null) {
+    if (loopCenter != null) {
+      return calculateNewPoint(
+        destinationState!.position,
+        stateSize / 2,
+        startLineAngle,
+      );
+    }
+    if (isCurved) {
       return calculateNewPoint(
         destinationState!.position,
         stateSize / 2,
@@ -182,9 +245,15 @@ class TransitionType extends DiagramType {
   }
 
   double get startLineAngle {
+    if (loopCenter != null) {
+      double ra = stateSize / 2;
+      double rb = _loopRadius;
+      double d = ra + rb - _offset;
+      return acos((pow(ra, 2) - pow(rb, 2) + pow(d, 2)) / (2 * ra * d)) +
+          loopAngle;
+    }
     if (!isCurved) {
-      return startAngle +
-          pi; // For a straight line, the angle remains unchanged
+      return startAngle + pi;
     }
 
     // Calculate the tangent vector at the start of the curve (t = 0)
@@ -196,6 +265,13 @@ class TransitionType extends DiagramType {
   }
 
   double get endLineAngle {
+    if (loopCenter != null) {
+      double ra = _loopRadius;
+      double rb = stateSize / 2;
+      double d = ra + rb - _offset;
+      return acos((pow(ra, 2) - pow(rb, 2) + pow(d, 2)) / (2 * ra * d)) +
+          loopAngle;
+    }
     if (!isCurved) {
       return endAngle + pi;
     }
@@ -259,6 +335,9 @@ class TransitionType extends DiagramType {
 
   @override
   double get top {
+    if (loopCenter != null) {
+      return loopCenter!.dy - _loopRadius;
+    }
     double min1 = min(startButtonPosition.dy, endButtonPosition.dy);
     double min2 = min(min1, controlPoint.dy);
     return isCurved ? min2 : min1;
@@ -266,6 +345,9 @@ class TransitionType extends DiagramType {
 
   @override
   double get left {
+    if (loopCenter != null) {
+      return loopCenter!.dx - _loopRadius;
+    }
     double min1 = min(startButtonPosition.dx, endButtonPosition.dx);
     double min2 = min(min1, controlPoint.dx);
     return isCurved ? min2 : min1;
@@ -273,6 +355,9 @@ class TransitionType extends DiagramType {
 
   @override
   double get bottom {
+    if (loopCenter != null) {
+      return loopCenter!.dy + _loopRadius;
+    }
     double max1 = max(startButtonPosition.dy, endButtonPosition.dy);
     double max2 = max(max1, controlPoint.dy);
     return isCurved ? max2 : max1;
@@ -280,6 +365,9 @@ class TransitionType extends DiagramType {
 
   @override
   double get right {
+    if (loopCenter != null) {
+      return loopCenter!.dx + _loopRadius;
+    }
     double max1 = max(startButtonPosition.dx, endButtonPosition.dx);
     double max2 = max(max1, controlPoint.dx);
     return isCurved ? max2 : max1;
