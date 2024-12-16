@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color primalyColor = Color.fromARGB(255, 24, 20, 29);
+const Color primaryColor = Color.fromARGB(255, 24, 20, 29);
 const Color secondaryColor = Color.fromARGB(255, 27, 29, 30);
 
 const Color gridPrimalyColor = Color.fromARGB(255, 66, 66, 66);
@@ -17,19 +17,19 @@ const Color secondaryLineColor = Color.fromARGB(255, 64, 70, 71);
 
 //Text
 const TextStyle textLarge = TextStyle(
-  color: textColor,
+  color: primaryTextColor,
   decoration: textDecoration,
   fontSize: 20,
 );
 
 const TextStyle textMedium = TextStyle(
-  color: textColor,
+  color: primaryTextColor,
   decoration: textDecoration,
-  fontSize: 16,
+  fontSize: 14,
 );
 
 const TextStyle textSmall = TextStyle(
-  color: textColor,
+  color: primaryTextColor,
   decoration: textDecoration,
   fontSize: 12,
 );
@@ -38,5 +38,6 @@ const double textLargeSize = 20;
 const double textMediumSize = 16;
 const double textSmallSize = 12;
 
-const Color textColor = Colors.white;
+const Color primaryTextColor = Color.fromRGBO(231, 231, 231, 1);
+const Color secondaryTextColor = Color.fromRGBO(192, 192, 192, 1);
 const TextDecoration textDecoration = TextDecoration.none;

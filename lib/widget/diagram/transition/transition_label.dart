@@ -56,7 +56,7 @@ class _TransitionLabelState extends State<TransitionLabel> {
             child: Center(
               child: Container(
                 key: _key,
-                color: primalyColor,
+                color: primaryColor,
                 child: widget.isRenaming
                     ? RenameTextField(
                         focusNode: _renameFocusNode,

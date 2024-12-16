@@ -419,4 +419,19 @@ class TransitionType extends DiagramType {
     }
     return false;
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': 'transition',
+      'id': id,
+      'label': label,
+      'sourceStateId': sourceStateId,
+      'destinationStateId': destinationStateId,
+      'sourcePosition': sourcePosition,
+      'destinationPosition': destinationPosition,
+      'loopAngle': loopAngle,
+      'isCurved': isCurved,
+    };
+  }
 }

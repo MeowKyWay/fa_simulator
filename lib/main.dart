@@ -27,22 +27,27 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => KeyboardProvider()),
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
         ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
-        ChangeNotifierProvider(create: (context) => TransitionDragingProvider()),
+        ChangeNotifierProvider(
+            create: (context) => TransitionDragingProvider()),
         ChangeNotifierProvider(create: (context) => DiagramDraggingProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.blue,
           textSelectionTheme: TextSelectionThemeData(
-            cursorColor: textColor, // Custom caret (cursor) color`
+            cursorColor: primaryTextColor, // Custom caret (cursor) color`
             selectionColor:
                 Colors.blue.withOpacity(0.5), // Custom selection color
           ),
+          dividerTheme: const DividerThemeData(
+            color: primaryLineColor,
+          ),
+          hoverColor: primaryColor,
         ),
         home: const Scaffold(
           body: DefaultTextStyle(
             style: TextStyle(
-              color: textColor,
+              color: primaryTextColor,
               decoration: textDecoration,
               fontSize: 20,
             ),

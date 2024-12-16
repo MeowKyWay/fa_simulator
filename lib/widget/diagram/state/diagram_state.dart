@@ -79,13 +79,16 @@ class _DiagramStateState extends State<DiagramState> {
                       DiagramList().hoveringStateFlag = true;
                       DiagramList().notify();
                     },
-                    child: Container(
-                      margin: const EdgeInsets.all(stateFocusOverlayRingWidth),
-                      color: Colors.transparent,
-                      width: stateSize,
-                      height: stateSize,
-                      child: Center(child: newState),
-                    ),
+                    child: Stack(children: [
+                      Container(
+                        margin:
+                            const EdgeInsets.all(stateFocusOverlayRingWidth),
+                        color: Colors.transparent,
+                        width: stateSize,
+                        height: stateSize,
+                        child: Center(child: newState),
+                      ),
+                    ]),
                   ),
                 ),
               ),

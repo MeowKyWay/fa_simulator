@@ -1,7 +1,7 @@
 import 'package:fa_simulator/widget/body/body.dart';
 import 'package:fa_simulator/widget/keyboard/global_keyboard_listener.dart';
-import 'package:fa_simulator/widget/sidebar/sidebar.dart';
-import 'package:fa_simulator/widget/topbar.dart';
+import 'package:fa_simulator/widget/side_bar/sidebar.dart';
+import 'package:fa_simulator/widget/top_bar/diagram_top_bar.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -26,11 +26,11 @@ class App extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Sidebar(),
+                  SideBar(),
                 ],
               ),
             ),
-            Topbar(),
+            DiagramTopBar(),
           ],
         ),
       ),

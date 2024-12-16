@@ -5,18 +5,12 @@ import 'package:flutter/material.dart';
 
 class StateType extends DiagramType {
   Offset position;
-  bool isDragging;
-  bool isRenaming;
-  bool isHovering;
 
   StateType({
     required this.position,
     required super.id,
     required super.label,
     super.hasFocus,
-    this.isDragging = false,
-    this.isRenaming = false,
-    this.isHovering = false,
   });
 
   List<String> get transitionIds {
@@ -33,9 +27,6 @@ class StateType extends DiagramType {
       'id': id,
       'label': label,
       'position': position,
-      'isDragging': isDragging,
-      'isRenaming': isRenaming,
-      'isHovering': isHovering,
     }.toString();
   }
 
@@ -54,5 +45,15 @@ class StateType extends DiagramType {
         topLeft.dy < top &&
         bottomRight.dx > right &&
         bottomRight.dy > bottom;
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': 'state',
+      'id': id,
+      'label': label,
+      'position': position,
+    };
   }
 }

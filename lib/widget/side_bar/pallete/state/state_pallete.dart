@@ -3,7 +3,7 @@ import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/pallete_draggable.dart';
+import 'package:fa_simulator/widget/side_bar/pallete/pallete_draggable.dart';
 import 'package:flutter/material.dart';
 
 class StatePallete extends StatelessWidget {

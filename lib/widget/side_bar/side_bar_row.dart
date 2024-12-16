@@ -1,10 +1,10 @@
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
-class SidebarRow extends StatelessWidget {
+class SideBarRow extends StatelessWidget {
   final Widget child;
 
-  const SidebarRow({
+  const SideBarRow({
     super.key,
     required this.child,
   });

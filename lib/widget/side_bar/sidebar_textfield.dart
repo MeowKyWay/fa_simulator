@@ -1,8 +1,8 @@
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
-class SidebarTextfield extends StatelessWidget {
-  const SidebarTextfield({
+class SideBarTextfield extends StatelessWidget {
+  const SideBarTextfield({
     super.key,
   });
 

@@ -40,7 +40,7 @@ class _BodyState extends State<Body> {
           width: bodySize.width,
           height: bodySize.height,
           decoration: BoxDecoration(
-            color: primalyColor,
+            color: primaryColor,
             border: Border.all(
               color: Colors.black,
               width: 2,

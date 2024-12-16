@@ -17,4 +17,6 @@ abstract class DiagramType {
   double get right;
 
   bool isContained(Offset topLeft, Offset bottomRight);
+
+  Map<String, dynamic> toJson();
 }

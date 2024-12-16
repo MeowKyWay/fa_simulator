@@ -23,7 +23,7 @@ class TransitionGestureDetector extends StatefulWidget {
 }
 
 class _TransitionGestureDetectorState extends State<TransitionGestureDetector> {
-  final bool _showTransitionHitBox = true;
+  final bool _showTransitionHitBox = false;
 
   final double transitionHitBoxWidth = 10;
 
