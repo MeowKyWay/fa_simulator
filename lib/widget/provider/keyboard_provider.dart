@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/key_distributor.dart';
 import 'package:fa_simulator/widget/keyboard/key_type.dart';
@@ -28,7 +30,7 @@ class KeyboardProvider with ChangeNotifier {
   LogicalKeyboardKey? _pressedKey;
   String? _character;
   final Set<LogicalKeyboardKey> _modifierKeys = {};
-  
+
   String? get character => _character;
   Set<LogicalKeyboardKey> get modifierKeys => _modifierKeys;
   LogicalKeyboardKey? get pressedKey => _pressedKey;
@@ -65,4 +67,13 @@ class KeyboardProvider with ChangeNotifier {
   bool get isShiftPressed =>
       modifierKeys.contains(LogicalKeyboardKey.shiftLeft) ||
       modifierKeys.contains(LogicalKeyboardKey.shiftRight);
+
+  bool get isCtrlPressed {
+    if (Platform.isMacOS) {
+      return modifierKeys.contains(LogicalKeyboardKey.metaLeft) ||
+          modifierKeys.contains(LogicalKeyboardKey.metaRight);
+    }
+    return modifierKeys.contains(LogicalKeyboardKey.controlLeft) ||
+        modifierKeys.contains(LogicalKeyboardKey.controlRight);
+  }
 }

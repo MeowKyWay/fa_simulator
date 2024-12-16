@@ -7,7 +7,7 @@ class DiagramMenuItem {
 
   const DiagramMenuItem({
     required this.label,
-    this.shortcut = 'Ctrl + N',
+    this.shortcut = '',
   });
 
   PopupMenuItem build() {
@@ -15,7 +15,6 @@ class DiagramMenuItem {
       height: 30,
       child: Container(
         margin: const EdgeInsets.only(left: 10),
-        color: secondaryColor,
         child: Row(
           children: [
             Expanded(

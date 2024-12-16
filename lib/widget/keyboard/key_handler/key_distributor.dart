@@ -12,9 +12,7 @@ import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/services.dart';
 
 void handleKey(LogicalKeyboardKey key) {
-  if (KeyboardProvider()
-      .modifierKeys
-      .contains(LogicalKeyboardKey.controlLeft)) {
+  if (KeyboardProvider().isCtrlPressed) {
     handleCtrl(key);
     return;
   }
