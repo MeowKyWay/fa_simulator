@@ -1,3 +1,5 @@
+import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/action/file/save_diagram_action.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/diagram_shortcut.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu_item.dart';
@@ -12,7 +14,7 @@ class DiagramFileMenu extends DiagramMenu {
   String get label => 'File';
 
   @override
-  List<PopupMenuEntry> get items => [
+  List<PopupMenuEntry<AppAction?>> get items => [
         DiagramMenuItem(
           label: 'New',
           shortcut: DiagramShortcut().newFile,
@@ -27,6 +29,7 @@ class DiagramFileMenu extends DiagramMenu {
         DiagramMenuItem(
           label: 'Save',
           shortcut: DiagramShortcut().save,
+          action: SaveDiagramAction(),
         ).build(),
         DiagramMenuItem(
           label: 'Save As',
@@ -35,7 +38,13 @@ class DiagramFileMenu extends DiagramMenu {
         const PopupMenuDivider(
           height: 1,
         ),
-        DiagramMenuItem(label: 'Export').build(),
-        DiagramMenuItem(label: 'Import').build(),
+        DiagramMenuItem(
+          label: 'Export',
+          enabled: false,
+        ).build(),
+        DiagramMenuItem(
+          label: 'Import',
+          enabled: false,
+        ).build(),
       ];
 }

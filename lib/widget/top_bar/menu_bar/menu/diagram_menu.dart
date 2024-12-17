@@ -1,3 +1,4 @@
+import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ abstract class DiagramMenu extends StatefulWidget {
 
   String get label;
 
-  List<PopupMenuEntry> get items;
+  List<PopupMenuEntry<AppAction?>> get items;
 
   @override
   State<DiagramMenu> createState() => _DiagramMenuState();
@@ -30,7 +31,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
           isHovered = false;
         });
       },
-      child: PopupMenuButton(
+      child: PopupMenuButton<AppAction?>(
         tooltip: "",
         color: secondaryColor,
         menuPadding: EdgeInsets.zero,
@@ -44,6 +45,9 @@ class _DiagramMenuState extends State<DiagramMenu> {
         offset: const Offset(0, 30),
         itemBuilder: (context) {
           return widget.items;
+        },
+        onSelected: (action) {
+          action?.execute();
         },
         child: Container(
           color: isHovered ? primaryColor : secondaryColor,

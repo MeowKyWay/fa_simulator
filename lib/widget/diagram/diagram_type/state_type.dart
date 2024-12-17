@@ -53,7 +53,7 @@ class StateType extends DiagramType {
       'type': 'state',
       'id': id,
       'label': label,
-      'position': position,
+      'position': position.toString(),
     };
   }
 }

@@ -13,6 +13,7 @@ class DiagramSave {
 
       File file = File(filePath);
       await file.writeAsString(jsonString);
+      log('Diagram saved to ${file.absolute}');
     }
     catch (e) {
       log('Failed to save diagram: $e');
