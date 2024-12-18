@@ -1,5 +1,6 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,11 @@ class RenamingProvider extends DiagramProvider {
     if (item == null) {
       throw Exception("renaming_provider/startRename: State not found");
     }
+    if (DiagramList().state(id) is StartStateType) {
+      return;
+    }
     _renamingItemId = id;
+    _controller.clear();
     _controller.text = initialName ?? item.label;
     DiagramList().notify();
   }

@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:developer' as developer;
 
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/add_diagram_action.dart';

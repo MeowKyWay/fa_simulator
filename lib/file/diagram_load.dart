@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
@@ -45,14 +46,15 @@ class DiagramLoad {
           List<Map<String, dynamic>>.from(jsonList);
 
       // Example: Accessing a specific element
+      List<DiagramType> items = [];
       for (var item in dataList) {
         if (item['type'] == 'state') {
-          DiagramList().items.add(StateType.fromJson(item));
+          items.add(StateType.fromJson(item));
         } else if (item['type'] == 'transition') {
-          DiagramList().items.add(TransitionType.fromJson(item));
+          items.add(TransitionType.fromJson(item));
         }
       }
-      DiagramList().notify();
+      DiagramList().addItems(items);
     } catch (e) {
       log('Error reading JSON file: $e');
     }

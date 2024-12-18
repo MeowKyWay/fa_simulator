@@ -11,10 +11,6 @@ import 'package:uuid/uuid.dart';
 StateType addState(Offset position, String name, [String? id]) {
   // Generate a new id if id is null
   id = id ?? const Uuid().v4();
-  // Check if the state id already exists
-  if (DiagramList().itemIsExist(id)) {
-    throw Exception("State id $id already exists");
-  }
   // Get snapped position
   Offset roundedPosition = BodyProvider().getSnappedPosition(position);
   // Create a new state
@@ -25,8 +21,7 @@ StateType addState(Offset position, String name, [String? id]) {
   );
   // Add the state to the list
   RenamingProvider().reset();
-  DiagramList().items.add(state);
-  DiagramList().notify();
+  DiagramList().addItem(state);
   // Return the state
   return state;
 }
@@ -34,21 +29,12 @@ StateType addState(Offset position, String name, [String? id]) {
 // Delete a state
 void deleteState(String id) {
   // Get the state index
-  int index = DiagramList().itemIndex(id);
-
-  log("test");
 
   RenamingProvider().reset();
-  if (index != -1) {
-    if (DiagramList().items[index] is! StateType) {
-      throw Exception("Item id $id is not a state");
-    }
-    DiagramList().items.removeAt(index);
-  } else {
-    throw Exception("state_manager: State id $id not found");
+  if (DiagramList().item(id) is! StateType) {
+    throw Exception("state_manager.dart/deleteState: Item id $id is not a state");
   }
-
-  DiagramList().notify();
+  DiagramList().removeItem(id);
 }
 
 // Move a state position
@@ -59,7 +45,7 @@ void moveState(String id, Offset distance) {
   try {
     state = DiagramList().state(id)!;
   } catch (e) {
-    throw Exception("State id $id not found");
+    throw Exception("state_manager.dart/moveState: State id $id not found");
   }
 
   RenamingProvider().reset();
@@ -74,7 +60,7 @@ String renameState(String id, String newName) {
   try {
     state = DiagramList().state(id)!;
   } catch (e) {
-    throw Exception("State id $id not found");
+    throw Exception("state_manager.dart/renameState: State id $id not found");
   }
   String oldName = state.label;
   state.label = newName;

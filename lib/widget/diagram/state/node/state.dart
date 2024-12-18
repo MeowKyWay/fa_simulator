@@ -3,7 +3,7 @@ import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 
-Widget state({Widget? child}) {
+Widget state({Widget? child, double stateSize = stateSize}) {
   // Todo resizable state
   return SizedBox(
     height: stateSize,

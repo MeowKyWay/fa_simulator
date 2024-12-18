@@ -14,12 +14,7 @@ TransitionType addTransition({
   String? id,
 }) {
   bool isCurved = false;
-  if (sourceStateId != null && destinationStateId != null) {
-    if (DiagramList().getTransitionByState(sourceStateId, destinationStateId) !=
-        null) {
-      throw Exception(transitionAlreadyExistErrorMessage);
-    }
-  }
+  
   TransitionType transition = TransitionType(
     id: id ?? const Uuid().v4(),
     label: label,
@@ -32,31 +27,18 @@ TransitionType addTransition({
   transition.updateIsCurved(true);
   // Add the transition to the list
   RenamingProvider().reset();
-  DiagramList().items.add(transition);
+  DiagramList().addItem(transition);
   DiagramList().notify();
   // Return the transition
   return transition;
 }
 
-// Delete a state
 void deleteTransition(String id) {
-  // Get the state index
-  int index = DiagramList().itemIndex(id);
-
   RenamingProvider().reset();
-  if (index != -1) {
-    if (DiagramList().items[index] is! TransitionType) {
-      throw Exception("Item id $id is not a transition");
-    }
-    TransitionType transition = DiagramList().items[index] as TransitionType;
-    transition.updateIsCurved(false);
-    DiagramList().items.removeAt(index);
-  } else {
-    throw Exception(
-        "transition_manager.dart/deleteTransition: Transition id $id not found");
+  if (DiagramList().item(id) is! TransitionType) {
+    throw Exception("transition_manager.dart/deleteTransition: Item id $id is not a transition");
   }
-
-  DiagramList().notify();
+  DiagramList().removeItem(id);
 }
 
 //Only use to detach transition from state to body
@@ -69,7 +51,7 @@ void moveTransition({
 }) {
   if ((distance ?? position) == null) {
     throw ArgumentError(
-        "Either provide distance or position to move a transition pivot");
+        "transition_manager.dart/moveTransition: Either provide distance or position to move a transition pivot");
   }
   // Get the transition
   TransitionType transition;

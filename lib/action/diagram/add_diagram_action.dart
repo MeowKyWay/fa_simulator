@@ -15,14 +15,14 @@ class AddDiagramAction extends AppAction {
 
   @override
   void execute() {
-    DiagramList().items.add(item);
+    DiagramList().addItem(item);
     requestFocus([item.id]);
     DiagramList().notify();
   }
 
   @override
   void undo() {
-    DiagramList().items.remove(item);
+    DiagramList().removeItem(item.id);
     DiagramList().notify();
   }
 

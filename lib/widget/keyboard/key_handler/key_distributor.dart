@@ -66,7 +66,6 @@ void _handleBackspace() {
 }
 
 void _handleEnter() {
-  log("Enter");
   if (RenamingProvider().renamingItemId != null) return;
 
   List<DiagramType> focusedItems = DiagramList().focusedItems;

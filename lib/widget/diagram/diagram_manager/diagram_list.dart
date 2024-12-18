@@ -1,4 +1,6 @@
+import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
@@ -17,17 +19,95 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   final List<DiagramType> _items = [];
   List<DiagramType> get items => _items;
 
+  void addItem(DiagramType item) {
+    if (itemIsExist(item.id)) {
+      throw Exception(
+          "diagram_list/addItem: Item with id ${item.id} already exist");
+    }
+    if (item is StateType) {
+      if (item is StartStateType) {
+        if (startState != null) {
+          throw Exception(
+              "diagram_list/addItem: Start state already exist, only one start state allowed");
+        }
+      }
+    }
+    if (item is TransitionType) {
+      if (item.destinationStateId != null && item.sourceStateId != null) {
+        if (getTransitionByState(
+                item.sourceStateId!, item.destinationStateId!) !=
+            null) {
+          throw Exception(
+              "diagram_list/addItem: Transition with source state ${item.sourceStateId} and destination state ${item.destinationStateId} already exist");
+        }
+      }
+      if (item.sourceStateId != null && item.sourceState == null) {
+        throw Exception(
+            "diagram_list/addItem: Source state with id ${item.sourceStateId} not found");
+      }
+      if (item.destinationStateId != null && item.destinationState == null) {
+        throw Exception(
+            "diagram_list/addItem: Destination state with id ${item.destinationStateId} not found");
+      }
+    }
+    _items.add(item);
+    notifyListeners();
+  }
+
+  void addItems(List<DiagramType> items) {
+    for (var item in items) {
+      addItem(item);
+    }
+    notifyListeners();
+  }
+
+  void removeItem(String id) {
+    int index = itemIndex(id);
+    if (index != -1) {
+      if (_items[index] is StateType) {
+        if ((_items[index] as StateType).transitionIds.isNotEmpty) {
+          throw Exception(
+              "diagram_list/removeItem: State with id $id has transition(s) delete any transition(s) connected to the state first");
+        }
+      }
+      _items.removeAt(index);
+    } else {
+      throw Exception("diagram_list/removeItem: Item id $id not found");
+    }
+    notifyListeners();
+  }
+
+  void removeItems(List<String> ids) {
+    for (var id in ids) {
+      removeItem(id);
+    }
+    notifyListeners();
+  }
+
   StateType? state(id) {
     try {
-      return items.firstWhere((element) => element.id == id) as StateType;
+      return _items.firstWhere((element) => element.id == id) as StateType;
     } catch (e) {
       return null;
     }
   }
 
+  StartStateType? get startState {
+    try {
+      return _items.firstWhere((element) => element is StartStateType)
+          as StartStateType;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  List<AcceptStateType> get acceptStates {
+    return _items.whereType<AcceptStateType>().toList();
+  }
+
   TransitionType? transition(id) {
     try {
-      return items.firstWhere((element) => element.id == id) as TransitionType;
+      return _items.firstWhere((element) => element.id == id) as TransitionType;
     } catch (e) {
       return null;
     }
@@ -35,7 +115,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
 
   DiagramType? item(id) {
     try {
-      return items.firstWhere((element) => element.id == id);
+      return _items.firstWhere((element) => element.id == id);
     } catch (e) {
       return null;
     }
@@ -52,29 +132,29 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
 
   //return list of focused items
   List<DiagramType> get focusedItems {
-    return items.where((element) => element.hasFocus).toList();
+    return _items.where((element) => element.hasFocus).toList();
   }
 
   List<StateType> get focusedStates {
-    return items
+    return _items
         .whereType<StateType>()
         .where((element) => element.hasFocus)
         .toList();
   }
 
   List<TransitionType> get focusedTransitions {
-    return items
+    return _items
         .whereType<TransitionType>()
         .where((element) => element.hasFocus)
         .toList();
   }
 
   List<StateType> get states {
-    return items.whereType<StateType>().toList();
+    return _items.whereType<StateType>().toList();
   }
 
   List<TransitionType> get transitions {
-    return items.whereType<TransitionType>().toList();
+    return _items.whereType<TransitionType>().toList();
   }
 
   List<StateType> getStates(List<String> ids) {
@@ -86,7 +166,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   }
 
   List<DiagramType> getItems(List<String> ids) {
-    return items.where((element) => ids.contains(element.id)).toList();
+    return _items.where((element) => ids.contains(element.id)).toList();
   }
 
   TransitionType? getTransitionByState(
@@ -112,9 +192,9 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   }
 
   //return if state with the id already exist
-  bool itemIsExist(String id) => items.any((element) => element.id == id);
+  bool itemIsExist(String id) => _items.any((element) => element.id == id);
   //return index of the state with the id
-  int itemIndex(String id) => items.indexWhere((element) => element.id == id);
+  int itemIndex(String id) => _items.indexWhere((element) => element.id == id);
 
   void notify() {
     notifyListeners();
@@ -123,8 +203,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   @override
   void reset() {
     _items.clear();
-    FileProvider().
-    notifyListeners();
+    FileProvider().notifyListeners();
   }
 }
 
