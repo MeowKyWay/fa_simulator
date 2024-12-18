@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/side_bar/pallete/state/state_pallete.dart';
+import 'package:fa_simulator/widget/sidebar/pallete/state/state_pallete.dart';
 import 'package:flutter/material.dart';
 
 class StateWrap extends StatelessWidget {

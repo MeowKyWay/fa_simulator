@@ -1,9 +1,11 @@
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
+import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:flutter/material.dart';
 
-class DiagramList with ChangeNotifier {
+class DiagramList extends DiagramProvider with ChangeNotifier {
   //Singleton
   static final DiagramList _instance = DiagramList._internal();
   DiagramList._internal();
@@ -117,4 +119,13 @@ class DiagramList with ChangeNotifier {
   void notify() {
     notifyListeners();
   }
+
+  @override
+  void reset() {
+    _items.clear();
+    FileProvider().
+    notifyListeners();
+  }
 }
+
+enum FAType { dfa, nfa }

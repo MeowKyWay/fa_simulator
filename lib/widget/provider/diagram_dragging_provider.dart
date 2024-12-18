@@ -1,9 +1,10 @@
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class DiagramDraggingProvider with ChangeNotifier {
+class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
   //Singleton
   static final DiagramDraggingProvider _instance =
       DiagramDraggingProvider._internal();
@@ -77,6 +78,7 @@ class DiagramDraggingProvider with ChangeNotifier {
     _bottomRight = Offset(right, bottom);
   }
 
+  @override
   void reset() {
     _startPosition = null;
     _endPosition = null;

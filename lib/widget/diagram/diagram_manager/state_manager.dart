@@ -24,7 +24,7 @@ StateType addState(Offset position, String name, [String? id]) {
     label: name,
   );
   // Add the state to the list
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().items.add(state);
   DiagramList().notify();
   // Return the state
@@ -38,7 +38,7 @@ void deleteState(String id) {
 
   log("test");
 
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   if (index != -1) {
     if (DiagramList().items[index] is! StateType) {
       throw Exception("Item id $id is not a state");
@@ -62,7 +62,7 @@ void moveState(String id, Offset distance) {
     throw Exception("State id $id not found");
   }
 
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   state.position += deltaPosition;
   DiagramList().notify();
 }

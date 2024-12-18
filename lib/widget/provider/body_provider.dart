@@ -1,7 +1,8 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class BodyProvider with ChangeNotifier {
+class BodyProvider extends DiagramProvider with ChangeNotifier {
   static final BodyProvider _instance = BodyProvider._internal(); //Singleton
   BodyProvider._internal();
   factory BodyProvider() {
@@ -72,5 +73,10 @@ class BodyProvider with ChangeNotifier {
 
     // Check if the local position is within the widget's bounds
     return renderBox.paintBounds.contains(localPosition);
+  }
+
+  @override
+  void reset() {
+    // Do nothing
   }
 }

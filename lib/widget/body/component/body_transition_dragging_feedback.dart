@@ -16,7 +16,7 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TransitionDragingProvider>(builder: (context, provider, child) {
+    return Consumer<TransitionDraggingProvider>(builder: (context, provider, child) {
       if (provider.draggingItemId == null) {
         return Container();
       }

@@ -12,7 +12,7 @@ class SideBarTextfield extends StatelessWidget {
       height: 30,
       child: TextFormField(
         autocorrect: false,
-        style: textMedium,
+        style: textM,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           hintText: 'Search',

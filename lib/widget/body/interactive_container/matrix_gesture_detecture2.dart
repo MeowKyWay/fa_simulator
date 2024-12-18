@@ -1,4 +1,4 @@
-library matrix_gesture_detector;
+library;
 
 import 'dart:math';
 

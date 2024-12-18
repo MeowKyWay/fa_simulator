@@ -49,16 +49,12 @@ class StateDragTarget extends StatelessWidget {
   }
 
   bool _onWillAcceptNewTransitionWithDetails(NewTransitionType data) {
-    //TODO handle self loop transition
-    if (data.from.id == state.id) {
-      return false;
-    }
     NewTransitionProvider().destinationState = state;
     return true;
   }
 
   bool _onWillAcceptDraggingTransition(DraggingTransitionType data) {
-    TransitionDragingProvider().hoveringStateId = state.id;
+    TransitionDraggingProvider().hoveringStateId = state.id;
     return true;
   }
 
@@ -91,8 +87,8 @@ class StateDragTarget extends StatelessWidget {
     if (!NewTransitionProvider().destinationStateFlag) {
       NewTransitionProvider().destinationState = null;
     }
-    if (TransitionDragingProvider().hoveringStateId == state.id) {
-      TransitionDragingProvider().hoveringStateId = null;
+    if (TransitionDraggingProvider().hoveringStateId == state.id) {
+      TransitionDraggingProvider().hoveringStateId = null;
     }
   }
 }

@@ -2,8 +2,10 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
-import 'package:fa_simulator/widget/side_bar/pallete/pallete_draggable.dart';
+import 'package:fa_simulator/widget/sidebar/pallete/pallete_drag_data.dart';
+import 'package:fa_simulator/widget/sidebar/pallete/pallete_draggable.dart';
 import 'package:flutter/material.dart';
 
 class StatePallete extends StatelessWidget {
@@ -17,7 +19,7 @@ class StatePallete extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
       child: PalleteDraggable(
-        onDragEnd: onDragEnd,
+        data: PalleteDragData.state,
         feedback: state(),
         margin: const Offset(stateSize / 2, stateSize / 2),
         child: Container(
@@ -34,12 +36,5 @@ class StatePallete extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void onDragEnd(Offset position) {
-    AppActionDispatcher().execute(CreateStateAction(
-      position: position,
-      name: '',
-    ));
   }
 }

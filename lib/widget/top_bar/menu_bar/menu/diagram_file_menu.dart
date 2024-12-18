@@ -1,4 +1,5 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/action/file/open_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_as_action.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/diagram_shortcut.dart';
@@ -23,6 +24,7 @@ class DiagramFileMenu extends DiagramMenu {
         DiagramMenuItem(
           label: 'Open',
           shortcut: DiagramShortcut().open,
+          action: OpenDiagramAction(),
         ).build(),
         const PopupMenuDivider(
           height: 1,

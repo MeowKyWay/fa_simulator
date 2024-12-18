@@ -20,7 +20,7 @@ class RenameDiagramsAction extends AppAction {
   void execute() {
     String old = DiagramList().renameItem(id, name);
     oldName ??= old;
-    RenamingProvider().endRename();
+    RenamingProvider().reset();
   }
 
   @override

@@ -1,7 +1,8 @@
 import 'package:fa_simulator/widget/provider/body_provider.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class PalleteFeedbackProvider with ChangeNotifier {
+class PalleteFeedbackProvider extends DiagramProvider with ChangeNotifier {
   static final PalleteFeedbackProvider _instance =
       PalleteFeedbackProvider._internal();
   PalleteFeedbackProvider._internal();
@@ -11,8 +12,10 @@ class PalleteFeedbackProvider with ChangeNotifier {
 
   Offset? _position;
   Offset? _previousPosition;
-  Offset _margin = Offset.zero;
+  Offset margin = Offset.zero;
   Widget? _feedback;
+
+  bool _withinBody = false;
 
   Offset? get position => _position;
   Widget? get feedback {
@@ -20,9 +23,10 @@ class PalleteFeedbackProvider with ChangeNotifier {
     return Positioned(
       left: _position!.dx,
       top: _position!.dy,
-      child: _feedback!,
+      child: IgnorePointer(child: _feedback!),
     );
   }
+  bool get withinBody => _withinBody;
 
   set position(Offset? position) {
     _previousPosition = _position;
@@ -32,7 +36,7 @@ class PalleteFeedbackProvider with ChangeNotifier {
       return;
     }
     _position = BodyProvider().getSnappedPosition(
-      BodyProvider().getBodyLocalPosition(position) - _margin,
+      BodyProvider().getBodyLocalPosition(position) - margin,
     );
     if (_position == _previousPosition) return;
     notifyListeners();
@@ -43,15 +47,18 @@ class PalleteFeedbackProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set margin(Offset margin) {
-    _margin = margin;
+  set withinBody(bool withinBody) {
+    _withinBody = withinBody;
+    notifyListeners();
   }
 
+  @override
   void reset() {
     _position = null;
     _previousPosition = null;
     _feedback = null;
-    _margin = Offset.zero;
+    margin = Offset.zero;
+    _withinBody = false;
     notifyListeners();
   }
 }

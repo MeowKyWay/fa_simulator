@@ -57,7 +57,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 widget.label,
-                style: textMedium.copyWith(
+                style: textM.copyWith(
                   color: secondaryTextColor,
                 ),
               ),

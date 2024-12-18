@@ -19,7 +19,7 @@ class BodyTransitions extends StatelessWidget {
           // To prevent the transition from absorbing drag events
           ignoring: DiagramDraggingProvider().isDragging ||
               NewTransitionProvider().isDraggingNewTransition ||
-              TransitionDragingProvider().isDragging,
+              TransitionDraggingProvider().isDragging,
           child: Stack(
             children: diagramList.transitions.expand((transition) {
               return DiagramTransition(transition: transition).build();

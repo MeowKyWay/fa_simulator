@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/key_distributor.dart';
 import 'package:fa_simulator/widget/keyboard/key_type.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class KeyboardProvider with ChangeNotifier {
-  //TODO handle macos and window cmd and ctrl keys
+class KeyboardProvider extends DiagramProvider with ChangeNotifier {
   //Singleton
   static final KeyboardProvider _instance = KeyboardProvider._internal();
   KeyboardProvider._internal() {
@@ -75,5 +75,13 @@ class KeyboardProvider with ChangeNotifier {
     }
     return modifierKeys.contains(LogicalKeyboardKey.controlLeft) ||
         modifierKeys.contains(LogicalKeyboardKey.controlRight);
+  }
+
+  @override
+  void reset() {
+    _pressedKey = null;
+    _character = null;
+    _modifierKeys.clear();
+    notifyListeners();
   }
 }

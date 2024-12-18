@@ -8,7 +8,7 @@ void requestFocus(List<String> ids) {
   for (DiagramType item in items) {
     item.hasFocus = ids.contains(item.id);
   }
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().notify();
 }
 
@@ -17,7 +17,7 @@ void addFocus(List<String> ids) {
   for (DiagramType item in items) {
     item.hasFocus = ids.contains(item.id) || item.hasFocus;
   }
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().notify();
 }
 
@@ -26,7 +26,7 @@ void removeFocus(List<String> ids) {
   for (DiagramType item in items) {
     item.hasFocus = !ids.contains(item.id) && item.hasFocus;
   }
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().notify();
 }
 
@@ -35,7 +35,7 @@ void toggleFocus(List<String> ids) {
   for (DiagramType item in items) {
     item.hasFocus = ids.contains(item.id) ? !item.hasFocus : item.hasFocus;
   }
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().notify();
 }
 
@@ -44,6 +44,6 @@ void unfocus() {
   for (DiagramType item in items) {
     item.hasFocus = false;
   }
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().notify();
 }

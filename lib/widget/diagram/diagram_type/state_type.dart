@@ -53,7 +53,21 @@ class StateType extends DiagramType {
       'type': 'state',
       'id': id,
       'label': label,
-      'position': position.toString(),
+      'position': {
+        'dx': position.dx,
+        'dy': position.dy,
+      },
     };
+  }
+
+  factory StateType.fromJson(Map<String, dynamic> json) {
+    return StateType(
+      id: json['id'],
+      label: json['label'],
+      position: Offset(
+        json['position']['dx'],
+        json['position']['dy'],
+      ),
+    );
   }
 }

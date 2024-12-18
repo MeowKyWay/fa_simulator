@@ -27,14 +27,14 @@ class DiagramMenuItem {
             Expanded(
               child: Text(
                 label,
-                style: textSmall.copyWith(
+                style: textS.copyWith(
                   color: enabled? primaryTextColor : primaryDisabledTextColor,
                 ),
               ),
             ),
             Text(
               shortcut,
-              style: textSmall.copyWith(
+              style: textS.copyWith(
                 color: enabled? secondaryTextColor : secondaryDisabledTextColor,
               ),
             ),

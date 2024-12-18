@@ -1,15 +1,27 @@
+import 'dart:math';
+import 'dart:developer' as developer;
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
+import 'package:fa_simulator/action/diagram/add_diagram_action.dart';
 import 'package:fa_simulator/action/diagram/move_diagrams_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
+import 'package:fa_simulator/widget/sidebar/pallete/pallete_drag_data.dart';
+import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class DraggingDiagramType {}
 
@@ -53,16 +65,19 @@ class BodyDragTarget extends StatelessWidget {
       onWillAcceptWithDetails: (details) {
         //On drag state of the entire transition move all focus state/transition
         if (details.data is DraggingDiagramType) {
-          return _onWillAcceptDraggingDiagram(details.data as DraggingDiagramType);
-        } 
+          return _onWillAcceptDraggingDiagram(
+              details.data as DraggingDiagramType);
+        }
         //On drag transition pivot move the pivot
         else if (details.data is DraggingTransitionType) {
           return _onWillAcceptDraggingTransition(
               details.data as DraggingTransitionType);
-        } 
+        }
         //On drag new transition add the transition
         else if (details.data is NewTransitionType) {
           return _onWillAcceptNewTransition(details.data as NewTransitionType);
+        } else if (details.data is PalleteDragData) {
+          return _onWillAcceptPalleteDragData(details.data as PalleteDragData);
         }
         return false;
       },
@@ -73,10 +88,14 @@ class BodyDragTarget extends StatelessWidget {
           _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         } else if (details.data is NewTransitionType) {
           _onAcceptNewTransition(details.data as NewTransitionType);
+        } else if (details.data is PalleteDragData) {
+          _onAcceptPalleteDragData(details.data as PalleteDragData);
         }
       },
       onMove: (details) {},
-      onLeave: (details) {},
+      onLeave: (details) {
+        PalleteFeedbackProvider().withinBody = false;
+      },
       hitTestBehavior: HitTestBehavior.translucent,
       builder: (context, candidateData, rejectedData) => Container(),
     );
@@ -86,12 +105,16 @@ class BodyDragTarget extends StatelessWidget {
     return true;
   }
 
-  bool _onWillAcceptDraggingTransition(
-      DraggingTransitionType data) {
+  bool _onWillAcceptDraggingTransition(DraggingTransitionType data) {
     return true;
   }
 
   bool _onWillAcceptNewTransition(NewTransitionType data) {
+    return true;
+  }
+
+  bool _onWillAcceptPalleteDragData(PalleteDragData data) {
+    PalleteFeedbackProvider().withinBody = true;
     return true;
   }
 
@@ -107,14 +130,13 @@ class BodyDragTarget extends StatelessWidget {
   void _onAcceptDraggingTransition(DraggingTransitionType data) {
     AppActionDispatcher().execute(
       MoveTransitionsAction(
-        //TODO move all the focus transition
         inputs: [
           MoveTransitionActionInput(
             id: data.transition.id,
             pivotType: data.draggingPivot,
           ),
         ],
-        deltaOffset: TransitionDragingProvider().deltaOffset,
+        deltaOffset: TransitionDraggingProvider().deltaOffset,
       ),
     );
   }
@@ -125,6 +147,50 @@ class BodyDragTarget extends StatelessWidget {
         sourceStateId: data.from.id,
         destinationPosition: NewTransitionProvider().draggingPosition,
       ),
+    );
+  }
+
+  void _onAcceptPalleteDragData(PalleteDragData data) {
+    DiagramType item;
+    if (PalleteFeedbackProvider().position == null) return;
+    Offset position =
+        PalleteFeedbackProvider().position! + PalleteFeedbackProvider().margin;
+
+    switch (data) {
+      case PalleteDragData.state:
+        item = StateType(
+          position: position,
+          id: const Uuid().v4(),
+          label: '',
+        );
+        break;
+      case PalleteDragData.startState:
+        item = StartStateType(
+          position: position,
+          id: const Uuid().v4(),
+          label: '',
+        );
+        break;
+      case PalleteDragData.acceptState:
+        item = AcceptStateType(
+          position: position,
+          id: const Uuid().v4(),
+          label: '',
+        );
+        break;
+      case PalleteDragData.transition:
+        item = TransitionType(
+          sourcePosition: calculateNewPoint(position, stateSize / 2, pi / 4),
+          destinationPosition:
+              calculateNewPoint(position, stateSize / 2, 9 * pi / 4),
+          id: const Uuid().v4(),
+          label: '',
+        );
+        break;
+    }
+    PalleteFeedbackProvider().reset();
+    AppActionDispatcher().execute(
+      AddDiagramAction(item: item),
     );
   }
 }

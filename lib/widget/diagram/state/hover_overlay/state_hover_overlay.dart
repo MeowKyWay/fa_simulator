@@ -60,7 +60,7 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
         ),
         child: IgnorePointer(
           ignoring: NewTransitionProvider().isDraggingNewTransition ||
-              TransitionDragingProvider().isDragging,
+              TransitionDraggingProvider().isDragging,
           child: Stack(
             children: [
               NewTransitionDraggable(

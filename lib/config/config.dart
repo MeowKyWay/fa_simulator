@@ -1,4 +1,4 @@
-library fa_simulator.globals;
+library;
 
 import 'package:flutter/material.dart';
 

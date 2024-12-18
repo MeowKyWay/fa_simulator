@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:file_selector/file_selector.dart';
-// import 'package:file_picker/file_picker.dart';
 
 class DiagramSave {
   void save(String filePath) async {
@@ -23,22 +22,25 @@ class DiagramSave {
   }
 
   Future<void> saveAs() async {
-    // Specify the suggested file name and types.
-    const String suggestedName = 'newfile.txt';
-    final XTypeGroup typeGroup = XTypeGroup(
-      label: 'Text Files',
-      extensions: ['txt', 'md', 'csv'],
+    const String fileName = 'new_diagram.dfa';
+    final FileSaveLocation? result = await getSaveLocation(
+      suggestedName: fileName,
+      acceptedTypeGroups: [
+        XTypeGroup(
+          label: 'DFA Diagram',
+          extensions: ['dfa'],
+        ),
+        XTypeGroup(
+          label: 'NFA Diagram',
+          extensions: ['nfa'],
+        )
+      ],
     );
-
-    // Open the "Save As" dialog.
-    final path = await getSaveLocation(
-      suggestedName: suggestedName,
-      acceptedTypeGroups: [typeGroup],
-      confirmButtonText: 'Save',
-    );
-
-    if (path != null) {
-      save(path.path);
+    if (result == null) {
+      // Operation was canceled by the user.
+      return;
     }
+
+    save(result.path);
   }
 }

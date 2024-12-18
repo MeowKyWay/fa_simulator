@@ -11,7 +11,7 @@ class RenameTextField extends StatelessWidget {
     super.key,
     required this.focusNode,
     required this.controller,
-    this.textStyle = textLarge,
+    this.textStyle = textXL,
   });
 
   @override

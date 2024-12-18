@@ -1,5 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
+import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

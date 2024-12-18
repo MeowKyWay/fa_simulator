@@ -428,10 +428,43 @@ class TransitionType extends DiagramType {
       'label': label,
       'sourceStateId': sourceStateId,
       'destinationStateId': destinationStateId,
-      'sourcePosition': sourcePosition,
-      'destinationPosition': destinationPosition,
+      'sourcePosition': sourcePosition == null
+          ? null
+          : {
+              'dx': sourcePosition?.dx,
+              'dy': sourcePosition?.dy,
+            },
+      'destinationPosition': destinationPosition == null
+          ? null
+          : {
+              'dx': destinationPosition?.dx,
+              'dy': destinationPosition?.dy,
+            },
       'loopAngle': loopAngle,
       'isCurved': isCurved,
     };
+  }
+
+  factory TransitionType.fromJson(Map<String, dynamic> json) {
+    return TransitionType(
+      id: json['id'],
+      label: json['label'],
+      sourceStateId: json['sourceStateId'],
+      destinationStateId: json['destinationStateId'],
+      sourcePosition: json['sourcePosition'] == null
+          ? null
+          : Offset(
+              json['sourcePosition']['dx'],
+              json['sourcePosition']['dy'],
+            ),
+      destinationPosition: json['destinationPosition'] == null
+          ? null
+          : Offset(
+              json['destinationPosition']['dx'],
+              json['destinationPosition']['dy'],
+            ),
+      loopAngle: json['loopAngle'],
+      isCurved: json['isCurved'],
+    );
   }
 }

@@ -2,9 +2,10 @@ import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
+import 'package:fa_simulator/widget/provider/file_provider.dart';
+import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
-import 'package:fa_simulator/widget/body/input/body_gesture_detector.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
@@ -28,8 +29,9 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
         ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
         ChangeNotifierProvider(
-            create: (context) => TransitionDragingProvider()),
+            create: (context) => TransitionDraggingProvider()),
         ChangeNotifierProvider(create: (context) => DiagramDraggingProvider()),
+        ChangeNotifierProvider(create: (context) => FileProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -37,7 +39,7 @@ class Main extends StatelessWidget {
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: primaryTextColor, // Custom caret (cursor) color`
             selectionColor:
-                Colors.blue.withOpacity(0.5), // Custom selection color
+                Colors.blue.withOpacity(0.5) // Custom selection color
           ),
           dividerTheme: const DividerThemeData(
             color: primaryLineColor,

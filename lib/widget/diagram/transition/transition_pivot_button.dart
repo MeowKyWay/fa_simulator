@@ -47,16 +47,16 @@ class _TransitionPivotButtonState extends State<TransitionPivotButton> {
         child: Draggable(
           data: data,
           onDragStarted: () {
-            TransitionDragingProvider().startPosition = widget.position;
-            TransitionDragingProvider().draggingItemId = widget.transition.id;
-            TransitionDragingProvider().pivotType = widget.type;
+            TransitionDraggingProvider().startPosition = widget.position;
+            TransitionDraggingProvider().draggingItemId = widget.transition.id;
+            TransitionDraggingProvider().pivotType = widget.type;
           },
           onDragUpdate: (details) {
-            TransitionDragingProvider().endPosition =
+            TransitionDraggingProvider().endPosition =
                 BodyProvider().getBodyLocalPosition(details.globalPosition);
           },
           onDragCompleted: () {
-            TransitionDragingProvider().reset();
+            TransitionDraggingProvider().reset();
           },
           feedback: Container(),
           child: MouseRegion(

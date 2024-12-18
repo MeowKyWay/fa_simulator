@@ -31,7 +31,7 @@ TransitionType addTransition({
   );
   transition.updateIsCurved(true);
   // Add the transition to the list
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   DiagramList().items.add(transition);
   DiagramList().notify();
   // Return the transition
@@ -43,7 +43,7 @@ void deleteTransition(String id) {
   // Get the state index
   int index = DiagramList().itemIndex(id);
 
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   if (index != -1) {
     if (DiagramList().items[index] is! TransitionType) {
       throw Exception("Item id $id is not a transition");
@@ -84,7 +84,7 @@ void moveTransition({
   Offset endPos = transition.endButtonPosition;
   transition.updateIsCurved(false);
 
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   switch (pivotType) {
     case TransitionPivotType.start:
       transition.sourcePosition = position ?? (startPos + distance!);
@@ -118,7 +118,7 @@ void attachTransition({
         "transition_manager.dart/attachTransition: Transition id $id not found");
   }
 
-  RenamingProvider().endRename();
+  RenamingProvider().reset();
   switch (endPoint) {
     case TransitionEndPointType.start:
       if (transition.destinationStateId != null) {

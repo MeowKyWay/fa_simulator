@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/side_bar/side_bar_row.dart';
+import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';
 import 'package:flutter/material.dart';
 
 class Pallete extends StatefulWidget {
@@ -30,7 +30,7 @@ class _PalleteState extends State<Pallete> {
               _isExpanded = !_isExpanded;
             });
           },
-          child: SideBarRow(
+          child: SidebarRow(
             child: Row(
               children: [
                 Icon(
@@ -40,13 +40,13 @@ class _PalleteState extends State<Pallete> {
                 ),
                 Text(
                   widget.label,
-                  style: textMedium,
+                  style: textM,
                 ),
               ],
             ),
           ),
         ),
-        if (_isExpanded) SideBarRow(child: widget.child),
+        if (_isExpanded) SidebarRow(child: widget.child),
       ],
     );
   }

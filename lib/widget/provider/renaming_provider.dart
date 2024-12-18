@@ -1,9 +1,10 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
-class RenamingProvider {
+class RenamingProvider extends DiagramProvider {
   //singleton
   static final RenamingProvider _singleton = RenamingProvider._internal();
   RenamingProvider._internal();
@@ -28,7 +29,8 @@ class RenamingProvider {
     DiagramList().notify();
   }
 
-  void endRename() {
+  @override
+  void reset() {
     _renamingItemId = null;
     _controller.clear();
     DiagramList().notify();

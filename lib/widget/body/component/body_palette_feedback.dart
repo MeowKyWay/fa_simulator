@@ -12,7 +12,8 @@ class BodyPaletteFeedback extends StatelessWidget {
     return Consumer<PalleteFeedbackProvider>(
         builder: (context, palleteFeedbackProvider, child) {
       if (palleteFeedbackProvider.feedback == null ||
-          palleteFeedbackProvider.position == null) {
+          palleteFeedbackProvider.position == null ||
+          !palleteFeedbackProvider.withinBody) {
         return Container();
       }
       return palleteFeedbackProvider.feedback!;

@@ -79,7 +79,7 @@ class _StateNodeState extends State<StateNode> {
                       )
                     : Text(
                         widget.state.label,
-                        style: textLarge,
+                        style: textXL,
                       ),
               ),
             ),

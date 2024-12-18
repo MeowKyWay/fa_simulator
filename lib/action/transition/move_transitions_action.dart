@@ -35,7 +35,6 @@ class MoveTransitionsAction extends AppAction {
 
   @override
   void execute() {
-    //TODO if the center pivot is null do not move on multiple selection move
     unfocus();
     for (MoveTransitionActionInput input in inputs) {
       TransitionType transition = DiagramList().transition(input.id)!;

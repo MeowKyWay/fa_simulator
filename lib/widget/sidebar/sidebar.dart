@@ -1,8 +1,8 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/side_bar/pallete/pallete.dart';
-import 'package:fa_simulator/widget/side_bar/pallete/state/state_wrap.dart';
-import 'package:fa_simulator/widget/side_bar/side_bar_row.dart';
-import 'package:fa_simulator/widget/side_bar/sidebar_textfield.dart';
+import 'package:fa_simulator/widget/sidebar/pallete/pallete.dart';
+import 'package:fa_simulator/widget/sidebar/pallete/state/state_wrap.dart';
+import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';
+import 'package:fa_simulator/widget/sidebar/sidebar_textfield.dart';
 import 'package:flutter/material.dart';
 
 class SideBar extends StatelessWidget {
@@ -26,7 +26,7 @@ class SideBar extends StatelessWidget {
       child: const SingleChildScrollView(
         child: Column(
           children: [
-            SideBarRow(
+            SidebarRow(
               child: SideBarTextfield(),
             ),
             Pallete(

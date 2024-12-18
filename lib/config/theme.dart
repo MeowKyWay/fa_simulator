@@ -16,19 +16,25 @@ const Color primaryLineColor = Color.fromARGB(255, 80, 87, 89);
 const Color secondaryLineColor = Color.fromARGB(255, 64, 70, 71);
 
 //Text
-const TextStyle textLarge = TextStyle(
+const TextStyle textXL = TextStyle(
   color: primaryTextColor,
   decoration: textDecoration,
   fontSize: 20,
 );
 
-const TextStyle textMedium = TextStyle(
+const TextStyle textL = TextStyle(
+  color: primaryTextColor,
+  decoration: textDecoration,
+  fontSize: 20,
+);
+
+const TextStyle textM = TextStyle(
   color: primaryTextColor,
   decoration: textDecoration,
   fontSize: 14,
 );
 
-const TextStyle textSmall = TextStyle(
+const TextStyle textS = TextStyle(
   color: primaryTextColor,
   decoration: textDecoration,
   fontSize: 12,

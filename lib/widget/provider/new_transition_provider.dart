@@ -1,8 +1,9 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class NewTransitionProvider with ChangeNotifier {
+class NewTransitionProvider extends DiagramProvider with ChangeNotifier {
   //Singleton
   static final NewTransitionProvider _instance =
       NewTransitionProvider._internal();
@@ -49,6 +50,7 @@ class NewTransitionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  @override
   void reset() {
     _sourceState = null;
     _destinationState = null;
