@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/sidebar/pallete/state/state_pallete.dart';
+import 'package:fa_simulator/widget/sidebar/palette/state/state_palette.dart';
 import 'package:flutter/material.dart';
 
 class StateWrap extends StatelessWidget {
@@ -11,7 +11,7 @@ class StateWrap extends StatelessWidget {
     return Wrap(
       spacing: 10,
       children: [
-        const StatePallete(),
+        const StatePalette(),
         Container(
           width: 100,
           height: 100,

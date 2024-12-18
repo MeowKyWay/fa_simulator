@@ -1,16 +1,14 @@
-
-import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/pallete_drag_data.dart';
+import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
 import 'package:flutter/material.dart';
 
-class PalleteDraggable extends StatefulWidget {
-  final PalleteDragData data;
+class PaletteDraggable extends StatefulWidget {
+  final PaletteDragData data;
   final Widget feedback;
   final Widget child;
   final Offset margin;
 
-  const PalleteDraggable({
+  const PaletteDraggable({
     super.key,
     required this.data,
     required this.feedback,
@@ -19,10 +17,10 @@ class PalleteDraggable extends StatefulWidget {
   });
 
   @override
-  State<PalleteDraggable> createState() => _PalleteDraggableState();
+  State<PaletteDraggable> createState() => _PaletteDraggableState();
 }
 
-class _PalleteDraggableState extends State<PalleteDraggable> {
+class _PaletteDraggableState extends State<PaletteDraggable> {
   @override
   Widget build(BuildContext context) {
     return Draggable(

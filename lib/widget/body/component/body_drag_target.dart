@@ -18,7 +18,7 @@ import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/pallete_drag_data.dart';
+import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -76,8 +76,8 @@ class BodyDragTarget extends StatelessWidget {
         //On drag new transition add the transition
         else if (details.data is NewTransitionType) {
           return _onWillAcceptNewTransition(details.data as NewTransitionType);
-        } else if (details.data is PalleteDragData) {
-          return _onWillAcceptPalleteDragData(details.data as PalleteDragData);
+        } else if (details.data is PaletteDragData) {
+          return _onWillAcceptPalleteDragData(details.data as PaletteDragData);
         }
         return false;
       },
@@ -88,8 +88,8 @@ class BodyDragTarget extends StatelessWidget {
           _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         } else if (details.data is NewTransitionType) {
           _onAcceptNewTransition(details.data as NewTransitionType);
-        } else if (details.data is PalleteDragData) {
-          _onAcceptPalleteDragData(details.data as PalleteDragData);
+        } else if (details.data is PaletteDragData) {
+          _onAcceptPalleteDragData(details.data as PaletteDragData);
         }
       },
       onMove: (details) {},
@@ -113,7 +113,7 @@ class BodyDragTarget extends StatelessWidget {
     return true;
   }
 
-  bool _onWillAcceptPalleteDragData(PalleteDragData data) {
+  bool _onWillAcceptPalleteDragData(PaletteDragData data) {
     PalleteFeedbackProvider().withinBody = true;
     return true;
   }
@@ -150,35 +150,35 @@ class BodyDragTarget extends StatelessWidget {
     );
   }
 
-  void _onAcceptPalleteDragData(PalleteDragData data) {
+  void _onAcceptPalleteDragData(PaletteDragData data) {
     DiagramType item;
     if (PalleteFeedbackProvider().position == null) return;
     Offset position =
         PalleteFeedbackProvider().position! + PalleteFeedbackProvider().margin;
 
     switch (data) {
-      case PalleteDragData.state:
+      case PaletteDragData.state:
         item = StateType(
           position: position,
           id: const Uuid().v4(),
           label: '',
         );
         break;
-      case PalleteDragData.startState:
+      case PaletteDragData.startState:
         item = StartStateType(
           position: position,
           id: const Uuid().v4(),
           label: '',
         );
         break;
-      case PalleteDragData.acceptState:
+      case PaletteDragData.acceptState:
         item = AcceptStateType(
           position: position,
           id: const Uuid().v4(),
           label: '',
         );
         break;
-      case PalleteDragData.transition:
+      case PaletteDragData.transition:
         item = TransitionType(
           sourcePosition: calculateNewPoint(position, stateSize / 2, pi / 4),
           destinationPosition:

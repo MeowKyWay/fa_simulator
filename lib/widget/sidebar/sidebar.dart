@@ -1,6 +1,6 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/pallete.dart';
-import 'package:fa_simulator/widget/sidebar/pallete/state/state_wrap.dart';
+import 'package:fa_simulator/widget/sidebar/palette/palette.dart';
+import 'package:fa_simulator/widget/sidebar/palette/state/state_wrap.dart';
 import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';
 import 'package:fa_simulator/widget/sidebar/sidebar_textfield.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +29,11 @@ class SideBar extends StatelessWidget {
             SidebarRow(
               child: SideBarTextfield(),
             ),
-            Pallete(
+            Palette(
               label: "State",
               child: StateWrap(),
             ),
-            Pallete(
+            Palette(
               label: "Transition",
               child: StateWrap(),
             ),

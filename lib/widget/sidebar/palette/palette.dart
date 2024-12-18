@@ -2,22 +2,22 @@ import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';
 import 'package:flutter/material.dart';
 
-class Pallete extends StatefulWidget {
+class Palette extends StatefulWidget {
   //TODO prevent feedback showing when dragging outside the body
   final String label;
   final Widget child;
 
-  const Pallete({
+  const Palette({
     super.key,
     required this.label,
     required this.child,
   });
 
   @override
-  State<Pallete> createState() => _PalleteState();
+  State<Palette> createState() => _PaletteState();
 }
 
-class _PalleteState extends State<Pallete> {
+class _PaletteState extends State<Palette> {
   bool _isExpanded = false;
 
   @override

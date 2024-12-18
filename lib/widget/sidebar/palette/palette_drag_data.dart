@@ -1,4 +1,4 @@
-enum PalleteDragData {
+enum PaletteDragData {
   state,
   startState,
   acceptState,
