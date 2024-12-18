@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
@@ -46,15 +47,21 @@ class DiagramLoad {
           List<Map<String, dynamic>>.from(jsonList);
 
       // Example: Accessing a specific element
-      List<DiagramType> items = [];
+      List<StateType> states = [];
+      List<TransitionType> transitions = [];
       for (var item in dataList) {
         if (item['type'] == 'state') {
-          items.add(StateType.fromJson(item));
+          states.add(StateType.fromJson(item));
+        } else if (item['type'] == 'start_state') {
+          states.add(StartStateType.fromJson(item));
+        } else if (item['type'] == 'accept_state') {
+          states.add(AcceptStateType.fromJson(item));
         } else if (item['type'] == 'transition') {
-          items.add(TransitionType.fromJson(item));
+          transitions.add(TransitionType.fromJson(item));
         }
       }
-      DiagramList().addItems(items);
+      DiagramList().addItems(states);
+      DiagramList().addItems(transitions);
     } catch (e) {
       log('Error reading JSON file: $e');
     }

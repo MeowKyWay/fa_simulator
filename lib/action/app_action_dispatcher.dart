@@ -8,8 +8,9 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 
-class AppActionDispatcher {
+class AppActionDispatcher extends DiagramProvider {
   static final AppActionDispatcher _instance = AppActionDispatcher._internal();
   AppActionDispatcher._internal();
   factory AppActionDispatcher() => _instance;
@@ -71,5 +72,11 @@ class AppActionDispatcher {
 
   void _postAction() {
     // log(_actions.toString());
+  }
+
+  @override
+  void reset() {
+    _actions.clear();
+    _redoActions.clear();
   }
 }

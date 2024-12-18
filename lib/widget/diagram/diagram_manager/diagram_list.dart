@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
@@ -19,18 +21,10 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   final List<DiagramType> _items = [];
   List<DiagramType> get items => _items;
 
-  void addItem(DiagramType item) {
+  DiagramType addItem(DiagramType item) {
     if (itemIsExist(item.id)) {
       throw Exception(
           "diagram_list/addItem: Item with id ${item.id} already exist");
-    }
-    if (item is StateType) {
-      if (item is StartStateType) {
-        if (startState != null) {
-          throw Exception(
-              "diagram_list/addItem: Start state already exist, only one start state allowed");
-        }
-      }
     }
     if (item is TransitionType) {
       if (item.destinationStateId != null && item.sourceStateId != null) {
@@ -52,6 +46,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     }
     _items.add(item);
     notifyListeners();
+    return item;
   }
 
   void addItems(List<DiagramType> items) {
@@ -61,10 +56,10 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(String id) {
+  void removeItem(String id, [bool force = false]) {
     int index = itemIndex(id);
     if (index != -1) {
-      if (_items[index] is StateType) {
+      if (_items[index] is StateType && !force) {
         if ((_items[index] as StateType).transitionIds.isNotEmpty) {
           throw Exception(
               "diagram_list/removeItem: State with id $id has transition(s) delete any transition(s) connected to the state first");

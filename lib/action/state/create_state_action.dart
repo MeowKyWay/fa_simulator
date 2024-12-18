@@ -19,7 +19,7 @@ class CreateStateAction implements AppAction {
 
   @override
   void execute() {
-    state = addState(position, name);
+    state = addState(position: position, name: name);
     requestFocus([state.id]);
   }
 
@@ -30,7 +30,7 @@ class CreateStateAction implements AppAction {
 
   @override
   void redo() {
-    addState(position, name, state.id);
+    addState(position: position, name: name, id: state.id);
     requestFocus([state.id]);
   }
 }

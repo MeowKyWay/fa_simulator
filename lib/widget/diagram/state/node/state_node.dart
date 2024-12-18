@@ -51,7 +51,6 @@ class _StateNodeState extends State<StateNode> {
             name: newName,
           ));
         }
-        log("RenamingProvider().reset()");
         RenamingProvider().reset();
       }
     };

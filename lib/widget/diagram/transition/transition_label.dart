@@ -36,6 +36,12 @@ class _TransitionLabelState extends State<TransitionLabel> {
     if (widget.isRenaming) {
       _renameFocusNode.requestFocus();
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.selection =
+            TextSelection.collapsed(offset: _controller.text.length);
+      });
+    });
     return Positioned(
       left: widget.transition.centerPosition.dx - _textWidth / 2,
       top: widget.transition.centerPosition.dy - _textHeight / 2,
@@ -87,6 +93,7 @@ class _TransitionLabelState extends State<TransitionLabel> {
             name: newName,
           ));
         }
+        RenamingProvider().reset();
       }
     };
     _renameFocusNode = FocusNode();

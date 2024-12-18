@@ -21,6 +21,22 @@ class StateType extends DiagramType {
         .toList();
   }
 
+  List<String> get outgoingTransitionIds {
+    return DiagramList()
+        .transitions
+        .where((t) => t.sourceStateId == id)
+        .map((t) => t.id)
+        .toList();
+  }
+
+  List<String> get incomingTransitionIds {
+    return DiagramList()
+        .transitions
+        .where((t) => t.destinationStateId == id)
+        .map((t) => t.id)
+        .toList();
+  }
+
   @override
   String toString() {
     return {

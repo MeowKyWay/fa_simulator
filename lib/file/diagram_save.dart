@@ -7,6 +7,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
+  //TODO warn for loss progress
   void save(String filePath) async {
     List<DiagramType> items = DiagramList().items;
     try {

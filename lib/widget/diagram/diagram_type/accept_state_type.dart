@@ -1,4 +1,5 @@
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:flutter/material.dart';
 
 class AcceptStateType extends StateType {
   AcceptStateType({
@@ -19,5 +20,16 @@ class AcceptStateType extends StateType {
         'dy': position.dy,
       },
     };
+  }
+
+  factory AcceptStateType.fromJson(Map<String, dynamic> json) {
+    return AcceptStateType(
+      id: json['id'],
+      label: json['label'],
+      position: Offset(
+        json['position']['dx'],
+        json['position']['dy'],
+      ),
+    );
   }
 }

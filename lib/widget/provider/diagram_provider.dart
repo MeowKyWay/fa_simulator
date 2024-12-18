@@ -1,3 +1,4 @@
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
@@ -24,4 +25,5 @@ void resetProvider() {
   TransitionDraggingProvider().reset();
   DiagramList().reset();
   SelectionAreaProvider().reset();
+  AppActionDispatcher().reset();
 }

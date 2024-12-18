@@ -72,7 +72,6 @@ class TransitionType extends DiagramType {
           -(2 * pi - (endLineAngle - loopAngle) * 2), false);
       path.lineTo(p1.dx, p1.dy);
       path.close();
-      developer.log('path1: $path');
       return path;
     }
 

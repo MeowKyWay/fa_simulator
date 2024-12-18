@@ -90,6 +90,9 @@ class MoveDiagramsAction extends AppAction {
 
         TransitionPivotType? pivotType;
 
+        if (ids.contains(item.sourceStateId) && ids.contains(item.destinationStateId)) {
+          continue;
+        }
         if (moveInfo.oldSourceStateId != null) {
           attachTransition(
             id: id,

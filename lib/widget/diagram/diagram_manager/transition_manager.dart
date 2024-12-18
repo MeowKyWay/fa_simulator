@@ -14,7 +14,7 @@ TransitionType addTransition({
   String? id,
 }) {
   bool isCurved = false;
-  
+
   TransitionType transition = TransitionType(
     id: id ?? const Uuid().v4(),
     label: label,
@@ -36,7 +36,8 @@ TransitionType addTransition({
 void deleteTransition(String id) {
   RenamingProvider().reset();
   if (DiagramList().item(id) is! TransitionType) {
-    throw Exception("transition_manager.dart/deleteTransition: Item id $id is not a transition");
+    throw Exception(
+        "transition_manager.dart/deleteTransition: Item id $id is not a transition");
   }
   DiagramList().removeItem(id);
 }
@@ -100,27 +101,34 @@ void attachTransition({
         "transition_manager.dart/attachTransition: Transition id $id not found");
   }
 
+  if (endPoint == TransitionEndPointType.start) {
+    if (stateId != transition.destinationStateId) {
+      if (DiagramList().getTransitionByState(
+              stateId, transition.destinationStateId ?? '0') !=
+          null) {
+        throw Exception(
+            "transition_manager.dart/attachTransition: Transition with source state $stateId and destination state ${transition.destinationStateId} already exist");
+      }
+    }
+  }
+  if (endPoint == TransitionEndPointType.end) {
+    if (stateId != transition.sourceStateId) {
+      if (DiagramList()
+              .getTransitionByState(transition.sourceStateId ?? '0', stateId) !=
+          null) {
+        throw Exception(
+            "transition_manager.dart/attachTransition: Transition with source state ${transition.sourceStateId} and destination state $stateId already exist");
+      }
+    }
+  }
+
   RenamingProvider().reset();
   switch (endPoint) {
     case TransitionEndPointType.start:
-      if (transition.destinationStateId != null) {
-        if (DiagramList().getTransitionByState(
-                stateId, transition.destinationStateId!) !=
-            null) {
-          throw Exception(transitionAlreadyExistErrorMessage);
-        }
-      }
       transition.sourceStateId = stateId;
       transition.resetSourcePosition();
       break;
     case TransitionEndPointType.end:
-      if (transition.sourceStateId != null) {
-        if (DiagramList()
-                .getTransitionByState(transition.sourceStateId!, stateId) !=
-            null) {
-          throw Exception(transitionAlreadyExistErrorMessage);
-        }
-      }
       transition.destinationStateId = stateId;
       transition.resetDestinationPosition();
       break;

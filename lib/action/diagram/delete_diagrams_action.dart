@@ -55,7 +55,7 @@ class DeleteDiagramsAction extends AppAction {
       );
     }
     for (StateType i in states) {
-      addState(i.position, i.label, i.id);
+      DiagramList().addItem(i);
     }
 
     requestFocus(ids);

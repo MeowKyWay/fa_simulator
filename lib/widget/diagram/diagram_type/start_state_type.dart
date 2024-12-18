@@ -1,16 +1,13 @@
-import 'dart:math';
 
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:flutter/material.dart';
 
 class StartStateType extends StateType {
-  double initialTransitionAngle;
-
   StartStateType({
     required super.id,
     required super.position,
     required super.label,
     super.hasFocus,
-    this.initialTransitionAngle = pi / 4,
   });
 
   @override
@@ -23,7 +20,17 @@ class StartStateType extends StateType {
         'dx': position.dx,
         'dy': position.dy,
       },
-      'initialTransitionAngle': initialTransitionAngle,
     };
+  }
+
+  factory StartStateType.fromJson(Map<String, dynamic> json) {
+    return StartStateType(
+      id: json['id'],
+      label: json['label'],
+      position: Offset(
+        json['position']['dx'],
+        json['position']['dy'],
+      ),
+    );
   }
 }
