@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
@@ -15,6 +16,7 @@ class DiagramSave {
           jsonEncode(items.map((item) => item.toJson()).toList());
 
       File file = File(filePath);
+      FileProvider().fileName = file.path.split('/').last;
       await file.writeAsString(jsonString);
       log('Diagram saved to ${file.absolute}');
     } catch (e) {
@@ -23,7 +25,7 @@ class DiagramSave {
   }
 
   Future<void> saveAs() async {
-    const String fileName = 'new_diagram.dfa';
+    String fileName = FileProvider().fileName ?? 'new_diagram.dfa';
     final FileSaveLocation? result = await getSaveLocation(
       suggestedName: fileName,
       acceptedTypeGroups: [
