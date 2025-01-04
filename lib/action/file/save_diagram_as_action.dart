@@ -1,20 +1,12 @@
-import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/action/app_unrevertable_action.dart';
 import 'package:fa_simulator/file/diagram_save.dart';
 
-class SaveDiagramAsAction extends AppAction {
+class SaveDiagramAsAction extends AppUnrevertableAction {
   @override
   bool get isRevertable => false;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     DiagramSave().saveAs();
-  }
-
-  @override
-  void undo() {
-  }
-
-  @override
-  void redo() {
   }
 }

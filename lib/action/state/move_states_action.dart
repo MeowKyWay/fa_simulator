@@ -16,7 +16,7 @@ class MoveStatesAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     for (String id in stateIds) {
       moveState(id, deltaOffset);
     }
@@ -24,7 +24,7 @@ class MoveStatesAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     for (String id in stateIds) {
       moveState(id, -deltaOffset);
     }
@@ -32,7 +32,7 @@ class MoveStatesAction extends AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

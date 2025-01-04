@@ -18,18 +18,18 @@ class CreateStateAction implements AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     state = addState(position: position, name: name);
     requestFocus([state.id]);
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     deleteState(state.id);
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     addState(position: position, name: name, id: state.id);
     requestFocus([state.id]);
   }

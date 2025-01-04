@@ -32,6 +32,7 @@ class DiagramLoad {
     } else {
       // If no file was selected
       log('No file selected.');
+      throw Exception('No file selected.');
     }
   }
 
@@ -64,6 +65,7 @@ class DiagramLoad {
       DiagramList().addItems(transitions);
     } catch (e) {
       log('Error reading JSON file: $e');
+      throw Exception('Error reading JSON file: $e');
     }
   }
 }

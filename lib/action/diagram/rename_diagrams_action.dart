@@ -17,19 +17,19 @@ class RenameDiagramsAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     String old = DiagramList().renameItem(id, name);
     oldName ??= old;
     RenamingProvider().reset();
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     DiagramList().renameItem(id, oldName!);
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

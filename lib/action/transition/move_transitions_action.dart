@@ -34,7 +34,7 @@ class MoveTransitionsAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     unfocus();
     for (MoveTransitionActionInput input in inputs) {
       TransitionType transition = DiagramList().transition(input.id)!;
@@ -58,7 +58,7 @@ class MoveTransitionsAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     for (MoveTransitionActionInput input in inputs) {
       if (input.oldStateId != null) {
         attachTransition(
@@ -80,7 +80,7 @@ class MoveTransitionsAction extends AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

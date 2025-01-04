@@ -3,7 +3,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 
 class UnfocusAction extends AppUnrevertableAction {
   @override
-  void execute() {
+  Future<void> execute() async {
     unfocus();
   }
 }

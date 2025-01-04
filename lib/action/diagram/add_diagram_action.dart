@@ -14,20 +14,20 @@ class AddDiagramAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     DiagramList().addItem(item);
     requestFocus([item.id]);
     DiagramList().notify();
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     DiagramList().removeItem(item.id);
     DiagramList().notify();
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

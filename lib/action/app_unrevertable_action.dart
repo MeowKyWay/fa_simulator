@@ -4,12 +4,12 @@ abstract class AppUnrevertableAction extends AppAction {
   @override
   bool get isRevertable => false;
   @override
-  void undo() {
+  Future<void> undo() async {
     throw Exception('This action is unrevertable action');
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     throw Exception('This action is unrevertable action');
   }
 }

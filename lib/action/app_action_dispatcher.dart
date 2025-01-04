@@ -20,15 +20,16 @@ class AppActionDispatcher extends DiagramProvider {
   // Store list of undo actions
   final List<AppAction> _redoActions = [];
 
-  void execute(AppAction action) {
+  void execute(AppAction action, {Function? postAction}) async {
     // Execute the action
     try {
-      action.execute();
+      await action.execute();
       // Add the action to the list if it is undoable
       if (action.isRevertable) {
         _actions.add(action);
         _redoActions.clear();
       }
+      postAction?.call();
       // Empty the redo list
     } on Exception catch (e) {
       log(e.toString());
@@ -36,12 +37,12 @@ class AppActionDispatcher extends DiagramProvider {
     _postAction();
   }
 
-  void undo() {
+  void undo() async {
     // If there are actions
     if (_actions.isNotEmpty) {
       // Undo the last action
       try {
-        _actions.last.undo();
+        await _actions.last.undo();
         // Add the action to the redo list
         _redoActions.add(_actions.last);
       } on Exception catch (e) {
@@ -53,12 +54,12 @@ class AppActionDispatcher extends DiagramProvider {
     _postAction();
   }
 
-  void redo() {
+  void redo() async {
     // If there are redo actions
     if (_redoActions.isNotEmpty) {
       // Redo the last action
       try {
-        _redoActions.last.redo();
+        await _redoActions.last.redo();
         // Add the action to the list
         _actions.add(_redoActions.last);
       } on Exception catch (e) {

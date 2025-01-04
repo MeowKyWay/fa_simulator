@@ -20,7 +20,7 @@ class PasteAction extends AppAction {
   final List<TransitionType> _transitions = [];
 
   @override
-  void execute() {
+  Future<void> execute() async {
     List<DiagramType> items = DiagramClipboard().items;
 
     DiagramClipboard().incrementCount();
@@ -70,7 +70,7 @@ class PasteAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     DiagramClipboard().decrementCount();
     for (TransitionType transition in _transitions) {
       deleteTransition(transition.id);
@@ -81,7 +81,7 @@ class PasteAction extends AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     for (StateType state in _states) {
       addState(
         position: state.position,

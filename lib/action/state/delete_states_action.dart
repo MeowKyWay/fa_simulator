@@ -16,7 +16,7 @@ class DeleteStatesAction implements AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     states.clear();
     states.addAll(DiagramList().getStates(ids));
     for (var i = 0; i < states.length; i++) {
@@ -32,7 +32,7 @@ class DeleteStatesAction implements AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     for (var i = 0; i < states.length; i++) {
       addState(
         position: states[i].position,
@@ -44,7 +44,7 @@ class DeleteStatesAction implements AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

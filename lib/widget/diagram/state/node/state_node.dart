@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/rename_diagrams_action.dart';
 import 'package:fa_simulator/config/theme.dart';

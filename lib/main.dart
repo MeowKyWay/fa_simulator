@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/diagram_theme.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
@@ -34,18 +35,7 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FileProvider()),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: primaryTextColor, // Custom caret (cursor) color`
-            selectionColor:
-                Colors.blue.withOpacity(0.5) // Custom selection color
-          ),
-          dividerTheme: const DividerThemeData(
-            color: primaryLineColor,
-          ),
-          hoverColor: primaryColor,
-        ),
+        theme: diagramTheme,
         home: const Scaffold(
           body: DefaultTextStyle(
             style: TextStyle(

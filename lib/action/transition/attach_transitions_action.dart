@@ -32,7 +32,7 @@ class AttachTransitionAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     TransitionType transition = DiagramList().transition(id)!;
     if (endPoint == TransitionEndPointType.start) {
       if (transition.sourceState != null) {
@@ -60,7 +60,7 @@ class AttachTransitionAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     TransitionType transition = DiagramList().transition(id)!;
     switch (endPoint) {
       case TransitionEndPointType.start:
@@ -84,7 +84,7 @@ class AttachTransitionAction extends AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

@@ -9,7 +9,7 @@ class RemoveFocusAction extends AppUnrevertableAction {
   );
 
   @override
-  void execute() {
+  Future<void> execute() async {
     removeFocus(ids);
   }
 }

@@ -9,7 +9,7 @@ class ToggleFocusAction extends AppUnrevertableAction {
   );
 
   @override
-  void execute() {
+  Future<void> execute() async {
     toggleFocus(ids);
   }
 }

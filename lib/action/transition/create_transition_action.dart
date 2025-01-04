@@ -28,7 +28,7 @@ class CreateTransitionAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     transition = addTransition(
       sourcePosition: sourcePosition,
       destinationPosition: destinationPosition,
@@ -40,12 +40,12 @@ class CreateTransitionAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     deleteTransition(transition.id);
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     addTransition(
       sourcePosition: sourcePosition,
       destinationPosition: destinationPosition,

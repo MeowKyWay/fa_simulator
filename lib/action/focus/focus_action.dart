@@ -9,7 +9,7 @@ class FocusAction extends AppUnrevertableAction {
   );
 
   @override
-  void execute() {
+  Future<void> execute() async {
     requestFocus(ids);
   }
 }

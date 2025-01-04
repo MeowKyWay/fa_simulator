@@ -35,7 +35,7 @@ class MoveDiagramsAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     for (String id in ids) {
       DiagramType? item = DiagramList().item(id);
       if (item == null) {
@@ -73,7 +73,7 @@ class MoveDiagramsAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     for (String id in ids) {
       DiagramType? item = DiagramList().item(id);
       if (item == null) {
@@ -124,7 +124,7 @@ class MoveDiagramsAction extends AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

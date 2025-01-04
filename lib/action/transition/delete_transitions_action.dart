@@ -16,7 +16,7 @@ class DeleteTransitionsAction extends AppAction {
   bool get isRevertable => true;
 
   @override
-  void execute() {
+  Future<void> execute() async {
     transitions.clear();
     transitions.addAll(DiagramList().getTransitions(ids));
     for (String i in ids) {
@@ -25,7 +25,7 @@ class DeleteTransitionsAction extends AppAction {
   }
 
   @override
-  void undo() {
+  Future<void> undo() async {
     for (var i = 0; i < transitions.length; i++) {
       addTransition(
         sourcePosition: transitions[i].sourcePosition,
@@ -40,7 +40,7 @@ class DeleteTransitionsAction extends AppAction {
   }
 
   @override
-  void redo() {
+  Future<void> redo() async {
     execute();
   }
 }

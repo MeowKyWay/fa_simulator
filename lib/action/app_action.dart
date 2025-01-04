@@ -1,9 +1,9 @@
 abstract class AppAction {
   bool get isRevertable;
   // Do the action
-  void execute();
+  Future<void> execute();
   // Undo the action
-  void undo();
+  Future<void> undo();
   // Redo the action usually the same as execute
-  void redo();
+  Future<void> redo();
 }
