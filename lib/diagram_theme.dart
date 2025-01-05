@@ -42,7 +42,6 @@ final outlinedButtonTheme = OutlinedButtonThemeData(
     ),
   ),
 );
-
 const Color _primaryColor = Color.fromARGB(255, 24, 20, 29);
 const Color _secondaryColor = Color.fromARGB(255, 27, 29, 30);
 

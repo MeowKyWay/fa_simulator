@@ -8,7 +8,6 @@ import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
-  //TODO warn for loss progress
   void save(String filePath) async {
     List<DiagramType> items = DiagramList().items;
     try {
@@ -18,6 +17,9 @@ class DiagramSave {
       File file = File(filePath);
       FileProvider().fileName = file.path.split('/').last;
       await file.writeAsString(jsonString);
+
+      FileProvider().savedItem = items;
+
       log('Diagram saved to ${file.absolute}');
     } catch (e) {
       log('Failed to save diagram: $e');

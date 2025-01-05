@@ -1,4 +1,5 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_as_action.dart';
@@ -20,6 +21,7 @@ class DiagramFileMenu extends DiagramMenu {
         DiagramMenuItem(
           label: 'New',
           shortcut: DiagramShortcut().newFile,
+          action: NewDiagramAction(),
         ).build(),
         DiagramMenuItem(
           label: 'Open',

@@ -2,6 +2,7 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/overlay/overlay_background.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +24,18 @@ final selectDiagramOverlay = OverlayEntry(
           child: Column(
             spacing: 10,
             children: [
-              _buildButton('Create new diagram', _newDiagram, context),
-              _buildButton('Open existing diagram', _openDiagram, context),
+              Button(
+                text: 'New diagram',
+                onPressed: _newDiagram,
+                width: 200,
+                height: 40,
+              ),
+              Button(
+                text: 'Open diagram',
+                onPressed: _openDiagram,
+                width: 200,
+                height: 40,
+              ),
             ],
           ),
         ),
@@ -32,23 +43,6 @@ final selectDiagramOverlay = OverlayEntry(
     ));
   },
 );
-
-Widget _buildButton(String text, VoidCallback onPressed, BuildContext context) {
-  TextStyle style = Theme.of(context).textTheme.labelMedium ?? TextStyle();
-  return OutlinedButton(
-    onPressed: onPressed,
-    child: SizedBox(
-      width: 200,
-      height: 40,
-      child: Center(
-        child: Text(
-          text,
-          style: style,
-        ),
-      ),
-    ),
-  );
-}
 
 void _newDiagram() {
   AppActionDispatcher().execute(
