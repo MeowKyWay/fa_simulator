@@ -18,15 +18,17 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle style = Theme.of(context).textTheme.labelMedium ?? TextStyle();
-    return OutlinedButton(
-      onPressed: onPressed,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: Center(
-          child: Text(
-            text,
-            style: style,
+    return IntrinsicHeight(
+      child: OutlinedButton(
+        onPressed: onPressed,
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Center(
+            child: Text(
+              text,
+              style: style,
+            ),
           ),
         ),
       ),

@@ -35,25 +35,38 @@ OverlayEntry _confirmOverlay(Completer<bool> completer, String message,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
-            child: IntrinsicHeight(
-              child: Row(
+            padding: const EdgeInsets.all(15),
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Column(
+                spacing: 10,
                 children: [
-                  Button(
-                    text: confirm ?? 'Confirm',
-                    onPressed: () {
-                      completer.complete(true);
-                    },
-                    width: 200,
-                    height: 40,
+                  SizedBox(
+                    width: 150,
+                    child: Center(
+                      child: Text(
+                        message,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.labelMedium,
+                        softWrap: true,
+                      ),
+                    ),
                   ),
                   Button(
                     text: cancle ?? 'Cancle',
                     onPressed: () {
                       completer.complete(false);
                     },
-                    width: 200,
-                    height: 40,
+                    width: 150,
+                    height: 30,
+                  ),
+                  Button(
+                    text: confirm ?? 'Confirm',
+                    onPressed: () {
+                      completer.complete(true);
+                    },
+                    width: 150,
+                    height: 30,
                   ),
                 ],
               ),

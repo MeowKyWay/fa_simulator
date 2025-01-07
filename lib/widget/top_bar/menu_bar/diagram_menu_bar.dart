@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/components/button.dart';
+import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_icon.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_menus.dart';
@@ -27,7 +31,8 @@ class DiagramMenuBar extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       width: double.infinity,
                       child: Text(
-                        FileProvider().fileName ?? 'Untitled.${FileProvider().faType.toString()}',
+                        FileProvider().fileName ??
+                            'Untitled.${FileProvider().faType.toString()}',
                         style: textL.copyWith(
                           color: secondaryTextColor,
                         ),
@@ -43,6 +48,15 @@ class DiagramMenuBar extends StatelessWidget {
                 ],
               ),
             ),
+            Button(
+              onPressed: () async {
+                confirm("dsafxwgcdhvjbaklwd,awmdbjvgawtgy", context).then((value) {
+                  log(value.toString());
+                });
+              },
+              text: "test",
+
+            )
           ],
         ),
       ),
