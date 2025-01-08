@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_menu_bar.dart';
 import 'package:flutter/material.dart';

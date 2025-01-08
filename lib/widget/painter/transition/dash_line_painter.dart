@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 

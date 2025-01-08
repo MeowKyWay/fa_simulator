@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/sidebar/palette/palette.dart';
 import 'package:fa_simulator/widget/sidebar/palette/state/state_wrap.dart';
 import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';

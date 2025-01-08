@@ -1,8 +1,5 @@
-import 'dart:developer';
 
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/components/button.dart';
-import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_icon.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_menus.dart';

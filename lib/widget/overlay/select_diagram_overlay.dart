@@ -1,7 +1,6 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/overlay/overlay_background.dart';
 import 'package:flutter/material.dart';

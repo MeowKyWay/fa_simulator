@@ -1,5 +1,4 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/body/interactive_container/matrix_gesture_detecture2.dart';
 import 'package:flutter/material.dart';
 
