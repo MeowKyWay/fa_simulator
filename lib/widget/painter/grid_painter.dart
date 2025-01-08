@@ -4,20 +4,23 @@ import 'package:flutter/material.dart';
 
 class GridPainter extends CustomPainter {
   final double gridSpacing;
-  final Color gridColor;
+  final Color primary;
+  final Color secondary;
 
-  GridPainter(
-      {this.gridSpacing = gridSize,
-      this.gridColor = const Color.fromARGB(255, 200, 200, 200)});
+  GridPainter({
+    this.gridSpacing = gridSize,
+    required this.primary,
+    required this.secondary,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final primaryPaint = Paint()
-      ..color = gridPrimalyColor
+      ..color = primary
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
     final secondaryPaint = Paint()
-      ..color = gridSecondaryColor
+      ..color = secondary
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 

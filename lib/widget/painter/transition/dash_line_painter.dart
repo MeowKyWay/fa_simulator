@@ -7,11 +7,13 @@ class DashLinePainter extends CustomPainter {
   TransitionType? transition;
   Offset? start;
   Offset? end;
+  Color color;
 
   DashLinePainter({
     this.transition,
     this.start,
     this.end,
+    required this.color,
   }) {
     if (transition == null && (start == null || end == null)) {
       throw Exception("Either transition or start and end must be provided");
@@ -20,14 +22,14 @@ class DashLinePainter extends CustomPainter {
 
   Path _path = Path();
 
-  final Paint _paint = Paint()
-    ..color = focusColor
-    ..strokeWidth = 1
-    ..style = PaintingStyle.stroke
-    ..strokeJoin = StrokeJoin.round;
-
   @override
   void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke
+      ..strokeJoin = StrokeJoin.round;
+
     if (transition != null) {
       _path = transition!.path;
     } else {
@@ -52,7 +54,7 @@ class DashLinePainter extends CustomPainter {
         distance += dashSpace;
       }
     }
-    canvas.drawPath(dashPath, _paint);
+    canvas.drawPath(dashPath, paint);
   }
 
   @override

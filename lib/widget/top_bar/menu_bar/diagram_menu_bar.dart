@@ -18,14 +18,14 @@ class DiagramMenuBar extends StatelessWidget {
     return Expanded(
       child: Container(
         width: double.infinity,
-        color: secondaryColor,
+        color: Theme.of(context).colorScheme.primary,
         child: Row(
           children: [
             const DiagramIcon(),
-            Expanded(
+            IntrinsicWidth(
               child: Column(
                 children: [
-                  Expanded(
+                  Expanded( // File name
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(9.5, 5, 0, 0),
                       alignment: Alignment.centerLeft,
@@ -40,7 +40,7 @@ class DiagramMenuBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
+                  const SizedBox( // Menu
                     width: double.infinity,
                     height: 30,
                     child: DiagramMenus(),
@@ -48,15 +48,6 @@ class DiagramMenuBar extends StatelessWidget {
                 ],
               ),
             ),
-            Button(
-              onPressed: () async {
-                confirm("dsafxwgcdhvjbaklwd,awmdbjvgawtgy", context).then((value) {
-                  log(value.toString());
-                });
-              },
-              text: "test",
-
-            )
           ],
         ),
       ),

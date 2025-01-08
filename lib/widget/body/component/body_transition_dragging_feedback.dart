@@ -74,7 +74,7 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
       }
 
       return CustomPaint(
-          painter: DashLinePainter(start: start, end: end),);
+          painter: DashLinePainter(start: start, end: end, color: Theme.of(context).focusColor),);
     });
   }
 }

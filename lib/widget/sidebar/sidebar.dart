@@ -12,11 +12,11 @@ class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: secondaryColor,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
         border: Border(
           right: BorderSide(
-            color: primaryLineColor,
+            color: Theme.of(context).colorScheme.outlineVariant,
             width: 1,
           ),
         ),

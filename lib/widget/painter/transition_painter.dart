@@ -6,19 +6,21 @@ class TransitionPainter extends CustomPainter {
   final Offset end;
   final double sourceOffset;
   final double destinationOffset;
+  final Color color;
 
   TransitionPainter({
     required this.start,
     required this.end,
     this.sourceOffset = 0,
     this.destinationOffset = 0,
+    required this.color,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     // Paint object for the line
     final paint = Paint()
-      ..color = Colors.white
+      ..color = color
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 

@@ -100,10 +100,10 @@ class _StateNodeState extends State<StateNode> {
         children: [
           DiagramDraggable(
             child: widget.state is AcceptStateType
-                ? acceptState(child: child)
+                ? acceptState(child: child, context: context)
                 : widget.state is StartStateType
-                    ? startState(child: child)
-                    : state(child: child),
+                    ? startState(child: child, context: context)
+                    : state(child: child, context: context),
           ),
         ],
       ),

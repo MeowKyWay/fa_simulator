@@ -77,9 +77,9 @@ class _TransitionPivotButtonState extends State<TransitionPivotButton> {
                 decoration: _isHovered || widget.hasFocus
                     ? BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue,
+                        color: Theme.of(context).focusColor,
                         border: Border.all(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.outline,
                           width: 1,
                         ),
                       )

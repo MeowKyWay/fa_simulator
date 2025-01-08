@@ -19,7 +19,7 @@ class FocusOverlay extends StatelessWidget {
       child: IgnorePointer(
         child: DottedBorder(
           padding: EdgeInsets.zero,
-          color: focusColor,
+          color: Theme.of(context).focusColor,
           dashPattern: const [5, 2.5],
           child: const SizedBox(
             width: stateSize,

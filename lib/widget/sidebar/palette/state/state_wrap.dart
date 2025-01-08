@@ -31,20 +31,20 @@ class StateWrap extends StatelessWidget {
           StatePalette(
             type: PaletteDragData.state,
             size: size,
-            feedback: state(),
-            child: state(stateSize: size),
+            feedback: state(context: context),
+            child: state(stateSize: size, context: context),
           ),
           StatePalette(
             type: PaletteDragData.startState,
             size: size,
-            feedback: startState(),
-            child: startState(stateSize: size),
+            feedback: startState(context: context),
+            child: startState(stateSize: size, context: context),
           ),
           StatePalette(
             type: PaletteDragData.acceptState,
             size: size,
-            feedback: acceptState(),
-            child: acceptState(stateSize: size),
+            feedback: acceptState(context: context),
+            child: acceptState(stateSize: size, context: context),
           ),
         ],
       );

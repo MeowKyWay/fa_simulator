@@ -23,7 +23,7 @@ class DiagramFeedback extends StatelessWidget {
           width: size.width,
           height: size.height,
           child: DottedBorder(
-            color: feedbackBorderColor,
+            color: Theme.of(context).focusColor,
             dashPattern: const [5, 2.5],
             child: Container(
               color: Colors.transparent,

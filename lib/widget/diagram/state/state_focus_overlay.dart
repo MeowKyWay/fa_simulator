@@ -14,7 +14,7 @@ class StateFocusOverlay extends StatelessWidget {
         borderType: BorderType.Oval,
         dashPattern: const [5, 2.5],
         strokeWidth: 2,
-        color: focusColor,
+        color: Theme.of(context).focusColor,
         child: Container());
   }
 }

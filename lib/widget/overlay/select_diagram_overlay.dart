@@ -11,9 +11,9 @@ final selectDiagramOverlay = OverlayEntry(
     return OverlayBackground(
         child: Container(
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: Theme.of(context).colorScheme.primary,
         border: Border.all(
-          color: primaryLineColor,
+          color: Theme.of(context).colorScheme.outlineVariant,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(5),

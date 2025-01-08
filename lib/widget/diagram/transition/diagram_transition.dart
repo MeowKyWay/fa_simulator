@@ -10,9 +10,11 @@ import 'package:flutter/material.dart';
 
 class DiagramTransition {
   final TransitionType transition;
+  final BuildContext context;
 
   const DiagramTransition({
     required this.transition,
+    required this.context,
   });
 
   List<Widget> build() {
@@ -23,6 +25,7 @@ class DiagramTransition {
           position: transition.endButtonPosition,
           angle: transition.endLineAngle,
           arrowSize: 10,
+          color: Theme.of(context).colorScheme.outline,
         ),
         child: Container(),
       ),
@@ -31,6 +34,7 @@ class DiagramTransition {
           CustomPaint(
             painter: TransitionLinePainter(
               transition: transition,
+              color: Theme.of(context).colorScheme.outline,
             ),
             child: Container(),
           ),
@@ -38,6 +42,7 @@ class DiagramTransition {
               ? CustomPaint(
                   painter: DashLinePainter(
                     transition: transition,
+                    color: Theme.of(context).focusColor,
                   ),
                   child: Container(),
                 )

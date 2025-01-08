@@ -1,5 +1,4 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/body/component/body_transition_dragging_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_transitions.dart';
@@ -48,7 +47,7 @@ class _BodyState extends State<Body> {
           width: bodySize.width,
           height: bodySize.height,
           decoration: BoxDecoration(
-            color: primaryColor,
+            color: Theme.of(context).colorScheme.surface,
             border: Border.all(
               color: Colors.black,
               width: 2,
@@ -59,7 +58,10 @@ class _BodyState extends State<Body> {
               // Draw the grid
               CustomPaint(
                 size: bodySize,
-                painter: GridPainter(),
+                painter: GridPainter(
+                  primary: Theme.of(context).colorScheme.onSurface,
+                  secondary: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
               // To get the overlay that covers the states when dragging
               const BodyDraggingOverlay(),

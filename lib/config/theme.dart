@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-const Color primaryColor = Color.fromARGB(255, 24, 20, 29);
-const Color secondaryColor = Color.fromARGB(255, 27, 29, 30);
-
-const Color gridPrimalyColor = Color.fromARGB(255, 66, 66, 66);
-const Color gridSecondaryColor = Color.fromARGB(255, 31, 29, 35);
-
-const Color stateBorderColor = Colors.white;
-const Color stateBackgroundColor = Color.fromARGB(255, 20, 24, 29);
-
-const Color focusColor = Colors.blue;
-const Color feedbackBorderColor = Colors.white;
-
-const Color primaryLineColor = Color.fromARGB(255, 80, 87, 89);
-const Color secondaryLineColor = Color.fromARGB(255, 64, 70, 71);
-
 //Text
 const TextStyle textXL = TextStyle(
   color: primaryTextColor,

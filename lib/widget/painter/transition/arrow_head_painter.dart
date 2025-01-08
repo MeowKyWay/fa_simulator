@@ -7,12 +7,14 @@ class ArrowHeadPainter extends CustomPainter {
   final double angle;
   final double arrowSize;
   final double offset;
+  final Color color;
 
   const ArrowHeadPainter({
     required this.position,
     required this.angle,
     this.arrowSize = 10.0,
     this.offset = 0.0,
+    required this.color,
   });
 
   @override
@@ -40,7 +42,7 @@ class ArrowHeadPainter extends CustomPainter {
     path.close();
 
     Paint paint = Paint()
-      ..color = Colors.white
+      ..color = color
       ..style = PaintingStyle.fill;
 
     canvas.drawPath(path, paint);

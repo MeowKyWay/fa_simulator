@@ -22,7 +22,7 @@ class BodyTransitions extends StatelessWidget {
               TransitionDraggingProvider().isDragging,
           child: Stack(
             children: diagramList.transitions.expand((transition) {
-              return DiagramTransition(transition: transition).build();
+              return DiagramTransition(transition: transition, context: context).build();
             }).toList(),
           ),
         ),

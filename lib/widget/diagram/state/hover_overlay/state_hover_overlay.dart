@@ -73,7 +73,7 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
                     width: stateSize + (_ringWidth * 2),
                     height: stateSize + (_ringWidth * 2),
                     color: _shouldShowHoverRing
-                        ? Colors.green.withOpacity(0.75)
+                        ? Theme.of(context).hoverColor
                         : Colors.transparent,
                   ),
                 ),

@@ -50,7 +50,7 @@ class _InteractiveContainerState extends State<InteractiveContainer> {
                 child: Container(
                   width: bodySize.width * _padding,
                   height: bodySize.height * _padding,
-                  color: secondaryColor,
+                  color: Theme.of(context).colorScheme.surface,
                   child: Center(
                     child: widget.child,
                   ),

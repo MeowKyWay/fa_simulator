@@ -72,7 +72,7 @@ class _TransitionGestureDetectorState extends State<TransitionGestureDetector> {
                   width: (br.dx - tl.dx).abs(),
                   height: (br.dy - tl.dy).abs(),
                   color: _showTransitionHitBox
-                      ? Colors.white.withOpacity(0.5)
+                      ? Colors.white.withAlpha((255 * 0.5).ceil())
                       : Colors.transparent,
                 ),
               ),

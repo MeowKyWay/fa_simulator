@@ -19,15 +19,15 @@ class DiagramTopBar extends StatelessWidget {
               Container(
                 height: 40,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: secondaryColor,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
                   border: Border(
                     top: BorderSide(
-                      color: primaryLineColor,
+                      color: Theme.of(context).colorScheme.outlineVariant,
                       width: 1,
                     ),
                     bottom: BorderSide(
-                      color: primaryLineColor,
+                      color: Theme.of(context).colorScheme.outlineVariant,
                       width: 1,
                     ),
                   ),

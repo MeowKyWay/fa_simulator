@@ -28,6 +28,7 @@ class BodyNewTransitionFeedback extends StatelessWidget {
               sourceOffset: stateSize / 2,
               destinationOffset:
                   provider.destinationStatePosition != null ? stateSize / 2 : 0,
+              color: Theme.of(context).colorScheme.outline,
             ),
             child: Container(),
           ),

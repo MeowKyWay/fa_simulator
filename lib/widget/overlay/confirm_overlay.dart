@@ -27,9 +27,9 @@ OverlayEntry _confirmOverlay(Completer<bool> completer, String message,
       return OverlayBackground(
         child: Container(
           decoration: BoxDecoration(
-            color: secondaryColor,
+            color: Theme.of(context).colorScheme.primary,
             border: Border.all(
-              color: primaryLineColor,
+              color: Theme.of(context).colorScheme.outlineVariant,
               width: 1,
             ),
             borderRadius: BorderRadius.circular(5),

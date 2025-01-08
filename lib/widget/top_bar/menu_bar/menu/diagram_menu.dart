@@ -20,6 +20,9 @@ class _DiagramMenuState extends State<DiagramMenu> {
 
   @override
   Widget build(BuildContext context) {
+
+    ThemeData theme = Theme.of(context);
+
     return MouseRegion(
       onEnter: (event) {
         setState(() {
@@ -33,12 +36,12 @@ class _DiagramMenuState extends State<DiagramMenu> {
       },
       child: PopupMenuButton<AppAction?>(
         tooltip: "",
-        color: secondaryColor,
+        color: theme.colorScheme.primary,
         menuPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
-          side: const BorderSide(
-            color: primaryLineColor,
+          side: BorderSide(
+            color: theme.colorScheme.outlineVariant,
             width: 1,
           ),
         ),
@@ -50,7 +53,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
           action?.execute();
         },
         child: Container(
-          color: isHovered ? primaryColor : secondaryColor,
+          color: isHovered ? theme.colorScheme.surface : theme.colorScheme.primary,
           height: double.infinity,
           child: Center(
             child: Padding(

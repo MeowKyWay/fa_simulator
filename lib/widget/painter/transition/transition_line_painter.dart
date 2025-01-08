@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 class TransitionLinePainter extends CustomPainter {
   final TransitionType transition;
+  final Color color;
 
   TransitionLinePainter({
     required this.transition,
+    required this.color,
   });
 
   @override
@@ -14,7 +16,7 @@ class TransitionLinePainter extends CustomPainter {
     Path path = transition.path;
 
     Paint paint = Paint()
-      ..color = transitionLineColor
+      ..color = color
       ..strokeWidth = transitionLineWidth
       ..style = PaintingStyle.stroke;
 
