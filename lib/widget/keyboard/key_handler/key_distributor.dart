@@ -8,11 +8,12 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/handle_ctrl.dart';
 import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void handleKey(LogicalKeyboardKey key) {
+void handleKey(LogicalKeyboardKey key, BuildContext context) {
   if (KeyboardProvider().isCtrlPressed) {
-    handleCtrl(key);
+    handleCtrl(key, context);
     return;
   }
   if (KeyboardProvider().modifierKeys.contains(LogicalKeyboardKey.altLeft)) {

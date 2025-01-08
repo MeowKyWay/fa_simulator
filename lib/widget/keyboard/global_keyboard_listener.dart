@@ -31,6 +31,7 @@ class _GlobalKeyboardListenerState extends State<GlobalKeyboardListener> {
 
   @override
   Widget build(BuildContext context) {
+    KeyboardProvider().context = context;
     return Listener(
       onPointerDown: (event) {
         KeyboardProvider().focusNode.requestFocus();
@@ -41,7 +42,7 @@ class _GlobalKeyboardListenerState extends State<GlobalKeyboardListener> {
           if (event is KeyDownEvent || event is KeyRepeatEvent) {
             // Add key to pressed keys
             KeyboardProvider().addKey(event.logicalKey);
-            if (event.character != null) {
+            if (event.character != null && event.logicalKey != LogicalKeyboardKey.backspace) {
               if (event.character!.trim().isNotEmpty) {
                 KeyboardProvider().character = event.character;
               }

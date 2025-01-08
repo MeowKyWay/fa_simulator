@@ -18,6 +18,7 @@ class KeyboardProvider extends DiagramProvider with ChangeNotifier {
   }
 
   late FocusNode _focusNode;
+  BuildContext? context;
   FocusNode get focusNode => _focusNode;
 
   @override
@@ -43,7 +44,7 @@ class KeyboardProvider extends DiagramProvider with ChangeNotifier {
       return;
     }
     _pressedKey = key;
-    handleKey(key);
+    handleKey(key, context!);
     notifyListeners();
   }
 

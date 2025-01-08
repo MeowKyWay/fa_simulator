@@ -6,7 +6,9 @@ void handleChar(String? char) {
   if (char == null) {
     return;
   }
-  if (RenamingProvider().renamingItemId != null) return;
+  if (RenamingProvider().renamingItemId != null) {
+    return;
+  }
   List<DiagramType> focusedItems = DiagramList().focusedItems;
   if (focusedItems.length == 1) {
     RenamingProvider().startRename(
