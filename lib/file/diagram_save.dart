@@ -9,13 +9,14 @@ import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
   void save(String filePath) async {
-    List<DiagramType> items = DiagramList().items;
+    List<DiagramType> items = DiagramList().itemsCopy;
     try {
       String jsonString =
           jsonEncode(items.map((item) => item.toJson()).toList());
 
       File file = File(filePath);
       FileProvider().fileName = file.path.split('/').last;
+      FileProvider().filePath = file.path;
       await file.writeAsString(jsonString);
 
       FileProvider().savedItem = items;

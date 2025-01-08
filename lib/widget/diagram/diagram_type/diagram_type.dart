@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class DiagramType {
+abstract class DiagramType<T extends DiagramType<T>> {
   final String id;
   bool hasFocus;
   String label;
@@ -19,4 +19,10 @@ abstract class DiagramType {
   bool isContained(Offset topLeft, Offset bottomRight);
 
   Map<String, dynamic> toJson();
+
+  T copyWith();
+
+  bool compare(T other) {
+    return id == other.id;
+  }
 }

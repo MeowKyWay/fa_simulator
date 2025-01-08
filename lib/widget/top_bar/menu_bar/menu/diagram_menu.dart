@@ -9,7 +9,7 @@ abstract class DiagramMenu extends StatefulWidget {
 
   String get label;
 
-  List<PopupMenuEntry<AppAction?>> get items;
+  List<PopupMenuEntry<AppAction?>> items(BuildContext context);
 
   @override
   State<DiagramMenu> createState() => _DiagramMenuState();
@@ -47,7 +47,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
         ),
         offset: const Offset(0, 30),
         itemBuilder: (context) {
-          return widget.items;
+          return widget.items(context);
         },
         onSelected: (action) {
           action?.execute();

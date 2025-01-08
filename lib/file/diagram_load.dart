@@ -63,7 +63,7 @@ class DiagramLoad {
       }
       DiagramList().addItems(states);
       DiagramList().addItems(transitions);
-      FileProvider().savedItem = DiagramList().items;
+      FileProvider().savedItem = DiagramList().itemsCopy;
     } catch (e) {
       log('Error reading JSON file: $e');
       throw Exception('Error reading JSON file: $e');

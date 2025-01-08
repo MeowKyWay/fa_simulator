@@ -6,7 +6,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
-class TransitionType extends DiagramType {
+class TransitionType extends DiagramType<TransitionType> {
   String? sourceStateId;
   String? destinationStateId;
 
@@ -394,11 +394,11 @@ class TransitionType extends DiagramType {
   int get hashCode =>
       id.hashCode ^
       label.hashCode ^
-      hasFocus.hashCode ^
       sourceStateId.hashCode ^
       destinationStateId.hashCode ^
       sourcePosition.hashCode ^
       destinationPosition.hashCode ^
+      loopAngle.hashCode ^
       isCurved.hashCode;
 
   @override
@@ -407,11 +407,11 @@ class TransitionType extends DiagramType {
     if (other is TransitionType) {
       return other.id == id &&
           other.label == label &&
-          other.hasFocus == hasFocus &&
           other.sourceStateId == sourceStateId &&
           other.destinationStateId == destinationStateId &&
           other.sourcePosition == sourcePosition &&
           other.destinationPosition == destinationPosition &&
+          loopAngle == other.loopAngle &&
           other.isCurved == isCurved;
     }
     return false;
@@ -462,6 +462,20 @@ class TransitionType extends DiagramType {
             ),
       loopAngle: json['loopAngle'],
       isCurved: json['isCurved'],
+    );
+  }
+
+  @override
+  TransitionType copyWith() {
+    return TransitionType(
+      id: id,
+      label: label,
+      sourceStateId: sourceStateId,
+      destinationStateId: destinationStateId,
+      sourcePosition: sourcePosition,
+      destinationPosition: destinationPosition,
+      loopAngle: loopAngle,
+      isCurved: isCurved,
     );
   }
 }

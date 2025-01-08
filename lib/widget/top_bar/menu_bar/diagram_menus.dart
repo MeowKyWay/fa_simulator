@@ -1,8 +1,5 @@
-import 'dart:developer';
-
-import 'package:fa_simulator/widget/components/button.dart';
-import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_file_menu.dart';
+import 'package:fa_simulator/widget/top_bar/menu_bar/unsave_progress_button.dart';
 import 'package:flutter/material.dart';
 
 class DiagramMenus extends StatelessWidget {
@@ -18,14 +15,9 @@ class DiagramMenus extends StatelessWidget {
       child: Row(
         children: [
           DiagramFileMenu(),
-          Button(
-            onPressed: () async {
-              confirm("dsafxwgcdhvjbaklwd,awmdbjvgawtgy", context)
-                  .then((value) {
-                log(value.toString());
-              });
-            },
-            text: "test",
+          Padding(
+            padding: const EdgeInsets.all(2.5),
+            child: UnsaveProgressButton(),
           )
         ],
       ),

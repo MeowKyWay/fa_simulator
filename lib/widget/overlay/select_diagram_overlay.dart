@@ -25,13 +25,27 @@ final selectDiagramOverlay = OverlayEntry(
             children: [
               Button(
                 text: 'New diagram',
-                onPressed: _newDiagram,
+                onPressed: () {
+                  AppActionDispatcher().execute(
+                    NewDiagramAction(
+                      context: context,
+                    ),
+                    postAction: _closeOverlay,
+                  );
+                },
                 width: 200,
                 height: 40,
               ),
               Button(
                 text: 'Open diagram',
-                onPressed: _openDiagram,
+                onPressed: () {
+                  AppActionDispatcher().execute(
+                    OpenDiagramAction(
+                      context: context,
+                    ),
+                    postAction: _closeOverlay,
+                  );
+                },
                 width: 200,
                 height: 40,
               ),
@@ -42,20 +56,6 @@ final selectDiagramOverlay = OverlayEntry(
     ));
   },
 );
-
-void _newDiagram() {
-  AppActionDispatcher().execute(
-    NewDiagramAction(),
-    postAction: _closeOverlay,
-  );
-}
-
-void _openDiagram() {
-  AppActionDispatcher().execute(
-    OpenDiagramAction(),
-    postAction: _closeOverlay,
-  );
-}
 
 void _closeOverlay() {
   selectDiagramOverlay.remove();

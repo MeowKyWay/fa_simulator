@@ -3,7 +3,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/material.dart';
 
-class StateType extends DiagramType {
+class StateType extends DiagramType<StateType> {
   Offset position;
 
   StateType({
@@ -64,6 +64,20 @@ class StateType extends DiagramType {
   }
 
   @override
+  int get hashCode => id.hashCode ^ label.hashCode ^ position.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true; // Check for identical references
+    if (other is StateType) {
+      return id == other.id &&
+          label == other.label &&
+          position == other.position;
+    }
+    return false;
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': 'state',
@@ -76,6 +90,7 @@ class StateType extends DiagramType {
     };
   }
 
+  @override
   factory StateType.fromJson(Map<String, dynamic> json) {
     return StateType(
       id: json['id'],
@@ -84,6 +99,15 @@ class StateType extends DiagramType {
         json['position']['dx'],
         json['position']['dy'],
       ),
+    );
+  }
+
+  @override
+  StateType copyWith() {
+    return StateType(
+      id: id,
+      label: label,
+      position: position,
     );
   }
 }

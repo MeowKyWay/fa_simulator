@@ -17,16 +17,20 @@ class DiagramFileMenu extends DiagramMenu {
   String get label => 'File';
 
   @override
-  List<PopupMenuEntry<AppAction?>> get items => [
+  List<PopupMenuEntry<AppAction?>> items(BuildContext context) => [
         DiagramMenuItem(
           label: 'New',
           shortcut: DiagramShortcut().newFile,
-          action: NewDiagramAction(),
+          action: NewDiagramAction(
+            context: context,
+          ),
         ).build(),
         DiagramMenuItem(
           label: 'Open',
           shortcut: DiagramShortcut().open,
-          action: OpenDiagramAction(),
+          action: OpenDiagramAction(
+            context: context,
+          ),
         ).build(),
         const PopupMenuDivider(
           height: 1,

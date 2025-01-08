@@ -19,6 +19,10 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   final List<DiagramType> _items = [];
   List<DiagramType> get items => _items;
 
+  List<DiagramType> get itemsCopy {
+    return List<DiagramType>.from(_items.map((e) => e.copyWith()));
+  }
+
   DiagramType addItem(DiagramType item) {
     if (itemIsExist(item.id)) {
       throw Exception(

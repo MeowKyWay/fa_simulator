@@ -3,39 +3,35 @@ import 'package:flutter/material.dart';
 ThemeData diagramTheme = ThemeData(
   primarySwatch: Colors.blue,
   textSelectionTheme: TextSelectionThemeData(
-    selectionColor: Colors.blue.withOpacity(0.5), // Custom selection color
+    selectionColor:
+        Colors.blue.withAlpha((255 * 0.5).ceil()), // Custom selection color
   ),
   dividerTheme: const DividerThemeData(
     color: Colors.black,
   ),
   textTheme: textTheme,
   outlinedButtonTheme: outlinedButtonTheme,
-
-  hoverColor: Colors.green.withAlpha((255*0.75).ceil()),
+  hoverColor: Colors.green.withAlpha((255 * 0.75).ceil()),
   focusColor: Colors.blue,
+  colorScheme: darkTheme,
+);
 
-  colorScheme: ColorScheme(
-    brightness: Brightness.dark,
-
-    primary: _primaryColor,
-    onPrimary: Colors.white,
-
-    secondary: _secondaryColor,
-    onSecondary: Colors.white,
-
-    tertiary: _secondaryColor,
-    onTertiary: Colors.white,
-
-    outline: Colors.white,
-    outlineVariant: _outlineColor,
-
-    error: Colors.red,
-    onError: Colors.white,
-
-    surface: _surfaceColor,
-    onSurface: _gridPrimalyColor,
-    onSurfaceVariant: _gridSecondaryColor,
-  ),
+ColorScheme darkTheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: _primaryColor,
+  onPrimary: Colors.white,
+  secondary: _secondaryColor,
+  onSecondary: Colors.white,
+  tertiary: _secondaryColor,
+  onTertiary: Colors.white,
+  outline: Colors.white,
+  outlineVariant: _outlineColor,
+  error: Color.fromRGBO(162, 1, 37, 1),
+  onError: Colors.white,
+  errorContainer: Color.fromRGBO(189, 0, 43, 1),
+  surface: _surfaceColor,
+  onSurface: _gridPrimalyColor,
+  onSurfaceVariant: _gridSecondaryColor,
 );
 
 final textTheme = TextTheme(

@@ -14,6 +14,8 @@ class Button extends StatelessWidget {
 
   final ButtonType type;
 
+  final TextStyle? style;
+
   const Button({
     super.key,
     this.onPressed,
@@ -21,11 +23,11 @@ class Button extends StatelessWidget {
     this.width,
     this.height,
     this.type = ButtonType.normal,
+    this.style,
   });
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = Theme.of(context).textTheme.labelMedium ?? TextStyle();
     return IntrinsicHeight(
       child: OutlinedButton(
         style: ButtonStyle(
@@ -39,6 +41,13 @@ class Button extends StatelessWidget {
                 ? Theme.of(context).colorScheme.error
                 : Colors.transparent,
           ),
+          side: WidgetStateProperty.all<BorderSide>(
+            BorderSide(
+              color: type == ButtonType.warning
+                  ? Theme.of(context).colorScheme.errorContainer
+                  : Theme.of(context).colorScheme.outline,
+            ),
+          ),
         ),
         onPressed: onPressed,
         child: SizedBox(
@@ -47,7 +56,7 @@ class Button extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: style,
+              style: style ?? Theme.of(context).textTheme.labelMedium,
             ),
           ),
         ),
