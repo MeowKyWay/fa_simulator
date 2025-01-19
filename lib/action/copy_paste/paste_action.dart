@@ -4,9 +4,7 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +32,11 @@ class PasteAction extends AppAction {
 
     for (StateType state in states) {
       StateType newState;
-      StateTypeEnum type = state is StartStateType
-          ? StateTypeEnum.start
-          : state is AcceptStateType
-              ? StateTypeEnum.accept
-              : StateTypeEnum.state;
       newState = addState(
         position: state.position + margin,
         name: state.label,
-        type: type,
+        isStartState: state.isStartState,
+        isAcceptState: state.isAcceptState,
       );
       _states.add(newState);
       _stateIdMap[state.id] = newState.id;
@@ -86,11 +80,8 @@ class PasteAction extends AppAction {
       addState(
         position: state.position,
         name: state.label,
-        type: state is StartStateType
-            ? StateTypeEnum.start
-            : state is AcceptStateType
-                ? StateTypeEnum.accept
-                : StateTypeEnum.state,
+        isStartState: state.isStartState,
+        isAcceptState: state.isAcceptState,
         id: state.id,
       );
     }

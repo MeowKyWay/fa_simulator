@@ -1,6 +1,4 @@
-import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
@@ -89,17 +87,12 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     }
   }
 
-  StartStateType? get startState {
-    try {
-      return _items.firstWhere((element) => element is StartStateType)
-          as StartStateType;
-    } catch (e) {
-      return null;
-    }
+  List<StateType> get startStates {
+    return states.where((i) => i.isStartState).toList();
   }
 
-  List<AcceptStateType> get acceptStates {
-    return _items.whereType<AcceptStateType>().toList();
+  List<StateType> get acceptStates {
+    return states.where((i) => i.isAcceptState).toList();
   }
 
   TransitionType? transition(id) {

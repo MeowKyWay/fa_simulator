@@ -1,5 +1,3 @@
-import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
@@ -7,13 +5,12 @@ import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-enum StateTypeEnum { state, start, accept }
-
 // Add new state
 StateType addState({
   required Offset position,
   required String name,
-  StateTypeEnum type = StateTypeEnum.state,
+  bool isStartState = false,
+  bool isAcceptState = false,
   String? id,
 }) {
   // Generate a new id if id is null
@@ -22,29 +19,13 @@ StateType addState({
   Offset roundedPosition = BodyProvider().getSnappedPosition(position);
   // Create a new state
   StateType state;
-  switch (type) {
-    case StateTypeEnum.state:
-      state = StateType(
-        id: id,
-        position: roundedPosition,
-        label: name,
-      );
-      break;
-    case StateTypeEnum.start:
-      state = StartStateType(
-        id: id,
-        position: roundedPosition,
-        label: name,
-      );
-      break;
-    case StateTypeEnum.accept:
-      state = AcceptStateType(
-        id: id,
-        position: roundedPosition,
-        label: name,
-      );
-      break;
-  }
+  state = StateType(
+    position: roundedPosition,
+    id: id,
+    label: name,
+    isStartState: isStartState,
+    isAcceptState: isAcceptState,
+  );
   // Add the state to the list
   RenamingProvider().reset();
   DiagramList().addItem(state);
@@ -97,7 +78,8 @@ String renameState(String id, String newName) {
 
 void changeStateType({
   required String id,
-  required StateTypeEnum type,
+  bool? isStartState,
+  bool? isAcceptState,
 }) {
   StateType state;
   try {
@@ -106,36 +88,26 @@ void changeStateType({
     throw Exception(
         "state_manager.dart/changeStateType: State id $id not found");
   }
-  StateType newState;
-  switch (type) {
-    case StateTypeEnum.state:
-      newState = StateType(
-        id: state.id,
-        position: state.position,
-        label: state.label,
-      );
-      break;
-    case StateTypeEnum.start:
-      newState = StartStateType(
-        id: state.id,
-        position: state.position,
-        label: state.label,
-      );
-      break;
-    case StateTypeEnum.accept:
-      newState = AcceptStateType(
-        id: state.id,
-        position: state.position,
-        label: state.label,
-      );
-      break;
+  //Change the state type
+  state.isStartState = isStartState ?? state.isStartState;
+  state.isAcceptState = isAcceptState ?? state.isAcceptState;
+  //Notify to update the change
+  DiagramList().notify();
+}
+
+void moveStateStartArrow(String id, double angle) {
+  StateType state;
+  try {
+    state = DiagramList().state(id)!;
+  } catch (e) {
+    throw Exception(
+        "state_manager.dart/moveStateStartArrow: State id $id not found");
   }
-  for (String id in state.incomingTransitionIds) {
-    DiagramList().transition(id)!.destinationStateId = newState.id;
+  if (!state.isStartState) {
+    throw Exception(
+        "state_manager.dart/moveStateStartArrow: State id $id is not a start state");
   }
-  for (String id in state.outgoingTransitionIds) {
-    DiagramList().transition(id)!.sourceStateId = newState.id;
-  }
-  DiagramList().removeItem(id, true);
-  DiagramList().addItem(newState);
+  
+  state.startArrowAngle = angle;
+  DiagramList().notify();
 }

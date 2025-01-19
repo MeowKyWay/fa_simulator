@@ -13,6 +13,9 @@ const double stateFocusOverlayRingWidth = 7.5;
 const double transitionLineWidth = 1.0;
 const Color transitionLineColor = Colors.white;
 
+//StartArrow
+const double startArrowLength = 25;
+
 // Coverage needed for selection area to focus on a state
 const double coveragePercentage = 0.5;
 

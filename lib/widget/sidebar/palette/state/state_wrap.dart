@@ -1,8 +1,8 @@
 import 'dart:developer';
 
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state/node/accept_state.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
-import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
 import 'package:fa_simulator/widget/sidebar/palette/state/state_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:fa_simulator/widget/diagram/state/node/start_state.dart';
@@ -29,19 +29,25 @@ class StateWrap extends StatelessWidget {
         runSpacing: 8.0,
         children: [
           StatePalette(
-            type: PaletteDragData.state,
+            data: StatePaletteDragData(
+              type: DiagramTypeEnum.state,
+            ),
             size: size,
             feedback: state(context: context),
             child: state(stateSize: size, context: context),
           ),
           StatePalette(
-            type: PaletteDragData.startState,
+            data: StatePaletteDragData(
+              type: DiagramTypeEnum.state,
+              isStartState: true,
+            ),
             size: size,
             feedback: startState(context: context),
             child: startState(stateSize: size, context: context),
           ),
           StatePalette(
-            type: PaletteDragData.acceptState,
+            data: StatePaletteDragData(
+                type: DiagramTypeEnum.state, isAcceptState: true),
             size: size,
             feedback: acceptState(context: context),
             child: acceptState(stateSize: size, context: context),

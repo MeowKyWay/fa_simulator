@@ -8,6 +8,7 @@ import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
+import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 
 abstract class DiagramProvider {
@@ -26,4 +27,5 @@ void resetProvider() {
   DiagramList().reset();
   SelectionAreaProvider().reset();
   AppActionDispatcher().reset();
+  StartArrowFeedbackProvider().reset();
 }

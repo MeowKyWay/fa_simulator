@@ -5,11 +5,17 @@ import 'package:flutter/material.dart';
 
 class StateType extends DiagramType<StateType> {
   Offset position;
+  bool isStartState = false;
+  bool isAcceptState = false;
+  double startArrowAngle = 0;
 
   StateType({
     required this.position,
     required super.id,
     required super.label,
+    this.isStartState = false,
+    this.isAcceptState = false,
+    this.startArrowAngle = 0,
     super.hasFocus,
   });
 
@@ -64,7 +70,13 @@ class StateType extends DiagramType<StateType> {
   }
 
   @override
-  int get hashCode => id.hashCode ^ label.hashCode ^ position.hashCode;
+  int get hashCode =>
+      id.hashCode ^
+      label.hashCode ^
+      position.hashCode ^
+      isStartState.hashCode ^
+      isAcceptState.hashCode ^
+      startArrowAngle.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -72,7 +84,10 @@ class StateType extends DiagramType<StateType> {
     if (other is StateType) {
       return id == other.id &&
           label == other.label &&
-          position == other.position;
+          position == other.position &&
+          isStartState == other.isStartState &&
+          isAcceptState == other.isAcceptState &&
+          startArrowAngle == other.startArrowAngle;
     }
     return false;
   }
@@ -87,6 +102,9 @@ class StateType extends DiagramType<StateType> {
         'dx': position.dx,
         'dy': position.dy,
       },
+      'isStartState': isStartState,
+      'isAccpetState': isAcceptState,
+      'startArrowAngle': startArrowAngle,
     };
   }
 
@@ -99,6 +117,9 @@ class StateType extends DiagramType<StateType> {
         json['position']['dx'],
         json['position']['dy'],
       ),
+      isStartState: json['isStartState'],
+      isAcceptState: json['isAccpetState'],
+      startArrowAngle: json['startArrowAngle'],
     );
   }
 
@@ -108,6 +129,9 @@ class StateType extends DiagramType<StateType> {
       id: id,
       label: label,
       position: position,
+      isStartState: isStartState,
+      isAcceptState: isAcceptState,
+      startArrowAngle: startArrowAngle,
     );
   }
 }

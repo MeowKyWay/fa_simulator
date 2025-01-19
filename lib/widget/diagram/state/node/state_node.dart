@@ -1,12 +1,8 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/rename_diagrams_action.dart';
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
-import 'package:fa_simulator/widget/diagram/state/node/accept_state.dart';
-import 'package:fa_simulator/widget/diagram/state/node/start_state.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/rename_text_field.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
@@ -99,11 +95,11 @@ class _StateNodeState extends State<StateNode> {
       child: Stack(
         children: [
           DiagramDraggable(
-            child: widget.state is AcceptStateType
-                ? acceptState(child: child, context: context)
-                : widget.state is StartStateType
-                    ? startState(child: child, context: context)
-                    : state(child: child, context: context),
+            child: state(
+              child: child,
+              isAcceptState: widget.state.isAcceptState,
+              context: context,
+            ),
           ),
         ],
       ),

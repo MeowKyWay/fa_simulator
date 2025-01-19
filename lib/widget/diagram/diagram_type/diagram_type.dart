@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+enum DiagramTypeEnum {
+  state,
+  transition,
+}
+
 abstract class DiagramType<T extends DiagramType<T>> {
   final String id;
   bool hasFocus;

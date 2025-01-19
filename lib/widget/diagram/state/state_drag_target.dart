@@ -9,7 +9,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
-import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
+import 'package:fa_simulator/widget/sidebar/palette/state/state_palette.dart';
 import 'package:flutter/material.dart';
 
 class StateDragTarget extends StatelessWidget {
@@ -34,8 +34,9 @@ class StateDragTarget extends StatelessWidget {
           return _onWillAcceptDraggingTransition(
               details.data as DraggingTransitionType);
         }
-        if (details.data is PaletteDragData) {
-          return _onWillAcceptPaletteDragData(details.data as PaletteDragData);
+        if (details.data is StatePaletteDragData) {
+          return _onWillAcceptStatePaletteDragData(
+              details.data as StatePaletteDragData);
         }
         return false;
       },
@@ -46,8 +47,8 @@ class StateDragTarget extends StatelessWidget {
         if (details.data is DraggingTransitionType) {
           _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         }
-        if (details.data is PaletteDragData) {
-          _onAcceptPaletteDragData(details.data as PaletteDragData);
+        if (details.data is StatePaletteDragData) {
+          _onAcceptPaletteDragData(details.data as StatePaletteDragData);
         }
       },
       onLeave: _onLeave,
@@ -66,11 +67,8 @@ class StateDragTarget extends StatelessWidget {
     return true;
   }
 
-  bool _onWillAcceptPaletteDragData(PaletteDragData data) {
+  bool _onWillAcceptStatePaletteDragData(StatePaletteDragData data) {
     //TODO preview the state change it type
-    if (data == PaletteDragData.transition) {
-      return false;
-    }
     return true;
   }
 
@@ -99,22 +97,12 @@ class StateDragTarget extends StatelessWidget {
     ));
   }
 
-  void _onAcceptPaletteDragData(PaletteDragData data) {
-    StateTypeEnum type;
-    switch (data) {
-      case PaletteDragData.state:
-        type = StateTypeEnum.state;
-        break;
-      case PaletteDragData.startState:
-        type = StateTypeEnum.start;
-        break;
-      case PaletteDragData.acceptState:
-        type = StateTypeEnum.accept;
-        break;
-      default:
-        throw Exception("state_drag_target/_onAcceptPaletteDragData: Invalid data");
-    }
-    changeStateType(id: state.id, type: type);
+  void _onAcceptPaletteDragData(StatePaletteDragData data) {
+    changeStateType(
+      id: state.id,
+      isAcceptState: data.isAcceptState ? true : null,
+      isStartState: data.isStartState ? true : null,
+    );
   }
 
   void _onLeave(details) {

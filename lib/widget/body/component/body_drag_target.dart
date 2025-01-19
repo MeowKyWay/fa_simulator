@@ -1,15 +1,10 @@
-import 'dart:math';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/add_diagram_action.dart';
 import 'package:fa_simulator/action/diagram/move_diagrams_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/accept_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/start_state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
@@ -18,7 +13,7 @@ import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
-import 'package:fa_simulator/widget/utility/offset_util.dart';
+import 'package:fa_simulator/widget/sidebar/palette/state/state_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -76,7 +71,7 @@ class BodyDragTarget extends StatelessWidget {
         else if (details.data is NewTransitionType) {
           return _onWillAcceptNewTransition(details.data as NewTransitionType);
         } else if (details.data is PaletteDragData) {
-          return _onWillAcceptPalleteDragData(details.data as PaletteDragData);
+          return _onWillAcceptStatePalleteDragData(details.data as StatePaletteDragData);
         }
         return false;
       },
@@ -87,9 +82,13 @@ class BodyDragTarget extends StatelessWidget {
           _onAcceptDraggingTransition(details.data as DraggingTransitionType);
         } else if (details.data is NewTransitionType) {
           _onAcceptNewTransition(details.data as NewTransitionType);
-        } else if (details.data is PaletteDragData) {
-          _onAcceptPalleteDragData(details.data as PaletteDragData);
+        } else if (details.data is StatePaletteDragData) {
+          _onAcceptStatePalleteDragData(details.data as StatePaletteDragData);
         }
+        //TODO accept transition palette drag data
+        //else if (details.data is TransitionPaletteDragData) {
+        //_onAcceptTransitionPalleteDragData(details.data as PaletteDragData);
+        //}
       },
       onMove: (details) {},
       onLeave: (details) {
@@ -112,7 +111,7 @@ class BodyDragTarget extends StatelessWidget {
     return true;
   }
 
-  bool _onWillAcceptPalleteDragData(PaletteDragData data) {
+  bool _onWillAcceptStatePalleteDragData(StatePaletteDragData data) {
     PalleteFeedbackProvider().withinBody = true;
     return true;
   }
@@ -149,44 +148,19 @@ class BodyDragTarget extends StatelessWidget {
     );
   }
 
-  void _onAcceptPalleteDragData(PaletteDragData data) {
+  void _onAcceptStatePalleteDragData(StatePaletteDragData data) {
     DiagramType item;
     if (PalleteFeedbackProvider().position == null) return;
     Offset position =
         PalleteFeedbackProvider().position! + PalleteFeedbackProvider().margin;
 
-    switch (data) {
-      case PaletteDragData.state:
-        item = StateType(
-          position: position,
-          id: const Uuid().v4(),
-          label: '',
-        );
-        break;
-      case PaletteDragData.startState:
-        item = StartStateType(
-          position: position,
-          id: const Uuid().v4(),
-          label: '',
-        );
-        break;
-      case PaletteDragData.acceptState:
-        item = AcceptStateType(
-          position: position,
-          id: const Uuid().v4(),
-          label: '',
-        );
-        break;
-      case PaletteDragData.transition:
-        item = TransitionType(
-          sourcePosition: calculateNewPoint(position, stateSize / 2, pi / 4),
-          destinationPosition:
-              calculateNewPoint(position, stateSize / 2, 9 * pi / 4),
-          id: const Uuid().v4(),
-          label: '',
-        );
-        break;
-    }
+    item = StateType(
+      position: position,
+      id: const Uuid().v4(),
+      label: '',
+      isStartState: data.isStartState,
+      isAcceptState: data.isAcceptState,
+    );
     PalleteFeedbackProvider().reset();
     AppActionDispatcher().execute(
       AddDiagramAction(item: item),
