@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/overlay/overlay_background.dart';
+import 'package:fa_simulator/widget/overlay/overlay_body.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> confirm(String message, BuildContext context,
@@ -24,52 +25,38 @@ OverlayEntry _confirmOverlay(Completer<bool> completer, String message,
   return OverlayEntry(
     builder: (context) {
       return OverlayBackground(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                spacing: 10,
-                children: [
-                  SizedBox(
-                    width: 150,
-                    child: Center(
-                      child: Text(
-                        message,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.labelMedium,
-                        softWrap: true,
-                      ),
-                    ),
+        child: OverlayBody(
+          child: Column(
+            spacing: 10,
+            children: [
+              SizedBox(
+                width: 150,
+                child: Center(
+                  child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelMedium,
+                    softWrap: true,
                   ),
-                  Button(
-                    text: cancle ?? 'Cancle',
-                    onPressed: () {
-                      completer.complete(false);
-                    },
-                    width: 150,
-                    height: 30,
-                  ),
-                  Button(
-                    text: confirm ?? 'Confirm',
-                    onPressed: () {
-                      completer.complete(true);
-                    },
-                    width: 150,
-                    height: 30,
-                  ),
-                ],
+                ),
               ),
-            ),
+              Button(
+                text: cancle ?? 'Cancle',
+                onPressed: () {
+                  completer.complete(false);
+                },
+                width: 150,
+                height: 30,
+              ),
+              Button(
+                text: confirm ?? 'Confirm',
+                onPressed: () {
+                  completer.complete(true);
+                },
+                width: 150,
+                height: 30,
+              ),
+            ],
           ),
         ),
       );

@@ -6,17 +6,17 @@ class DiagramMenuItem {
   final String label;
   final String shortcut;
   final bool enabled;
-  final AppAction? action;
+  final Object? action;
 
   const DiagramMenuItem({
     required this.label,
     this.shortcut = '',
     this.enabled = true,
     this.action,
-  });
+  }) : assert (action is AppAction || action is VoidCallback);
 
-  PopupMenuItem<AppAction?> build() {
-    return PopupMenuItem<AppAction>(
+  PopupMenuItem<Object?> build() {
+    return PopupMenuItem<Object>(
       value: action,
       height: 30,
       enabled: enabled,

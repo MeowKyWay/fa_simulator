@@ -1,4 +1,3 @@
-import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_action.dart';
@@ -17,7 +16,7 @@ class DiagramFileMenu extends DiagramMenu {
   String get label => 'File';
 
   @override
-  List<PopupMenuEntry<AppAction?>> items(BuildContext context) => [
+  List<PopupMenuEntry<Object?>> items(BuildContext context) => [
         DiagramMenuItem(
           label: 'New',
           shortcut: DiagramShortcut().newFile,

@@ -1,4 +1,6 @@
-import 'package:fa_simulator/action/app_action.dart';
+import 'dart:developer';
+
+import 'package:fa_simulator/widget/overlay/diagram/states_overlay.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +14,18 @@ class DiagramDiagramMenu extends DiagramMenu {
   String get label => 'Diagram';
 
   @override
-  List<PopupMenuEntry<AppAction?>> items(BuildContext context) => [
+  List<PopupMenuEntry<Object?>> items(BuildContext context) => [
         DiagramMenuItem(
-          label: 'states',
-        ).build(),
-        DiagramMenuItem(
-          label: 'transitions',
-        ).build(),
-        DiagramMenuItem(
-          label: 'alphabet',
-        ).build(),
+            label: 'states',
+            action: () {
+              showOverlay(StatesOverlay().build(context), context);
+            }).build(),
       ];
+
+  void showOverlay(OverlayEntry overlay, BuildContext context) {
+    log('DiagramDiagramMenu.showOverlay');
+    Overlay.of(context).insert(
+      overlay,
+    );
+  }
 }

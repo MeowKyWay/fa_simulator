@@ -9,7 +9,7 @@ abstract class DiagramMenu extends StatefulWidget {
 
   String get label;
 
-  List<PopupMenuEntry<AppAction?>> items(BuildContext context);
+  List<PopupMenuEntry<Object?>> items(BuildContext context);
 
   @override
   State<DiagramMenu> createState() => _DiagramMenuState();
@@ -20,7 +20,6 @@ class _DiagramMenuState extends State<DiagramMenu> {
 
   @override
   Widget build(BuildContext context) {
-
     ThemeData theme = Theme.of(context);
 
     return MouseRegion(
@@ -34,7 +33,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
           isHovered = false;
         });
       },
-      child: PopupMenuButton<AppAction?>(
+      child: PopupMenuButton<Object?>(
         tooltip: "",
         color: theme.colorScheme.primary,
         menuPadding: EdgeInsets.zero,
@@ -49,11 +48,18 @@ class _DiagramMenuState extends State<DiagramMenu> {
         itemBuilder: (context) {
           return widget.items(context);
         },
-        onSelected: (action) {
-          action?.execute();
+        onSelected: (item) {
+          assert(item is AppAction || item is VoidCallback, 'Invalid item type');
+          if (item is AppAction) {
+            item.execute();
+          }
+          if (item is VoidCallback) {
+            item();
+          }
         },
         child: Container(
-          color: isHovered ? theme.colorScheme.surface : theme.colorScheme.primary,
+          color:
+              isHovered ? theme.colorScheme.surface : theme.colorScheme.primary,
           height: double.infinity,
           child: Center(
             child: Padding(
