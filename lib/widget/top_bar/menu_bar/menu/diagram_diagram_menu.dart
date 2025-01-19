@@ -18,7 +18,7 @@ class DiagramDiagramMenu extends DiagramMenu {
         DiagramMenuItem(
             label: 'states',
             action: () {
-              showOverlay(StatesOverlay().build(context), context);
+              showOverlay(statesOverlay(), context);
             }).build(),
       ];
 
