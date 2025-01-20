@@ -41,17 +41,17 @@ OverlayEntry _confirmOverlay(Completer<bool> completer, String message,
                 ),
               ),
               Button(
-                text: cancle ?? 'Cancle',
+                text: confirm ?? 'Confirm',
                 onPressed: () {
-                  completer.complete(false);
+                  completer.complete(true);
                 },
                 width: 150,
                 height: 30,
               ),
               Button(
-                text: confirm ?? 'Confirm',
+                text: cancle ?? 'Cancle',
                 onPressed: () {
-                  completer.complete(true);
+                  completer.complete(false);
                 },
                 width: 150,
                 height: 30,

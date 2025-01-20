@@ -50,6 +50,14 @@ class TransitionType extends DiagramType<TransitionType> {
     return symbols;
   }
 
+  void removeSymbol(String symbol) {
+    label = label.replaceAll(symbol, '');
+    label = label.replaceAll(',,', ',');
+    label = label.replaceAll(RegExp(r'^,'), '');
+    label = label.replaceAll(RegExp(r',$'), '');
+    label = label.trim();
+  }
+
   Path getHitBox(double offset) {
     Offset start = startButtonPosition - Offset(left - 5, top - 5);
     Offset end = endButtonPosition - Offset(left - 5, top - 5);

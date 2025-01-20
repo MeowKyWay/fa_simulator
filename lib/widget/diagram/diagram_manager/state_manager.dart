@@ -9,8 +9,9 @@ import 'package:uuid/uuid.dart';
 StateType addState({
   required Offset position,
   required String name,
-  bool isStartState = false,
-  bool isAcceptState = false,
+  bool isInitial = false,
+  bool isFinal = false,
+  double initialArrowAngle = 0,
   String? id,
 }) {
   // Generate a new id if id is null
@@ -23,8 +24,9 @@ StateType addState({
     position: roundedPosition,
     id: id,
     label: name,
-    isInitial: isStartState,
-    isFinal: isAcceptState,
+    isInitial: isInitial,
+    isFinal: isFinal,
+    initialArrowAngle: initialArrowAngle,
   );
   // Add the state to the list
   RenamingProvider().reset();
@@ -108,6 +110,6 @@ void moveStateStartArrow(String id, double angle) {
         "state_manager.dart/moveStateStartArrow: State id $id is not a start state");
   }
   
-  state.startArrowAngle = angle;
+  state.initialArrowAngle = angle;
   DiagramList().notify();
 }

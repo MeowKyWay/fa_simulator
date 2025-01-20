@@ -29,7 +29,7 @@ class _StartArrowButtonState extends State<StartArrowButton> {
     Offset position = calculateNewPoint(
       widget.state.position,
       stateSize / 2 + startArrowLength,
-      widget.state.startArrowAngle,
+      widget.state.initialArrowAngle,
     );
 
     return Positioned(

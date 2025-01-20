@@ -35,8 +35,9 @@ class PasteAction extends AppAction {
       newState = addState(
         position: state.position + margin,
         name: state.label,
-        isStartState: state.isInitial,
-        isAcceptState: state.isFinal,
+        isInitial: state.isInitial,
+        isFinal: state.isFinal,
+        initialArrowAngle: state.initialArrowAngle,
       );
       _states.add(newState);
       _stateIdMap[state.id] = newState.id;
@@ -80,8 +81,9 @@ class PasteAction extends AppAction {
       addState(
         position: state.position,
         name: state.label,
-        isStartState: state.isInitial,
-        isAcceptState: state.isFinal,
+        isInitial: state.isInitial,
+        isFinal: state.isFinal,
+        initialArrowAngle: state.initialArrowAngle,
         id: state.id,
       );
     }

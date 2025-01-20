@@ -18,8 +18,8 @@ class StartArrow {
       CustomPaint(
         painter: ArrowHeadPainter(
           position: calculateNewPoint(
-              state.position, stateSize / 2, state.startArrowAngle),
-          angle: state.startArrowAngle,
+              state.position, stateSize / 2, state.initialArrowAngle),
+          angle: state.initialArrowAngle,
           arrowSize: 10,
           color: Theme.of(context).colorScheme.outline,
         ),
@@ -29,12 +29,12 @@ class StartArrow {
           start: calculateNewPoint(
             state.position,
             stateSize / 2,
-            state.startArrowAngle,
+            state.initialArrowAngle,
           ),
           end: calculateNewPoint(
             state.position,
             stateSize / 2 + startArrowLength,
-            state.startArrowAngle,
+            state.initialArrowAngle,
           ),
           color: Theme.of(context).colorScheme.outline,
         ),

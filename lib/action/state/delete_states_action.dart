@@ -38,6 +38,9 @@ class DeleteStatesAction implements AppAction {
         position: states[i].position,
         name: states[i].label,
         id: states[i].id,
+        isInitial: states[i].isInitial,
+        isFinal: states[i].isFinal,
+        initialArrowAngle: states[i].initialArrowAngle,
       );
     }
     requestFocus(states.map((e) => e.id).toList());

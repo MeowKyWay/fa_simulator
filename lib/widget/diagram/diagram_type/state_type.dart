@@ -7,7 +7,7 @@ class StateType extends DiagramType<StateType> {
   Offset position;
   bool isInitial = false;
   bool isFinal = false;
-  double startArrowAngle = 0;
+  double initialArrowAngle = 0;
 
   StateType({
     required this.position,
@@ -15,7 +15,7 @@ class StateType extends DiagramType<StateType> {
     required super.label,
     this.isInitial = false,
     this.isFinal = false,
-    this.startArrowAngle = 0,
+    this.initialArrowAngle = 0,
     super.hasFocus,
   });
 
@@ -76,7 +76,7 @@ class StateType extends DiagramType<StateType> {
       position.hashCode ^
       isInitial.hashCode ^
       isFinal.hashCode ^
-      startArrowAngle.hashCode;
+      initialArrowAngle.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -87,7 +87,7 @@ class StateType extends DiagramType<StateType> {
           position == other.position &&
           isInitial == other.isInitial &&
           isFinal == other.isFinal &&
-          startArrowAngle == other.startArrowAngle;
+          initialArrowAngle == other.initialArrowAngle;
     }
     return false;
   }
@@ -104,7 +104,7 @@ class StateType extends DiagramType<StateType> {
       },
       'isStartState': isInitial,
       'isAccpetState': isFinal,
-      'startArrowAngle': startArrowAngle,
+      'startArrowAngle': initialArrowAngle,
     };
   }
 
@@ -119,7 +119,7 @@ class StateType extends DiagramType<StateType> {
       ),
       isInitial: json['isStartState'],
       isFinal: json['isAccpetState'],
-      startArrowAngle: json['startArrowAngle'],
+      initialArrowAngle: json['startArrowAngle'],
     );
   }
 
@@ -131,7 +131,7 @@ class StateType extends DiagramType<StateType> {
       position: position,
       isInitial: isInitial,
       isFinal: isFinal,
-      startArrowAngle: startArrowAngle,
+      initialArrowAngle: initialArrowAngle,
     );
   }
 }

@@ -27,13 +27,27 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   }
 
   // Add and remove alphabet
-  void addAlphabet(String alphabet) {
-    _alphabet.add(alphabet);
+  void addSymbol(String symbol) {
+    _alphabet.add(symbol);
+    notifyListeners();
+  }
+
+  void addAllAlphabet(Iterable<String> alphabet) {
+    _alphabet.addAll(alphabet);
     notifyListeners();
   }
 
   void removeAlphabet(String alphabet) {
     _alphabet.remove(alphabet);
+    notifyListeners();
+  }
+
+  void removeUnregisteredAlphabet() {
+    for (TransitionType transition in transitions) {
+      for (String symbol in unregisteredAlphabet) {
+        transition.removeSymbol(symbol);
+      }
+    }
     notifyListeners();
   }
 
@@ -223,6 +237,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   @override
   void reset() {
     _items.clear();
+    _alphabet.clear();
     FileProvider().notifyListeners();
   }
 }

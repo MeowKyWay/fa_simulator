@@ -10,9 +10,9 @@ Widget startState({Widget? child, double stateSize = stateSize, required BuildCo
     width: stateSize,
     child: Container(
       decoration: BoxDecoration(
-          color: theme.colorScheme.tertiary,
+          color: theme.colorScheme.secondary,
           shape: BoxShape.circle,
-          border: Border.all(color: theme.colorScheme.onTertiary, width: 1)),
+          border: Border.all(color: theme.colorScheme.onSecondary, width: 1)),
       child: Center(
         // If renaming, show the text field
         child: Text(

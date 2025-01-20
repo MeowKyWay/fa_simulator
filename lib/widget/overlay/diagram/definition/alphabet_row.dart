@@ -1,12 +1,18 @@
 import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
 import 'package:flutter/material.dart';
 
-class AlphabetRow extends StatelessWidget {
+class AlphabetRow extends StatefulWidget {
   const AlphabetRow({
     super.key,
   });
 
+  @override
+  State<AlphabetRow> createState() => _AlphabetRowState();
+}
+
+class _AlphabetRowState extends State<AlphabetRow> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,6 +41,11 @@ class AlphabetRow extends StatelessWidget {
                     TextSpan(
                       text: DiagramList().alphabet.join(', '),
                     ),
+                    if (DiagramList().alphabet.isNotEmpty &&
+                        DiagramList().unregisteredAlphabet.isNotEmpty)
+                      TextSpan(
+                        text: ', ',
+                      ),
                     TextSpan(
                       text: DiagramList().unregisteredAlphabet.join(', '),
                       style: TextStyle(
@@ -64,7 +75,7 @@ class AlphabetRow extends StatelessWidget {
                 softWrap: true,
               ),
               Text(
-                " are not in the alphabet. ",
+                " are not in the alphabet but are present in the diagram.",
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: Theme.of(context).colorScheme.error,
                     ),
@@ -73,7 +84,12 @@ class AlphabetRow extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5),
                 child: Button(
                   text: 'Add',
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      DiagramList()
+                          .addAllAlphabet(DiagramList().unregisteredAlphabet);
+                    });
+                  },
                   style: ButtonVariant.contained,
                   textStyle: Theme.of(context).textTheme.labelSmall,
                   width: 50,
@@ -85,7 +101,17 @@ class AlphabetRow extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5),
                 child: Button(
                   text: 'Remove',
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (!await confirm(
+                      "This action will remove every symbol in the list from all transitions.",
+                      context,
+                    )) {
+                      return;
+                    }
+                    setState(() {
+                      DiagramList().removeUnregisteredAlphabet();
+                    });
+                  },
                   style: ButtonVariant.contained,
                   type: ButtonType.warning,
                   textStyle: Theme.of(context).textTheme.labelSmall,

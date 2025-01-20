@@ -16,9 +16,9 @@ Widget acceptState({
       children: [
         Container(
           decoration: BoxDecoration(
-              color: theme.colorScheme.tertiary,
+              color: theme.colorScheme.secondary,
               shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.onTertiary, width: 1)),
+              border: Border.all(color: theme.colorScheme.onSecondary, width: 1)),
           child: child,
         ),
         IgnorePointer(
@@ -29,7 +29,7 @@ Widget acceptState({
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 shape: BoxShape.circle,
-                border: Border.all(color: theme.colorScheme.onTertiary, width: 1),
+                border: Border.all(color: theme.colorScheme.onSecondary, width: 1),
               ),
             ),
           ),
