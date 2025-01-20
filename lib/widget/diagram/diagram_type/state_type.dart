@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 
 class StateType extends DiagramType<StateType> {
   Offset position;
-  bool isStartState = false;
-  bool isAcceptState = false;
+  bool isInitial = false;
+  bool isFinal = false;
   double startArrowAngle = 0;
 
   StateType({
     required this.position,
     required super.id,
     required super.label,
-    this.isStartState = false,
-    this.isAcceptState = false,
+    this.isInitial = false,
+    this.isFinal = false,
     this.startArrowAngle = 0,
     super.hasFocus,
   });
@@ -74,8 +74,8 @@ class StateType extends DiagramType<StateType> {
       id.hashCode ^
       label.hashCode ^
       position.hashCode ^
-      isStartState.hashCode ^
-      isAcceptState.hashCode ^
+      isInitial.hashCode ^
+      isFinal.hashCode ^
       startArrowAngle.hashCode;
 
   @override
@@ -85,8 +85,8 @@ class StateType extends DiagramType<StateType> {
       return id == other.id &&
           label == other.label &&
           position == other.position &&
-          isStartState == other.isStartState &&
-          isAcceptState == other.isAcceptState &&
+          isInitial == other.isInitial &&
+          isFinal == other.isFinal &&
           startArrowAngle == other.startArrowAngle;
     }
     return false;
@@ -102,8 +102,8 @@ class StateType extends DiagramType<StateType> {
         'dx': position.dx,
         'dy': position.dy,
       },
-      'isStartState': isStartState,
-      'isAccpetState': isAcceptState,
+      'isStartState': isInitial,
+      'isAccpetState': isFinal,
       'startArrowAngle': startArrowAngle,
     };
   }
@@ -117,8 +117,8 @@ class StateType extends DiagramType<StateType> {
         json['position']['dx'],
         json['position']['dy'],
       ),
-      isStartState: json['isStartState'],
-      isAcceptState: json['isAccpetState'],
+      isInitial: json['isStartState'],
+      isFinal: json['isAccpetState'],
       startArrowAngle: json['startArrowAngle'],
     );
   }
@@ -129,8 +129,8 @@ class StateType extends DiagramType<StateType> {
       id: id,
       label: label,
       position: position,
-      isStartState: isStartState,
-      isAcceptState: isAcceptState,
+      isInitial: isInitial,
+      isFinal: isFinal,
       startArrowAngle: startArrowAngle,
     );
   }

@@ -97,7 +97,7 @@ class _StateNodeState extends State<StateNode> {
           DiagramDraggable(
             child: state(
               child: child,
-              isAcceptState: widget.state.isAcceptState,
+              isAcceptState: widget.state.isFinal,
               context: context,
             ),
           ),

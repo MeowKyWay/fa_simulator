@@ -25,7 +25,7 @@ class SelectionBox extends StatelessWidget {
                 color: Colors.grey,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.3),
+                    color: Colors.grey.withAlpha(255*0.3.toInt()),
                   ),
                 ),
               ),

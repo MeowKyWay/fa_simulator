@@ -85,7 +85,6 @@ class BodyDragTarget extends StatelessWidget {
         } else if (details.data is StatePaletteDragData) {
           _onAcceptStatePalleteDragData(details.data as StatePaletteDragData);
         }
-        //TODO accept transition palette drag data
         //else if (details.data is TransitionPaletteDragData) {
         //_onAcceptTransitionPalleteDragData(details.data as PaletteDragData);
         //}
@@ -158,8 +157,8 @@ class BodyDragTarget extends StatelessWidget {
       position: position,
       id: const Uuid().v4(),
       label: '',
-      isStartState: data.isStartState,
-      isAcceptState: data.isAcceptState,
+      isInitial: data.isStartState,
+      isFinal: data.isAcceptState,
     );
     PalleteFeedbackProvider().reset();
     AppActionDispatcher().execute(

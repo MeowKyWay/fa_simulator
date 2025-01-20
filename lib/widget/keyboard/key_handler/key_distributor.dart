@@ -28,7 +28,6 @@ void handleKey(LogicalKeyboardKey key, BuildContext context) {
 }
 
 void _handleAlt(LogicalKeyboardKey key) {
-  //TODO implement
 }
 
 void _handleKey(LogicalKeyboardKey key) {

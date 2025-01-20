@@ -23,8 +23,8 @@ StateType addState({
     position: roundedPosition,
     id: id,
     label: name,
-    isStartState: isStartState,
-    isAcceptState: isAcceptState,
+    isInitial: isStartState,
+    isFinal: isAcceptState,
   );
   // Add the state to the list
   RenamingProvider().reset();
@@ -89,8 +89,8 @@ void changeStateType({
         "state_manager.dart/changeStateType: State id $id not found");
   }
   //Change the state type
-  state.isStartState = isStartState ?? state.isStartState;
-  state.isAcceptState = isAcceptState ?? state.isAcceptState;
+  state.isInitial = isStartState ?? state.isInitial;
+  state.isFinal = isAcceptState ?? state.isFinal;
   //Notify to update the change
   DiagramList().notify();
 }
@@ -103,7 +103,7 @@ void moveStateStartArrow(String id, double angle) {
     throw Exception(
         "state_manager.dart/moveStateStartArrow: State id $id not found");
   }
-  if (!state.isStartState) {
+  if (!state.isInitial) {
     throw Exception(
         "state_manager.dart/moveStateStartArrow: State id $id is not a start state");
   }

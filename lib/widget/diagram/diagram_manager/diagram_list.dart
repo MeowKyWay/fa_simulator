@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
@@ -15,10 +17,38 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
 
   //Store the states and transitions
   final List<DiagramType> _items = [];
-  List<DiagramType> get items => _items;
+  //Alphabet
+  final SplayTreeSet<String> _alphabet = SplayTreeSet<String>();
 
+  SplayTreeSet<String> get alphabet => _alphabet;
+  List<DiagramType> get items => _items;
   List<DiagramType> get itemsCopy {
     return List<DiagramType>.from(_items.map((e) => e.copyWith()));
+  }
+
+  // Add and remove alphabet
+  void addAlphabet(String alphabet) {
+    _alphabet.add(alphabet);
+    notifyListeners();
+  }
+
+  void removeAlphabet(String alphabet) {
+    _alphabet.remove(alphabet);
+    notifyListeners();
+  }
+
+  void clearAlphabet() {
+    _alphabet.clear();
+    notifyListeners();
+  }
+
+  SplayTreeSet<String> get unregisteredAlphabet {
+    SplayTreeSet<String> alphabet = SplayTreeSet<String>();
+    for (TransitionType transition in transitions) {
+      alphabet.addAll(transition.symbols);
+    }
+    alphabet.removeAll(_alphabet);
+    return alphabet;
   }
 
   DiagramType addItem(DiagramType item) {
@@ -88,11 +118,11 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   }
 
   List<StateType> get startStates {
-    return states.where((i) => i.isStartState).toList();
+    return states.where((i) => i.isInitial).toList();
   }
 
   List<StateType> get acceptStates {
-    return states.where((i) => i.isAcceptState).toList();
+    return states.where((i) => i.isFinal).toList();
   }
 
   TransitionType? transition(id) {

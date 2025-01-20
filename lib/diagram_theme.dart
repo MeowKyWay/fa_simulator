@@ -12,7 +12,7 @@ ThemeData diagramTheme = ThemeData(
   textTheme: textTheme,
   outlinedButtonTheme: outlinedButtonTheme,
   hoverColor: Colors.green.withAlpha((255 * 0.75).ceil()),
-  focusColor: Colors.blue,
+  focusColor: _focusColor,
   colorScheme: darkTheme,
 );
 
@@ -35,6 +35,19 @@ ColorScheme darkTheme = ColorScheme(
 );
 
 final textTheme = TextTheme(
+  titleLarge: TextStyle(
+    color: Colors.white,
+    fontSize: 24,
+  ),
+  titleMedium: TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+  ),
+  titleSmall: TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+  ),
+
   labelLarge: TextStyle(
     color: Colors.white,
     fontSize: 20,
@@ -44,6 +57,23 @@ final textTheme = TextTheme(
     fontSize: 14,
   ),
   labelSmall: TextStyle(
+    color: Colors.white,
+    fontSize: 12,
+  ),
+
+  // Table data
+  bodyLarge: TextStyle(
+    fontFamily: 'Roboto Mono',
+    color: Colors.white,
+    fontSize: 18,
+  ),
+  bodyMedium: TextStyle(
+    fontFamily: 'Roboto Mono',
+    color: Colors.white,
+    fontSize: 14,
+  ),
+  bodySmall: TextStyle(
+    fontFamily: 'Roboto Mono',
     color: Colors.white,
     fontSize: 12,
   ),
@@ -71,6 +101,5 @@ const Color _gridPrimalyColor = Color.fromARGB(255, 66, 66, 66);
 const Color _gridSecondaryColor = Color.fromARGB(255, 31, 29, 35);
 
 const Color _focusColor = Colors.blue;
-const Color _feedbackBorderColor = Colors.white;
 
 const Color _outlineColor = Color.fromARGB(255, 80, 87, 89);

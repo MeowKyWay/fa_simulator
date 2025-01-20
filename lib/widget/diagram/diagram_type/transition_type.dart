@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
@@ -41,6 +42,12 @@ class TransitionType extends DiagramType<TransitionType> {
       throw ArgumentError(
           "Either destinationPosition or destinationState must be provided");
     }
+  }
+
+  SplayTreeSet<String> get symbols {
+    SplayTreeSet<String> symbols = SplayTreeSet<String>();
+    symbols.addAll(label.split(','));
+    return symbols;
   }
 
   Path getHitBox(double offset) {
