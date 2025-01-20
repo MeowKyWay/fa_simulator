@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/components/expand_button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -21,6 +19,7 @@ class _StatesRowState extends State<StatesRow> {
   @override
   Widget build(BuildContext context) {
     List<StateType> states = DiagramList().states;
+    states.sort((a, b) => a.label.compareTo(b.label));
 
     return Column(
       children: [
@@ -37,9 +36,19 @@ class _StatesRowState extends State<StatesRow> {
               color: Colors.transparent,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 5,
                 children: [
-                  Text('States Q = {', style: Theme.of(context).textTheme.labelMedium),
+                  SizedBox(
+                    height: 26,
+                    width: 75,
+                    child: Text(
+                      'States',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ),
+                  Text(
+                    ": Q = { ",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                   Expanded(
                     child: Text(
                       '${states.map((s) => s.label == "" ? "unnamed state" : s.label).join(', ')} }',

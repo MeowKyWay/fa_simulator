@@ -71,7 +71,7 @@ String renameState(String id, String newName) {
     throw Exception("state_manager.dart/renameState: State id $id not found");
   }
   String oldName = state.label;
-  state.label = newName;
+  state.label = newName.trim();
   DiagramList().notify();
   return oldName;
 }

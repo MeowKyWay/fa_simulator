@@ -24,6 +24,7 @@ OverlayEntry definitionOverlay() {
             StatesRow(),
             Divider(color: Theme.of(context).colorScheme.outlineVariant),
             AlphabetRow(),
+            Divider(color: Theme.of(context).colorScheme.outlineVariant),
           ],
         ),
       ),

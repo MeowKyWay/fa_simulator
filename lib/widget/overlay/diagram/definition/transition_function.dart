@@ -2,8 +2,8 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
-class TransitionTable extends StatelessWidget {
-  const TransitionTable({
+class TransitionFunction extends StatelessWidget {
+  const TransitionFunction({
     super.key,
   });
 

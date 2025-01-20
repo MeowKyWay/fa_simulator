@@ -8,12 +8,12 @@ class DiagramMenuItem {
   final bool enabled;
   final Object? action;
 
-  const DiagramMenuItem({
+  DiagramMenuItem({
     required this.label,
     this.shortcut = '',
     this.enabled = true,
     this.action,
-  }) : assert (action is AppAction || action is VoidCallback);
+  }) : assert (action is AppAction || action is VoidCallback || action == null);
 
   PopupMenuItem<Object?> build() {
     return PopupMenuItem<Object>(

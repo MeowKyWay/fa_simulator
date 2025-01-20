@@ -22,7 +22,7 @@ ColorScheme darkTheme = ColorScheme(
   onPrimary: Colors.white,
   secondary: _secondaryColor,
   onSecondary: Colors.white,
-  tertiary: _secondaryColor,
+  tertiary: _tertiaryColor,
   onTertiary: Colors.white,
   outline: Colors.white,
   outlineVariant: _outlineColor,
@@ -96,6 +96,7 @@ final outlinedButtonTheme = OutlinedButtonThemeData(
 const Color _surfaceColor = Color.fromARGB(255, 24, 20, 29);
 const Color _primaryColor = Color.fromARGB(255, 27, 29, 30);
 const Color _secondaryColor = Color.fromARGB(255, 20, 24, 29);
+const Color _tertiaryColor = Color.fromARGB(255, 79, 84, 86);
 
 const Color _gridPrimalyColor = Color.fromARGB(255, 66, 66, 66);
 const Color _gridSecondaryColor = Color.fromARGB(255, 31, 29, 35);

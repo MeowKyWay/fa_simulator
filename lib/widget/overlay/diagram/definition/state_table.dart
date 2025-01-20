@@ -1,4 +1,3 @@
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +11,6 @@ class StateTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<StateType> states = DiagramList().states;
-
     List<DataColumn> columns = [
       DataColumn(label: Text('id')),
       DataColumn(label: Text('name')),
@@ -22,25 +19,70 @@ class StateTable extends StatelessWidget {
       DataColumn(label: Text('final')),
     ];
 
-    List<DataRow> rows = states.map((state) {
-      return DataRow(
+    bool initialFlag = false;
+
+    List<DataRow> rows = [];
+    for (int i = 0; i < states.length; i++) {
+      StateType state = states[i];
+
+      bool isDuplicateName = false;
+      if (i > 1 && state.label != '') {
+        if (state.label == states[i - 1].label) {
+          isDuplicateName = true;
+        }
+      }
+      bool isDuplicateInitial = initialFlag && state.isInitial;
+
+      TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
+      TextStyle? textError = textStyle?.copyWith(
+        decoration: TextDecoration.underline,
+        decorationStyle: TextDecorationStyle.wavy,
+        decorationColor: Theme.of(context).colorScheme.error,
+        decorationThickness: 3,
+      );
+
+      DataRow row = DataRow(
         cells: [
           DataCell(Text(state.id)),
           DataCell(
-            Text(state.label == '' ? 'unnamed' : state.label),
+            Tooltip(
+              message: state.label == ''
+                  ? 'Unnamed state: The state with ID “${state.id}” does not have a name.'
+                  : isDuplicateName
+                      ? 'A state with the name “${state.label}” already exists. Please use a unique name.'
+                      : '',
+              child: Text(
+                state.label.isEmpty ? 'unnamed state' : state.label,
+                style: isDuplicateName || state.label.isEmpty
+                    ? textError
+                    : textStyle,
+              ),
+            ),
           ),
           DataCell(
             Text('(${state.position.dx}, ${state.position.dy})'),
           ),
           DataCell(
-            Text(state.isInitial ? 'yes' : 'no'),
+            Tooltip(
+              message: isDuplicateInitial
+                  ? 'Duplicate initial state: An initial state already exists.'
+                  : '',
+              child: Text(
+                state.isInitial ? 'yes' : 'no',
+                style: isDuplicateInitial ? textError : null,
+              ),
+            ),
           ),
           DataCell(
             Text(state.isFinal ? 'yes' : 'no'),
           ),
         ],
       );
-    }).toList();
+      rows.add(row);
+      if (state.isInitial) {
+        initialFlag = true;
+      }
+    }
 
     return DataTable(
       border: TableBorder(

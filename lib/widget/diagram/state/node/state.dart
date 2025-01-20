@@ -15,7 +15,7 @@ Widget state({
       children: [
         Container(
           decoration: BoxDecoration(
-              color: theme.colorScheme.tertiary,
+              color: theme.colorScheme.secondary,
               shape: BoxShape.circle,
               //White border
               border:
@@ -32,7 +32,7 @@ Widget state({
                       color: Colors.transparent,
                       shape: BoxShape.circle,
                       border: Border.all(
-                          color: theme.colorScheme.onTertiary, width: 1),
+                          color: theme.colorScheme.onSecondary, width: 1),
                     ),
                   ),
                 ),
