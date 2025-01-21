@@ -23,7 +23,7 @@ class TransitionType extends DiagramType<TransitionType> {
 
   TransitionType({
     required super.id,
-    required super.label,
+    required String label,
     super.hasFocus,
     this.sourceStateId,
     this.destinationStateId,
@@ -31,7 +31,7 @@ class TransitionType extends DiagramType<TransitionType> {
     this.destinationPosition,
     this.loopAngle = -pi / 2,
     this.isCurved = false,
-  }) : super() {
+  }) : super(label: label) {
     // Validation logic moved to constructor body
     if ((sourcePosition ?? sourceStateId) == null) {
       throw ArgumentError(
@@ -42,6 +42,19 @@ class TransitionType extends DiagramType<TransitionType> {
       throw ArgumentError(
           "Either destinationPosition or destinationState must be provided");
     }
+  }
+
+  @override
+  set label(String value) {
+    String t = value.replaceAll(RegExp(r"^,+|,+$"), "");
+    SplayTreeSet<String> symbols = SplayTreeSet<String>();
+    for (String symbol in t.split(',')) {
+      if (symbol.isEmpty) {
+        continue;
+      }
+      symbols.add(symbol.trim());
+    }
+    super.label = symbols.join(',');
   }
 
   SplayTreeSet<String> get symbols {
