@@ -19,6 +19,17 @@ class FileProvider extends DiagramProvider with ChangeNotifier {
   FAType? get faType => _faType;
   List<DiagramType> get savedItem => _savedItem;
 
+  String get faTypeString {
+    switch (faType) {
+      case FAType.dfa:
+        return 'dfa';
+      case FAType.nfa:
+        return 'nfa';
+      default:
+        return 'null';
+    }
+  }
+
   set fileName(String? value) {
     _fileName = value;
     notifyListeners();

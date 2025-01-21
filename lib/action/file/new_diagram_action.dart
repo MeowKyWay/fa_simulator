@@ -23,6 +23,11 @@ class NewDiagramAction extends AppUnrevertableAction {
         return;
       }
     }
-    DiagramNew().newDiagram();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    DiagramNew().newDiagram(context);
   }
 }

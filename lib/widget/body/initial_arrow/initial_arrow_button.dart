@@ -1,7 +1,6 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/move_state_initial_arrow_action.dart';
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart';

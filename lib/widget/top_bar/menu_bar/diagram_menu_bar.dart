@@ -29,7 +29,7 @@ class DiagramMenuBar extends StatelessWidget {
                       width: double.infinity,
                       child: Text(
                         FileProvider().fileName ??
-                            'Untitled.${FileProvider().faType.toString()}',
+                            'Untitled.${FileProvider().faTypeString}',
                         style: textL.copyWith(
                           color: secondaryTextColor,
                         ),
