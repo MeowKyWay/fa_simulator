@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/body/start_arrow/start_arrow_button.dart';
+import 'package:fa_simulator/widget/body/initial_arrow/initial_arrow_button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/painter/line_painter.dart';
 import 'package:fa_simulator/widget/painter/transition/arrow_head_painter.dart';

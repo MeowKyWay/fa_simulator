@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/body/start_arrow/start_arrow.dart';
+import 'package:fa_simulator/widget/body/initial_arrow/initial_arrow.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
