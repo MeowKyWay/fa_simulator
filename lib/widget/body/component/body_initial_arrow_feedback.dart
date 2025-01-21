@@ -8,8 +8,8 @@ import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BodyStartArrowFeedback extends StatelessWidget {
-  const BodyStartArrowFeedback({
+class BodyInitialArrowFeedback extends StatelessWidget {
+  const BodyInitialArrowFeedback({
     super.key,
   });
 

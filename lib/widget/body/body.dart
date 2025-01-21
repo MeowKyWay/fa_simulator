@@ -1,7 +1,7 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
-import 'package:fa_simulator/widget/body/component/body_start_arrow_feedback.dart';
-import 'package:fa_simulator/widget/body/component/body_start_arrows.dart';
+import 'package:fa_simulator/widget/body/component/body_initial_arrow_feedback.dart';
+import 'package:fa_simulator/widget/body/component/body_initial_arrows.dart';
 import 'package:fa_simulator/widget/body/component/body_transition_dragging_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_transitions.dart';
 import 'package:fa_simulator/widget/overlay/select_diagram_overlay.dart';
@@ -76,7 +76,7 @@ class _BodyState extends State<Body> {
               // Draw all the transitions
               const BodyTransitions(),
               // Draw start arrows
-              const BodyStartArrows(),
+              const BodyInitialArrows(),
               // Feedback when drag
               const BodyFeedback(),
               // Feedback when dragging from the pallete
@@ -86,7 +86,7 @@ class _BodyState extends State<Body> {
               // Draw new transition feedback
               const BodyNewTransitionFeedback(),
               // Draw the start arrow feedback
-              const BodyStartArrowFeedback(),
+              const BodyInitialArrowFeedback(),
               // Draw the selection box
               const SelectionBox(),
             ],

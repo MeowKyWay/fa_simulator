@@ -6,8 +6,8 @@ import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BodyStartArrows extends StatelessWidget {
-  const BodyStartArrows({
+class BodyInitialArrows extends StatelessWidget {
+  const BodyInitialArrows({
     super.key,
   });
 

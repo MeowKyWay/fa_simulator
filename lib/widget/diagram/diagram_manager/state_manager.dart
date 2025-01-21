@@ -97,7 +97,7 @@ void changeStateType({
   DiagramList().notify();
 }
 
-void moveStateStartArrow(String id, double angle) {
+void moveStateInitialArrow(String id, double angle) {
   StateType state;
   try {
     state = DiagramList().state(id)!;
