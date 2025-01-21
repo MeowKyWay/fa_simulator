@@ -39,7 +39,7 @@ class StateWrap extends StatelessWidget {
           StatePalette(
             data: StatePaletteDragData(
               type: DiagramTypeEnum.state,
-              isStartState: true,
+              isInitial: true,
             ),
             size: size,
             feedback: startState(context: context),
@@ -47,7 +47,7 @@ class StateWrap extends StatelessWidget {
           ),
           StatePalette(
             data: StatePaletteDragData(
-                type: DiagramTypeEnum.state, isAcceptState: true),
+                type: DiagramTypeEnum.state, isFinal: true),
             size: size,
             feedback: acceptState(context: context),
             child: acceptState(stateSize: size, context: context),

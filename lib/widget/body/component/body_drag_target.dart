@@ -157,8 +157,8 @@ class BodyDragTarget extends StatelessWidget {
       position: position,
       id: const Uuid().v4(),
       label: '',
-      isInitial: data.isStartState,
-      isFinal: data.isAcceptState,
+      isInitial: data.isInitial,
+      isFinal: data.isFinal,
     );
     PalleteFeedbackProvider().reset();
     AppActionDispatcher().execute(

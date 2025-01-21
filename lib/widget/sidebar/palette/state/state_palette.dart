@@ -4,13 +4,13 @@ import 'package:fa_simulator/widget/sidebar/palette/palette_draggable.dart';
 import 'package:flutter/material.dart';
 
 class StatePaletteDragData  extends PaletteDragData {
-  final bool isStartState;
-  final bool isAcceptState;
+  final bool isInitial;
+  final bool isFinal;
 
   StatePaletteDragData({
     required super.type,
-    this.isStartState = false,
-    this.isAcceptState = false,
+    this.isInitial = false,
+    this.isFinal = false,
   });
 }
 

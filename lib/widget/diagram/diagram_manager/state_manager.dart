@@ -80,8 +80,8 @@ String renameState(String id, String newName) {
 
 void changeStateType({
   required String id,
-  bool? isStartState,
-  bool? isAcceptState,
+  bool? isInitial,
+  bool? isFinal,
 }) {
   StateType state;
   try {
@@ -91,8 +91,8 @@ void changeStateType({
         "state_manager.dart/changeStateType: State id $id not found");
   }
   //Change the state type
-  state.isInitial = isStartState ?? state.isInitial;
-  state.isFinal = isAcceptState ?? state.isFinal;
+  state.isInitial = isInitial ?? state.isInitial;
+  state.isFinal = isFinal ?? state.isFinal;
   //Notify to update the change
   DiagramList().notify();
 }
