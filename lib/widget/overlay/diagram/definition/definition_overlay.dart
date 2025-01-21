@@ -1,4 +1,5 @@
 import 'package:fa_simulator/widget/overlay/diagram/definition/states_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/transition_function_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/alphabet_row.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ OverlayEntry definitionOverlay() {
             StatesRow(),
             Divider(color: Theme.of(context).colorScheme.outlineVariant),
             AlphabetRow(),
+            Divider(color: Theme.of(context).colorScheme.outlineVariant),
+            TransitionFunctionRow(),
             Divider(color: Theme.of(context).colorScheme.outlineVariant),
           ],
         ),

@@ -12,6 +12,14 @@ class TransitionFunction extends StatelessWidget {
 
     List<StateType> states = DiagramList().states;
 
-    return Container();
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'δ :',
+          style: Theme.of(context).textTheme.labelMedium,
+        ),
+      ],
+    );
   }
 }
