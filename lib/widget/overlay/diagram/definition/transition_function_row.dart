@@ -1,4 +1,6 @@
 import 'package:fa_simulator/widget/components/expand_button.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/transition_function.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,8 @@ class _TransitionFunctionRowState extends State<TransitionFunctionRow> {
 
   @override
   Widget build(BuildContext context) {
+    List<StateType> states = DiagramList().states;
+    states.sort((a, b) => a.label.compareTo(b.label));
 
     return Column(
       children: [

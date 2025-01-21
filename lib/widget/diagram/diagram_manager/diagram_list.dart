@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
@@ -223,6 +224,26 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     item.label = name;
     notifyListeners();
     return oldName;
+  }
+
+  TransitionFunctionType get transitionFunction {
+    TransitionFunctionType transitionFunction = SplayTreeMap(transitionFunctionComparator);
+    for (TransitionType transition in transitions) {
+      if ((transition.sourceStateId ?? transition.destinationStateId) == null) {
+        continue;
+      }
+      for (String symbol in transition.symbols) {
+        TransitionFunctionKey key = TransitionFunctionKey(
+          sourceStateId: transition.sourceStateId!,
+          symbol: symbol,
+        );
+        TransitionFunctionValue value = TransitionFunctionValue(
+          destinationStateId: transition.destinationStateId!,
+        );
+        transitionFunction[key] = value;
+      }
+    }
+    return transitionFunction;
   }
 
   //return if state with the id already exist
