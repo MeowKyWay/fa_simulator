@@ -41,6 +41,7 @@ dependencies:
   matrix_gesture_detector: ^0.2.0-nullsafety.1
   file_selector: ^1.0.3
   tuple:
+  sorted_list: ^1.0.0
 
 dev_dependencies:
   flutter_test:
