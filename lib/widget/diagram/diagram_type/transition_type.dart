@@ -358,6 +358,10 @@ class TransitionType extends DiagramType<TransitionType> {
     }
   }
 
+  bool isComplete() {
+    return sourceStateId != null && destinationStateId != null;
+  }
+
   @override
   double get top {
     if (loopCenter != null) {
@@ -506,4 +510,45 @@ class TransitionType extends DiagramType<TransitionType> {
       isCurved: isCurved,
     );
   }
+}
+
+int transitionComparator(TransitionType a, TransitionType b) {
+  // Get sourceStateLabels
+  String? sourceA = a.sourceState?.label;
+  String? sourceB = b.sourceState?.label;
+
+  // Compare sourceStateLabels, null values go to the back
+  if (sourceA == null && sourceB == null) {
+    // Both are null, they are equal
+    return 0;
+  } else if (sourceA == null) {
+    // a is null, sort it to the back
+    return 1;
+  } else if (sourceB == null) {
+    // b is null, sort it to the back
+    return -1;
+  }
+
+  int sourceComparison = sourceA.compareTo(sourceB);
+  if (sourceComparison != 0) {
+    return sourceComparison;
+  }
+
+  // If sourceStateLabels are equal, compare destinationStateLabels
+  String? destA = a.destinationState?.label;
+  String? destB = b.destinationState?.label;
+
+  // Compare destinationStateLabels, null values go to the back
+  if (destA == null && destB == null) {
+    // Both are null, they are equal
+    return 0;
+  } else if (destA == null) {
+    // a is null, sort it to the back
+    return 1;
+  } else if (destB == null) {
+    // b is null, sort it to the back
+    return -1;
+  }
+
+  return destA.compareTo(destB);
 }

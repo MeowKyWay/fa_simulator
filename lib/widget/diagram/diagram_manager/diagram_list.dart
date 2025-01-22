@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
@@ -227,7 +226,8 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   }
 
   TransitionFunctionType get transitionFunction {
-    TransitionFunctionType transitionFunction = SplayTreeMap(transitionFunctionComparator);
+    TransitionFunctionType transitionFunction =
+        SplayTreeMap(transitionFunctionComparator);
     for (TransitionType transition in transitions) {
       if ((transition.sourceStateId ?? transition.destinationStateId) == null) {
         continue;
@@ -237,10 +237,16 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
           sourceStateId: transition.sourceStateId!,
           symbol: symbol,
         );
-        TransitionFunctionValue value = TransitionFunctionValue(
-          destinationStateId: transition.destinationStateId!,
-        );
-        transitionFunction[key] = value;
+        TransitionFunctionValue value = TransitionFunctionValue();
+        value.destinationStateIds.add(transition.destinationStateId!);
+
+        if (transitionFunction.containsKey(key)) {
+          transitionFunction[key]!
+              .destinationStateIds
+              .addAll(value.destinationStateIds);
+        } else {
+          transitionFunction[key] = value;
+        }
       }
     }
     return transitionFunction;

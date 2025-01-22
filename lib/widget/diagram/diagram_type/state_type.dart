@@ -135,3 +135,7 @@ class StateType extends DiagramType<StateType> {
     );
   }
 }
+
+int stateComparator(StateType a, StateType b) {
+  return a.label.compareTo(b.label);
+}

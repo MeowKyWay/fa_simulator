@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:sorted_list/sorted_list.dart';
 
 typedef TransitionFunctionType
     = SplayTreeMap<TransitionFunctionKey, TransitionFunctionValue>;
@@ -39,21 +40,38 @@ class TransitionFunctionKey {
 }
 
 class TransitionFunctionValue {
-  final String destinationStateId;
+  final SortedList<String> destinationStateIds = SortedList<String>(
+    (a, b) => DiagramList().state(a)!.label.compareTo(
+          DiagramList().state(b)!.label,
+        ),
+  );
 
-  const TransitionFunctionValue({
-    required this.destinationStateId,
-  });
+  TransitionFunctionValue();
 
-  StateType? get destinationState {
-    return DiagramList().state(destinationStateId);
+  List<StateType> get destinationStates {
+    return destinationStateIds.map(
+      (id) {
+        try {
+          return DiagramList().state(id)!;
+        } catch (e) {
+          throw Exception(
+              'transition_function_type.dart/TransitionFunctionValue/destinationStates: Destination state $id not found');
+        }
+      },
+    ).toList();
   }
 
-  String get destinationStateLabel {
-    if (destinationState == null) {
-      throw Exception('Destination state $destinationStateId not found');
-    }
-    return destinationState?.label ?? 'unnamed state';
+  List<String> get destinationStateLabels {
+    return destinationStateIds.map(
+      (id) {
+        try {
+          return DiagramList().state(id)!.label;
+        } catch (e) {
+          throw Exception(
+              'transition_function_type.dart/TransitionFunctionValue/destinationStatesLabel: Destination state $id not found');
+        }
+      },
+    ).toList();
   }
 }
 

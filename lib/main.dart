@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/diagram_theme.dart';
+import 'package:fa_simulator/theme/diagram_theme.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';

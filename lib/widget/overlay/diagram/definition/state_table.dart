@@ -1,3 +1,4 @@
+import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class StateTable extends StatelessWidget {
       StateType state = states[i];
 
       bool isDuplicateName = false;
-      if (i > 1 && state.label != '') {
+      if (i > 0 && state.label.isNotEmpty) {
         if (state.label == states[i - 1].label) {
           isDuplicateName = true;
         }
@@ -34,12 +35,6 @@ class StateTable extends StatelessWidget {
       bool isDuplicateInitial = initialFlag && state.isInitial;
 
       TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
-      TextStyle? textError = textStyle?.copyWith(
-        decoration: TextDecoration.underline,
-        decorationStyle: TextDecorationStyle.wavy,
-        decorationColor: Theme.of(context).colorScheme.error,
-        decorationThickness: 3,
-      );
 
       DataRow row = DataRow(
         cells: [
@@ -53,9 +48,8 @@ class StateTable extends StatelessWidget {
                       : '',
               child: Text(
                 state.label.isEmpty ? 'unnamed state' : state.label,
-                style: isDuplicateName || state.label.isEmpty
-                    ? textError
-                    : textStyle,
+                style: textStyle?.error(
+                    context, isDuplicateName || state.label.isEmpty),
               ),
             ),
           ),
@@ -69,7 +63,7 @@ class StateTable extends StatelessWidget {
                   : '',
               child: Text(
                 state.isInitial ? 'yes' : 'no',
-                style: isDuplicateInitial ? textError : null,
+                style: isDuplicateInitial ? textStyle?.error(context) : null,
               ),
             ),
           ),
