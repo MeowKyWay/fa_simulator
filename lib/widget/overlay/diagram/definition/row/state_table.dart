@@ -12,6 +12,7 @@ class StateTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO use compiler
     List<DataColumn> columns = [
       DataColumn(label: Text('id')),
       DataColumn(label: Text('name')),

@@ -5,6 +5,7 @@ import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:flutter/material.dart';
 
 class TransitionFunction extends StatelessWidget {
+  //TODO use compiler
   const TransitionFunction({
     super.key,
   });

@@ -1,19 +1,20 @@
 import 'package:fa_simulator/widget/components/expand_button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:fa_simulator/widget/overlay/diagram/definition/state_table.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function.dart';
 import 'package:flutter/material.dart';
 
-class StatesRow extends StatefulWidget {
-  const StatesRow({
+class TransitionFunctionRow extends StatefulWidget {
+  const TransitionFunctionRow({
     super.key,
   });
 
   @override
-  State<StatesRow> createState() => _StatesRowState();
+  State<TransitionFunctionRow> createState() => _TransitionFunctionRowState();
 }
 
-class _StatesRowState extends State<StatesRow> {
+class _TransitionFunctionRowState extends State<TransitionFunctionRow> {
+  //TODO use compiler
   bool isExpanded = false;
 
   @override
@@ -39,21 +40,9 @@ class _StatesRowState extends State<StatesRow> {
                 children: [
                   SizedBox(
                     height: 26,
-                    width: 75,
                     child: Text(
-                      'States',
+                      'Transition Function',
                       style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                  ),
-                  Text(
-                    ": Q = { ",
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '${states.map((s) => s.label == "" ? "unnamed state" : s.label).join(', ')} }',
-                      style: Theme.of(context).textTheme.labelMedium,
-                      softWrap: true,
                     ),
                   ),
                   Spacer(),
@@ -65,7 +54,7 @@ class _StatesRowState extends State<StatesRow> {
             ),
           ),
         ),
-        if (isExpanded) StateTable(states: states),
+        if (isExpanded) TransitionFunction(),
       ],
     );
   }
