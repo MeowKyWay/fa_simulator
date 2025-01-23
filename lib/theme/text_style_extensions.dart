@@ -12,4 +12,13 @@ extension TextStyleExtensions on TextStyle {
       decorationThickness: 3,
     );
   }
+
+  TextStyle red(BuildContext context, [bool isError = true]) {
+    if (!isError) {
+      return this;
+    }
+    return copyWith(
+      color: Theme.of(context).colorScheme.error,
+    );
+  }
 }

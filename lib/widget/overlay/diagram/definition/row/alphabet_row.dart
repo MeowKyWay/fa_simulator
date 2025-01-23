@@ -1,11 +1,17 @@
+import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
 import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
 import 'package:flutter/material.dart';
 
 class AlphabetRow extends StatefulWidget {
+  final List<String> alphabet;
+  final List<String> unregisteredAlphabet;
+
   const AlphabetRow({
     super.key,
+    required this.alphabet,
+    required this.unregisteredAlphabet,
   });
 
   @override
@@ -13,9 +19,10 @@ class AlphabetRow extends StatefulWidget {
 }
 
 class _AlphabetRowState extends State<AlphabetRow> {
-  //TODO use compiler
   @override
   Widget build(BuildContext context) {
+    TextStyle? style = Theme.of(context).textTheme.labelMedium;
+
     return Column(
       children: [
         Row(
@@ -26,36 +33,34 @@ class _AlphabetRowState extends State<AlphabetRow> {
               width: 75,
               child: Text(
                 'Alphabet',
-                style: Theme.of(context).textTheme.labelMedium,
+                style: style,
               ),
             ),
             Text(
               ": Σ = { ",
-              style: Theme.of(context).textTheme.labelMedium,
+              style: style,
             ),
             Expanded(
               child: RichText(
                 softWrap: true,
                 text: TextSpan(
-                  style: Theme.of(context).textTheme.labelMedium,
+                  style: style,
                   children: [
                     TextSpan(
-                      text: DiagramList().alphabet.join(', '),
+                      text: widget.alphabet.join(', '),
                     ),
-                    if (DiagramList().alphabet.isNotEmpty &&
-                        DiagramList().unregisteredAlphabet.isNotEmpty)
+                    if (widget.alphabet.isNotEmpty &&
+                        widget.unregisteredAlphabet.isNotEmpty)
                       TextSpan(
                         text: ', ',
                       ),
                     TextSpan(
-                      text: DiagramList().unregisteredAlphabet.join(', '),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+                      text: widget.unregisteredAlphabet.join(', '),
+                      style: style?.red(context),
                     ),
                     TextSpan(
-                      text: DiagramList().alphabet.isEmpty &&
-                              DiagramList().unregisteredAlphabet.isEmpty
+                      text: widget.alphabet.isEmpty &&
+                              widget.unregisteredAlphabet.isEmpty
                           ? "}"
                           : " }",
                     ),
@@ -65,21 +70,17 @@ class _AlphabetRowState extends State<AlphabetRow> {
             ),
           ],
         ),
-        if (DiagramList().unregisteredAlphabet.isNotEmpty)
+        if (widget.unregisteredAlphabet.isNotEmpty)
           Row(
             children: [
               Text(
-                "{ ${DiagramList().unregisteredAlphabet.join(', ')} }",
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
+                "{ ${widget.unregisteredAlphabet.join(', ')} }",
+                style: style?.red(context),
                 softWrap: true,
               ),
               Text(
                 " are not in the alphabet but are present in the diagram.",
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
+                style: style,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 5),
@@ -92,7 +93,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
                     });
                   },
                   style: ButtonVariant.contained,
-                  textStyle: Theme.of(context).textTheme.labelSmall,
+                  textStyle: style,
                   width: 50,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 0, vertical: 0),

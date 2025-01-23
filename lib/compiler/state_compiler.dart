@@ -4,6 +4,7 @@ enum StateErrorType {
   unnamedState,
   duplicateStateName,
   duplicateInitialState,
+  noFinalState,
 }
 
 class StateCompiler {
@@ -12,6 +13,7 @@ class StateCompiler {
 
     final Set<String> stateNames = {};
     bool initialFlag = false;
+    bool finalFlag = false;
 
     for (final state in states) {
       errors[state.id] = [];
@@ -33,6 +35,18 @@ class StateCompiler {
           initialFlag = true;
         }
       }
+      if (state.isFinal) {
+        finalFlag = true;
+      }
+      if (errors[state.id]!.isEmpty) {
+        errors.remove(state.id);
+      }
+    }
+    if (!finalFlag) {
+      if (errors[states.last.id] == null) {
+        errors[states.last.id] = [];
+      }
+      errors[states.last.id]!.add(StateErrorType.noFinalState);
     }
 
     return errors;

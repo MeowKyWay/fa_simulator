@@ -3,13 +3,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_typ
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 
 enum TransitionFunctionErrorType {
-  unnamedSourceState,
-  unnamedDestinationState,
-
-  unregisteredAlphabet,
-
   multipleDestinationStates,
-
   missingTransition,
 }
 
@@ -26,16 +20,6 @@ class TransitionFunctionCompiler {
 
       errors[key] = [];
 
-      // If source state label is empty, add unnamed source state error
-      if (key.sourceStateLabel.isEmpty) {
-        errors[key]!.add(TransitionFunctionErrorType.unnamedSourceState);
-      }
-
-      // If symbol is not registered in the alphabet, add unregistered alphabet error
-      if (!DiagramList().alphabet.contains(key.symbol)) {
-        errors[key]!.add(TransitionFunctionErrorType.unregisteredAlphabet);
-      }
-
       // dfa specific checks
       // If there are multiple destination states, add multiple destination states error
       if (FileProvider().faType == FAType.dfa) {
@@ -44,38 +28,29 @@ class TransitionFunctionCompiler {
               .add(TransitionFunctionErrorType.multipleDestinationStates);
         }
       }
-
-      // If any destination state label is empty, add unnamed destination state error
-      if (value.destinationStateLabels.any((e) => e.isEmpty)) {
-        errors[key]!.add(TransitionFunctionErrorType.unnamedDestinationState);
+      if (errors[key]!.isEmpty) {
+        errors.remove(key);
       }
     }
 
     // dfa specific checks
     // If there are missing transitions, add missing transition error
     if (FileProvider().faType == FAType.dfa) {
-      errors.addAll(_checkMissingTransitions(transitionFunction));
-    }
+      final Set<String> alphabet = DiagramList().alphabet;
 
-    return errors;
-  }
+      for (final state in DiagramList().states) {
+        for (final symbol in alphabet) {
+          final key = TransitionFunctionKey(
+            sourceStateId: state.id,
+            symbol: symbol,
+          );
 
-  static Map<TransitionFunctionKey, List<TransitionFunctionErrorType>>
-      _checkMissingTransitions(TransitionFunctionType transitionFunction) {
-    final Map<TransitionFunctionKey, List<TransitionFunctionErrorType>> errors =
-        {};
-
-    final Set<String> alphabet = DiagramList().alphabet;
-
-    for (final state in DiagramList().states) {
-      for (final symbol in alphabet) {
-        final key = TransitionFunctionKey(
-          sourceStateId: state.id,
-          symbol: symbol,
-        );
-
-        if (!transitionFunction.containsKey(key)) {
-          errors[key] = [TransitionFunctionErrorType.missingTransition];
+          if (!transitionFunction.containsKey(key)) {
+            if (errors[key] == null) {
+              errors[key] = [];
+            }
+            errors[key]!.add(TransitionFunctionErrorType.missingTransition);
+          }
         }
       }
     }
