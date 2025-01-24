@@ -1,26 +1,19 @@
-import 'package:fa_simulator/compiler/alphabet_compiler.dart';
-import 'package:fa_simulator/compiler/state_compiler.dart';
-import 'package:fa_simulator/compiler/transition_function_compiler.dart';
+import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/expand_button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
-import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function.dart';
 import 'package:flutter/material.dart';
 
 class TransitionFunctionRow extends StatefulWidget {
   final TransitionFunctionType transitionFunction;
 
-  final Map<String, List<StateErrorType>> stateErrors;
-  final Map<String, List<AlphabetErrorType>> alphabetErrors;
-  final Map<TransitionFunctionKey, List<TransitionFunctionErrorType>>
-      transitionErrors;
+  final DiagramErrorList errors;
 
   const TransitionFunctionRow({
     super.key,
     required this.transitionFunction,
-    required this.stateErrors,
-    required this.alphabetErrors,
-    required this.transitionErrors,
+    required this.errors,
   });
 
   @override
@@ -32,10 +25,7 @@ class _TransitionFunctionRowState extends State<TransitionFunctionRow> {
 
   @override
   Widget build(BuildContext context) {
-    bool isError = false;
-    if (widget.transitionErrors.isNotEmpty) {
-      isError = true;
-    }
+    bool isError = widget.errors.hasErrors;
 
     return Column(
       children: [
@@ -75,9 +65,7 @@ class _TransitionFunctionRowState extends State<TransitionFunctionRow> {
         if (isExpanded)
           TransitionFunction(
             transitionFunction: widget.transitionFunction,
-            stateErrors: widget.stateErrors,
-            alphabetErrors: widget.alphabetErrors,
-            transitionErrors: widget.transitionErrors,
+            errors: widget.errors,
           ),
       ],
     );

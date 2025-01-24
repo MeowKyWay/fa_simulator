@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
@@ -24,45 +23,6 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   List<DiagramType> get items => _items;
   List<DiagramType> get itemsCopy {
     return List<DiagramType>.from(_items.map((e) => e.copyWith()));
-  }
-
-  // Add and remove alphabet
-  void addSymbol(String symbol) {
-    _alphabet.add(symbol);
-    notifyListeners();
-  }
-
-  void addAllAlphabet(Iterable<String> alphabet) {
-    _alphabet.addAll(alphabet);
-    notifyListeners();
-  }
-
-  void removeAlphabet(String alphabet) {
-    _alphabet.remove(alphabet);
-    notifyListeners();
-  }
-
-  void removeUnregisteredAlphabet() {
-    for (TransitionType transition in transitions) {
-      for (String symbol in unregisteredAlphabet) {
-        transition.removeSymbol(symbol);
-      }
-    }
-    notifyListeners();
-  }
-
-  void clearAlphabet() {
-    _alphabet.clear();
-    notifyListeners();
-  }
-
-  SplayTreeSet<String> get unregisteredAlphabet {
-    SplayTreeSet<String> alphabet = SplayTreeSet<String>();
-    for (TransitionType transition in transitions) {
-      alphabet.addAll(transition.symbols);
-    }
-    alphabet.removeAll(_alphabet);
-    return alphabet;
   }
 
   DiagramType addItem(DiagramType item) {
@@ -223,33 +183,6 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     item.label = name;
     notifyListeners();
     return oldName;
-  }
-
-  TransitionFunctionType get transitionFunction {
-    TransitionFunctionType transitionFunction =
-        SplayTreeMap(transitionFunctionComparator);
-    for (TransitionType transition in transitions) {
-      if (!transition.isComplete()) {
-        continue;
-      }
-      for (String symbol in transition.symbols) {
-        TransitionFunctionKey key = TransitionFunctionKey(
-          sourceStateId: transition.sourceStateId!,
-          symbol: symbol,
-        );
-        TransitionFunctionValue value = TransitionFunctionValue();
-        value.destinationStateIds.add(transition.destinationStateId!);
-
-        if (transitionFunction.containsKey(key)) {
-          transitionFunction[key]!
-              .destinationStateIds
-              .addAll(value.destinationStateIds);
-        } else {
-          transitionFunction[key] = value;
-        }
-      }
-    }
-    return transitionFunction;
   }
 
   //return if state with the id already exist

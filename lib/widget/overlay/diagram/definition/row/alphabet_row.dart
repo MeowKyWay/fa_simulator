@@ -1,17 +1,22 @@
+import 'dart:collection';
+
+import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/compiler/error/symbol_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/button.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
 import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
 import 'package:flutter/material.dart';
 
 class AlphabetRow extends StatefulWidget {
   final List<String> alphabet;
-  final List<String> unregisteredAlphabet;
+  final DiagramErrorList errors;
 
   const AlphabetRow({
     super.key,
     required this.alphabet,
-    required this.unregisteredAlphabet,
+    required this.errors,
   });
 
   @override
@@ -22,6 +27,8 @@ class _AlphabetRowState extends State<AlphabetRow> {
   @override
   Widget build(BuildContext context) {
     TextStyle? style = Theme.of(context).textTheme.labelMedium;
+    SplayTreeSet<String> unregisteredAlphabet =
+        DiagramList().unregisteredAlphabet;
 
     return Column(
       children: [
@@ -46,35 +53,38 @@ class _AlphabetRowState extends State<AlphabetRow> {
                 text: TextSpan(
                   style: style,
                   children: [
-                    TextSpan(
-                      text: widget.alphabet.join(', '),
+                    ...List.generate(
+                      widget.alphabet.length,
+                      (index) {
+                        String symbol = widget.alphabet[index];
+                        SymbolErrors? error = widget.errors.symbolError(symbol);
+                        return TextSpan(
+                          children: [
+                            TextSpan(
+                              text: symbol,
+                              style: style?.red(
+                                context,
+                                error?.isUnRegistered != null,
+                              ),
+                            ),
+                            if (index != widget.alphabet.length - 1)
+                              TextSpan(text: ', '),
+                          ],
+                        );
+                      },
                     ),
-                    if (widget.alphabet.isNotEmpty &&
-                        widget.unregisteredAlphabet.isNotEmpty)
-                      TextSpan(
-                        text: ', ',
-                      ),
-                    TextSpan(
-                      text: widget.unregisteredAlphabet.join(', '),
-                      style: style?.red(context),
-                    ),
-                    TextSpan(
-                      text: widget.alphabet.isEmpty &&
-                              widget.unregisteredAlphabet.isEmpty
-                          ? "}"
-                          : " }",
-                    ),
+                    TextSpan(text: ' }'),
                   ],
                 ),
               ),
             ),
           ],
         ),
-        if (widget.unregisteredAlphabet.isNotEmpty)
+        if (unregisteredAlphabet.isNotEmpty)
           Row(
             children: [
               Text(
-                "{ ${widget.unregisteredAlphabet.join(', ')} }",
+                "{ ${unregisteredAlphabet.join(', ')} }",
                 style: style?.red(context),
                 softWrap: true,
               ),

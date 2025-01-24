@@ -1,4 +1,5 @@
-import 'package:fa_simulator/compiler/state_compiler.dart';
+import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/expand_button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class StatesRow extends StatefulWidget {
   final List<StateType> states;
-  final Map<String, List<StateErrorType>> errors;
+  final DiagramErrorList errors;
 
   const StatesRow({
     super.key,
@@ -55,50 +56,7 @@ class _StatesRowState extends State<StatesRow> {
                     style: style,
                   ),
                   Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        style: style,
-                        children: [
-                          ...List.generate(
-                            widget.states.length,
-                            (index) {
-                              StateType state = widget.states[index];
-                              bool shouldAddComma =
-                                  index + 1 != widget.states.length;
-                              List<StateErrorType>? error =
-                                  widget.errors[state.id];
-                              String label = error?.contains(
-                                          StateErrorType.unnamedState) ??
-                                      false
-                                  ? 'unnamed state'
-                                  : state.label;
-                              return TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: label,
-                                    style: style?.red(
-                                      context,
-                                      error?.isNotEmpty ?? false,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: shouldAddComma ? ', ' : '',
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          TextSpan(
-                            text: ' }',
-                          )
-                        ],
-                      ),
-                    ),
-                    // child: Text(
-                    //   '${states.map((s) => s.label == "" ? "unnamed state" : s.label).join(', ')} }',
-                    //   style: Theme.of(context).textTheme.labelMedium,
-                    //   softWrap: true,
-                    // ),
+                    child: _buildStatesLabel(widget.states, style),
                   ),
                   Spacer(),
                   ExpandButton(
@@ -115,6 +73,46 @@ class _StatesRowState extends State<StatesRow> {
             errors: widget.errors,
           ),
       ],
+    );
+  }
+
+  Widget _buildStatesLabel(List<StateType> states, TextStyle? style) {
+    return RichText(
+      text: TextSpan(
+        style: style,
+        children: [
+          ...List.generate(
+            widget.states.length,
+            (index) {
+              StateType state = widget.states[index];
+              bool shouldAddComma = index + 1 != widget.states.length;
+              StateErrors? error = widget.errors.stateError(state.id);
+
+              // Error
+              bool isUnnamed = error?.isUnnamed != null;
+
+              String label = isUnnamed ? 'unnamed state' : state.label;
+              return TextSpan(
+                children: [
+                  TextSpan(
+                    text: label,
+                    style: style?.red(
+                      context,
+                      error != null,
+                    ),
+                  ),
+                  TextSpan(
+                    text: shouldAddComma ? ', ' : '',
+                  ),
+                ],
+              );
+            },
+          ),
+          TextSpan(
+            text: ' }',
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
@@ -23,7 +23,7 @@ class TransitionType extends DiagramType<TransitionType> {
 
   TransitionType({
     required super.id,
-    required String label,
+    required super.label,
     super.hasFocus,
     this.sourceStateId,
     this.destinationStateId,
@@ -31,7 +31,7 @@ class TransitionType extends DiagramType<TransitionType> {
     this.destinationPosition,
     this.loopAngle = -pi / 2,
     this.isCurved = false,
-  }) : super(label: label) {
+  }) {
     // Validation logic moved to constructor body
     if ((sourcePosition ?? sourceStateId) == null) {
       throw ArgumentError(

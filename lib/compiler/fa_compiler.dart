@@ -1,4 +1,0 @@
-enum FaError {
-  noInitialState,
-  noFinalState,
-}

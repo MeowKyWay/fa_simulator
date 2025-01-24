@@ -1,13 +1,15 @@
-import 'package:fa_simulator/compiler/alphabet_compiler.dart';
-import 'package:fa_simulator/compiler/state_compiler.dart';
-import 'package:fa_simulator/compiler/transition_function_compiler.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
-import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
-import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function_row.dart';
-import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
+import 'package:fa_simulator/widget/provider/error_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,21 +23,13 @@ OverlayEntry definitionOverlay() {
       child: Consumer<DiagramList>(
         builder: (context, provider, child) {
           List<StateType> states = DiagramList().states;
+          List<TransitionType> transitions = DiagramList().transitions;
           TransitionFunctionType transitionFunction =
               DiagramList().transitionFunction;
-          List<String> alphabet = DiagramList().alphabet.toList();
-          List<String> unregisteredAlphabet =
-              DiagramList().unregisteredAlphabet.toList();
-
+          List<String> alphabet = DiagramList().symbols.toList();
           states.sort((a, b) => a.label.compareTo(b.label));
 
-          Map<String, List<StateErrorType>> stateErrors =
-              StateCompiler.compile(states);
-          Map<String, List<AlphabetErrorType>> alphabetErrors =
-              AlphabetCompiler.compile(alphabet, unregisteredAlphabet);
-          Map<TransitionFunctionKey, List<TransitionFunctionErrorType>>
-              transitionErrors =
-              TransitionFunctionCompiler.compile(transitionFunction);
+          DiagramErrorList errors = ErrorProvider().errorList;
 
           return SizedBox(
             height: 700,
@@ -50,19 +44,17 @@ OverlayEntry definitionOverlay() {
                 _buildDivider(context),
                 StatesRow(
                   states: states,
-                  errors: stateErrors,
+                  errors: errors,
                 ),
                 _buildDivider(context),
                 AlphabetRow(
                   alphabet: alphabet,
-                  unregisteredAlphabet: unregisteredAlphabet,
+                  errors: errors,
                 ),
                 _buildDivider(context),
                 TransitionFunctionRow(
                   transitionFunction: transitionFunction,
-                  stateErrors: stateErrors,
-                  alphabetErrors: alphabetErrors,
-                  transitionErrors: transitionErrors,
+                  errors: errors,
                 ),
                 _buildDivider(context),
               ],

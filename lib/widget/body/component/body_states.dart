@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/diagram_state.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';

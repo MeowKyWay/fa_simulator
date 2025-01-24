@@ -1,11 +1,12 @@
-import 'package:fa_simulator/compiler/state_compiler.dart';
+import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
 class StateTable extends StatelessWidget {
   final List<StateType> states;
-  final Map<String, List<StateErrorType>> errors;
+  final DiagramErrorList errors;
 
   const StateTable({
     super.key,
@@ -27,14 +28,13 @@ class StateTable extends StatelessWidget {
 
     for (int i = 0; i < states.length; i++) {
       StateType state = states[i];
-      List<StateErrorType>? error = errors[state.id];
+      StateErrors? error = errors.stateError(state.id);
 
-      bool isUnnamed = error?.contains(StateErrorType.unnamedState) ?? false;
-      bool isDuplicateName =
-          error?.contains(StateErrorType.duplicateStateName) ?? false;
-      bool isDuplicateInitial =
-          error?.contains(StateErrorType.duplicateInitialState) ?? false;
-      bool isNoFinal = error?.contains(StateErrorType.noFinalState) ?? false;
+      StateErrorType? isUnnamed = error?.isUnnamed;
+      StateErrorType? isDuplicateName = error?.isDuplicateName;
+      StateErrorType? isDuplicateInitial = error?.isDuplicateInitial;
+      StateErrorType? isNoFinal = error?.isNoFinal;
+      StateErrorType? isNoInitial = error?.isNoInitial;
 
       TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
@@ -43,14 +43,13 @@ class StateTable extends StatelessWidget {
           DataCell(Text(state.id)),
           DataCell(
             Tooltip(
-              message: isUnnamed
-                  ? 'Unnamed state: The state with ID “${state.id}” does not have a name.'
-                  : isDuplicateName
-                      ? 'A state with the name “${state.label}” already exists. Please use a unique name.'
-                      : '',
+              message: isUnnamed?.message ?? '',
               child: Text(
                 state.label.isEmpty ? 'unnamed state' : state.label,
-                style: textStyle?.red(context, isDuplicateName || isUnnamed),
+                style: textStyle?.red(
+                  context,
+                  (isDuplicateName ?? isUnnamed) != null,
+                ),
               ),
             ),
           ),
@@ -59,23 +58,23 @@ class StateTable extends StatelessWidget {
           ),
           DataCell(
             Tooltip(
-              message: isDuplicateInitial
-                  ? 'Duplicate initial state: An initial state already exists.'
-                  : '',
+              message:
+                  isDuplicateInitial?.message ?? isNoInitial?.message ?? '',
               child: Text(
                 state.isInitial ? 'yes' : 'no',
-                style: isDuplicateInitial ? textStyle?.red(context) : null,
+                style: textStyle?.red(
+                  context,
+                  isDuplicateInitial != null || isNoInitial != null,
+                ),
               ),
             ),
           ),
           DataCell(
             Tooltip(
-              message: isNoFinal
-                  ? 'No final state: A DFA must have at least one final state.'
-                  : '',
+              message: isNoFinal?.message ?? '',
               child: Text(
                 state.isFinal ? 'yes' : 'no',
-                style: textStyle?.red(context, isNoFinal),
+                style: textStyle?.red(context, isNoFinal != null),
               ),
             ),
           ),

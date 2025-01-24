@@ -1,5 +1,5 @@
 
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/draggable_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
