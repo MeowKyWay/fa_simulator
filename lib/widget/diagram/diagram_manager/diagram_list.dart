@@ -229,7 +229,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     TransitionFunctionType transitionFunction =
         SplayTreeMap(transitionFunctionComparator);
     for (TransitionType transition in transitions) {
-      if ((transition.sourceStateId ?? transition.destinationStateId) == null) {
+      if (!transition.isComplete()) {
         continue;
       }
       for (String symbol in transition.symbols) {
