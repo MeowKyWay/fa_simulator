@@ -3,10 +3,14 @@ import 'package:fa_simulator/compiler/error/diagram_error.dart';
 import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/compiler/error/symbol_error.dart';
 import 'package:fa_simulator/compiler/error/transition_error.dart';
+import 'package:fa_simulator/compiler/error/transition_function_entry_error.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/provider/file_provider.dart';
 
 extension DiagramErrorChecker on DiagramErrorList {
   void addError(DiagramErrors error) {
@@ -14,13 +18,17 @@ extension DiagramErrorChecker on DiagramErrorList {
   }
 
   void checkError() {
+    errors.clear();
     List<StateType> states = DiagramList().states;
     List<TransitionType> transitions = DiagramList().transitions;
     List<String> alphabet = DiagramList().symbols.toList();
+    List<TransitionFunctionEntry> transitionFunctionEntries =
+        DiagramList().transitionFunction.entries.toList();
 
     _checkStatesError(states);
     _checkTransitionsError(transitions);
     _checkAlphabetError(alphabet);
+    _checkTransitionFunctionError(transitionFunctionEntries);
   }
 
   void _checkStatesError(List<StateType> states) {
@@ -101,6 +109,33 @@ extension DiagramErrorChecker on DiagramErrorList {
       }
       if (alphabetErrors.hasError) {
         addError(alphabetErrors);
+      }
+    }
+  }
+
+  void _checkTransitionFunctionError(List<TransitionFunctionEntry> entries) {
+    for (int i = 0; i < entries.length; i++) {
+      TransitionFunctionEntry entry = entries[i];
+      TransitionFunctionEntryErrors errors = TransitionFunctionEntryErrors(
+        errors: [],
+        stateId: entry.sourceStateId,
+        symbol: entry.symbol,
+      );
+
+      if (entry.destinationStateIds.length > 1) {
+        if (FileProvider().faType == FAType.dfa) {
+          errors.addError(
+            TransitionFunctionEntryErrorType.multipleDestinationStates,
+          );
+        }
+      }
+      if (entry.destinationStateIds.isEmpty) {
+        errors.addError(
+          TransitionFunctionEntryErrorType.missingTransition,
+        );
+      }
+      if (errors.hasError) {
+        addError(errors);
       }
     }
   }

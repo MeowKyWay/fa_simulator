@@ -25,7 +25,7 @@ class _TransitionFunctionRowState extends State<TransitionFunctionRow> {
 
   @override
   Widget build(BuildContext context) {
-    bool isError = widget.errors.hasErrors;
+    bool isError = widget.errors.transitionFunctionEntryErrors.isNotEmpty;
 
     return Column(
       children: [

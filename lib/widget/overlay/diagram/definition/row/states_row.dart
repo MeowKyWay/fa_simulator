@@ -48,7 +48,10 @@ class _StatesRowState extends State<StatesRow> {
                     width: 75,
                     child: Text(
                       'States',
-                      style: style,
+                      style: style?.red(
+                        context,
+                        widget.errors.stateErrors.isNotEmpty,
+                      ),
                     ),
                   ),
                   Text(

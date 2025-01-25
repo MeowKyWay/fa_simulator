@@ -81,8 +81,9 @@ class TransitionFunctionEntry {
 
 int compareTransitionFunctionEntry(
     TransitionFunctionEntry a, TransitionFunctionEntry b) {
-  if (a.sourceStateId.compareTo(b.sourceStateId) != 0) {
-    return a.sourceStateId.compareTo(b.sourceStateId);
+  int result = a.sourceState.label.compareTo(b.sourceState.label);
+  if (result != 0) {
+    return result;
   }
   return a.symbol.compareTo(b.symbol);
 }

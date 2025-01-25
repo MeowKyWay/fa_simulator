@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/compiler/error/transition_function_entry_error.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';

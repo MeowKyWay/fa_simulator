@@ -40,7 +40,10 @@ class _AlphabetRowState extends State<AlphabetRow> {
               width: 75,
               child: Text(
                 'Alphabet',
-                style: style,
+                style: style?.red(
+                  context,
+                  widget.errors.symbolErrors.isNotEmpty,
+                ),
               ),
             ),
             Text(

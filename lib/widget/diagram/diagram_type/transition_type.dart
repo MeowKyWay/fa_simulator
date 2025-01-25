@@ -359,7 +359,9 @@ class TransitionType extends DiagramType<TransitionType> {
   }
 
   bool isComplete() {
-    return sourceStateId != null && destinationStateId != null;
+    return sourceStateId != null &&
+        destinationStateId != null &&
+        symbols.isNotEmpty;
   }
 
   @override
