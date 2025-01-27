@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class KeyboardData extends InheritedWidget {
-  final Set<LogicalKeyboardKey> pressedModifierKey = {};
+  final Set<LogicalKeyboardKey> pressedModifierKey;
 
   bool get isCtrlPressed =>
       pressedModifierKey.contains(LogicalKeyboardKey.controlLeft) ||
@@ -17,8 +17,9 @@ class KeyboardData extends InheritedWidget {
       pressedModifierKey.contains(LogicalKeyboardKey.metaLeft) ||
       pressedModifierKey.contains(LogicalKeyboardKey.metaRight);
 
-  KeyboardData({
+  const KeyboardData({
     super.key,
+    required this.pressedModifierKey,
     required super.child,
   });
 

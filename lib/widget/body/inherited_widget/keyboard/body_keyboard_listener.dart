@@ -17,6 +17,8 @@ class BodyKeyboardListener extends StatefulWidget {
 }
 
 class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
+  Set<LogicalKeyboardKey> pressedModifierKey = {};
+
   final Set<LogicalKeyboardKey> modifierKeys = {
     LogicalKeyboardKey.controlLeft,
     LogicalKeyboardKey.controlRight,
@@ -31,27 +33,26 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
   @override
   Widget build(BuildContext context) {
     return KeyboardData(
-      child: Builder(
-        builder: (context) {
-          return KeyboardListener(
-            focusNode: widget.focusNode,
-            onKeyEvent: (value) {
-              if (value is KeyDownEvent) {
-                if (modifierKeys.contains(value.logicalKey)) {
-                  KeyboardData.of(context)!
-                      .pressedModifierKey
-                      .add(value.logicalKey);
-                }
-              } else if (value is KeyUpEvent) {
-                KeyboardData.of(context)!
-                    .pressedModifierKey
-                    .remove(value.logicalKey);
+      pressedModifierKey: pressedModifierKey,
+      child: Builder(builder: (context) {
+        return KeyboardListener(
+          focusNode: widget.focusNode,
+          onKeyEvent: (value) {
+            if (value is KeyDownEvent) {
+              if (modifierKeys.contains(value.logicalKey)) {
+                setState(() {
+                  pressedModifierKey.add(value.logicalKey);
+                });
               }
-            },
-            child: widget.child,
-          );
-        }
-      ),
+            } else if (value is KeyUpEvent) {
+              setState(() {
+                pressedModifierKey.remove(value.logicalKey);
+              });
+            }
+          },
+          child: widget.child,
+        );
+      }),
     );
   }
 }

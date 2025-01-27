@@ -18,11 +18,10 @@ class InteractiveContainer extends StatefulWidget {
 
 class _InteractiveContainerState extends State<InteractiveContainer> {
   final _padding = 5;
+  Matrix4 matrix = Matrix4.identity();
+  ValueNotifier<int> notifier = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
-    Matrix4 matrix = Matrix4.identity();
-    ValueNotifier<int> notifier = ValueNotifier(0);
-
     return OverflowBox(
       maxWidth: bodySize.width * _padding,
       maxHeight: bodySize.height * _padding,

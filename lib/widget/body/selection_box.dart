@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
+import 'package:fa_simulator/widget/body/inherited_widget/selection_data.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SelectionBox extends StatelessWidget {
   const SelectionBox({
@@ -10,26 +9,25 @@ class SelectionBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SelectionAreaProvider>(
-        builder: (context, selectionArea, child) {
-      return selectionArea.rect == null
-          ? const SizedBox()
-          : Positioned(
-              left: selectionArea.rect!.left,
-              top: selectionArea.rect!.top,
-              width: selectionArea.rect!.width,
-              height: selectionArea.rect!.height,
-              child: DottedBorder(
-                padding: EdgeInsets.zero,
-                dashPattern: const [5, 2.5],
-                color: Colors.grey,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withAlpha(255*0.3.toInt()),
-                  ),
+    final Rect? selectionArea = SelectionData.of(context)!.rect;
+
+    return selectionArea == null
+        ? const SizedBox()
+        : Positioned(
+            left: selectionArea.left,
+            top: selectionArea.top,
+            width: selectionArea.width,
+            height: selectionArea.height,
+            child: DottedBorder(
+              padding: EdgeInsets.zero,
+              dashPattern: const [5, 2.5],
+              color: Colors.grey,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.withAlpha((255 * 0.3).toInt()),
                 ),
               ),
-            );
-    });
+            ),
+          );
   }
 }

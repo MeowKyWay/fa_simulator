@@ -1,11 +1,12 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/body_inherited.dart';
 import 'package:fa_simulator/widget/body/body_shortcuts.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrow_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrows.dart';
 import 'package:fa_simulator/widget/body/component/body_transition_dragging_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_transitions.dart';
-import 'package:fa_simulator/widget/body/inherited_widget/keyboard/body_keyboard_listener.dart';
+import 'package:fa_simulator/widget/body/inherited_widget/selection_data.dart';
 import 'package:fa_simulator/widget/overlay/select_diagram_overlay.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_new_transition_feedback.dart';
@@ -30,6 +31,17 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final FocusNode _focusNode = FocusNode();
+  SelectionDetails _selectionDetails = SelectionDetails(
+    start: Offset.zero,
+    current: Offset.zero,
+    isSelecting: false,
+  );
+
+  void _onSelectionUpdate(SelectionDetails details) {
+    setState(() {
+      _selectionDetails = details;
+    });
+  }
 
   @override
   void initState() {
@@ -49,8 +61,9 @@ class _BodyState extends State<Body> {
       key: BodyProvider().bodyKey,
       // Listen to keyboard input for the entire body
       child: BodyShortcuts(
-        child: BodyKeyboardListener(
-          focusNode: _focusNode,
+        child: BodyInherited(
+          keyboardFocusNode: _focusNode,
+          selectionDetails: _selectionDetails,
           child: InteractiveContainer(
             child: Container(
               width: bodySize.width,
@@ -69,8 +82,7 @@ class _BodyState extends State<Body> {
                     size: bodySize,
                     painter: GridPainter(
                       primary: Theme.of(context).colorScheme.onSurface,
-                      secondary:
-                          Theme.of(context).colorScheme.onSurfaceVariant,
+                      secondary: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
                   // To get the overlay that covers the states when dragging
@@ -78,6 +90,7 @@ class _BodyState extends State<Body> {
                   // Detect click and handle
                   BodyGestureDetector(
                     focusNode: _focusNode,
+                    onSelectionUpdate: _onSelectionUpdate,
                   ),
                   // Drag Target
                   const BodyDragTarget(),
