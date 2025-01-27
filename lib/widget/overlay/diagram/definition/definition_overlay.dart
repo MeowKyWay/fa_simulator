@@ -6,6 +6,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/diagram_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/final_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/initial_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
@@ -32,6 +33,7 @@ class _DefinitionOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      textStyle: Theme.of(context).textTheme.labelMedium,
       type: MaterialType.transparency,
       child: Consumer<DiagramList>(
         builder: (context, provider, child) {
@@ -54,6 +56,8 @@ class _DefinitionOverlay extends StatelessWidget {
                   'Definition',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
+                _buildDivider(context),
+                DiagramRow(),
                 _buildDivider(context),
                 AlphabetRow(
                   alphabet: alphabet,
