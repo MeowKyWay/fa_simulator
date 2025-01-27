@@ -18,8 +18,8 @@ class TransitionType extends DiagramType<TransitionType> {
 
   bool isCurved;
 
-  final double _offset = 10;
-  final double _loopRadius = stateSize / 3;
+  final double offset = 10;
+  final double loopRadius = stateSize / 3;
 
   TransitionType({
     required super.id,
@@ -46,11 +46,15 @@ class TransitionType extends DiagramType<TransitionType> {
 
   @override
   set label(String value) {
-    String t = value.replaceAll(RegExp(r"^,+|,+$"), "");
+    String t = value.replaceAll(RegExp(r"^[, ]+|[, ]+$"), "");
+    t = value.replaceAll(RegExp(r"\e"), "ε");
     SplayTreeSet<String> symbols = SplayTreeSet<String>();
     for (String symbol in t.split(',')) {
       if (symbol.isEmpty) {
         continue;
+      }
+      if (symbol.contains('ε')) {
+        symbol = 'ε';
       }
       symbols.add(symbol.trim());
     }
@@ -71,97 +75,11 @@ class TransitionType extends DiagramType<TransitionType> {
     label = label.trim();
   }
 
-  Path getHitBox(double offset) {
-    Offset start = startButtonPosition - Offset(left - 5, top - 5);
-    Offset end = endButtonPosition - Offset(left - 5, top - 5);
-
-    Offset point1 = calculateNewPoint(start, offset, startAngle + pi / 2);
-    Offset point2 = calculateNewPoint(end, offset, startAngle + pi / 2);
-
-    Offset point3 = calculateNewPoint(start, offset, startAngle - pi / 2);
-    Offset point4 = calculateNewPoint(end, offset, startAngle - pi / 2);
-
-    if (loopCenter != null) {
-      double radius1 = _loopRadius + offset;
-      double radius2 = _loopRadius - offset;
-      Offset center = loopCenter! - Offset(left - 5, top - 5);
-      Rect rect1 = Rect.fromCircle(center: center, radius: radius1);
-      Rect rect2 = Rect.fromCircle(center: center, radius: radius2);
-      Offset p1 = calculateNewPoint(center, radius1, endLineAngle + pi);
-      Offset p2 = calculateNewPoint(
-          center, radius2, -endLineAngle + pi + 2 * loopAngle);
-      Path path = Path();
-      path.addArc(
-          rect1, endLineAngle + pi, 2 * pi - (endLineAngle - loopAngle) * 2);
-      path.lineTo(p2.dx, p2.dy);
-      path.arcTo(rect2, -endLineAngle + pi - 2 * loopAngle,
-          -(2 * pi - (endLineAngle - loopAngle) * 2), false);
-      path.lineTo(p1.dx, p1.dy);
-      path.close();
-      return path;
-    }
-
-    if (isCurved && sourceState != null && destinationState != null) {
-      // Calculate the center of the control points
-      Offset controlPoint = this.controlPoint - Offset(left - 5, top - 5);
-      Offset controlPoint1 =
-          calculateNewPoint(controlPoint, offset, startAngle + pi / 2);
-      Offset controlPoint2 =
-          calculateNewPoint(controlPoint, offset, startAngle - pi / 2);
-
-      Path path = Path();
-      path.moveTo(point1.dx, point1.dy);
-      path.quadraticBezierTo(
-          controlPoint1.dx, controlPoint1.dy, point2.dx, point2.dy);
-      path.lineTo(point4.dx, point4.dy);
-      path.quadraticBezierTo(
-          controlPoint2.dx, controlPoint2.dy, point3.dx, point3.dy);
-      path.lineTo(point1.dx, point1.dy);
-      path.close();
-      return path;
-    }
-
-    Path path = Path();
-    path.moveTo(point1.dx, point1.dy);
-    path.lineTo(point2.dx, point2.dy);
-    path.lineTo(point4.dx, point4.dy);
-    path.lineTo(point3.dx, point3.dy);
-    path.lineTo(point1.dx, point1.dy);
-    path.close();
-    return path;
-  }
-
-  Path get path {
-    Offset start = startButtonPosition;
-    Offset end = endButtonPosition;
-    if (loopCenter != null) {
-      double radius = _loopRadius;
-      Offset center = loopCenter!;
-      Path path = Path();
-      Rect rect = Rect.fromCircle(center: center, radius: radius);
-      path.addArc(
-          rect, endLineAngle + pi, 2 * pi - (endLineAngle - loopAngle) * 2);
-      return path;
-    }
-    if (isCurved && sourceState != null && destinationState != null) {
-      // Calculate the center of the control points
-      Offset controlPoint = this.controlPoint;
-
-      return Path()
-        ..moveTo(start.dx, start.dy)
-        ..quadraticBezierTo(controlPoint.dx, controlPoint.dy, end.dx, end.dy);
-    }
-
-    return Path()
-      ..moveTo(start.dx, start.dy)
-      ..lineTo(end.dx, end.dy);
-  }
-
   Offset? get loopCenter {
     if (sourceStateId == destinationStateId && sourceState != null) {
-      double radius = _loopRadius;
+      double radius = loopRadius;
       return calculateNewPoint(
-          sourceState!.position, stateSize / 2 + radius - _offset, loopAngle);
+          sourceState!.position, stateSize / 2 + radius - offset, loopAngle);
     }
     return null;
   }
@@ -198,7 +116,7 @@ class TransitionType extends DiagramType<TransitionType> {
 
   Offset get centerPosition {
     if (loopCenter != null) {
-      return calculateNewPoint(loopCenter!, _loopRadius, loopAngle);
+      return calculateNewPoint(loopCenter!, loopRadius, loopAngle);
     }
     if (isCurved && sourceState != null && destinationState != null) {
       return controlPoint;
@@ -272,8 +190,8 @@ class TransitionType extends DiagramType<TransitionType> {
   double get startLineAngle {
     if (loopCenter != null) {
       double ra = stateSize / 2;
-      double rb = _loopRadius;
-      double d = ra + rb - _offset;
+      double rb = loopRadius;
+      double d = ra + rb - offset;
       return acos((pow(ra, 2) - pow(rb, 2) + pow(d, 2)) / (2 * ra * d)) +
           loopAngle;
     }
@@ -291,9 +209,9 @@ class TransitionType extends DiagramType<TransitionType> {
 
   double get endLineAngle {
     if (loopCenter != null) {
-      double ra = _loopRadius;
+      double ra = loopRadius;
       double rb = stateSize / 2;
-      double d = ra + rb - _offset;
+      double d = ra + rb - offset;
       return acos((pow(ra, 2) - pow(rb, 2) + pow(d, 2)) / (2 * ra * d)) +
           loopAngle;
     }
@@ -367,7 +285,7 @@ class TransitionType extends DiagramType<TransitionType> {
   @override
   double get top {
     if (loopCenter != null) {
-      return loopCenter!.dy - _loopRadius;
+      return loopCenter!.dy - loopRadius;
     }
     double min1 = min(startButtonPosition.dy, endButtonPosition.dy);
     double min2 = min(min1, controlPoint.dy);
@@ -377,7 +295,7 @@ class TransitionType extends DiagramType<TransitionType> {
   @override
   double get left {
     if (loopCenter != null) {
-      return loopCenter!.dx - _loopRadius;
+      return loopCenter!.dx - loopRadius;
     }
     double min1 = min(startButtonPosition.dx, endButtonPosition.dx);
     double min2 = min(min1, controlPoint.dx);
@@ -387,7 +305,7 @@ class TransitionType extends DiagramType<TransitionType> {
   @override
   double get bottom {
     if (loopCenter != null) {
-      return loopCenter!.dy + _loopRadius;
+      return loopCenter!.dy + loopRadius;
     }
     double max1 = max(startButtonPosition.dy, endButtonPosition.dy);
     double max2 = max(max1, controlPoint.dy);
@@ -397,7 +315,7 @@ class TransitionType extends DiagramType<TransitionType> {
   @override
   double get right {
     if (loopCenter != null) {
-      return loopCenter!.dx + _loopRadius;
+      return loopCenter!.dx + loopRadius;
     }
     double max1 = max(startButtonPosition.dx, endButtonPosition.dx);
     double max2 = max(max1, controlPoint.dx);

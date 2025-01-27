@@ -7,7 +7,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';

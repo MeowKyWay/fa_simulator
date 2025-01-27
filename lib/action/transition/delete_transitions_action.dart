@@ -2,7 +2,7 @@ import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 
 class DeleteTransitionsAction extends AppAction {
   final List<String> ids;

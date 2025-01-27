@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 
 extension DiagramListAlphabet on DiagramList {
   void addSymbol(String symbol) {

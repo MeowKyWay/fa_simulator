@@ -1,6 +1,7 @@
 import 'dart:ui';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_path.dart';
 import 'package:flutter/material.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 
 class DashLinePainter extends CustomPainter {
   TransitionType? transition;

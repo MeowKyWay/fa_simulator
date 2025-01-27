@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_gesture_detector.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_label.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot.dart';
