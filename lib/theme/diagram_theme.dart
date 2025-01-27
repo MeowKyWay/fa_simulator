@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 ThemeData diagramTheme = ThemeData(
   primarySwatch: Colors.blue,
   textSelectionTheme: TextSelectionThemeData(
-    selectionColor:
-        Colors.blue.withAlpha((255 * 0.5).ceil()), // Custom selection color
+    selectionColor: Colors.blue.withAlpha((255 * 0.5).toInt()),
+    cursorColor: Colors.blue,
   ),
   dividerTheme: const DividerThemeData(
     color: Colors.black,

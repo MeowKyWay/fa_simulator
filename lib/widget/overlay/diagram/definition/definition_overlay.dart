@@ -1,4 +1,5 @@
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/theme/diagram_theme.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
@@ -32,10 +33,9 @@ OverlayEntry definitionOverlay() {
 class _DefinitionOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      textStyle: Theme.of(context).textTheme.labelMedium,
-      type: MaterialType.transparency,
-      child: Consumer<DiagramList>(
+    return MaterialApp(
+      theme: diagramTheme,
+      home: Consumer<DiagramList>(
         builder: (context, provider, child) {
           List<StateType> states = DiagramList().states;
           List<TransitionType> transitions = DiagramList().transitions;
