@@ -37,7 +37,6 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
       // Unfocus the states on tap
       onTap: () {
         widget.focusNode.requestFocus();
-        log(widget.focusNode.hasFocus.toString());
         AppActionDispatcher().execute(UnfocusAction());
       },
       // Add new state on double tap

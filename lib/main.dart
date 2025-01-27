@@ -4,6 +4,7 @@ import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
+import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
 import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
@@ -33,6 +34,7 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DiagramDraggingProvider()),
         ChangeNotifierProvider(create: (context) => FileProvider()),
         ChangeNotifierProvider(create: (context) => StartArrowFeedbackProvider()),
+        ChangeNotifierProvider(create: (context) => RenamingProvider()),
       ],
       child: MaterialApp(
         theme: diagramTheme,

@@ -9,11 +9,15 @@ void handleChar(String? char) {
   if (RenamingProvider().renamingItemId != null) {
     return;
   }
+  if (!(allChar.contains(char) || char.isEmpty)) return;
   List<DiagramType> focusedItems = DiagramList().focusedItems;
   if (focusedItems.length == 1) {
     RenamingProvider().startRename(
       id: focusedItems[0].id,
-      initialName: char,
+      initialName: char.isEmpty ? focusedItems[0].label : char,
     );
   }
 }
+
+String allChar =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\\";

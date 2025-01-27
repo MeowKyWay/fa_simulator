@@ -31,8 +31,6 @@ class DeleteDiagramsAction extends AppAction {
     for (TransitionType i in transitions) {
       deleteTransition(i.id);
     }
-    log("==========");
-    log(states.toString());
     for (StateType i in states) {
       log(i.id);
       if (i.transitionIds.isNotEmpty) {

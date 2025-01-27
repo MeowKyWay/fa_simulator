@@ -3,7 +3,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class RenamingProvider extends DiagramProvider {
+class RenamingProvider extends DiagramProvider with ChangeNotifier {
   //singleton
   static final RenamingProvider _singleton = RenamingProvider._internal();
   RenamingProvider._internal();
@@ -26,6 +26,7 @@ class RenamingProvider extends DiagramProvider {
     _renamingItemId = id;
     _controller.clear();
     _controller.text = initialName ?? item.label;
+    notifyListeners();
     DiagramList().notify();
   }
 
@@ -33,6 +34,7 @@ class RenamingProvider extends DiagramProvider {
   void reset() {
     _renamingItemId = null;
     _controller.clear();
+    notifyListeners();
     DiagramList().notify();
   }
 }

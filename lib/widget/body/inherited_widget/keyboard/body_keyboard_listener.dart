@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
+import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,6 +34,19 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
   };
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      FocusScope.of(context).addListener(() {
+        if (!widget.focusNode.hasFocus && FocusScope.of(context).hasFocus) {
+          widget.focusNode.requestFocus();
+          log("Focus requested");
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return KeyboardData(
       pressedModifierKey: pressedModifierKey,
@@ -44,6 +60,11 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
                   pressedModifierKey.add(value.logicalKey);
                 });
               }
+              // if (value.logicalKey == LogicalKeyboardKey.enter) {
+              //   handleChar("");
+              // } else if (value.character != null) {
+              //   handleChar(value.character);
+              // }
             } else if (value is KeyUpEvent) {
               setState(() {
                 pressedModifierKey.remove(value.logicalKey);
