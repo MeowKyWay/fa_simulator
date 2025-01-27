@@ -6,11 +6,9 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class StateHoverOverlay extends StatefulWidget {
   final StateType state;
@@ -29,14 +27,12 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
   late double _innerRadius;
   late double _outerRadius;
 
-  final GlobalKey _key = GlobalKey();
-
   bool _isHovered = false;
-  bool _shouldShowHoverRing = false;
+
+  final GlobalKey _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    NewTransitionProvider provider = NewTransitionProvider();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (DiagramList().hoveringStateFlag) {
@@ -48,41 +44,36 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
     _innerRadius = stateSize / 2 - _ringWidth;
     _outerRadius = stateSize / 2 + _ringWidth;
 
-    return Consumer<KeyboardProvider>(
-        builder: (context, keyboardProvider, child) {
-      _shouldShowHoverRing =
-          provider.destinationState == widget.state ? true : _isHovered;
-      return ClipPath(
-        key: _key,
-        clipper: RingClipper(
-          innerRadius: _innerRadius,
-          outerRadius: _outerRadius,
-        ),
-        child: IgnorePointer(
-          ignoring: NewTransitionProvider().isDraggingNewTransition ||
-              TransitionDraggingProvider().isDragging,
-          child: Stack(
-            children: [
-              NewTransitionDraggable(
-                state: widget.state,
-                child: MouseRegion(
-                  onHover: _onHover,
-                  onExit: _onExit,
-                  onEnter: _onEnter,
-                  child: Container(
-                    width: stateSize + (_ringWidth * 2),
-                    height: stateSize + (_ringWidth * 2),
-                    color: _shouldShowHoverRing
-                        ? Theme.of(context).hoverColor
-                        : Colors.transparent,
-                  ),
+    return ClipPath(
+      key: _key,
+      clipper: RingClipper(
+        innerRadius: _innerRadius,
+        outerRadius: _outerRadius,
+      ),
+      child: IgnorePointer(
+        ignoring: NewTransitionProvider().isDraggingNewTransition ||
+            TransitionDraggingProvider().isDragging,
+        child: Stack(
+          children: [
+            NewTransitionDraggable(
+              state: widget.state,
+              child: MouseRegion(
+                onHover: _onHover,
+                onExit: _onExit,
+                onEnter: _onEnter,
+                child: Container(
+                  width: stateSize + (_ringWidth * 2),
+                  height: stateSize + (_ringWidth * 2),
+                  color: _isHovered
+                      ? Theme.of(context).hoverColor
+                      : Colors.transparent,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   Offset calculateNewPoint(Offset startPoint, double distance, double angle) {

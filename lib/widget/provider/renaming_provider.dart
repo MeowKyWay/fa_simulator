@@ -1,7 +1,6 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class RenamingProvider extends DiagramProvider {
@@ -35,6 +34,5 @@ class RenamingProvider extends DiagramProvider {
     _renamingItemId = null;
     _controller.clear();
     DiagramList().notify();
-    KeyboardProvider().focusNode.requestFocus();
   }
 }

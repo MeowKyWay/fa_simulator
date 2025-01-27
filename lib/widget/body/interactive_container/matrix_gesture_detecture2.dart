@@ -2,8 +2,7 @@ library;
 
 import 'dart:math';
 
-import 'package:fa_simulator/config/control.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
+import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
@@ -133,13 +132,11 @@ class _MatrixGestureDetector2State extends State<MatrixGestureDetector2> {
       double scaleDelta = 1.0;
       Offset translationDelta = Offset.zero;
       // Scale
-      if (KeyboardProvider().modifierKeys.contains(scaleKey)) {
+      if (KeyboardData.of(context)!.isAltPressed) {
         scaleDelta = 1.0 - event.scrollDelta.dy / 1000;
       }
       // Translation
-      else if (KeyboardProvider()
-          .modifierKeys
-          .contains(alternateTranslateDirectionKey)) {
+      else if (KeyboardData.of(context)!.isShiftPressed) {
         translationDelta =
             Offset(event.scrollDelta.dy / 3, event.scrollDelta.dx / 3);
       } else {

@@ -1,9 +1,11 @@
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/body/body_shortcuts.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrow_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrows.dart';
 import 'package:fa_simulator/widget/body/component/body_transition_dragging_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_transitions.dart';
+import 'package:fa_simulator/widget/body/inherited_widget/keyboard/body_keyboard_listener.dart';
 import 'package:fa_simulator/widget/overlay/select_diagram_overlay.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_new_transition_feedback.dart';
@@ -27,6 +29,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -44,52 +48,60 @@ class _BodyState extends State<Body> {
     return Expanded(
       key: BodyProvider().bodyKey,
       // Listen to keyboard input for the entire body
-      child: InteractiveContainer(
-        child: Container(
-          width: bodySize.width,
-          height: bodySize.height,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            border: Border.all(
-              color: Colors.black,
-              width: 2,
-            ),
-          ),
-          child: Stack(
-            children: [
-              // Draw the grid
-              CustomPaint(
-                size: bodySize,
-                painter: GridPainter(
-                  primary: Theme.of(context).colorScheme.onSurface,
-                  secondary: Theme.of(context).colorScheme.onSurfaceVariant,
+      child: BodyShortcuts(
+        child: BodyKeyboardListener(
+          focusNode: _focusNode,
+          child: InteractiveContainer(
+            child: Container(
+              width: bodySize.width,
+              height: bodySize.height,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                border: Border.all(
+                  color: Colors.black,
+                  width: 2,
                 ),
               ),
-              // To get the overlay that covers the states when dragging
-              const BodyDraggingOverlay(),
-              // Detect click and handle
-              const BodyGestureDetector(),
-              // Drag Target
-              const BodyDragTarget(),
-              // Draw all the states
-              const BodyStates(),
-              // Draw all the transitions
-              const BodyTransitions(),
-              // Draw start arrows
-              const BodyInitialArrows(),
-              // Feedback when drag
-              const BodyFeedback(),
-              // Feedback when dragging from the pallete
-              const BodyPaletteFeedback(),
-              // Draw the transition feedback
-              const BodyTransitionDraggingFeedback(),
-              // Draw new transition feedback
-              const BodyNewTransitionFeedback(),
-              // Draw the start arrow feedback
-              const BodyInitialArrowFeedback(),
-              // Draw the selection box
-              const SelectionBox(),
-            ],
+              child: Stack(
+                children: [
+                  // Draw the grid
+                  CustomPaint(
+                    size: bodySize,
+                    painter: GridPainter(
+                      primary: Theme.of(context).colorScheme.onSurface,
+                      secondary:
+                          Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  // To get the overlay that covers the states when dragging
+                  const BodyDraggingOverlay(),
+                  // Detect click and handle
+                  BodyGestureDetector(
+                    focusNode: _focusNode,
+                  ),
+                  // Drag Target
+                  const BodyDragTarget(),
+                  // Draw all the states
+                  const BodyStates(),
+                  // Draw all the transitions
+                  const BodyTransitions(),
+                  // Draw start arrows
+                  const BodyInitialArrows(),
+                  // Feedback when drag
+                  const BodyFeedback(),
+                  // Feedback when dragging from the pallete
+                  const BodyPaletteFeedback(),
+                  // Draw the transition feedback
+                  const BodyTransitionDraggingFeedback(),
+                  // Draw new transition feedback
+                  const BodyNewTransitionFeedback(),
+                  // Draw the start arrow feedback
+                  const BodyInitialArrowFeedback(),
+                  // Draw the selection box
+                  const SelectionBox(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

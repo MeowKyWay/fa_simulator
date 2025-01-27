@@ -1,10 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
-import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
-import 'package:fa_simulator/config/control.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class SelectionAreaProvider extends DiagramProvider with ChangeNotifier {
@@ -62,11 +59,12 @@ class SelectionAreaProvider extends DiagramProvider with ChangeNotifier {
         .map((item) => item.id)
         .toList();
 
-    // Request focus for the selected states
-    if (KeyboardProvider().modifierKeys.contains(multipleSelectKey)) {
-      AppActionDispatcher().execute(AddFocusAction(selectedItems));
-      return;
-    }
+    // TODO implement this
+    // // Request focus for the selected states
+    // if (KeyboardData.of(context)!.isShiftPressed) {
+    //   AppActionDispatcher().execute(AddFocusAction(selectedItems));
+    //   return;
+    // }
     AppActionDispatcher().execute(FocusAction(selectedItems));
   }
 

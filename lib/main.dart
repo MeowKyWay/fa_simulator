@@ -9,7 +9,6 @@ import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart'
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +26,6 @@ class Main extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DiagramList()),
         ChangeNotifierProvider(create: (context) => SelectionAreaProvider()),
         ChangeNotifierProvider(create: (context) => BodyProvider()),
-        ChangeNotifierProvider(create: (context) => KeyboardProvider()),
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
         ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
         ChangeNotifierProvider(

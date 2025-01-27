@@ -1,14 +1,18 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
-import 'package:fa_simulator/widget/provider/keyboard_provider.dart';
 import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
 import 'package:flutter/material.dart';
 
 class BodyGestureDetector extends StatelessWidget {
+  final FocusNode focusNode;
+
   const BodyGestureDetector({
     super.key,
+    required this.focusNode,
   });
 
   @override
@@ -17,9 +21,9 @@ class BodyGestureDetector extends StatelessWidget {
       key: BodyProvider().gestureDetectorKey,
       // Unfocus the states on tap
       onTap: () {
-        FocusScope.of(context).unfocus();
+        focusNode.requestFocus();
+        log(focusNode.hasFocus.toString());
         AppActionDispatcher().execute(UnfocusAction());
-        KeyboardProvider().focusNode.requestFocus();
       },
       // Add new state on double tap
       // Todo replace with drag the new state from menu
