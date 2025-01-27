@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
-import 'package:fa_simulator/compiler/error/transition_function_entry_error.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
@@ -10,9 +7,9 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_typ
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transitions_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
-import 'package:fa_simulator/widget/provider/error_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +20,17 @@ OverlayEntry definitionOverlay() {
       close: () {
         overlay!.remove();
       },
+      child: _DefinitionOverlay(),
+    ),
+  );
+  return overlay;
+}
+
+class _DefinitionOverlay extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
       child: Consumer<DiagramList>(
         builder: (context, provider, child) {
           List<StateType> states = DiagramList().states;
@@ -31,9 +39,9 @@ OverlayEntry definitionOverlay() {
               DiagramList().transitionFunction;
           List<String> alphabet = DiagramList().symbols.toList();
           states.sort((a, b) => a.label.compareTo(b.label));
-
-          DiagramErrorList errors = ErrorProvider().errorList;
-
+      
+          DiagramErrorList errors = DiagramList().errorList;
+      
           return SizedBox(
             height: 700,
             width: 1000,
@@ -45,13 +53,18 @@ OverlayEntry definitionOverlay() {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 _buildDivider(context),
+                AlphabetRow(
+                  alphabet: alphabet,
+                  errors: errors,
+                ),
+                _buildDivider(context),
                 StatesRow(
                   states: states,
                   errors: errors,
                 ),
                 _buildDivider(context),
-                AlphabetRow(
-                  alphabet: alphabet,
+                TransitionsRow(
+                  transitions: transitions,
                   errors: errors,
                 ),
                 _buildDivider(context),
@@ -65,9 +78,8 @@ OverlayEntry definitionOverlay() {
           );
         },
       ),
-    ),
-  );
-  return overlay;
+    );
+  }
 }
 
 Widget _buildDivider(BuildContext context) {

@@ -67,7 +67,8 @@ class _AlphabetRowState extends State<AlphabetRow> {
                               text: symbol,
                               style: style?.red(
                                 context,
-                                error?.isUnRegistered != null,
+                                error?.isUnRegistered != null ||
+                                    error?.isIllegalSymbol != null,
                               ),
                             ),
                             if (index != widget.alphabet.length - 1)
@@ -101,8 +102,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
                   text: 'Add',
                   onPressed: () {
                     setState(() {
-                      DiagramList()
-                          .addAllAlphabet(DiagramList().unregisteredAlphabet);
+                      DiagramList().addAllAlphabet(unregisteredAlphabet);
                     });
                   },
                   style: ButtonVariant.contained,

@@ -4,7 +4,7 @@ import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
-class StateTable extends StatelessWidget {
+class StateTable extends StatefulWidget {
   final List<StateType> states;
   final DiagramErrorList errors;
 
@@ -13,6 +13,12 @@ class StateTable extends StatelessWidget {
     required this.states,
     required this.errors,
   });
+
+  @override
+  State<StateTable> createState() => _StateTableState();
+}
+
+class _StateTableState extends State<StateTable> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +32,9 @@ class StateTable extends StatelessWidget {
 
     List<DataRow> rows = [];
 
-    for (int i = 0; i < states.length; i++) {
-      StateType state = states[i];
-      StateErrors? error = errors.stateError(state.id);
+    for (int i = 0; i < widget.states.length; i++) {
+      StateType state = widget.states[i];
+      StateErrors? error = widget.errors.stateError(state.id);
 
       StateErrorType? isUnnamed = error?.isUnnamed;
       StateErrorType? isDuplicateName = error?.isDuplicateName;
@@ -93,4 +99,16 @@ class StateTable extends StatelessWidget {
       rows: rows,
     );
   }
+
+  // void _onSort(
+  //   columnIndex,
+  //   ascending,
+  //   int Function(StateType, StateType) compare,
+  // ) {
+  //   setState(() {
+  //     _sortIndex = columnIndex;
+  //     _sortAscending = ascending;
+  //     widget.states.sort((a, b) => compare(a, b) * (ascending ? 1 : -1));
+  //   });
+  // }
 }

@@ -1,4 +1,6 @@
 import 'dart:collection';
+import 'package:fa_simulator/compiler/diagram_error_checker.dart';
+import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
@@ -25,6 +27,15 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     return List<DiagramType>.from(_items.map((e) => e.copyWith()));
   }
 
+  DiagramErrorList _errorList = DiagramErrorList();
+
+  DiagramErrorList get errorList => _errorList;
+
+  void checkErrors() {
+    _errorList.checkError();
+    notifyListeners();
+  }
+
   DiagramType addItem(DiagramType item) {
     if (itemIsExist(item.id)) {
       throw Exception(
@@ -49,7 +60,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
       }
     }
     _items.add(item);
-    notifyListeners();
+    notify();
     return item;
   }
 
@@ -57,7 +68,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     for (var item in items) {
       addItem(item);
     }
-    notifyListeners();
+    notify();
   }
 
   void removeItem(String id, [bool force = false]) {
@@ -73,14 +84,14 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     } else {
       throw Exception("diagram_list/removeItem: Item id $id not found");
     }
-    notifyListeners();
+    notify();
   }
 
   void removeItems(List<String> ids) {
     for (var id in ids) {
       removeItem(id);
     }
-    notifyListeners();
+    notify();
   }
 
   StateType? state(id) {
@@ -119,7 +130,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   String get hoveringStateId => _hoveringStateId;
   set hoveringStateId(String id) {
     _hoveringStateId = id;
-    notifyListeners();
+    notify();
   }
 
   bool hoveringStateFlag = false;
@@ -181,7 +192,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     }
     String oldName = item.label;
     item.label = name;
-    notifyListeners();
+    notify();
     return oldName;
   }
 
@@ -191,6 +202,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   int itemIndex(String id) => _items.indexWhere((element) => element.id == id);
 
   void notify() {
+    _errorList.checkError();
     notifyListeners();
   }
 
@@ -198,6 +210,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   void reset() {
     _items.clear();
     _alphabet.clear();
+    _errorList = DiagramErrorList();
     FileProvider().notifyListeners();
   }
 }

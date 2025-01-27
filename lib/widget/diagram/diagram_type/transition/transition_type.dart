@@ -47,7 +47,7 @@ class TransitionType extends DiagramType<TransitionType> {
   @override
   set label(String value) {
     String t = value.replaceAll(RegExp(r"^[, ]+|[, ]+$"), "");
-    t = value.replaceAll(RegExp(r"\e"), "ε");
+    t = value.replaceAll(RegExp(r"\\e"), "ε");
     SplayTreeSet<String> symbols = SplayTreeSet<String>();
     for (String symbol in t.split(',')) {
       if (symbol.isEmpty) {
@@ -63,7 +63,13 @@ class TransitionType extends DiagramType<TransitionType> {
 
   SplayTreeSet<String> get symbols {
     SplayTreeSet<String> symbols = SplayTreeSet<String>();
-    symbols.addAll(label.split(','));
+    List<String> label = this.label.split(',');
+    for (String symbol in label) {
+      if (symbol.isEmpty) {
+        continue;
+      }
+      symbols.add(symbol.trim());
+    }
     return symbols;
   }
 

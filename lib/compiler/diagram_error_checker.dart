@@ -80,9 +80,11 @@ extension DiagramErrorChecker on DiagramErrorList {
         transitionId: transition.id,
       );
 
-      if (transition.sourceStateId == null ||
-          transition.destinationStateId == null) {
-        transitionErrors.addError(TransitionErrorType.inCompleteTransition);
+      if (transition.sourceStateId == null) {
+        transitionErrors.addError(TransitionErrorType.undefinedSource);
+      }
+      if (transition.destinationStateId == null) {
+        transitionErrors.addError(TransitionErrorType.undefinedDestination);
       }
       if (transition.symbols.isEmpty) {
         transitionErrors.addError(TransitionErrorType.emptyTransition);
@@ -104,6 +106,11 @@ extension DiagramErrorChecker on DiagramErrorList {
         symbol: symbol,
       );
 
+      if (FileProvider().faType == FAType.dfa) {
+        if (symbol == "ε") {
+          alphabetErrors.addError(SymbolErrorType.illegalSymbol);
+        }
+      }
       if (unregisteredAlphabet.contains(symbol)) {
         alphabetErrors.addError(SymbolErrorType.unregisteredSymbol);
       }

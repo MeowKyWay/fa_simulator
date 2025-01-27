@@ -2,7 +2,8 @@ import 'package:fa_simulator/compiler/error/diagram_error.dart';
 
 enum TransitionErrorType {
   emptyTransition,
-  inCompleteTransition,
+  undefinedSource,
+  undefinedDestination,
 }
 
 extension TransitionErrorTypeExtension on TransitionErrorType {
@@ -10,8 +11,10 @@ extension TransitionErrorTypeExtension on TransitionErrorType {
     switch (this) {
       case TransitionErrorType.emptyTransition:
         return 'Transition must include at least one symbol.';
-      case TransitionErrorType.inCompleteTransition:
-        return 'Transition must have both a source and a destination state.';
+      case TransitionErrorType.undefinedSource:
+        return 'Transition must have a source state.';
+      case TransitionErrorType.undefinedDestination:
+        return 'Transition must have a destination state.';
     }
   }
 }
@@ -22,8 +25,10 @@ class TransitionErrors extends DiagramErrors<TransitionErrorType> {
   // If there is an error specified, return the error type
   TransitionErrorType? get isEmpty =>
       isError(TransitionErrorType.emptyTransition);
-  TransitionErrorType? get isInComplete =>
-      isError(TransitionErrorType.inCompleteTransition);
+  TransitionErrorType? get isUndefinedSource =>
+      isError(TransitionErrorType.undefinedSource);
+  TransitionErrorType? get isUndefinedDestination =>
+      isError(TransitionErrorType.undefinedDestination);
 
   TransitionErrors({
     required super.errors,

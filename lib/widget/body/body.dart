@@ -1,6 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
-import 'package:fa_simulator/widget/body/component/body_error.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrow_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrows.dart';
 import 'package:fa_simulator/widget/body/component/body_transition_dragging_feedback.dart';
@@ -90,8 +89,6 @@ class _BodyState extends State<Body> {
               const BodyInitialArrowFeedback(),
               // Draw the selection box
               const SelectionBox(),
-              // Check for errors
-              const BodyError(),
             ],
           ),
         ),
