@@ -4,6 +4,7 @@ import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/compiler/error/symbol_error.dart';
 import 'package:fa_simulator/compiler/error/transition_error.dart';
 import 'package:fa_simulator/compiler/error/transition_function_entry_error.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
@@ -21,7 +22,7 @@ extension DiagramErrorChecker on DiagramErrorList {
     errors.clear();
     List<StateType> states = DiagramList().states;
     List<TransitionType> transitions = DiagramList().transitions;
-    List<String> alphabet = DiagramList().symbols.toList();
+    List<String> alphabet = DiagramList().allAlphabet.toList();
     List<TransitionFunctionEntry> transitionFunctionEntries =
         DiagramList().transitionFunction.entries.toList();
 
@@ -107,7 +108,7 @@ extension DiagramErrorChecker on DiagramErrorList {
       );
 
       if (FileProvider().faType == FAType.dfa) {
-        if (symbol == "ε") {
+        if (symbol == DiagramCharacter.epsilon) {
           alphabetErrors.addError(SymbolErrorType.illegalSymbol);
         }
       }

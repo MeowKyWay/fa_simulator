@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -47,14 +48,14 @@ class TransitionType extends DiagramType<TransitionType> {
   @override
   set label(String value) {
     String t = value.replaceAll(RegExp(r"^[, ]+|[, ]+$"), "");
-    t = value.replaceAll(RegExp(r"\\e"), "ε");
+    t = value.replaceAll(RegExp(r"\\e"), DiagramCharacter.epsilon);
     SplayTreeSet<String> symbols = SplayTreeSet<String>();
     for (String symbol in t.split(',')) {
       if (symbol.isEmpty) {
         continue;
       }
-      if (symbol.contains('ε')) {
-        symbol = 'ε';
+      if (symbol.contains(DiagramCharacter.epsilon)) {
+        symbol = DiagramCharacter.epsilon;
       }
       symbols.add(symbol.trim());
     }

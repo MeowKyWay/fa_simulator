@@ -29,6 +29,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
     TextStyle? style = Theme.of(context).textTheme.labelMedium;
     SplayTreeSet<String> unregisteredAlphabet =
         DiagramList().unregisteredAlphabet;
+    SplayTreeSet<String> illegalAlphabet = DiagramList().illegalAlphabet;
 
     return Column(
       children: [
@@ -37,7 +38,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
           children: [
             SizedBox(
               height: 26,
-              width: 75,
+              width: 100,
               child: Text(
                 'Alphabet',
                 style: style?.red(
@@ -125,6 +126,40 @@ class _AlphabetRowState extends State<AlphabetRow> {
                     }
                     setState(() {
                       DiagramList().removeUnregisteredAlphabet();
+                    });
+                  },
+                  style: ButtonVariant.contained,
+                  type: ButtonType.warning,
+                  textStyle: Theme.of(context).textTheme.labelSmall,
+                  width: 50,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                ),
+              ),
+            ],
+          ),
+        if (illegalAlphabet.isNotEmpty)
+          Row(
+            children: [
+              Text(
+                "{ ${illegalAlphabet.join(', ')} }",
+                style: style?.red(context),
+                softWrap: true,
+              ),
+              Text(
+                " are not permitted in this diagram.",
+                style: style,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Button(
+                  text: 'Remove',
+                  onPressed: () {
+                    setState(() {
+                      DiagramList().removeIllegalAlphabet();
                     });
                   },
                   style: ButtonVariant.contained,

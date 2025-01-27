@@ -6,6 +6,8 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/final_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/initial_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transitions_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';
@@ -37,7 +39,7 @@ class _DefinitionOverlay extends StatelessWidget {
           List<TransitionType> transitions = DiagramList().transitions;
           TransitionFunctionType transitionFunction =
               DiagramList().transitionFunction;
-          List<String> alphabet = DiagramList().symbols.toList();
+          List<String> alphabet = DiagramList().allAlphabet.toList();
           states.sort((a, b) => a.label.compareTo(b.label));
       
           DiagramErrorList errors = DiagramList().errorList;
@@ -72,6 +74,10 @@ class _DefinitionOverlay extends StatelessWidget {
                   transitionFunction: transitionFunction,
                   errors: errors,
                 ),
+                _buildDivider(context),
+                InitialRow(states: states),
+                _buildDivider(context),
+                FinalRow(states: states),
                 _buildDivider(context),
               ],
             ),

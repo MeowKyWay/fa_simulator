@@ -45,7 +45,7 @@ class _StatesRowState extends State<StatesRow> {
                 children: [
                   SizedBox(
                     height: 26,
-                    width: 75,
+                    width: 100,
                     child: Text(
                       'States',
                       style: style?.red(
