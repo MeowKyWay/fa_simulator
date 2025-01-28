@@ -1,6 +1,6 @@
 import 'package:fa_simulator/action/app_unrevertable_action.dart';
 import 'package:fa_simulator/file/diagram_new.dart';
-import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
+import 'package:fa_simulator/widget/overlay/confirm_overlay/confirm_overlay.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:flutter/material.dart';
 

@@ -5,7 +5,6 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
-import 'package:fa_simulator/widget/provider/selection_area_provider.dart';
 import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/app.dart';
@@ -25,7 +24,6 @@ class Main extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DiagramList()),
-        ChangeNotifierProvider(create: (context) => SelectionAreaProvider()),
         ChangeNotifierProvider(create: (context) => BodyProvider()),
         ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
         ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
@@ -33,7 +31,8 @@ class Main extends StatelessWidget {
             create: (context) => TransitionDraggingProvider()),
         ChangeNotifierProvider(create: (context) => DiagramDraggingProvider()),
         ChangeNotifierProvider(create: (context) => FileProvider()),
-        ChangeNotifierProvider(create: (context) => StartArrowFeedbackProvider()),
+        ChangeNotifierProvider(
+            create: (context) => StartArrowFeedbackProvider()),
         ChangeNotifierProvider(create: (context) => RenamingProvider()),
       ],
       child: MaterialApp(

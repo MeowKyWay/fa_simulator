@@ -6,7 +6,7 @@ import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
-import 'package:fa_simulator/widget/overlay/confirm_overlay.dart';
+import 'package:fa_simulator/widget/overlay/confirm_overlay/confirm_overlay.dart';
 import 'package:flutter/material.dart';
 
 class AlphabetRow extends StatefulWidget {

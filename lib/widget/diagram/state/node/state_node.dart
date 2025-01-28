@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 
 class StateNode extends StatefulWidget {
   //TODO when renaming and click other diagram item the rename cancle and result in blank label
-  //TODO when shift + char the keyboardProvider does not start the renaming
   final StateType state;
   final bool isRenaming;
 
