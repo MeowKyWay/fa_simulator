@@ -1,13 +1,26 @@
 import 'dart:collection';
-import 'dart:developer';
 
+import 'package:fa_simulator/widget/components/interface/jsonable.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 
-class TransitionFunctionType {
+class TransitionFunctionType implements Jsonable {
+  TransitionFunctionType();
+
   SplayTreeSet<TransitionFunctionEntry> entries = SplayTreeSet(
     compareTransitionFunctionEntry,
   );
+
+  TransitionFunctionEntry get(String id, String symbol) {
+    try {
+      return entries.firstWhere(
+        (e) => e.sourceStateId == id && e.symbol == symbol,
+      );
+    } catch (e) {
+      throw Exception(
+          'transition_function_type.dart/TransitionFunctionType/get: Transition function entry not found');
+    }
+  }
 
   void addEntry(TransitionFunctionEntry entry) {
     entries.add(entry);
@@ -15,7 +28,6 @@ class TransitionFunctionType {
 
   TransitionFunctionEntry getEntry(String sourceStateId, String symbol) {
     if (!containEntry(sourceStateId, symbol)) {
-      log('add entry');
       entries.add(
         TransitionFunctionEntry(
           sourceStateId: sourceStateId,
@@ -24,11 +36,6 @@ class TransitionFunctionType {
         ),
       );
     }
-    log('$sourceStateId $symbol');
-    log(entries
-        .map((e) => '${e.sourceStateId} ${e.symbol}')
-        .toList()
-        .toString());
     return entries.firstWhere(
       (e) => e.sourceStateId == sourceStateId && e.symbol == symbol,
     );
@@ -39,9 +46,44 @@ class TransitionFunctionType {
       (e) => e.sourceStateId == sourceStateId && e.symbol == symbol,
     );
   }
+
+  void addDestinationState(
+    String sourceStateId,
+    String symbol,
+    String destinationStateId,
+  ) {
+    TransitionFunctionEntry? entry;
+    if (!containEntry(sourceStateId, symbol)) {
+      entry = TransitionFunctionEntry(
+        sourceStateId: sourceStateId,
+        destinationStateIds: [],
+        symbol: symbol,
+      );
+      entries.add(entry);
+    }
+    entry = entry ??
+        entries.firstWhere(
+            (e) => e.sourceStateId == sourceStateId && e.symbol == symbol);
+    entry.destinationStateIds.add(destinationStateId);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'entries': entries.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  factory TransitionFunctionType.fromJson(Map<String, dynamic> map) {
+    TransitionFunctionType transitionFunction = TransitionFunctionType();
+    for (Map<String, dynamic> entry in map['entries']) {
+      transitionFunction.addEntry(TransitionFunctionEntry.fromJson(entry));
+    }
+    return transitionFunction;
+  }
 }
 
-class TransitionFunctionEntry {
+class TransitionFunctionEntry implements Jsonable {
   final String sourceStateId;
   final List<String> destinationStateIds;
   final String symbol;
@@ -62,16 +104,21 @@ class TransitionFunctionEntry {
   }
 
   List<StateType> get destinationStates {
-    return destinationStateIds.map(
-      (id) {
-        try {
-          return DiagramList().state(id)!;
-        } catch (e) {
-          throw Exception(
-              'transition_function_type.dart/TransitionFunctionEntry/destinationStates: Destination state $id not found');
-        }
-      },
-    ).toList();
+    List<StateType> destinationStates = [];
+    for (String destinationStateId in destinationStateIds) {
+      try {
+        destinationStates.add(DiagramList().state(destinationStateId)!);
+      } catch (e) {
+        throw Exception(
+            'transition_function_type.dart/TransitionFunctionEntry/destinationStates: Destination state $destinationStateId not found');
+      }
+    }
+    return destinationStates;
+  }
+
+  @override
+  String toString() {
+    return 'TransitionFunctionEntry(sourceStateId: $sourceStateId, destinationStateIds: $destinationStateIds, symbol: $symbol)';
   }
 
   @override
@@ -84,6 +131,23 @@ class TransitionFunctionEntry {
 
   @override
   int get hashCode => sourceStateId.hashCode ^ symbol.hashCode;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'sourceStateId': sourceStateId,
+      'destinationStateIds': destinationStateIds,
+      'symbol': symbol,
+    };
+  }
+
+  factory TransitionFunctionEntry.fromJson(Map<String, dynamic> map) {
+    return TransitionFunctionEntry(
+      sourceStateId: map['sourceStateId'],
+      destinationStateIds: List<String>.from(map['destinationStateIds']),
+      symbol: map['symbol'],
+    );
+  }
 }
 
 int compareTransitionFunctionEntry(

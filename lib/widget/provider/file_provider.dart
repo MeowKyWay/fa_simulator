@@ -30,11 +30,13 @@ class FileProvider extends DiagramProvider with ChangeNotifier {
     }
   }
 
+  ///* Store file name including the file extension
   set fileName(String? value) {
     _fileName = value;
     notifyListeners();
   }
 
+  ///* Store file path including the file name and extension
   set filePath(String? value) {
     _filePath = value;
     notifyListeners();

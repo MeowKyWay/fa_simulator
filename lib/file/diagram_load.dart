@@ -53,9 +53,9 @@ class DiagramLoad {
           states.add(StateType.fromJson(item));
         } else if (item['type'] == 'transition') {
           transitions.add(TransitionType.fromJson(item));
-        }
-        else {
-          throw Exception('diagram_load.dart/_load: Invalid item type: ${item['type']}');
+        } else {
+          throw Exception(
+              'diagram_load.dart/_load: Invalid item type: ${item['type']}');
         }
       }
       DiagramList().addItems(states);

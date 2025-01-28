@@ -1,4 +1,3 @@
-import 'package:fa_simulator/widget/components/extension/color_extension.dart';
 import 'package:flutter/material.dart';
 
 enum EditableDataCellType {

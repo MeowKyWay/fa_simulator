@@ -1,7 +1,7 @@
 import 'dart:collection';
-import 'dart:developer';
 import 'package:fa_simulator/compiler/diagram_error_checker.dart';
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
@@ -221,6 +221,20 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     _alphabet.clear();
     _errorList = DiagramErrorList();
     FileProvider().notifyListeners();
+  }
+
+  Map<String, dynamic> toObjectFile() {
+    if (errorList.errors.isNotEmpty) {
+      throw Exception('Cannot compile diagram with errors');
+    }
+    return {
+      "type": FileProvider().faTypeString,
+      "states": states.map((e) => e.label).toList(),
+      "alphabet": _alphabet.toList(),
+      "transition function": transitionFunction.toJson(),
+      "initial": startStates[0].label,
+      "final": acceptStates.map((e) => e.label).toList(),
+    };
   }
 }
 

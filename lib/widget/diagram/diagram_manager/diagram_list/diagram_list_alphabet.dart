@@ -39,7 +39,7 @@ extension DiagramListAlphabet on DiagramList {
     notify();
   }
 
-  SplayTreeSet<String> get allAlphabet {
+  SplayTreeSet<String> get alphabetFromTransitions {
     SplayTreeSet<String> alphabet = SplayTreeSet<String>();
     for (TransitionType transition in transitions) {
       alphabet.addAll(transition.symbols);
@@ -47,8 +47,16 @@ extension DiagramListAlphabet on DiagramList {
     return alphabet;
   }
 
+  SplayTreeSet<String> get allAlphabet {
+    SplayTreeSet<String> alphabet = SplayTreeSet<String>();
+    alphabet.addAll(this.alphabet);
+    alphabet.addAll(unregisteredAlphabet);
+    alphabet.addAll(illegalAlphabet);
+    return alphabet;
+  }
+
   SplayTreeSet<String> get unregisteredAlphabet {
-    SplayTreeSet<String> alphabet = allAlphabet;
+    SplayTreeSet<String> alphabet = alphabetFromTransitions;
     alphabet.removeAll(this.alphabet);
     if (FileProvider().faType == FAType.dfa) {
       alphabet.removeWhere((element) => element == DiagramCharacter.epsilon);
@@ -57,7 +65,7 @@ extension DiagramListAlphabet on DiagramList {
   }
 
   SplayTreeSet<String> get illegalAlphabet {
-    SplayTreeSet<String> alphabet = allAlphabet;
+    SplayTreeSet<String> alphabet = alphabetFromTransitions;
     alphabet.removeAll(this.alphabet);
     alphabet.removeAll(unregisteredAlphabet);
     return alphabet;

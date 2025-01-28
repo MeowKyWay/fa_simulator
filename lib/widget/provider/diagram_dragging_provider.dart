@@ -53,6 +53,7 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
     log("set startPosition");
     _startPosition = value;
     notifyListeners();
+    DiagramList().notify();
   }
 
   set endPosition(Offset? value) {

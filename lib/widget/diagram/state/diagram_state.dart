@@ -4,7 +4,6 @@ import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/state/state_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';

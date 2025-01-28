@@ -8,7 +8,8 @@ import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
-  void save(String filePath) async {
+  Future<void> save(String filePath) async {
+    log('Saving diagram to $filePath');
     List<DiagramType> items = DiagramList().itemsCopy;
     try {
       String jsonString =
@@ -20,26 +21,21 @@ class DiagramSave {
       await file.writeAsString(jsonString);
 
       FileProvider().savedItem = items;
-
-      log('Diagram saved to ${file.absolute}');
     } catch (e) {
       log('Failed to save diagram: $e');
     }
   }
 
   Future<void> saveAs() async {
-    String fileName = FileProvider().fileName ?? 'new_diagram.dfa';
+    String fileName =
+        FileProvider().fileName ?? 'new_diagram.${FileProvider().faTypeString}';
     final FileSaveLocation? result = await getSaveLocation(
       suggestedName: fileName,
       acceptedTypeGroups: [
         XTypeGroup(
           label: 'DFA Diagram',
-          extensions: ['dfa'],
+          extensions: [FileProvider().faTypeString],
         ),
-        XTypeGroup(
-          label: 'NFA Diagram',
-          extensions: ['nfa'],
-        )
       ],
     );
     if (result == null) {

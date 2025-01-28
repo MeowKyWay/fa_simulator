@@ -1,3 +1,4 @@
+import 'package:fa_simulator/widget/components/interface/jsonable.dart';
 import 'package:flutter/material.dart';
 
 enum DiagramTypeEnum {
@@ -5,7 +6,8 @@ enum DiagramTypeEnum {
   transition,
 }
 
-abstract class DiagramType<T extends DiagramType<T>> implements Comparable<T> {
+abstract class DiagramType<T extends DiagramType<T>>
+    implements Comparable<T>, Jsonable {
   final String id;
   bool hasFocus;
   String label;
