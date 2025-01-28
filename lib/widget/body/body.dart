@@ -1,6 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_inherited.dart';
-import 'package:fa_simulator/widget/body/body_shortcuts.dart';
+import 'package:fa_simulator/widget/body/shortcuts/body_shortcuts.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrow_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrows.dart';

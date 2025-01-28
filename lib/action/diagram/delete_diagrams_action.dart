@@ -42,6 +42,9 @@ class DeleteDiagramsAction extends AppAction {
 
   @override
   Future<void> undo() async {
+    for (StateType i in states) {
+      DiagramList().addItem(i);
+    }
     for (TransitionType i in transitions) {
       addTransition(
         sourcePosition: i.sourcePosition,
@@ -51,9 +54,6 @@ class DeleteDiagramsAction extends AppAction {
         label: i.label,
         id: i.id,
       );
-    }
-    for (StateType i in states) {
-      DiagramList().addItem(i);
     }
 
     requestFocus(ids);

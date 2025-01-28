@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,10 +33,10 @@ class _BodyKeyboardListenerState extends State<BodyKeyboardListener> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.focusNode.requestFocus();
       FocusScope.of(context).addListener(() {
         if (!widget.focusNode.hasFocus && FocusScope.of(context).hasFocus) {
           widget.focusNode.requestFocus();
-          log("Focus requested");
         }
       });
     });

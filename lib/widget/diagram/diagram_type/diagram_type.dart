@@ -30,4 +30,8 @@ abstract class DiagramType<T extends DiagramType<T>> {
   bool compare(T other) {
     return id == other.id;
   }
+
+  factory DiagramType.fromJson(Map<String, dynamic> map) {
+    throw UnimplementedError();
+  }
 }

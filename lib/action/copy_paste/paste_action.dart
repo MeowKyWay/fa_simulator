@@ -19,7 +19,7 @@ class PasteAction extends AppAction {
 
   @override
   Future<void> execute() async {
-    List<DiagramType> items = DiagramClipboard().items;
+    List<DiagramType> items = await DiagramClipboard.getItems();
 
     DiagramClipboard().incrementCount();
 

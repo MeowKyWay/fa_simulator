@@ -5,6 +5,6 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram
 class CopyAction extends AppUnrevertableAction {
   @override
   Future<void> execute() async {
-    DiagramClipboard().copy(DiagramList().focusedItems);
+    DiagramClipboard.copy(DiagramList().focusedItems);
   }
 }

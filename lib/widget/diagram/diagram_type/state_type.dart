@@ -110,17 +110,21 @@ class StateType extends DiagramType<StateType> {
 
   @override
   factory StateType.fromJson(Map<String, dynamic> json) {
-    return StateType(
-      id: json['id'],
-      label: json['label'],
-      position: Offset(
-        json['position']['dx'],
-        json['position']['dy'],
-      ),
-      isInitial: json['isStartState'],
-      isFinal: json['isAccpetState'],
-      initialArrowAngle: json['startArrowAngle'],
-    );
+    try {
+      return StateType(
+        id: json['id'],
+        label: json['label'],
+        position: Offset(
+          json['position']['dx'],
+          json['position']['dy'],
+        ),
+        isInitial: json['isStartState'],
+        isFinal: json['isAccpetState'],
+        initialArrowAngle: json['startArrowAngle'],
+      );
+    } on Exception catch (e) {
+      throw FormatException('Error parsing StateType from JSON: $e');
+    }
   }
 
   @override
