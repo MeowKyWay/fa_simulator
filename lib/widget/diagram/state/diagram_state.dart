@@ -42,6 +42,7 @@ class _DiagramStateState extends State<DiagramState> {
       top:
           widget.state.position.dy - stateSize / 2 - stateFocusOverlayRingWidth,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           ClipOval(
             child: StateDragTarget(
@@ -69,26 +70,15 @@ class _DiagramStateState extends State<DiagramState> {
                       _focus();
                     }
                   },
-                  child: MouseRegion(
-                    onEnter: (event) {
-                      DiagramList().hoveringStateFlag = false;
-                      DiagramList().hoveringStateId = widget.state.id;
-                    },
-                    onExit: (event) {
-                      DiagramList().hoveringStateFlag = true;
-                      DiagramList().notify();
-                    },
-                    child: Stack(children: [
-                      Container(
-                        margin:
-                            const EdgeInsets.all(stateFocusOverlayRingWidth),
-                        color: Colors.transparent,
-                        width: stateSize,
-                        height: stateSize,
-                        child: Center(child: newState),
-                      ),
-                    ]),
-                  ),
+                  child: Stack(children: [
+                    Container(
+                      padding: EdgeInsets.all(stateFocusOverlayRingWidth),
+                      color: Colors.transparent,
+                      width: stateSize + stateFocusOverlayRingWidth * 2,
+                      height: stateSize + stateFocusOverlayRingWidth * 2,
+                      child: Center(child: newState),
+                    ),
+                  ]),
                 ),
               ),
             ),

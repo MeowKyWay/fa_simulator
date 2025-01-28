@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/clip/ring_clipper.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
@@ -33,14 +32,6 @@ class _StateHoverOverlayState extends State<StateHoverOverlay> {
 
   @override
   Widget build(BuildContext context) {
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (DiagramList().hoveringStateFlag) {
-        DiagramList().hoveringStateFlag = false;
-        DiagramList().hoveringStateId = "";
-      }
-    });
-
     _innerRadius = stateSize / 2 - _ringWidth;
     _outerRadius = stateSize / 2 + _ringWidth;
 

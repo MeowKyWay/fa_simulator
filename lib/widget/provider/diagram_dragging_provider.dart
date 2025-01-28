@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
@@ -49,8 +50,8 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
   }
 
   set startPosition(Offset? value) {
+    log("set startPosition");
     _startPosition = value;
-    DiagramList().notify();
     notifyListeners();
   }
 

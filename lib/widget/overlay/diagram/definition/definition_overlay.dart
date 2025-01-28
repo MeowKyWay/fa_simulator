@@ -30,7 +30,12 @@ OverlayEntry definitionOverlay() {
   return overlay;
 }
 
-class _DefinitionOverlay extends StatelessWidget {
+class _DefinitionOverlay extends StatefulWidget {
+  @override
+  State<_DefinitionOverlay> createState() => _DefinitionOverlayState();
+}
+
+class _DefinitionOverlayState extends State<_DefinitionOverlay> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

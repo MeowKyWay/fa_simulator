@@ -40,10 +40,12 @@ void toggleFocus(List<String> ids) {
 }
 
 void unfocus() {
+  bool changeFlag = false;
   List<DiagramType> items = DiagramList().items;
   for (DiagramType item in items) {
+    changeFlag = changeFlag || item.hasFocus;
     item.hasFocus = false;
   }
   RenamingProvider().reset();
-  DiagramList().notify();
+  if (changeFlag) DiagramList().notify();
 }

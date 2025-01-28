@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -14,6 +15,7 @@ class TransitionFunctionType {
 
   TransitionFunctionEntry getEntry(String sourceStateId, String symbol) {
     if (!containEntry(sourceStateId, symbol)) {
+      log('add entry');
       entries.add(
         TransitionFunctionEntry(
           sourceStateId: sourceStateId,
@@ -22,6 +24,11 @@ class TransitionFunctionType {
         ),
       );
     }
+    log('$sourceStateId $symbol');
+    log(entries
+        .map((e) => '${e.sourceStateId} ${e.symbol}')
+        .toList()
+        .toString());
     return entries.firstWhere(
       (e) => e.sourceStateId == sourceStateId && e.symbol == symbol,
     );
@@ -81,9 +88,14 @@ class TransitionFunctionEntry {
 
 int compareTransitionFunctionEntry(
     TransitionFunctionEntry a, TransitionFunctionEntry b) {
-  int result = a.sourceState.label.compareTo(b.sourceState.label);
+  int result;
+  result = a.sourceState.label.compareTo(b.sourceState.label);
   if (result != 0) {
     return result;
   }
-  return a.symbol.compareTo(b.symbol);
+  result = a.symbol.compareTo(b.symbol);
+  if (result != 0) {
+    return result;
+  }
+  return a.sourceStateId.compareTo(b.sourceStateId);
 }

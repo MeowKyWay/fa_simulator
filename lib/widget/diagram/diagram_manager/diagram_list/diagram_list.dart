@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'package:fa_simulator/compiler/diagram_error_checker.dart';
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
