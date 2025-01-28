@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 extension TextStyleExtensions on TextStyle {
-  TextStyle error(BuildContext context, [bool isError = true]) {
-    if (!isError) {
+  TextStyle error(BuildContext context, [Object? isError]) {
+    if ((isError is bool && !isError) || isError == null) {
       return this;
     }
     return copyWith(
@@ -13,8 +13,8 @@ extension TextStyleExtensions on TextStyle {
     );
   }
 
-  TextStyle red(BuildContext context, [bool isError = true]) {
-    if (!isError) {
+  TextStyle red(BuildContext context, [Object? isError]) {
+    if ((isError is bool && !isError) || isError == null) {
       return this;
     }
     return copyWith(

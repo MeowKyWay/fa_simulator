@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
+import 'package:fa_simulator/widget/components/extension/color_extension.dart';
 import 'package:fa_simulator/widget/components/extension/text_extension.dart';
 import 'package:fa_simulator/widget/components/extension/text_field_extension.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -50,6 +53,11 @@ class _StateTableState extends State<StateTable> {
 
       TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
+      _nameControllers[i].addListener(() {
+        log('StateTable: ${_nameControllers[i].text}');
+        state.label = _nameControllers[i].text;
+      });
+
       DataRow row = DataRow(
         cells: [
           DataCell(Text(state.id)),
@@ -61,14 +69,12 @@ class _StateTableState extends State<StateTable> {
               decoration: InputDecoration.collapsed(
                 hintText: 'unnamed state ',
                 hintStyle: textStyle?.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary.withAlpha(
-                        (0.5 * 255).toInt(),
-                      ),
+                  color: Theme.of(context).colorScheme.onPrimary.withOpa(0.5),
                 ),
               ),
               style: textStyle?.red(
                 context,
-                (isDuplicateName) != null,
+                isDuplicateName,
               ),
             ).plain(),
           ),

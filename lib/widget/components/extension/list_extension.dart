@@ -5,7 +5,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 
-extension ListExtension on List<DiagramType> {
+extension DiagramListExtension on List<DiagramType> {
   String toJson() {
     String json = jsonEncode(map((e) => e.toJson()).toList());
     return json;
@@ -30,5 +30,15 @@ extension ListExtension on List<DiagramType> {
       }
     }
     return items;
+  }
+}
+
+extension ListExtension<T> on List<T> {
+  bool isValueIdentical(List<T> list) {
+    if (length != list.length) return false;
+    for (int i = 0; i < length; i++) {
+      if (this[i] != list[i]) return false;
+    }
+    return true;
   }
 }

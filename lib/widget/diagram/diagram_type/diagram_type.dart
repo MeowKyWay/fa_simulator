@@ -5,7 +5,7 @@ enum DiagramTypeEnum {
   transition,
 }
 
-abstract class DiagramType<T extends DiagramType<T>> {
+abstract class DiagramType<T extends DiagramType<T>> implements Comparable<T> {
   final String id;
   bool hasFocus;
   String label;

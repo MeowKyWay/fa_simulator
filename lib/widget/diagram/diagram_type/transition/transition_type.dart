@@ -8,7 +8,8 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
-class TransitionType extends DiagramType<TransitionType> {
+class TransitionType extends DiagramType<TransitionType>
+    implements Comparable<TransitionType> {
   String? sourceStateId;
   String? destinationStateId;
 
@@ -440,6 +441,11 @@ class TransitionType extends DiagramType<TransitionType> {
       loopAngle: loopAngle,
       isCurved: isCurved,
     );
+  }
+
+  @override
+  int compareTo(TransitionType other) {
+    return transitionComparator(this, other);
   }
 }
 

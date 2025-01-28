@@ -75,7 +75,7 @@ class _StatesRowState extends State<StatesRow> {
         if (isExpanded)
           StateTable(
             states: widget.states,
-            statesCopy: [],
+            statesCopy: statesCopy,
             errors: widget.errors,
           ),
       ],

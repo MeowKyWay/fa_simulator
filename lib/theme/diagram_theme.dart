@@ -1,20 +1,25 @@
+import 'package:fa_simulator/widget/components/extension/color_extension.dart';
 import 'package:flutter/material.dart';
 
 ThemeData diagramTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  textSelectionTheme: TextSelectionThemeData(
-    selectionColor: Colors.blue.withAlpha((255 * 0.5).toInt()),
-    cursorColor: Colors.blue,
-  ),
-  dividerTheme: const DividerThemeData(
-    color: Colors.black,
-  ),
-  textTheme: textTheme,
-  outlinedButtonTheme: outlinedButtonTheme,
-  hoverColor: Colors.green.withAlpha((255 * 0.75).ceil()),
-  focusColor: _focusColor,
-  colorScheme: darkTheme,
-);
+    primarySwatch: Colors.blue,
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.blue.withAlpha((255 * 0.5).toInt()),
+      cursorColor: Colors.blue,
+    ),
+    dividerTheme: const DividerThemeData(
+      color: Colors.black,
+    ),
+    textTheme: textTheme,
+    outlinedButtonTheme: outlinedButtonTheme,
+    hoverColor: Colors.green.withOpa(0.5),
+    focusColor: _focusColor,
+    colorScheme: darkTheme,
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: TextStyle(
+        color: Colors.white.withOpa(0.5),
+      ),
+    ));
 
 ColorScheme darkTheme = ColorScheme(
   brightness: Brightness.dark,

@@ -45,6 +45,6 @@ class DiagramClipboard {
     }
     String json = data.text ?? '';
     log('Pasted: $json');
-    return ListExtension.fromJson(json);
+    return DiagramListExtension.fromJson(json);
   }
 }

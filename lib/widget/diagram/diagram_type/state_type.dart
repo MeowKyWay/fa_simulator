@@ -3,7 +3,8 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/material.dart';
 
-class StateType extends DiagramType<StateType> {
+class StateType extends DiagramType<StateType>
+    implements Comparable<StateType> {
   Offset position;
   bool isInitial = false;
   bool isFinal = false;
@@ -138,8 +139,14 @@ class StateType extends DiagramType<StateType> {
       initialArrowAngle: initialArrowAngle,
     );
   }
+
+  @override
+  int compareTo(StateType other) {
+    return stateComparator(this, other);
+  }
 }
 
+@override
 int stateComparator(StateType a, StateType b) {
   return a.label.compareTo(b.label);
 }
