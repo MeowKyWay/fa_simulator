@@ -25,8 +25,6 @@ abstract class DiagramType<T extends DiagramType<T>>
 
   bool isContained(Offset topLeft, Offset bottomRight);
 
-  Map<String, dynamic> toJson();
-
   T copyWith();
 
   bool compare(T other) {

@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
-import 'package:fa_simulator/widget/components/editable_data_cell_child.dart';
-import 'package:fa_simulator/widget/components/extension/text_extension.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
