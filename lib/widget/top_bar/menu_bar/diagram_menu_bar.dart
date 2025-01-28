@@ -1,4 +1,3 @@
-
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_icon.dart';
@@ -19,10 +18,11 @@ class DiagramMenuBar extends StatelessWidget {
         child: Row(
           children: [
             const DiagramIcon(),
-            IntrinsicWidth(
+            Expanded(
               child: Column(
                 children: [
-                  Expanded( // File name
+                  Expanded(
+                    // File name
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(9.5, 5, 0, 0),
                       alignment: Alignment.centerLeft,
@@ -37,7 +37,8 @@ class DiagramMenuBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox( // Menu
+                  const SizedBox(
+                    // Menu
                     width: double.infinity,
                     height: 30,
                     child: DiagramMenus(),
