@@ -2,8 +2,9 @@ import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/compiler/error/state_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/expand_button.dart';
+import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:fa_simulator/widget/overlay/diagram/definition/row/state_table.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/state/state_table.dart';
 import 'package:flutter/material.dart';
 
 class StatesRow extends StatefulWidget {
@@ -22,6 +23,7 @@ class StatesRow extends StatefulWidget {
 
 class _StatesRowState extends State<StatesRow> {
   bool isExpanded = false;
+  List<StateType> statesCopy = DiagramList().statesCopy;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +75,7 @@ class _StatesRowState extends State<StatesRow> {
         if (isExpanded)
           StateTable(
             states: widget.states,
+            statesCopy: [],
             errors: widget.errors,
           ),
       ],

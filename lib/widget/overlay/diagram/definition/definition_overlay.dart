@@ -10,7 +10,7 @@ import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/diagram_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/final_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/initial_row.dart';
-import 'package:fa_simulator/widget/overlay/diagram/definition/row/states_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/state/states_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transitions_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
@@ -43,9 +43,9 @@ class _DefinitionOverlay extends StatelessWidget {
               DiagramList().transitionFunction;
           List<String> alphabet = DiagramList().allAlphabet.toList();
           states.sort((a, b) => a.label.compareTo(b.label));
-      
+
           DiagramErrorList errors = DiagramList().errorList;
-      
+
           return SizedBox(
             height: 700,
             width: 1000,

@@ -27,6 +27,14 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     return List<DiagramType>.from(_items.map((e) => e.copyWith()));
   }
 
+  List<StateType> get statesCopy {
+    return List<StateType>.from(states.map((e) => e.copyWith()));
+  }
+
+  List<TransitionType> get transitionsCopy {
+    return List<TransitionType>.from(transitions.map((e) => e.copyWith()));
+  }
+
   DiagramErrorList _errorList = DiagramErrorList();
 
   DiagramErrorList get errorList => _errorList;
