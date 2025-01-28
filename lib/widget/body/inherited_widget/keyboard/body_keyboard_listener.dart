@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
-import 'package:fa_simulator/widget/keyboard/char_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

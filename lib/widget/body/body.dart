@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_inherited.dart';
 import 'package:fa_simulator/widget/body/body_shortcuts.dart';

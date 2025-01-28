@@ -117,6 +117,7 @@ class _BodyShortcutsState extends State<BodyShortcuts> {
                 AppActionDispatcher().execute(DeleteDiagramsAction(
                   ids: DiagramList().focusedItems.map((e) => e.id).toList(),
                 ));
+                return null;
               },
             ),
           },
