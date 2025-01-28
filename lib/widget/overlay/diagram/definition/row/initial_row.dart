@@ -51,16 +51,11 @@ class _InitialRowState extends State<InitialRow> {
                 ": q\u2080 = ",
                 style: style,
               ),
-              Tooltip(
-                message: initialStates.length == 1
-                    ? ''
-                    : 'There must be exactly one initial state.',
-                child: Text(
-                  initialStatesLabel,
-                  style: style?.red(
-                    context,
-                    initialStates.length != 1,
-                  ),
+              Text(
+                initialStatesLabel,
+                style: style?.red(
+                  context,
+                  initialStates.length != 1,
                 ),
               ),
             ],

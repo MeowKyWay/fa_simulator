@@ -59,33 +59,24 @@ class _TransitionTableState extends State<TransitionTable> {
         cells: [
           DataCell(Text(transition.id)),
           DataCell(
-            Tooltip(
-              message: isEmpty?.message ?? '',
-              child: Text(
-                "{ ${transition.symbols.join(', ')} }",
-                style: textStyle?.red(
-                  context,
-                  (isEmpty) != null,
-                ),
+            Text(
+              "{ ${transition.symbols.join(', ')} }",
+              style: textStyle?.red(
+                context,
+                (isEmpty) != null,
               ),
             ),
           ),
           DataCell(
-            Tooltip(
-              message: isUndefinedSource?.message ?? '',
-              child: Text(
-                sourceLabel,
-                style: textStyle?.red(context, isUndefinedSource != null),
-              ),
+            Text(
+              sourceLabel,
+              style: textStyle?.red(context, isUndefinedSource != null),
             ),
           ),
           DataCell(
-            Tooltip(
-              message: isUndefinedDestination?.message ?? '',
-              child: Text(
-                destinationLabel,
-                style: textStyle?.red(context, isUndefinedDestination != null),
-              ),
+            Text(
+              destinationLabel,
+              style: textStyle?.red(context, isUndefinedDestination != null),
             ),
           ),
         ],

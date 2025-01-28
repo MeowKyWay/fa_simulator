@@ -53,14 +53,11 @@ class _StateTableState extends State<StateTable> {
         cells: [
           DataCell(Text(state.id)),
           DataCell(
-            Tooltip(
-              message: isDuplicateName?.message ?? isUnnamed?.message ?? '',
-              child: Text(
-                state.label.isEmpty ? 'unnamed state' : state.label,
-                style: textStyle?.red(
-                  context,
-                  isDuplicateName ?? isUnnamed,
-                ),
+            Text(
+              state.label.isEmpty ? 'unnamed state' : state.label,
+              style: textStyle?.red(
+                context,
+                isDuplicateName ?? isUnnamed,
               ),
             ),
           ),
@@ -68,25 +65,18 @@ class _StateTableState extends State<StateTable> {
             Text('(${state.position.dx}, ${state.position.dy})'),
           ),
           DataCell(
-            Tooltip(
-              message:
-                  isDuplicateInitial?.message ?? isNoInitial?.message ?? '',
-              child: Text(
-                state.isInitial ? 'yes' : 'no',
-                style: textStyle?.red(
-                  context,
-                  isDuplicateInitial != null || isNoInitial != null,
-                ),
+            Text(
+              state.isInitial ? 'yes' : 'no',
+              style: textStyle?.red(
+                context,
+                isDuplicateInitial != null || isNoInitial != null,
               ),
             ),
           ),
           DataCell(
-            Tooltip(
-              message: isNoFinal?.message ?? '',
-              child: Text(
-                state.isFinal ? 'yes' : 'no',
-                style: textStyle?.red(context, isNoFinal != null),
-              ),
+            Text(
+              state.isFinal ? 'yes' : 'no',
+              style: textStyle?.red(context, isNoFinal != null),
             ),
           ),
         ],

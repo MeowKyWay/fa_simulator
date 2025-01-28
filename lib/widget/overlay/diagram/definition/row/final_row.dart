@@ -49,16 +49,11 @@ class _FinalRowState extends State<FinalRow> {
                 ": F = ",
                 style: style,
               ),
-              Tooltip(
-                message: finalStates.isEmpty
-                    ? 'There must be at least one final state.'
-                    : '',
-                child: Text(
-                  finalStatesLabel,
-                  style: style?.red(
-                    context,
-                    finalStates.isEmpty,
-                  ),
+              Text(
+                finalStatesLabel,
+                style: style?.red(
+                  context,
+                  finalStates.isEmpty,
                 ),
               ),
             ],

@@ -62,32 +62,26 @@ class TransitionFunction extends StatelessWidget {
 
                   return RichText(
                     text: WidgetSpan(
-                      child: Tooltip(
-                        message: isMissing?.message ?? '',
-                        child: RichText(
-                          text: TextSpan(
-                            style: style?.red(context, isMissing != null),
-                            children: [
-                              TextSpan(
-                                text: ' • δ( $sourceStateLabel, $symbol ) = ',
-                              ),
-                              WidgetSpan(
-                                alignment: PlaceholderAlignment.baseline,
-                                baseline: TextBaseline.alphabetic,
-                                child: Tooltip(
-                                  message: isMultipleDestination?.message ?? '',
-                                  child: Text(
-                                    destString,
-                                    style: style?.red(
-                                      context,
-                                      isMultipleDestination != null ||
-                                          isMissing != null,
-                                    ),
-                                  ),
+                      child: RichText(
+                        text: TextSpan(
+                          style: style?.red(context, isMissing != null),
+                          children: [
+                            TextSpan(
+                              text: ' • δ( $sourceStateLabel, $symbol ) = ',
+                            ),
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.baseline,
+                              baseline: TextBaseline.alphabetic,
+                              child: Text(
+                                destString,
+                                style: style?.red(
+                                  context,
+                                  isMultipleDestination != null ||
+                                      isMissing != null,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ).baseAlign(),
