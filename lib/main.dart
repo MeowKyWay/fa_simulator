@@ -1,4 +1,5 @@
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/provider/diagram_data.dart';
 import 'package:fa_simulator/theme/diagram_theme.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
@@ -17,34 +18,47 @@ void main() {
   runApp(const Main());
 }
 
-class Main extends StatelessWidget {
+class Main extends StatefulWidget {
   const Main({super.key});
+
+  @override
+  State<Main> createState() => _MainState();
+}
+
+class _MainState extends State<Main> {
+  final DiagramNotifier diagramNotifier = DiagramNotifier();
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => DiagramList()),
-        ChangeNotifierProvider(create: (context) => BodyProvider()),
-        ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
-        ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
-        ChangeNotifierProvider(
-            create: (context) => TransitionDraggingProvider()),
-        ChangeNotifierProvider(create: (context) => DiagramDraggingProvider()),
-        ChangeNotifierProvider(create: (context) => FileProvider()),
-        ChangeNotifierProvider(
-            create: (context) => StartArrowFeedbackProvider()),
-        ChangeNotifierProvider(create: (context) => RenamingProvider()),
-      ],
-      child: MaterialApp(
-        theme: diagramTheme,
-        home: const Scaffold(
-          body: DefaultTextStyle(
-            style: TextStyle(
-              color: primaryTextColor,
-              decoration: textDecoration,
-              fontSize: 20,
+    return DiagramProvider(
+      notifier: diagramNotifier,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => DiagramList()),
+          ChangeNotifierProvider(create: (context) => BodyProvider()),
+          ChangeNotifierProvider(
+              create: (context) => PalleteFeedbackProvider()),
+          ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
+          ChangeNotifierProvider(
+              create: (context) => TransitionDraggingProvider()),
+          ChangeNotifierProvider(
+              create: (context) => DiagramDraggingProvider()),
+          ChangeNotifierProvider(create: (context) => FileProvider()),
+          ChangeNotifierProvider(
+              create: (context) => StartArrowFeedbackProvider()),
+          ChangeNotifierProvider(create: (context) => RenamingProvider()),
+        ],
+        child: MaterialApp(
+          theme: diagramTheme,
+          home: const Scaffold(
+            body: DefaultTextStyle(
+              style: TextStyle(
+                color: primaryTextColor,
+                decoration: textDecoration,
+                fontSize: 20,
+              ),
+              child: App(),
             ),
-            child: App(),
           ),
         ),
       ),
