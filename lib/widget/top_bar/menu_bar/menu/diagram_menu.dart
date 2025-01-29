@@ -34,7 +34,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
         });
       },
       child: PopupMenuButton<Object?>(
-        tooltip: "",
+        tooltip: '',
         color: theme.colorScheme.primary,
         menuPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
@@ -49,7 +49,8 @@ class _DiagramMenuState extends State<DiagramMenu> {
           return widget.items(context);
         },
         onSelected: (item) {
-          assert(item is AppAction || item is VoidCallback, 'Invalid item type');
+          assert(
+              item is AppAction || item is VoidCallback, 'Invalid item type');
           if (item is AppAction) {
             item.execute();
           }

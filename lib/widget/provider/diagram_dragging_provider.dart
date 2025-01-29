@@ -24,17 +24,17 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
   Offset? get endPosition => _endPosition;
   Offset get position {
     if (_topLeft == null || _bottomRight == null) {
-      throw Exception("Top left and bottom right must be calculated first");
+      throw Exception('Top left and bottom right must be calculated first');
     }
     if (_startPosition == null || _endPosition == null) {
-      throw Exception("Start and end position must be set first");
+      throw Exception('Start and end position must be set first');
     }
     return _topLeft! - _startPosition! + _endPosition!;
   }
 
   Size get size {
     if (_topLeft == null || _bottomRight == null) {
-      throw Exception("Top left and bottom right must be calculated first");
+      throw Exception('Top left and bottom right must be calculated first');
     }
     return Size(
       (_topLeft!.dx - _bottomRight!.dx).abs(),
@@ -44,13 +44,13 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
 
   Offset get deltaPosition {
     if (_startPosition == null || _endPosition == null) {
-      throw Exception("Start and end position must be set first");
+      throw Exception('Start and end position must be set first');
     }
     return _endPosition! - _startPosition!;
   }
 
   set startPosition(Offset? value) {
-    log("set startPosition");
+    log('set startPosition');
     _startPosition = value;
     notifyListeners();
     DiagramList().notify();

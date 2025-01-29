@@ -5,7 +5,6 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_t
 import 'package:flutter/material.dart';
 
 class CreateTransitionAction extends AppAction {
-
   final Offset? sourcePosition;
   final Offset? destinationPosition;
 
@@ -21,7 +20,7 @@ class CreateTransitionAction extends AppAction {
     this.destinationPosition,
     this.sourceStateId,
     this.destinationStateId,
-    this.label = "",
+    this.label = '',
   });
 
   @override

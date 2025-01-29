@@ -37,19 +37,19 @@ class TransitionType extends DiagramType<TransitionType> {
     // Validation logic moved to constructor body
     if ((sourcePosition ?? sourceStateId) == null) {
       throw ArgumentError(
-          "Either sourcePosition or sourceState must be provided");
+          'Either sourcePosition or sourceState must be provided');
     }
 
     if ((destinationPosition ?? destinationStateId) == null) {
       throw ArgumentError(
-          "Either destinationPosition or destinationState must be provided");
+          'Either destinationPosition or destinationState must be provided');
     }
   }
 
   @override
   set label(String value) {
-    String t = value.replaceAll(RegExp(r"^[, ]+|[, ]+$"), "");
-    t = value.replaceAll(RegExp(r"\\e"), DiagramCharacter.epsilon);
+    String t = value.replaceAll(RegExp(r'^[, ]+|[, ]+$'), '');
+    t = value.replaceAll(RegExp(r'\\e'), DiagramCharacter.epsilon);
     SplayTreeSet<String> symbols = SplayTreeSet<String>();
     for (String symbol in t.split(',')) {
       if (symbol.isEmpty) {
@@ -217,7 +217,7 @@ class TransitionType extends DiagramType<TransitionType> {
   void resetSourceState() {
     if (sourcePosition == null) {
       throw Exception(
-          "Source position must be provided before reseting the source state");
+          'Source position must be provided before reseting the source state');
     }
     sourceStateId = null;
     isCurved = false;
@@ -226,7 +226,7 @@ class TransitionType extends DiagramType<TransitionType> {
   void resetDestinationState() {
     if (destinationPosition == null) {
       throw Exception(
-          "Destination position must be provided before reseting the destination state");
+          'Destination position must be provided before reseting the destination state');
     }
     destinationStateId = null;
     isCurved = false;
@@ -235,7 +235,7 @@ class TransitionType extends DiagramType<TransitionType> {
   void resetSourcePosition() {
     if (sourceState == null) {
       throw Exception(
-          "Source state must be provided before reseting the source position");
+          'Source state must be provided before reseting the source position');
     }
     sourcePosition = null;
   }
@@ -243,7 +243,7 @@ class TransitionType extends DiagramType<TransitionType> {
   void resetDestinationPosition() {
     if (destinationState == null) {
       throw Exception(
-          "Destination state must be provided before reseting the destination position");
+          'Destination state must be provided before reseting the destination position');
     }
     destinationPosition = null;
   }
@@ -422,6 +422,7 @@ class TransitionType extends DiagramType<TransitionType> {
 }
 
 int transitionComparator(TransitionType a, TransitionType b) {
+  if (a.id == b.id) return 0;
   // Get sourceStateLabels
   String? sourceA = a.sourceState?.label;
   String? sourceB = b.sourceState?.label;

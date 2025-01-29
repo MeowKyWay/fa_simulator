@@ -21,7 +21,7 @@ class RenamingProvider extends DiagramProvider with ChangeNotifier {
   void startRename({required String id, String? initialName}) {
     DiagramType? item = DiagramList().item(id);
     if (item == null) {
-      throw Exception("renaming_provider/startRename: State not found");
+      throw Exception('renaming_provider/startRename: State not found');
     }
     _renamingItemId = id;
     _controller.clear();

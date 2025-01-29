@@ -16,7 +16,7 @@ class DashLinePainter extends CustomPainter {
     required this.color,
   }) {
     if (transition == null && (start == null || end == null)) {
-      throw Exception("Either transition or start and end must be provided");
+      throw Exception('Either transition or start and end must be provided');
     }
   }
 

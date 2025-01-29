@@ -29,11 +29,11 @@ class SideBar extends StatelessWidget {
               child: SideBarTextfield(),
             ),
             Palette(
-              label: "State",
+              label: 'State',
               child: StateWrap(),
             ),
             Palette(
-              label: "Transition",
+              label: 'Transition',
               child: StateWrap(),
             ),
           ],

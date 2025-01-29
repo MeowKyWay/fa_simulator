@@ -42,7 +42,7 @@ void deleteState(String id) {
   RenamingProvider().reset();
   if (DiagramList().item(id) is! StateType) {
     throw Exception(
-        "state_manager.dart/deleteState: Item id $id is not a state");
+        'state_manager.dart/deleteState: Item id $id is not a state');
   }
   DiagramList().removeItem(id);
 }
@@ -55,7 +55,7 @@ void moveState(String id, Offset distance) {
   try {
     state = DiagramList().state(id)!;
   } catch (e) {
-    throw Exception("state_manager.dart/moveState: State id $id not found");
+    throw Exception('state_manager.dart/moveState: State id $id not found');
   }
 
   RenamingProvider().reset();
@@ -70,7 +70,7 @@ String renameState(String id, String newName) {
   try {
     state = DiagramList().state(id)!;
   } catch (e) {
-    throw Exception("state_manager.dart/renameState: State id $id not found");
+    throw Exception('state_manager.dart/renameState: State id $id not found');
   }
   String oldName = state.label;
   state.label = newName.trim();
@@ -88,7 +88,7 @@ void changeStateType({
     state = DiagramList().state(id)!;
   } catch (e) {
     throw Exception(
-        "state_manager.dart/changeStateType: State id $id not found");
+        'state_manager.dart/changeStateType: State id $id not found');
   }
   //Change the state type
   state.isInitial = isInitial ?? state.isInitial;
@@ -103,13 +103,13 @@ void moveStateInitialArrow(String id, double angle) {
     state = DiagramList().state(id)!;
   } catch (e) {
     throw Exception(
-        "state_manager.dart/moveStateStartArrow: State id $id not found");
+        'state_manager.dart/moveStateStartArrow: State id $id not found');
   }
   if (!state.isInitial) {
     throw Exception(
-        "state_manager.dart/moveStateStartArrow: State id $id is not a start state");
+        'state_manager.dart/moveStateStartArrow: State id $id is not a start state');
   }
-  
+
   state.initialArrowAngle = angle;
   DiagramList().notify();
 }

@@ -48,7 +48,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
               ),
             ),
             Text(
-              ": Σ = { ",
+              ': Σ = { ',
               style: style,
             ),
             Expanded(
@@ -94,7 +94,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
                 softWrap: true,
               ),
               Text(
-                " are not in the alphabet but are present in the diagram.",
+                ' are not in the alphabet but are present in the diagram.',
                 style: style,
               ),
               Padding(
@@ -119,7 +119,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
                   text: 'Remove',
                   onPressed: () async {
                     if (!await confirm(
-                      "This action will remove every symbol in the list from all transitions.",
+                      'This action will remove every symbol in the list from all transitions.',
                       context,
                     )) {
                       return;
@@ -147,7 +147,7 @@ class _AlphabetRowState extends State<AlphabetRow> {
                 softWrap: true,
               ),
               Text(
-                " are not permitted in this diagram.",
+                ' are not permitted in this diagram.',
                 style: style,
               ),
               Padding(

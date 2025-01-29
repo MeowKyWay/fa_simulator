@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 class DiagramNew {
   void newDiagram(BuildContext context) async {
     resetProvider();
-    if (await confirm("Choose diagram type", context,
-        cancle: "NFA", confirm: "DFA")) {
+    if (await confirm('Choose diagram type', context,
+        cancle: 'NFA', confirm: 'DFA')) {
       FileProvider().faType = FAType.dfa;
     } else {
       FileProvider().faType = FAType.nfa;

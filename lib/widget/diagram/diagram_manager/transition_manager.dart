@@ -10,7 +10,7 @@ TransitionType addTransition({
   Offset? destinationPosition,
   String? sourceStateId,
   String? destinationStateId,
-  String label = "",
+  String label = '',
   String? id,
 }) {
   bool isCurved = false;
@@ -37,7 +37,7 @@ void deleteTransition(String id) {
   RenamingProvider().reset();
   if (DiagramList().item(id) is! TransitionType) {
     throw Exception(
-        "transition_manager.dart/deleteTransition: Item id $id is not a transition");
+        'transition_manager.dart/deleteTransition: Item id $id is not a transition');
   }
   DiagramList().removeItem(id);
 }
@@ -52,7 +52,7 @@ void moveTransition({
 }) {
   if ((distance ?? position) == null) {
     throw ArgumentError(
-        "transition_manager.dart/moveTransition: Either provide distance or position to move a transition pivot");
+        'transition_manager.dart/moveTransition: Either provide distance or position to move a transition pivot');
   }
   // Get the transition
   TransitionType transition;
@@ -60,7 +60,7 @@ void moveTransition({
     transition = DiagramList().transition(id)!;
   } catch (e) {
     throw Exception(
-        "transition_manager.dart/moveTransition: Transition id $id not found");
+        'transition_manager.dart/moveTransition: Transition id $id not found');
   }
 
   Offset startPos = transition.startButtonPosition;
@@ -98,7 +98,7 @@ void attachTransition({
     transition = DiagramList().transition(id)!;
   } catch (e) {
     throw Exception(
-        "transition_manager.dart/attachTransition: Transition id $id not found");
+        'transition_manager.dart/attachTransition: Transition id $id not found');
   }
 
   if (endPoint == TransitionEndPointType.start) {
@@ -107,7 +107,7 @@ void attachTransition({
               stateId, transition.destinationStateId ?? '0') !=
           null) {
         throw Exception(
-            "transition_manager.dart/attachTransition: Transition with source state $stateId and destination state ${transition.destinationStateId} already exist");
+            'transition_manager.dart/attachTransition: Transition with source state $stateId and destination state ${transition.destinationStateId} already exist');
       }
     }
   }
@@ -117,7 +117,7 @@ void attachTransition({
               .getTransitionByState(transition.sourceStateId ?? '0', stateId) !=
           null) {
         throw Exception(
-            "transition_manager.dart/attachTransition: Transition with source state ${transition.sourceStateId} and destination state $stateId already exist");
+            'transition_manager.dart/attachTransition: Transition with source state ${transition.sourceStateId} and destination state $stateId already exist');
       }
     }
   }
@@ -138,4 +138,4 @@ void attachTransition({
 }
 
 String get transitionAlreadyExistErrorMessage =>
-    "Transition with the same source state and destination state already exist";
+    'Transition with the same source state and destination state already exist';

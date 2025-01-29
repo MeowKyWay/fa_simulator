@@ -84,7 +84,7 @@ class StateDragTarget extends StatelessWidget {
   }
 
   void _onAcceptDraggingTransition(DraggingTransitionType data) {
-    log("StateDragTarget._onAcceptDraggingTransition()");
+    log('StateDragTarget._onAcceptDraggingTransition()');
     TransitionEndPointType endPoint =
         data.draggingPivot == TransitionPivotType.start
             ? TransitionEndPointType.start

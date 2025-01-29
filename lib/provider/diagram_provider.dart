@@ -6,21 +6,18 @@ import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:flutter/material.dart';
-import 'package:sorted_list/sorted_list.dart';
 
 enum AutomataType {
   dfa,
   nfa,
+  undefined,
 }
 
 class DiagramNotifier extends ChangeNotifier implements Jsonable {
-  AutomataType? _type;
-  final SortedList<StateType> _states = SortedList(
-    (a, b) => a.compareTo(b),
-  );
-  final SortedList<TransitionType> _transitions = SortedList(
-    (a, b) => a.compareTo(b),
-  );
+  AutomataType _type = AutomataType.undefined;
+  final SplayTreeSet<StateType> _states = SplayTreeSet<StateType>();
+  final SplayTreeSet<TransitionType> _transitions =
+      SplayTreeSet<TransitionType>();
   final SplayTreeSet<String> _alphabet = SplayTreeSet<String>();
 
   DiagramNotifier();
@@ -28,7 +25,7 @@ class DiagramNotifier extends ChangeNotifier implements Jsonable {
   // Getter
   /// Return the type of the automata
   AutomataType get type {
-    return _type!;
+    return _type;
   }
 
   /// Return clone of the states list
@@ -265,6 +262,7 @@ class DiagramNotifier extends ChangeNotifier implements Jsonable {
     _alphabet.remove(symbol);
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final states = _states.map((e) => e.toJson()).toList();
     final transitions = _transitions.map((e) => e.toJson()).toList();

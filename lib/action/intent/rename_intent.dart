@@ -4,6 +4,6 @@ class RenameIntent extends Intent {
   final String initialName;
 
   const RenameIntent({
-    this.initialName = "",
+    this.initialName = '',
   });
 }

@@ -116,6 +116,7 @@ class StateType extends DiagramType<StateType> {
 
 @override
 int stateComparator(StateType a, StateType b) {
+  if (a.id == b.id) return 0;
   int result;
   result = a.label.compareTo(b.label);
   return result == 0 ? a.id.compareTo(b.id) : result;

@@ -10,7 +10,7 @@ class BodyStateHoverOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, diagramList, child) {
-      if (DiagramList().hoveringStateId == "") {
+      if (DiagramList().hoveringStateId == '') {
         return Container();
       }
       return const Stack(

@@ -24,7 +24,7 @@ class AttachTransitionAction extends AppAction {
   }) : super() {
     if (isCentered == null && angle == null) {
       throw ArgumentError(
-          "Either provide isCentered or angle to attach a transition to a state");
+          'Either provide isCentered or angle to attach a transition to a state');
     }
   }
 
@@ -40,7 +40,7 @@ class AttachTransitionAction extends AppAction {
       } else if (transition.sourcePosition != null) {
         oldPosition = transition.sourcePosition!;
       } else {
-        throw StateError("Transition has no both source state and position");
+        throw StateError('Transition has no both source state and position');
       }
     } else {
       if (transition.destinationState != null) {
@@ -49,7 +49,7 @@ class AttachTransitionAction extends AppAction {
         oldPosition = transition.destinationPosition!;
       } else {
         throw StateError(
-            "Transition has no both destination state and position");
+            'Transition has no both destination state and position');
       }
     }
     attachTransition(
@@ -67,7 +67,10 @@ class AttachTransitionAction extends AppAction {
         if (oldStateId != null) {
           attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
         } else if (oldPosition != null) {
-          moveTransition(id: id, pivotType: TransitionPivotType.start, position: oldPosition);
+          moveTransition(
+              id: id,
+              pivotType: TransitionPivotType.start,
+              position: oldPosition);
           transition.resetSourceState();
         }
         break;
@@ -75,7 +78,10 @@ class AttachTransitionAction extends AppAction {
         if (oldStateId != null) {
           attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
         } else if (oldPosition != null) {
-          moveTransition(id: id, pivotType: TransitionPivotType.end, position: oldPosition);
+          moveTransition(
+              id: id,
+              pivotType: TransitionPivotType.end,
+              position: oldPosition);
           transition.resetDestinationState();
         }
         break;

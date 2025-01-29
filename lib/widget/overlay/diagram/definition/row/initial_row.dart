@@ -48,7 +48,7 @@ class _InitialRowState extends State<InitialRow> {
                 ),
               ),
               Text(
-                ": q\u2080 = ",
+                ': q\u2080 = ',
                 style: style,
               ),
               Text(

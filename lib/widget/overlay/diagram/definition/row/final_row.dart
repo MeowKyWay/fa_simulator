@@ -46,7 +46,7 @@ class _FinalRowState extends State<FinalRow> {
                 ),
               ),
               Text(
-                ": F = ",
+                ': F = ',
                 style: style,
               ),
               Text(

@@ -23,7 +23,7 @@ class UnsaveProgressButton extends StatelessWidget {
           AppActionDispatcher().execute(SaveDiagramAction());
         },
         textStyle: Theme.of(context).textTheme.labelSmall,
-        text: "Unsaved changes. Click here to save.",
+        text: 'Unsaved changes. Click here to save.',
       );
     });
   }

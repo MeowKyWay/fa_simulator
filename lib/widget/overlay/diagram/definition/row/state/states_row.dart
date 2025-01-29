@@ -57,7 +57,7 @@ class _StatesRowState extends State<StatesRow> {
                     ),
                   ),
                   Text(
-                    ": Q = { ",
+                    ': Q = { ',
                     style: style,
                   ),
                   Expanded(

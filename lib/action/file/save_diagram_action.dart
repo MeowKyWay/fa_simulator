@@ -9,7 +9,7 @@ class SaveDiagramAction extends AppUnrevertableAction {
   Future<void> execute() async {
     String? path = FileProvider().filePath;
     if (path == null) {
-      log("Path is null, calling saveAs()");
+      log('Path is null, calling saveAs()');
       DiagramSave().saveAs();
       return;
     }

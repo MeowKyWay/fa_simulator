@@ -71,7 +71,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   DiagramType addItem(DiagramType item) {
     if (itemIsExist(item.id)) {
       throw Exception(
-          "diagram_list/addItem: Item with id ${item.id} already exist");
+          'diagram_list/addItem: Item with id ${item.id} already exist');
     }
     if (item is TransitionType) {
       if (item.destinationStateId != null && item.sourceStateId != null) {
@@ -79,16 +79,16 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
                 item.sourceStateId!, item.destinationStateId!) !=
             null) {
           throw Exception(
-              "diagram_list/addItem: Transition with source state ${item.sourceStateId} and destination state ${item.destinationStateId} already exist");
+              'diagram_list/addItem: Transition with source state ${item.sourceStateId} and destination state ${item.destinationStateId} already exist');
         }
       }
       if (item.sourceStateId != null && item.sourceState == null) {
         throw Exception(
-            "diagram_list/addItem: Source state with id ${item.sourceStateId} not found");
+            'diagram_list/addItem: Source state with id ${item.sourceStateId} not found');
       }
       if (item.destinationStateId != null && item.destinationState == null) {
         throw Exception(
-            "diagram_list/addItem: Destination state with id ${item.destinationStateId} not found");
+            'diagram_list/addItem: Destination state with id ${item.destinationStateId} not found');
       }
     }
     _items.add(item);
@@ -109,12 +109,12 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
       if (_items[index] is StateType && !force) {
         if (transitionOfState((_items[index] as StateType).id).isNotEmpty) {
           throw Exception(
-              "diagram_list/removeItem: State with id $id has transition(s) delete any transition(s) connected to the state first");
+              'diagram_list/removeItem: State with id $id has transition(s) delete any transition(s) connected to the state first');
         }
       }
       _items.removeAt(index);
     } else {
-      throw Exception("diagram_list/removeItem: Item id $id not found");
+      throw Exception('diagram_list/removeItem: Item id $id not found');
     }
     notify();
   }
@@ -220,7 +220,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   String renameItem(String id, String name) {
     DiagramType? item = this.item(id);
     if (item == null) {
-      throw Exception("diagram_list/renameItem: Item with id $id not found");
+      throw Exception('diagram_list/renameItem: Item with id $id not found');
     }
     String oldName = item.label;
     item.label = name;
@@ -251,12 +251,12 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
       throw Exception('Cannot compile diagram with errors');
     }
     return {
-      "type": FileProvider().faTypeString,
-      "states": states.map((e) => e.label).toList(),
-      "alphabet": _alphabet.toList(),
-      "transition function": transitionFunction.toJson(),
-      "initial": startStates[0].label,
-      "final": acceptStates.map((e) => e.label).toList(),
+      'type': FileProvider().faTypeString,
+      'states': states.map((e) => e.label).toList(),
+      'alphabet': _alphabet.toList(),
+      'transition function': transitionFunction.toJson(),
+      'initial': startStates[0].label,
+      'final': acceptStates.map((e) => e.label).toList(),
     };
   }
 }

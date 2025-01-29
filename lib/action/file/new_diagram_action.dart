@@ -15,10 +15,10 @@ class NewDiagramAction extends AppUnrevertableAction {
   Future<void> execute() async {
     if (!FileProvider().isSaved) {
       if (!await confirm(
-        "All changes will be lost!",
+        'All changes will be lost!',
         context,
-        confirm: "Discard changes",
-        cancle: "Cancle",
+        confirm: 'Discard changes',
+        cancle: 'Cancle',
       )) {
         return;
       }
