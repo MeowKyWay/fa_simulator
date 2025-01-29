@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';
 
@@ -24,7 +25,7 @@ extension DiagramListAlphabet on DiagramList {
   void removeUnregisteredAlphabet() {
     for (TransitionType transition in transitions) {
       for (String symbol in unregisteredAlphabet) {
-        transition.removeSymbol(symbol);
+        transition.deleteSymbol(symbol);
       }
     }
     notify();
@@ -33,7 +34,7 @@ extension DiagramListAlphabet on DiagramList {
   void removeIllegalAlphabet() {
     for (TransitionType transition in transitions) {
       for (String symbol in illegalAlphabet) {
-        transition.removeSymbol(symbol);
+        transition.deleteSymbol(symbol);
       }
     }
     notify();

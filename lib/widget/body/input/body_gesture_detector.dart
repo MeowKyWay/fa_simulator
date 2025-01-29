@@ -81,7 +81,7 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
     if (rect == null) return;
     List<String> selectedItems = DiagramList()
         .items
-        .where((item) => item.isContained(rect.topLeft, rect.bottomRight))
+        .where((item) => item.isContained(rect: rect))
         .map((item) => item.id)
         .toList();
 

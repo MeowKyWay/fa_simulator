@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class StateType extends DiagramType<StateType> {
   Offset position;
   bool isInitial = false;
   bool isFinal = false;
-  double initialArrowAngle = 0;
+  double initialArrowAngle = 3 / 2 * pi;
 
   StateType({
     required this.position,
@@ -18,30 +19,6 @@ class StateType extends DiagramType<StateType> {
     this.initialArrowAngle = 0,
     super.hasFocus,
   });
-
-  List<String> get transitionIds {
-    return DiagramList()
-        .transitions
-        .where((t) => t.sourceStateId == id || t.destinationStateId == id)
-        .map((t) => t.id)
-        .toList();
-  }
-
-  List<String> get outgoingTransitionIds {
-    return DiagramList()
-        .transitions
-        .where((t) => t.sourceStateId == id)
-        .map((t) => t.id)
-        .toList();
-  }
-
-  List<String> get incomingTransitionIds {
-    return DiagramList()
-        .transitions
-        .where((t) => t.destinationStateId == id)
-        .map((t) => t.id)
-        .toList();
-  }
 
   @override
   String toString() {
@@ -60,14 +37,6 @@ class StateType extends DiagramType<StateType> {
   double get bottom => position.dy + stateSize / 2;
   @override
   double get right => position.dx + stateSize / 2;
-
-  @override
-  bool isContained(Offset topLeft, Offset bottomRight) {
-    return topLeft.dx < left &&
-        topLeft.dy < top &&
-        bottomRight.dx > right &&
-        bottomRight.dy > bottom;
-  }
 
   @override
   int get hashCode =>
@@ -128,7 +97,7 @@ class StateType extends DiagramType<StateType> {
   }
 
   @override
-  StateType copyWith() {
+  StateType get clone {
     return StateType(
       id: id,
       label: label,
@@ -147,5 +116,7 @@ class StateType extends DiagramType<StateType> {
 
 @override
 int stateComparator(StateType a, StateType b) {
-  return a.label.compareTo(b.label);
+  int result;
+  result = a.label.compareTo(b.label);
+  return result == 0 ? a.id.compareTo(b.id) : result;
 }

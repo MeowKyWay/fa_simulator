@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
@@ -32,10 +30,6 @@ class DeleteDiagramsAction extends AppAction {
       deleteTransition(i.id);
     }
     for (StateType i in states) {
-      log(i.id);
-      if (i.transitionIds.isNotEmpty) {
-        throw Exception("Cannot delete a state that has transitions");
-      }
       deleteState(i.id);
     }
   }

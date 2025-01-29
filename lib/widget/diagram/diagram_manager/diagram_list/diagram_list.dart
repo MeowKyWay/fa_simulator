@@ -25,20 +25,43 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
   SplayTreeSet<String> get alphabet => _alphabet;
   List<DiagramType> get items => _items;
   List<DiagramType> get itemsCopy {
-    return List<DiagramType>.from(_items.map((e) => e.copyWith()));
+    return List<DiagramType>.from(_items.map((e) => e.clone));
   }
 
   List<StateType> get statesCopy {
-    return List<StateType>.from(states.map((e) => e.copyWith()));
+    return List<StateType>.from(states.map((e) => e.clone));
   }
 
   List<TransitionType> get transitionsCopy {
-    return List<TransitionType>.from(transitions.map((e) => e.copyWith()));
+    return List<TransitionType>.from(transitions.map((e) => e.clone));
   }
 
   DiagramErrorList _errorList = DiagramErrorList();
 
   DiagramErrorList get errorList => _errorList;
+
+  List<String> transitionOfState(String stateId) {
+    return transitions
+        .where((element) =>
+            element.sourceStateId == stateId ||
+            element.destinationStateId == stateId)
+        .map((e) => e.id)
+        .toList();
+  }
+
+  List<String> outGoingTransitionOfState(String stateId) {
+    return transitions
+        .where((element) => element.sourceStateId == stateId)
+        .map((e) => e.id)
+        .toList();
+  }
+
+  List<String> inComingTransitionOfState(String stateId) {
+    return transitions
+        .where((element) => element.destinationStateId == stateId)
+        .map((e) => e.id)
+        .toList();
+  }
 
   void checkErrors() {
     _errorList.checkError();
@@ -84,7 +107,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     int index = itemIndex(id);
     if (index != -1) {
       if (_items[index] is StateType && !force) {
-        if ((_items[index] as StateType).transitionIds.isNotEmpty) {
+        if (transitionOfState((_items[index] as StateType).id).isNotEmpty) {
           throw Exception(
               "diagram_list/removeItem: State with id $id has transition(s) delete any transition(s) connected to the state first");
         }
@@ -135,7 +158,7 @@ class DiagramList extends DiagramProvider with ChangeNotifier {
     }
   }
 
-  String _hoveringStateId = "";
+  String _hoveringStateId = '';
   String get hoveringStateId => _hoveringStateId;
   set hoveringStateId(String id) {
     _hoveringStateId = id;

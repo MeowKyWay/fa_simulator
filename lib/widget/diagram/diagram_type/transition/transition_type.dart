@@ -5,6 +5,7 @@ import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
@@ -60,26 +61,6 @@ class TransitionType extends DiagramType<TransitionType> {
       symbols.add(symbol.trim());
     }
     super.label = symbols.join(',');
-  }
-
-  SplayTreeSet<String> get symbols {
-    SplayTreeSet<String> symbols = SplayTreeSet<String>();
-    List<String> label = this.label.split(',');
-    for (String symbol in label) {
-      if (symbol.isEmpty) {
-        continue;
-      }
-      symbols.add(symbol.trim());
-    }
-    return symbols;
-  }
-
-  void removeSymbol(String symbol) {
-    label = label.replaceAll(symbol, '');
-    label = label.replaceAll(',,', ',');
-    label = label.replaceAll(RegExp(r'^,'), '');
-    label = label.replaceAll(RegExp(r',$'), '');
-    label = label.trim();
   }
 
   Offset? get loopCenter {
@@ -342,14 +323,6 @@ class TransitionType extends DiagramType<TransitionType> {
   }
 
   @override
-  bool isContained(Offset topLeft, Offset bottomRight) {
-    return topLeft.dx < left &&
-        topLeft.dy < top &&
-        bottomRight.dx > right &&
-        bottomRight.dy > bottom;
-  }
-
-  @override
   int get hashCode =>
       id.hashCode ^
       label.hashCode ^
@@ -429,7 +402,7 @@ class TransitionType extends DiagramType<TransitionType> {
   }
 
   @override
-  TransitionType copyWith() {
+  TransitionType get clone {
     return TransitionType(
       id: id,
       label: label,
@@ -453,38 +426,31 @@ int transitionComparator(TransitionType a, TransitionType b) {
   String? sourceA = a.sourceState?.label;
   String? sourceB = b.sourceState?.label;
 
-  // Compare sourceStateLabels, null values go to the back
-  if (sourceA == null && sourceB == null) {
-    // Both are null, they are equal
-    return 0;
-  } else if (sourceA == null) {
-    // a is null, sort it to the back
+  if (sourceA == null && sourceB != null) {
     return 1;
-  } else if (sourceB == null) {
-    // b is null, sort it to the back
+  } else if (sourceB == null && sourceA != null) {
     return -1;
-  }
-
-  int sourceComparison = sourceA.compareTo(sourceB);
-  if (sourceComparison != 0) {
-    return sourceComparison;
+  } else if (sourceA != null && sourceB != null) {
+    int result = sourceA.compareTo(sourceB);
+    if (result != 0) {
+      return result;
+    }
   }
 
   // If sourceStateLabels are equal, compare destinationStateLabels
   String? destA = a.destinationState?.label;
   String? destB = b.destinationState?.label;
 
-  // Compare destinationStateLabels, null values go to the back
-  if (destA == null && destB == null) {
-    // Both are null, they are equal
-    return 0;
-  } else if (destA == null) {
-    // a is null, sort it to the back
+  if (destA == null && destB != null) {
     return 1;
-  } else if (destB == null) {
-    // b is null, sort it to the back
+  } else if (destB == null && destA != null) {
     return -1;
+  } else if (destB == null) {
+    int result = destA!.compareTo(destB!);
+    if (result != 0) {
+      return result;
+    }
   }
 
-  return destA.compareTo(destB);
+  return a.id.compareTo(b.id);
 }

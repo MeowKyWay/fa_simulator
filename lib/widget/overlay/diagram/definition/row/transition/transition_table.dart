@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:fa_simulator/compiler/diagram_error_list.dart';
 import 'package:fa_simulator/compiler/error/transition_error.dart';
 import 'package:fa_simulator/theme/text_style_extensions.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:flutter/material.dart';
 

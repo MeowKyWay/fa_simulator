@@ -1,5 +1,6 @@
 import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/provider/file_provider.dart';

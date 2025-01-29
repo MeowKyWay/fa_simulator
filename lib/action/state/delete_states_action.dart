@@ -20,13 +20,6 @@ class DeleteStatesAction implements AppAction {
     states.clear();
     states.addAll(DiagramList().getStates(ids));
     for (var i = 0; i < states.length; i++) {
-      try {
-        if (DiagramList().state(states[i].id)!.transitionIds.isNotEmpty) {
-          throw Exception("Cannot delete a state that has transitions");
-        }
-      } catch (e) {
-        throw Exception("Cannot fint state ${states[i].id}");
-      }
       deleteState(states[i].id);
     }
   }
