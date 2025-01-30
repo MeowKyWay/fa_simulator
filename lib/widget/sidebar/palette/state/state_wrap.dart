@@ -19,7 +19,6 @@ class StateWrap extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       // Calculate spacing based on available width
       double availableWidth = constraints.maxWidth;
-      log(availableWidth.toString());
       double chipWidth = 50; // Approximate width of each chip
       int itemsPerRow = (availableWidth / chipWidth).floor();
       double spacing =

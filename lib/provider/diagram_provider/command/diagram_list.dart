@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/symbol_command.dart';
@@ -65,7 +66,7 @@ class DiagramList extends DiagramProvider
 
   late DiagramValidator? _validator;
   late DiagramCompiler? _compiler;
-  final DiagramFile _file = DiagramFile();
+  DiagramFile _file = DiagramFile();
 
   DiagramValidator get validator {
     _validator ??= DiagramValidator(this);
@@ -251,7 +252,7 @@ class DiagramList extends DiagramProvider
   /// Set the type of the automata.
   set type(AutomataType type) {
     _type = type;
-    notifyListeners();
+    notify();
   }
 
   void executeCommand(DiagramCommand command) {
@@ -284,7 +285,7 @@ class DiagramList extends DiagramProvider
       if (command is MoveTransitionCommand) _moveTransition(command);
       if (command is AttachTransitionCommand) _attachTransition(command);
     }
-    notifyListeners();
+    notify();
   }
 
   // Private reference getter
@@ -535,6 +536,9 @@ class DiagramList extends DiagramProvider
     _alphabet.clear();
     _validator = null;
     _compiler = null;
+    _file = DiagramFile();
+    log(file.isSaved.toString());
     notifyListeners();
+    log(file.isSaved.toString());
   }
 }

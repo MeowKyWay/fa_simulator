@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
@@ -51,7 +49,6 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
   }
 
   set startPosition(Offset? value) {
-    log('set startPosition');
     _startPosition = value;
     notifyListeners();
     DiagramList().notify();
@@ -88,7 +85,6 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
     _topLeft = null;
     _bottomRight = null;
     firstMoveFlag = true;
-    DiagramList().notify();
     notifyListeners();
   }
 }

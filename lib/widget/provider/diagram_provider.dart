@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
@@ -19,6 +21,7 @@ void resetProvider() {
   NewTransitionProvider().reset();
   PalleteFeedbackProvider().reset();
   RenamingProvider().reset();
+  log(DiagramList().file.isSaved.toString());
   TransitionDraggingProvider().reset();
   AppActionDispatcher().reset();
   StartArrowFeedbackProvider().reset();

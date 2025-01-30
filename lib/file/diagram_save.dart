@@ -22,6 +22,7 @@ class DiagramSave {
     } catch (e) {
       log('Failed to save diagram: $e');
     }
+    DiagramList().file.isSaved = true;
   }
 
   Future<void> saveAs() async {

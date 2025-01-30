@@ -17,7 +17,6 @@ class BodyStates extends StatelessWidget {
         builder: (context, diagramList, focusProvider, child) {
       return Positioned.fill(
         child: IgnorePointer(
-          // To prevent the state from absorbing drag events
           ignoring: DiagramDraggingProvider().isDragging,
           child: Stack(
             children: [

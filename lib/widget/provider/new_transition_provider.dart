@@ -1,4 +1,3 @@
-import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,6 @@ class NewTransitionProvider extends DiagramProvider with ChangeNotifier {
 
   set isDraggingNewTransition(bool value) {
     _isDraggingNewTransition = value;
-    DiagramList().notify();
     notifyListeners();
   }
 
