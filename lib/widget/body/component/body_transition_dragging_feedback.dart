@@ -1,6 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/painter/transition/dash_line_painter.dart';
@@ -16,13 +16,14 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TransitionDraggingProvider>(builder: (context, provider, child) {
+    return Consumer<TransitionDraggingProvider>(
+        builder: (context, provider, child) {
       if (provider.draggingItemId == null) {
         return Container();
       }
       TransitionType transition;
       try {
-        transition = DiagramList().transition(provider.draggingItemId!)!;
+        transition = DiagramList().transition(provider.draggingItemId!);
       } catch (e) {
         provider.reset();
         return Container();
@@ -52,7 +53,8 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
                 desPos, stateSize / 2, (start - desPos).direction);
           }
           if (hoveringState != null) {
-            start = calculateNewPoint(start, stateSize/2, (end - start).direction);
+            start = calculateNewPoint(
+                start, stateSize / 2, (end - start).direction);
           }
           break;
         case TransitionPivotType.end:
@@ -66,7 +68,8 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
                 srcPos, stateSize / 2, (end - srcPos).direction);
           }
           if (hoveringState != null) {
-            end = calculateNewPoint(end, stateSize/2, (start - end).direction);
+            end =
+                calculateNewPoint(end, stateSize / 2, (start - end).direction);
           }
           break;
         default:
@@ -74,7 +77,9 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
       }
 
       return CustomPaint(
-          painter: DashLinePainter(start: start, end: end, color: Theme.of(context).focusColor),);
+        painter: DashLinePainter(
+            start: start, end: end, color: Theme.of(context).focusColor),
+      );
     });
   }
 }

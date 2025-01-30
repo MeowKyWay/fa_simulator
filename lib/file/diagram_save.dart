@@ -2,25 +2,23 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
   Future<void> save(String filePath) async {
     log('Saving diagram to $filePath');
-    List<DiagramType> items = DiagramList().itemsCopy;
     try {
-      String jsonString =
-          jsonEncode(items.map((item) => item.toJson()).toList());
+      final json = DiagramList().toJson();
+      final jsonString = jsonEncode(json);
 
       File file = File(filePath);
-      FileProvider().fileName = file.path.split('/').last;
-      FileProvider().filePath = file.path;
+      DiagramList().file.name = file.path.split('/').last.split('.').first;
+      DiagramList().file.path = file.path;
       await file.writeAsString(jsonString);
 
-      FileProvider().savedItem = items;
+      DiagramList().file.isSaved = true;
+      DiagramList().notify();
     } catch (e) {
       log('Failed to save diagram: $e');
     }
@@ -28,13 +26,13 @@ class DiagramSave {
 
   Future<void> saveAs() async {
     String fileName =
-        FileProvider().fileName ?? 'new_diagram.${FileProvider().faTypeString}';
+        '${DiagramList().file.name ?? 'Untitled'}.${DiagramList().type.toString()}';
     final FileSaveLocation? result = await getSaveLocation(
       suggestedName: fileName,
       acceptedTypeGroups: [
         XTypeGroup(
-          label: 'DFA Diagram',
-          extensions: [FileProvider().faTypeString],
+          label: 'Diagram',
+          extensions: ['dfa', 'nfa'],
         ),
       ],
     );

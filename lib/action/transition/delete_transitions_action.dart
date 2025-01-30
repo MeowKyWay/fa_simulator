@@ -1,7 +1,8 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 
 class DeleteTransitionsAction extends AppAction {
@@ -17,26 +18,26 @@ class DeleteTransitionsAction extends AppAction {
 
   @override
   Future<void> execute() async {
+    List<DiagramCommand> commands = [];
+
     transitions.clear();
-    transitions.addAll(DiagramList().getTransitions(ids));
+    transitions.addAll(DiagramList().getTransitionsByIds(ids));
     for (String i in ids) {
-      deleteTransition(i);
+      commands.add(DeleteTransitionCommand(id: i));
     }
+
+    DiagramList().executeCommands(commands);
   }
 
   @override
   Future<void> undo() async {
+    List<DiagramCommand> commands = [];
+
     for (var i = 0; i < transitions.length; i++) {
-      addTransition(
-        sourcePosition: transitions[i].sourcePosition,
-        destinationPosition: transitions[i].destinationPosition,
-        sourceStateId: transitions[i].sourceStateId,
-        destinationStateId: transitions[i].destinationStateId,
-        label: transitions[i].label,
-        id: transitions[i].id,
-      );
+      commands.add(AddTransitionCommand(transition: transitions[i]));
     }
-    requestFocus(transitions.map((e) => e.id).toList());
+    DiagramList().executeCommands(commands);
+    FocusProvider().requestFocusAll(ids);
   }
 
   @override

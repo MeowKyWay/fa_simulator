@@ -1,8 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/provider/pallete_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
@@ -14,14 +13,13 @@ abstract class DiagramProvider {
 }
 
 void resetProvider() {
+  DiagramList().reset();
   BodyProvider().reset();
   DiagramDraggingProvider().reset();
-  FileProvider().reset();
   NewTransitionProvider().reset();
   PalleteFeedbackProvider().reset();
   RenamingProvider().reset();
   TransitionDraggingProvider().reset();
-  DiagramList().reset();
   AppActionDispatcher().reset();
   StartArrowFeedbackProvider().reset();
 }

@@ -1,8 +1,9 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:flutter/material.dart';
 
@@ -35,9 +36,10 @@ class MoveTransitionsAction extends AppAction {
 
   @override
   Future<void> execute() async {
-    unfocus();
+    List<DiagramCommand> commands = [];
+
     for (MoveTransitionActionInput input in inputs) {
-      TransitionType transition = DiagramList().transition(input.id)!;
+      TransitionType transition = DiagramList().transition(input.id);
       switch (input.pivotType) {
         case TransitionPivotType.start:
           input.oldStateId = transition.sourceStateId;
@@ -48,35 +50,43 @@ class MoveTransitionsAction extends AppAction {
         default:
           break;
       }
-      moveTransition(
-        id: input.id,
-        pivotType: input.pivotType,
-        distance: deltaOffset,
+      commands.add(
+        MoveTransitionCommand(
+          id: input.id,
+          pivotType: input.pivotType,
+          distance: deltaOffset,
+        ),
       );
     }
-    addFocus(inputs.map((item) => item.id).toList());
+    DiagramList().executeCommands(commands);
+    FocusProvider().requestFocusAll(inputs.map((item) => item.id));
   }
 
   @override
   Future<void> undo() async {
+    List<DiagramCommand> commands = [];
+
     for (MoveTransitionActionInput input in inputs) {
       if (input.oldStateId != null) {
-        attachTransition(
-          id: input.id,
-          stateId: input.oldStateId!,
-          endPoint: input.pivotType == TransitionPivotType.start
-              ? TransitionEndPointType.start
-              : TransitionEndPointType.end,
+        commands.add(
+          AttachTransitionCommand(
+            id: input.id,
+            stateId: input.oldStateId!,
+            pivotType: input.pivotType.endPointType,
+          ),
         );
-        return;
+        continue;
       }
-      moveTransition(
-        id: input.id,
-        pivotType: input.pivotType,
-        distance: -deltaOffset,
+      commands.add(
+        MoveTransitionCommand(
+          id: input.id,
+          pivotType: input.pivotType,
+          distance: -deltaOffset,
+        ),
       );
     }
-    addFocus(inputs.map((item) => item.id).toList());
+    DiagramList().executeCommands(commands);
+    FocusProvider().requestFocusAll(inputs.map((item) => item.id));
   }
 
   @override

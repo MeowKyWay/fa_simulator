@@ -3,7 +3,7 @@ import 'package:fa_simulator/action/diagram/add_diagram_action.dart';
 import 'package:fa_simulator/action/diagram/move_diagrams_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
@@ -30,12 +30,32 @@ class DraggingStateType extends DraggingDiagramType {
 enum TransitionPivotType {
   start,
   end,
-  all,
+  all;
+
+  TransitionEndPointType get endPointType {
+    switch (this) {
+      case TransitionPivotType.start:
+        return TransitionEndPointType.start;
+      case TransitionPivotType.end:
+        return TransitionEndPointType.end;
+      case TransitionPivotType.all:
+        throw Exception('TransitionPivotType.all does not have endpoint type');
+    }
+  }
 }
 
 enum TransitionEndPointType {
   start,
-  end,
+  end;
+
+  TransitionPivotType get pivotType {
+    switch (this) {
+      case TransitionEndPointType.start:
+        return TransitionPivotType.start;
+      case TransitionEndPointType.end:
+        return TransitionPivotType.end;
+    }
+  }
 }
 
 class DraggingTransitionType {
@@ -71,7 +91,8 @@ class BodyDragTarget extends StatelessWidget {
         else if (details.data is NewTransitionType) {
           return _onWillAcceptNewTransition(details.data as NewTransitionType);
         } else if (details.data is PaletteDragData) {
-          return _onWillAcceptStatePalleteDragData(details.data as StatePaletteDragData);
+          return _onWillAcceptStatePalleteDragData(
+              details.data as StatePaletteDragData);
         }
         return false;
       },
@@ -118,7 +139,7 @@ class BodyDragTarget extends StatelessWidget {
   void _onAcceptDraggingDiagram(DraggingDiagramType data) {
     AppActionDispatcher().execute(
       MoveDiagramsAction(
-        ids: DiagramList().focusedItems.map((e) => e.id).toList(),
+        ids: FocusProvider().focusedItemIds,
         deltaOffset: DiagramDraggingProvider().deltaPosition,
       ),
     );

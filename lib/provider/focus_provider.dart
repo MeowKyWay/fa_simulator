@@ -1,6 +1,17 @@
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
+import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class FocusNotifier extends ChangeNotifier {
+class FocusProvider extends DiagramProvider with ChangeNotifier {
+  static final FocusProvider _instance = FocusProvider._internal();
+  FocusProvider._internal();
+  factory FocusProvider() {
+    return _instance;
+  }
+
   final Set<String> _focusItemIds = {};
 
   /// Add focus to the item with the provided id
@@ -65,27 +76,56 @@ class FocusNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Toggle focus for each item with the provided ids
+  void toggleFocusAll(Iterable<String> ids) {
+    for (String id in ids) {
+      if (_focusItemIds.contains(id)) {
+        _focusItemIds.remove(id);
+      } else {
+        _focusItemIds.add(id);
+      }
+    }
+    notifyListeners();
+  }
+
   /// Return true if the item with the provided id is focused
   bool hasFocus(String id) {
     return _focusItemIds.contains(id);
   }
 
   /// Return every focused item id
-  Set<String> get focusItemIds {
+  Set<String> get focusedItemIds {
     return Set<String>.from(_focusItemIds);
   }
-}
 
-class FocusProvider extends InheritedNotifier<FocusNotifier> {
-  const FocusProvider({
-    super.key,
-    required super.notifier,
-    required super.child,
-  });
+  /// Return every id of every focused state
+  Set<String> get focusedStateIds {
+    return _focusItemIds.where((id) => DiagramList().isState(id)).toSet();
+  }
 
-  static FocusNotifier of(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<FocusProvider>()!
-        .notifier!;
+  /// Return every focused state
+  List<StateType> get focusedStates {
+    return DiagramList().getStatesByIds(focusedStateIds);
+  }
+
+  /// Return every id of every focused transition
+  Set<String> get focusedTransitionIds {
+    return _focusItemIds.where((id) => DiagramList().isTransition(id)).toSet();
+  }
+
+  /// Return every focused transition
+  List<TransitionType> get focusedTransitions {
+    return DiagramList().getTransitionsByIds(focusedTransitionIds);
+  }
+
+  /// Return every focused item
+  List<DiagramType> get focusedItems {
+    return DiagramList().getItemsByIds(_focusItemIds);
+  }
+
+  @override
+  void reset() {
+    _focusItemIds.clear();
+    notifyListeners();
   }
 }

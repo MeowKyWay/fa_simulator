@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class DiagramDraggingProvider extends DiagramProvider with ChangeNotifier {
 
   void calculateOffset() {
     // Calculate the top left and bottom right of the focused items
-    List<DiagramType> focusItems = DiagramList().focusedItems;
+    List<DiagramType> focusItems = FocusProvider().focusedItems;
     double top = double.infinity;
     double left = double.infinity;
     double right = double.negativeInfinity;

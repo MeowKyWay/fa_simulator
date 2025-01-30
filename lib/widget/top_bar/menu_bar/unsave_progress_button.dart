@@ -1,8 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/file/save_diagram_action.dart';
 import 'package:fa_simulator/widget/components/button.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +13,7 @@ class UnsaveProgressButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, provider, child) {
-      if (FileProvider().isSaved) {
+      if (DiagramList().file.isSaved) {
         return Container();
       }
       return Button(

@@ -1,8 +1,10 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_character.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
+import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
@@ -24,9 +26,8 @@ class TransitionType extends DiagramType<TransitionType> {
   final double loopRadius = stateSize / 3;
 
   TransitionType({
-    required super.id,
+    super.id,
     required super.label,
-    super.hasFocus,
     this.sourceStateId,
     this.destinationStateId,
     this.sourcePosition,
@@ -255,9 +256,16 @@ class TransitionType extends DiagramType<TransitionType> {
       return;
     }
     try {
-      TransitionType transition = DiagramList()
-          .getTransitionByState(destinationStateId!, sourceStateId!)!;
-      transition.isCurved = value;
+      TransitionType transition;
+      transition = DiagramList().getTransitionByStates(
+        destinationStateId!,
+        sourceStateId!,
+      );
+      DiagramList().executeCommand(
+        UpdateTransitionCommand(
+          detail: TransitionDetail(id: transition.id, isCurved: value),
+        ),
+      );
       isCurved = value;
     } catch (e) {
       return;

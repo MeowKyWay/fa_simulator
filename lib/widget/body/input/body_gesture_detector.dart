@@ -7,7 +7,7 @@ import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
 import 'package:fa_simulator/widget/body/inherited_widget/selection_data.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:flutter/material.dart';
 

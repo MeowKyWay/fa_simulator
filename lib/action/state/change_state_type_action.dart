@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 
 class ChangeStateTypeAction extends AppAction {
@@ -23,24 +24,32 @@ class ChangeStateTypeAction extends AppAction {
   @override
   Future<void> execute() async {
     StateType state;
-    try {
-      state = DiagramList().state(id)!;
-    } catch (e) {
-      throw Exception('change_state_type_action.dart: State not found');
-    }
+    state = DiagramList().state(id);
 
     _isInitial = state.isInitial;
     _isFinal = state.isFinal;
-    changeStateType(id: id, isInitial: isInitial, isFinal: isFinal);
+    DiagramList().executeCommand(
+      UpdateStateCommand(
+        detail: StateDetail(id: id, isInitial: isInitial, isFinal: isFinal),
+      ),
+    );
   }
 
   @override
   Future<void> undo() async {
-    changeStateType(id: id, isInitial: _isInitial, isFinal: _isFinal);
+    DiagramList().executeCommand(
+      UpdateStateCommand(
+        detail: StateDetail(id: id, isInitial: _isInitial, isFinal: _isFinal),
+      ),
+    );
   }
 
   @override
   Future<void> redo() async {
-    changeStateType(id: id, isInitial: isInitial, isFinal: isFinal);
+    DiagramList().executeCommand(
+      UpdateStateCommand(
+        detail: StateDetail(id: id, isInitial: isInitial, isFinal: isFinal),
+      ),
+    );
   }
 }

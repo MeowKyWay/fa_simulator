@@ -17,8 +17,12 @@ class TransitionPivot {
     double startOffset = transition.sourceStateId != null ? offset : 0;
     double endOffset = transition.destinationStateId != null ? offset : 0;
 
-    startOffset = transition.sourceStateId == transition.destinationStateId ? 0 : startOffset;
-    endOffset = transition.sourceStateId == transition.destinationStateId ? 0 : endOffset;
+    startOffset = transition.sourceStateId == transition.destinationStateId
+        ? 0
+        : startOffset;
+    endOffset = transition.sourceStateId == transition.destinationStateId
+        ? 0
+        : endOffset;
 
     Offset startPivotPosition = calculateNewPoint(
       transition.startButtonPosition,

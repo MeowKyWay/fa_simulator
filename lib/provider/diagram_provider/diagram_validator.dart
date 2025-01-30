@@ -1,36 +1,33 @@
-import 'package:fa_simulator/compiler/diagram_error_list.dart';
-import 'package:fa_simulator/compiler/error/diagram_error.dart';
-import 'package:fa_simulator/compiler/error/state_error.dart';
-import 'package:fa_simulator/compiler/error/symbol_error.dart';
-import 'package:fa_simulator/compiler/error/transition_error.dart';
-import 'package:fa_simulator/compiler/error/transition_function_entry_error.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_character.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_alphabet.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list_compile.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
+import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/error/diagram_errors.dart';
+import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
+import 'package:tuple/tuple.dart';
 
-extension DiagramErrorChecker on DiagramErrorList {
-  void addError(DiagramErrors error) {
-    errors.add(error);
-  }
+class DiagramValidator {
+  final DiagramList diagram;
+  late DiagramErrorList errors;
 
-  void checkError() {
-    errors.clear();
-    List<StateType> states = DiagramList().states;
-    List<TransitionType> transitions = DiagramList().transitions;
-    List<String> alphabet = DiagramList().allAlphabet.toList();
-    List<TransitionFunctionEntry> transitionFunctionEntries =
-        DiagramList().transitionFunction.entries.toList();
+  DiagramValidator(this.diagram);
+
+  void validate() {
+    errors = DiagramErrorList();
+    List<StateType> states = diagram.states;
+    List<TransitionType> transitions = diagram.transitions;
+    List<String> alphabet = diagram.allSymbol;
+    TransitionFunctionType transitionFunction =
+        diagram.compiler.transitionFunction;
 
     _checkStatesError(states);
     _checkTransitionsError(transitions);
     _checkAlphabetError(alphabet);
-    _checkTransitionFunctionError(transitionFunctionEntries);
+    _checkTransitionFunctionError(transitionFunction);
+    _checkTransitionFunctionEntryError(transitionFunction);
   }
 
   void _checkStatesError(List<StateType> states) {
@@ -41,7 +38,6 @@ extension DiagramErrorChecker on DiagramErrorList {
     for (int i = 0; i < states.length; i++) {
       StateType state = states[i];
       StateErrors stateErrors = StateErrors(
-        errors: [],
         stateId: state.id,
       );
 
@@ -64,12 +60,19 @@ extension DiagramErrorChecker on DiagramErrorList {
         finalFlag = true;
       }
       if (i == states.length - 1) {
-        // If there is no final state, add no final state error
-        if (!finalFlag) stateErrors.addError(StateErrorType.noFinalState);
-        if (!initialFlag) stateErrors.addError(StateErrorType.noInitialState);
+        if (!finalFlag) {
+          errors[DiagramErrorClassType.diagramError].addError(
+            DiagramErrorType.noFinalState,
+          );
+        }
+        if (!initialFlag) {
+          errors[DiagramErrorClassType.diagramError].addError(
+            DiagramErrorType.noInitialState,
+          );
+        }
       }
       if (stateErrors.hasError) {
-        addError(stateErrors);
+        errors[DiagramErrorClassType.stateError][state.id] = stateErrors;
       }
     }
   }
@@ -78,7 +81,6 @@ extension DiagramErrorChecker on DiagramErrorList {
     for (int i = 0; i < transitions.length; i++) {
       TransitionType transition = transitions[i];
       TransitionErrors transitionErrors = TransitionErrors(
-        errors: [],
         transitionId: transition.id,
       );
 
@@ -92,59 +94,82 @@ extension DiagramErrorChecker on DiagramErrorList {
         transitionErrors.addError(TransitionErrorType.emptyTransition);
       }
       if (transitionErrors.hasError) {
-        addError(transitionErrors);
+        errors[DiagramErrorClassType.transitionError][transition.id] =
+            transitionErrors;
       }
     }
   }
 
   void _checkAlphabetError(List<String> alphabet) {
-    List<String> unregisteredAlphabet;
-    unregisteredAlphabet = DiagramList().unregisteredAlphabet.toList();
+    List<String> unregisteredSymbols;
+    unregisteredSymbols = diagram.unregisteredSymbols;
 
     for (int i = 0; i < alphabet.length; i++) {
       String symbol = alphabet[i];
       SymbolErrors alphabetErrors = SymbolErrors(
-        errors: [],
         symbol: symbol,
       );
 
-      if (FileProvider().faType == FAType.dfa) {
+      if (diagram.type == AutomataType.dfa) {
         if (symbol == DiagramCharacter.epsilon) {
           alphabetErrors.addError(SymbolErrorType.illegalSymbol);
         }
       }
-      if (unregisteredAlphabet.contains(symbol)) {
+      if (unregisteredSymbols.contains(symbol)) {
         alphabetErrors.addError(SymbolErrorType.unregisteredSymbol);
       }
       if (alphabetErrors.hasError) {
-        addError(alphabetErrors);
+        errors[DiagramErrorClassType.symbolError][symbol] = alphabetErrors;
       }
     }
   }
 
-  void _checkTransitionFunctionError(List<TransitionFunctionEntry> entries) {
+  void _checkTransitionFunctionError(
+    TransitionFunctionType transitionFunction,
+  ) {
+    if (diagram.type != AutomataType.dfa) return;
+
+    List<String> alphabet = diagram.alphabet;
+
+    for (StateType state in diagram.states) {
+      for (String symbol in alphabet) {
+        if (!transitionFunction.containEntry(state.id, symbol)) {
+          TransitionFunctionErrors transitionFunctionErrors;
+          transitionFunctionErrors = TransitionFunctionErrors(
+            stateId: state.id,
+            symbol: symbol,
+          );
+          transitionFunctionErrors.addError(
+            TransitionFunctionErrorType.noTransitionFunction,
+          );
+          errors[DiagramErrorClassType.transitionFunctionError]
+              [Tuple2(state.id, symbol)] = transitionFunctionErrors;
+        }
+      }
+    }
+  }
+
+  void _checkTransitionFunctionEntryError(
+      TransitionFunctionType transitionFunction) {
+    final List<TransitionFunctionEntry> entries;
+    entries = transitionFunction.entries.toList();
     for (int i = 0; i < entries.length; i++) {
       TransitionFunctionEntry entry = entries[i];
-      TransitionFunctionEntryErrors errors = TransitionFunctionEntryErrors(
-        errors: [],
+      TransitionFunctionEntryErrors entryErrors = TransitionFunctionEntryErrors(
         stateId: entry.sourceStateId,
         symbol: entry.symbol,
       );
 
       if (entry.destinationStateIds.length > 1) {
-        if (FileProvider().faType == FAType.dfa) {
-          errors.addError(
+        if (diagram.type == AutomataType.dfa) {
+          entryErrors.addError(
             TransitionFunctionEntryErrorType.multipleDestinationStates,
           );
         }
       }
-      if (entry.destinationStateIds.isEmpty) {
-        errors.addError(
-          TransitionFunctionEntryErrorType.missingTransition,
-        );
-      }
-      if (errors.hasError) {
-        addError(errors);
+      if (entryErrors.hasError) {
+        errors[DiagramErrorClassType.transitionFunctionEntryError]
+            [Tuple2(entry.sourceStateId, entry.symbol)] = entryErrors;
       }
     }
   }

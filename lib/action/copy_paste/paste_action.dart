@@ -1,9 +1,10 @@
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/action/diagram_clipboard.dart';
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
@@ -32,9 +33,9 @@ class PasteAction extends AppAction {
 
     for (StateType state in states) {
       StateType newState;
-      newState = addState(
+      newState = StateType(
         position: state.position + margin,
-        name: state.label,
+        label: state.label,
         isInitial: state.isInitial,
         isFinal: state.isFinal,
         initialArrowAngle: state.initialArrowAngle,
@@ -51,7 +52,7 @@ class PasteAction extends AppAction {
       Offset? destinationPosition = transition.destinationPosition == null
           ? null
           : transition.destinationPosition! + margin;
-      newTransition = addTransition(
+      newTransition = TransitionType(
         sourcePosition: sourcePosition,
         destinationPosition: destinationPosition,
         sourceStateId: _stateIdMap[transition.sourceStateId],
@@ -60,44 +61,46 @@ class PasteAction extends AppAction {
       );
       _transitions.add(newTransition);
     }
-    requestFocus(_states.map((e) => e.id).toList());
-    addFocus(_transitions.map((e) => e.id).toList());
+
+    DiagramList().executeCommands([
+      for (StateType e in _states) AddStateCommand(state: e),
+      for (TransitionType e in _transitions)
+        AddTransitionCommand(transition: e),
+    ]);
+    FocusProvider().requestFocusAll(
+      _states.map((e) => e.id).followedBy(_transitions.map((e) => e.id)),
+    );
   }
 
   @override
   Future<void> undo() async {
     DiagramClipboard().decrementCount();
     for (TransitionType transition in _transitions) {
-      deleteTransition(transition.id);
+      DiagramList().executeCommand(
+        DeleteTransitionCommand(id: transition.id),
+      );
     }
     for (StateType state in _states) {
-      deleteState(state.id);
+      DiagramList().executeCommand(
+        DeleteStateCommand(id: state.id),
+      );
     }
   }
 
   @override
   Future<void> redo() async {
     for (StateType state in _states) {
-      addState(
-        position: state.position,
-        name: state.label,
-        isInitial: state.isInitial,
-        isFinal: state.isFinal,
-        initialArrowAngle: state.initialArrowAngle,
-        id: state.id,
+      DiagramList().executeCommand(
+        AddStateCommand(state: state),
       );
     }
     for (TransitionType transition in _transitions) {
-      addTransition(
-        sourcePosition: transition.sourcePosition,
-        destinationPosition: transition.destinationPosition,
-        sourceStateId: transition.sourceStateId,
-        destinationStateId: transition.destinationStateId,
-        label: transition.label,
-        id: transition.id,
+      DiagramList().executeCommand(
+        AddTransitionCommand(transition: transition),
       );
     }
-    requestFocus(_states.map((e) => e.id).toList());
-    addFocus(_transitions.map((e) => e.id).toList());
+    FocusProvider().requestFocusAll(
+      _states.map((e) => e.id).followedBy(_transitions.map((e) => e.id)),
+    );
   }
 }

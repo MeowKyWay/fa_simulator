@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:fa_simulator/widget/diagram/diagram_type/interface/jsonable.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 
 class TransitionFunctionType implements Jsonable {
@@ -96,7 +96,7 @@ class TransitionFunctionEntry implements Jsonable {
 
   StateType get sourceState {
     try {
-      return DiagramList().state(sourceStateId)!;
+      return DiagramList().state(sourceStateId);
     } catch (e) {
       throw Exception(
           'transition_function_type.dart/TransitionFunctionEntry/sourceState: Source state $sourceStateId not found');
@@ -107,7 +107,7 @@ class TransitionFunctionEntry implements Jsonable {
     List<StateType> destinationStates = [];
     for (String destinationStateId in destinationStateIds) {
       try {
-        destinationStates.add(DiagramList().state(destinationStateId)!);
+        destinationStates.add(DiagramList().state(destinationStateId));
       } catch (e) {
         throw Exception(
             'transition_function_type.dart/TransitionFunctionEntry/destinationStates: Destination state $destinationStateId not found');

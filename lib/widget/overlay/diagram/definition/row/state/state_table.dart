@@ -1,107 +1,105 @@
-import 'dart:developer';
+// import 'dart:developer';
 
-import 'package:fa_simulator/compiler/diagram_error_list.dart';
-import 'package:fa_simulator/compiler/error/state_error.dart';
-import 'package:fa_simulator/theme/text_style_extensions.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:flutter/material.dart';
+// import 'package:fa_simulator/resource/theme/text_style_extensions.dart';
+// import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+// import 'package:flutter/material.dart';
 
-class StateTable extends StatefulWidget {
-  final List<StateType> states;
-  final DiagramErrorList errors;
+// class StateTable extends StatefulWidget {
+//   final List<StateType> states;
+//   final DiagramErrorList errors;
 
-  const StateTable({
-    super.key,
-    required this.states,
-    required this.errors,
-  });
+//   const StateTable({
+//     super.key,
+//     required this.states,
+//     required this.errors,
+//   });
 
-  @override
-  State<StateTable> createState() => _StateTableState();
-}
+//   @override
+//   State<StateTable> createState() => _StateTableState();
+// }
 
-class _StateTableState extends State<StateTable> {
-  @override
-  Widget build(BuildContext context) {
-    log('StateTable build');
+// class _StateTableState extends State<StateTable> {
+//   @override
+//   Widget build(BuildContext context) {
+//     log('StateTable build');
 
-    List<DataColumn> columns = [
-      DataColumn(label: Text('id')),
-      DataColumn(label: Text('name')),
-      DataColumn(label: Text('position')),
-      DataColumn(label: Text('initial')),
-      DataColumn(label: Text('final')),
-    ];
+//     List<DataColumn> columns = [
+//       DataColumn(label: Text('id')),
+//       DataColumn(label: Text('name')),
+//       DataColumn(label: Text('position')),
+//       DataColumn(label: Text('initial')),
+//       DataColumn(label: Text('final')),
+//     ];
 
-    List<DataRow> rows = [];
+//     List<DataRow> rows = [];
 
-    for (int i = 0; i < widget.states.length; i++) {
-      StateType state = widget.states[i];
-      StateErrors? error = widget.errors.stateError(state.id);
+//     for (int i = 0; i < widget.states.length; i++) {
+//       StateType state = widget.states[i];
+//       StateErrors? error = widget.errors.stateError(state.id);
 
-      StateErrorType? isDuplicateName = error?.isDuplicateName;
-      StateErrorType? isUnnamed = error?.isUnnamed;
-      StateErrorType? isDuplicateInitial = error?.isDuplicateInitial;
-      StateErrorType? isNoFinal = error?.isNoFinal;
-      StateErrorType? isNoInitial = error?.isNoInitial;
+//       StateErrorType? isDuplicateName = error?.isDuplicateName;
+//       StateErrorType? isUnnamed = error?.isUnnamed;
+//       StateErrorType? isDuplicateInitial = error?.isDuplicateInitial;
+//       StateErrorType? isNoFinal = error?.isNoFinal;
+//       StateErrorType? isNoInitial = error?.isNoInitial;
 
-      TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
+//       TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
-      DataRow row = DataRow(
-        cells: [
-          DataCell(Text(state.id)),
-          DataCell(
-            Text(
-              state.label.isEmpty ? 'unnamed state' : state.label,
-              style: textStyle?.red(
-                context,
-                isDuplicateName ?? isUnnamed,
-              ),
-            ),
-          ),
-          DataCell(
-            Text('(${state.position.dx}, ${state.position.dy})'),
-          ),
-          DataCell(
-            Text(
-              state.isInitial ? 'yes' : 'no',
-              style: textStyle?.red(
-                context,
-                isDuplicateInitial != null || isNoInitial != null,
-              ),
-            ),
-          ),
-          DataCell(
-            Text(
-              state.isFinal ? 'yes' : 'no',
-              style: textStyle?.red(context, isNoFinal != null),
-            ),
-          ),
-        ],
-      );
-      rows.add(row);
-    }
+//       DataRow row = DataRow(
+//         cells: [
+//           DataCell(Text(state.id)),
+//           DataCell(
+//             Text(
+//               state.label.isEmpty ? 'unnamed state' : state.label,
+//               style: textStyle?.red(
+//                 context,
+//                 isDuplicateName ?? isUnnamed,
+//               ),
+//             ),
+//           ),
+//           DataCell(
+//             Text('(${state.position.dx}, ${state.position.dy})'),
+//           ),
+//           DataCell(
+//             Text(
+//               state.isInitial ? 'yes' : 'no',
+//               style: textStyle?.red(
+//                 context,
+//                 isDuplicateInitial != null || isNoInitial != null,
+//               ),
+//             ),
+//           ),
+//           DataCell(
+//             Text(
+//               state.isFinal ? 'yes' : 'no',
+//               style: textStyle?.red(context, isNoFinal != null),
+//             ),
+//           ),
+//         ],
+//       );
+//       rows.add(row);
+//     }
 
-    return DataTable(
-      border: TableBorder(
-        horizontalInside: BorderSide(
-            width: 1, color: Theme.of(context).colorScheme.outlineVariant),
-      ),
-      dataTextStyle: Theme.of(context).textTheme.bodyMedium,
-      columns: columns,
-      rows: rows,
-    );
-  }
+//     return DataTable(
+//       border: TableBorder(
+//         horizontalInside: BorderSide(
+//             width: 1, color: Theme.of(context).colorScheme.outlineVariant),
+//       ),
+//       dataTextStyle: Theme.of(context).textTheme.bodyMedium,
+//       columns: columns,
+//       rows: rows,
+//     );
+//   }
 
-  // void _onSort(
-  //   columnIndex,
-  //   ascending,
-  //   int Function(StateType, StateType) compare,
-  // ) {
-  //   setState(() {
-  //     _sortIndex = columnIndex;
-  //     _sortAscending = ascending;
-  //     widget.states.sort((a, b) => compare(a, b) * (ascending ? 1 : -1));
-  //   });
-  // }
-}
+//   // void _onSort(
+//   //   columnIndex,
+//   //   ascending,
+//   //   int Function(StateType, StateType) compare,
+//   // ) {
+//   //   setState(() {
+//   //     _sortIndex = columnIndex;
+//   //     _sortAscending = ascending;
+//   //     widget.states.sort((a, b) => compare(a, b) * (ascending ? 1 : -1));
+//   //   });
+//   // }
+// }

@@ -1,3 +1,4 @@
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_gesture_detector.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_label.dart';
@@ -38,7 +39,7 @@ class DiagramTransition {
             ),
             child: Container(),
           ),
-          transition.hasFocus
+          FocusProvider().hasFocus(transition.id)
               ? CustomPaint(
                   painter: DashLinePainter(
                     transition: transition,

@@ -1,7 +1,9 @@
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/interface/cloneable.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/interface/jsonable.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/interface/rectable.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 enum DiagramTypeEnum {
   state,
@@ -11,14 +13,12 @@ enum DiagramTypeEnum {
 abstract class DiagramType<T extends DiagramType<T>>
     implements Comparable<T>, Jsonable, Rectable, Cloneable<T> {
   final String id;
-  bool hasFocus;
   String label;
 
   DiagramType({
-    required this.id,
+    String? id,
     required this.label,
-    this.hasFocus = false,
-  });
+  }) : id = id ?? Uuid().v4();
 
   @override
   Rect get bound {
@@ -45,4 +45,6 @@ abstract class DiagramType<T extends DiagramType<T>>
         this.right <= right &&
         this.bottom <= bottom;
   }
+
+  bool get hasFocus => FocusProvider().hasFocus(id);
 }

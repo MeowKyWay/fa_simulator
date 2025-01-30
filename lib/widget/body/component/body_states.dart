@@ -1,4 +1,5 @@
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/focus_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/diagram_state.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
@@ -12,7 +13,8 @@ class BodyStates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DiagramList>(builder: (context, diagramList, child) {
+    return Consumer2<DiagramList, FocusProvider>(
+        builder: (context, diagramList, focusProvider, child) {
       return Positioned.fill(
         child: IgnorePointer(
           // To prevent the state from absorbing drag events
@@ -24,9 +26,9 @@ class BodyStates extends StatelessWidget {
                   state: state,
                 );
               }),
-              ...diagramList.focusedStates.map((state) {
+              ...focusProvider.focusedStateIds.map((state) {
                 return FocusOverlay(
-                  position: state.position,
+                  position: diagramList.state(state).position,
                 );
               }),
             ],

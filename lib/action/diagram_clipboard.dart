@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/components/extension/list_extension.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +30,6 @@ class DiagramClipboard {
 
   static void copy(List<DiagramType> items) {
     String json = items.toJson();
-    log('Copied: $json');
     Clipboard.setData(
       ClipboardData(text: json),
     );
@@ -44,7 +41,6 @@ class DiagramClipboard {
       return [];
     }
     String json = data.text ?? '';
-    log('Pasted: $json');
     return DiagramListExtension.fromJson(json);
   }
 }

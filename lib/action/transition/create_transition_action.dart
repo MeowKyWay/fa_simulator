@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:flutter/material.dart';
 
@@ -28,31 +29,25 @@ class CreateTransitionAction extends AppAction {
 
   @override
   Future<void> execute() async {
-    transition = addTransition(
+    transition = TransitionType(
       sourcePosition: sourcePosition,
       destinationPosition: destinationPosition,
       sourceStateId: sourceStateId,
       destinationStateId: destinationStateId,
       label: label,
     );
-    requestFocus([transition.id]);
+    DiagramList().executeCommand(AddTransitionCommand(transition: transition));
+    FocusProvider().requestFocus(transition.id);
   }
 
   @override
   Future<void> undo() async {
-    deleteTransition(transition.id);
+    DiagramList().executeCommand(DeleteTransitionCommand(id: transition.id));
   }
 
   @override
   Future<void> redo() async {
-    addTransition(
-      sourcePosition: sourcePosition,
-      destinationPosition: destinationPosition,
-      sourceStateId: sourceStateId,
-      destinationStateId: destinationStateId,
-      label: label,
-      id: transition.id,
-    );
-    requestFocus([transition.id]);
+    DiagramList().executeCommand(AddTransitionCommand(transition: transition));
+    FocusProvider().requestFocus(transition.id);
   }
 }

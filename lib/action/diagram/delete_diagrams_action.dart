@@ -1,13 +1,12 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/state_manager.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 
 class DeleteDiagramsAction extends AppAction {
-  final List<String> ids;
+  final Iterable<String> ids;
   final Set<StateType> states = {};
   final Set<TransitionType> transitions = {};
 
@@ -22,35 +21,35 @@ class DeleteDiagramsAction extends AppAction {
   Future<void> execute() async {
     transitions.clear();
     states.clear();
+
+    List<DiagramCommand> commands = [];
+
     transitions.addAll(
         DiagramList().transitions.where((element) => ids.contains(element.id)));
     states.addAll(
         DiagramList().states.where((element) => ids.contains(element.id)));
     for (TransitionType i in transitions) {
-      deleteTransition(i.id);
+      commands.add(DeleteItemCommand(id: i.id));
     }
     for (StateType i in states) {
-      deleteState(i.id);
+      commands.add(DeleteItemCommand(id: i.id));
     }
+
+    DiagramList().executeCommands(commands);
   }
 
   @override
   Future<void> undo() async {
+    List<AddItemCommand> commands = [];
+
     for (StateType i in states) {
-      DiagramList().addItem(i);
+      commands.add(AddItemCommand(item: i));
     }
     for (TransitionType i in transitions) {
-      addTransition(
-        sourcePosition: i.sourcePosition,
-        destinationPosition: i.destinationPosition,
-        sourceStateId: i.sourceStateId,
-        destinationStateId: i.destinationStateId,
-        label: i.label,
-        id: i.id,
-      );
+      commands.add(AddItemCommand(item: i));
     }
-
-    requestFocus(ids);
+    DiagramList().executeCommands(commands);
+    FocusProvider().requestFocusAll(ids);
   }
 
   @override

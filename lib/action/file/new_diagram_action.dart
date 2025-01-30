@@ -1,7 +1,7 @@
 import 'package:fa_simulator/action/app_unrevertable_action.dart';
 import 'package:fa_simulator/file/diagram_new.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/overlay/confirm_overlay/confirm_overlay.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:flutter/material.dart';
 
 class NewDiagramAction extends AppUnrevertableAction {
@@ -13,7 +13,7 @@ class NewDiagramAction extends AppUnrevertableAction {
 
   @override
   Future<void> execute() async {
-    if (!FileProvider().isSaved) {
+    if (!DiagramList().file.isSaved) {
       if (!await confirm(
         'All changes will be lost!',
         context,

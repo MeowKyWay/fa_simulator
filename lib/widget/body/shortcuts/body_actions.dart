@@ -11,8 +11,9 @@ import 'package:fa_simulator/action/intent/diagram_intent.dart';
 import 'package:fa_simulator/action/intent/file_intent.dart';
 import 'package:fa_simulator/action/intent/rename_intent.dart';
 import 'package:fa_simulator/action/intent/undo_redo_intent.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/shortcuts/body_shortcuts.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -78,11 +79,13 @@ class BodyActions extends StatelessWidget {
         ),
         RenameIntent: CallbackAction<RenameIntent>(
           onInvoke: (intent) {
-            if (DiagramList().focusedItems.length != 1) return null;
+            if (FocusProvider().focusedItemIds.length != 1) return null;
             RenamingProvider().startRename(
-              id: DiagramList().focusedItems[0].id,
+              id: FocusProvider().focusedItemIds.first,
               initialName: intent.initialName.isEmpty
-                  ? DiagramList().focusedItems[0].label
+                  ? DiagramList()
+                      .item(FocusProvider().focusedItemIds.first)
+                      .label
                   : intent.initialName,
             );
             return null;
@@ -91,7 +94,7 @@ class BodyActions extends StatelessWidget {
         DeleteIntent: CallbackAction<DeleteIntent>(
           onInvoke: (intent) {
             AppActionDispatcher().execute(DeleteDiagramsAction(
-              ids: DiagramList().focusedItems.map((e) => e.id).toList(),
+              ids: FocusProvider().focusedItemIds,
             ));
             return null;
           },

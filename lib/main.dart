@@ -1,10 +1,8 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/provider/diagram_provider.dart';
-import 'package:fa_simulator/theme/diagram_theme.dart';
-import 'package:fa_simulator/widget/provider/body_provider.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
+import 'package:fa_simulator/resource/theme/diagram_theme.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
@@ -26,39 +24,31 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  final DiagramNotifier diagramNotifier = DiagramNotifier();
-
   @override
   Widget build(BuildContext context) {
-    return DiagramProvider(
-      notifier: diagramNotifier,
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => DiagramList()),
-          ChangeNotifierProvider(create: (context) => BodyProvider()),
-          ChangeNotifierProvider(
-              create: (context) => PalleteFeedbackProvider()),
-          ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
-          ChangeNotifierProvider(
-              create: (context) => TransitionDraggingProvider()),
-          ChangeNotifierProvider(
-              create: (context) => DiagramDraggingProvider()),
-          ChangeNotifierProvider(create: (context) => FileProvider()),
-          ChangeNotifierProvider(
-              create: (context) => StartArrowFeedbackProvider()),
-          ChangeNotifierProvider(create: (context) => RenamingProvider()),
-        ],
-        child: MaterialApp(
-          theme: diagramTheme,
-          home: const Scaffold(
-            body: DefaultTextStyle(
-              style: TextStyle(
-                color: primaryTextColor,
-                decoration: textDecoration,
-                fontSize: 20,
-              ),
-              child: App(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DiagramList()),
+        ChangeNotifierProvider(create: (context) => FocusProvider()),
+        ChangeNotifierProvider(create: (context) => PalleteFeedbackProvider()),
+        ChangeNotifierProvider(create: (context) => NewTransitionProvider()),
+        ChangeNotifierProvider(
+            create: (context) => TransitionDraggingProvider()),
+        ChangeNotifierProvider(create: (context) => DiagramDraggingProvider()),
+        ChangeNotifierProvider(
+            create: (context) => StartArrowFeedbackProvider()),
+        ChangeNotifierProvider(create: (context) => RenamingProvider()),
+      ],
+      child: MaterialApp(
+        theme: diagramTheme,
+        home: const Scaffold(
+          body: DefaultTextStyle(
+            style: TextStyle(
+              color: primaryTextColor,
+              decoration: textDecoration,
+              fontSize: 20,
             ),
+            child: App(),
           ),
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:fa_simulator/action/app_unrevertable_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/focus_manager.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 
 class AddFocusAction extends AppUnrevertableAction {
   final List<String> ids;
@@ -10,6 +10,6 @@ class AddFocusAction extends AppUnrevertableAction {
 
   @override
   Future<void> execute() async {
-    addFocus(ids);
+    FocusProvider().addFocusAll(ids);
   }
 }

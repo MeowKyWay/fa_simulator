@@ -2,7 +2,7 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
 
-class BodyProvider extends DiagramProvider with ChangeNotifier {
+class BodyProvider extends DiagramProvider {
   static final BodyProvider _instance = BodyProvider._internal(); //Singleton
   BodyProvider._internal();
   factory BodyProvider() {

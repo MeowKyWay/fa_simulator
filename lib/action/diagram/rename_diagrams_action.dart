@@ -1,5 +1,7 @@
 import 'package:fa_simulator/action/app_action.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 
 class RenameDiagramsAction extends AppAction {
@@ -18,14 +20,19 @@ class RenameDiagramsAction extends AppAction {
 
   @override
   Future<void> execute() async {
-    String old = DiagramList().renameItem(id, name);
+    String old = DiagramList().item(id).label;
+    DiagramList().executeCommand(
+      UpdateItemCommand(detail: ItemDetail(id: id, label: name)),
+    );
     oldName ??= old;
     RenamingProvider().reset();
   }
 
   @override
   Future<void> undo() async {
-    DiagramList().renameItem(id, oldName!);
+    DiagramList().executeCommand(
+      UpdateItemCommand(detail: ItemDetail(id: id, label: oldName!)),
+    );
   }
 
   @override

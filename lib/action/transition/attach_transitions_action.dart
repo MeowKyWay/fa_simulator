@@ -1,7 +1,8 @@
 import 'package:fa_simulator/action/app_action.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/transition_manager.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class AttachTransitionAction extends AppAction {
 
   @override
   Future<void> execute() async {
-    TransitionType transition = DiagramList().transition(id)!;
+    TransitionType transition = DiagramList().transition(id);
     if (endPoint == TransitionEndPointType.start) {
       if (transition.sourceState != null) {
         oldStateId = transition.sourceState!.id;
@@ -52,41 +53,32 @@ class AttachTransitionAction extends AppAction {
             'Transition has no both destination state and position');
       }
     }
-    attachTransition(
-      id: id,
-      endPoint: endPoint,
-      stateId: stateId,
+    DiagramList().executeCommand(
+      AttachTransitionCommand(id: id, pivotType: endPoint, stateId: stateId),
     );
+    FocusProvider().requestFocus(id);
   }
 
   @override
   Future<void> undo() async {
-    TransitionType transition = DiagramList().transition(id)!;
-    switch (endPoint) {
-      case TransitionEndPointType.start:
-        if (oldStateId != null) {
-          attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
-        } else if (oldPosition != null) {
-          moveTransition(
-              id: id,
-              pivotType: TransitionPivotType.start,
-              position: oldPosition);
-          transition.resetSourceState();
-        }
-        break;
-      case TransitionEndPointType.end:
-        if (oldStateId != null) {
-          attachTransition(id: id, stateId: oldStateId!, endPoint: endPoint);
-        } else if (oldPosition != null) {
-          moveTransition(
-              id: id,
-              pivotType: TransitionPivotType.end,
-              position: oldPosition);
-          transition.resetDestinationState();
-        }
-        break;
+    if (oldStateId != null) {
+      DiagramList().executeCommand(
+        AttachTransitionCommand(
+          id: id,
+          stateId: oldStateId!,
+          pivotType: endPoint,
+        ),
+      );
+    } else if (oldPosition != null) {
+      DiagramList().executeCommand(
+        MoveTransitionCommand(
+          id: id,
+          pivotType: endPoint.pivotType,
+          position: oldPosition,
+        ),
+      );
     }
-    DiagramList().notify();
+    FocusProvider().requestFocus(id);
   }
 
   @override

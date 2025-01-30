@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/painter/transition/arrow_head_painter.dart';
 import 'package:fa_simulator/widget/painter/transition/dash_line_painter.dart';
@@ -23,9 +23,10 @@ class BodyInitialArrowFeedback extends StatelessWidget {
 
       StateType state;
       try {
-        state = DiagramList().state(provider.id)!;
+        state = DiagramList().state(provider.id!);
       } catch (e) {
-        throw Exception('body_start_arrow_feedback: State ${provider.id} not found');
+        throw Exception(
+            'body_start_arrow_feedback: State ${provider.id} not found');
       }
 
       return Stack(

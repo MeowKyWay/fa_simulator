@@ -1,5 +1,5 @@
 import 'package:fa_simulator/widget/body/initial_arrow/initial_arrow.dart';
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
@@ -22,7 +22,7 @@ class BodyInitialArrows extends StatelessWidget {
                 NewTransitionProvider().isDraggingNewTransition ||
                 TransitionDraggingProvider().isDragging,
             child: Stack(
-              children: diagramList.startStates.expand((state) {
+              children: diagramList.initialStates.expand((state) {
                 return StartArrow(state: state).build(context);
               }).toList(),
             ),

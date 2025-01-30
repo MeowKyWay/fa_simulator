@@ -1,4 +1,5 @@
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/transition/diagram_transition.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
@@ -13,7 +14,8 @@ class BodyTransitions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DiagramList>(builder: (context, diagramList, child) {
+    return Consumer2<DiagramList, FocusProvider>(
+        builder: (context, diagramList, focusProvider, child) {
       return Positioned.fill(
         child: IgnorePointer(
           // To prevent the transition from absorbing drag events
@@ -22,7 +24,8 @@ class BodyTransitions extends StatelessWidget {
               TransitionDraggingProvider().isDragging,
           child: Stack(
             children: diagramList.transitions.expand((transition) {
-              return DiagramTransition(transition: transition, context: context).build();
+              return DiagramTransition(transition: transition, context: context)
+                  .build();
             }).toList(),
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:fa_simulator/config/theme.dart';
-import 'package:fa_simulator/widget/provider/file_provider.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_icon.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_menus.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +28,7 @@ class DiagramMenuBar extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       width: double.infinity,
                       child: Text(
-                        FileProvider().fileName ??
-                            'Untitled.${FileProvider().faTypeString}',
+                        '${DiagramList().file.name}.${DiagramList().type.toString()}',
                         style: textL.copyWith(
                           color: secondaryTextColor,
                         ),

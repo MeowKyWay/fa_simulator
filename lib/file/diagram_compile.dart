@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:fa_simulator/widget/diagram/diagram_manager/diagram_list/diagram_list.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 
 class DiagramCompile {
   Future<void> compile(String filePath) async {
     try {
-      String jsonString = jsonEncode(DiagramList().toObjectFile());
+      String jsonString = jsonEncode(DiagramList().compiler.toJson());
 
       File file = File(filePath);
       await file.writeAsString(jsonString);

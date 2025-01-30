@@ -2,6 +2,7 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/rename_diagrams_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/rename_text_field.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
@@ -51,7 +52,7 @@ class _TransitionLabelState extends State<TransitionLabel> {
         },
         child: Listener(
           onPointerDown: (event) {
-            if (!widget.transition.hasFocus) {
+            if (FocusProvider().hasFocus(widget.transition.id)) {
               AppActionDispatcher()
                   .execute(FocusAction([widget.transition.id]));
             }
