@@ -1,10 +1,16 @@
 import 'dart:math';
 
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
 
 extension TransitionPath on TransitionType {
+  bool get shouldCurve {
+    return DiagramList()
+        .transitionOfStateIsExist(destinationStateId, sourceStateId);
+  }
+
   Path getHitBox(double offset) {
     Offset start = startButtonPosition - Offset(left - 5, top - 5);
     Offset end = endButtonPosition - Offset(left - 5, top - 5);
@@ -35,7 +41,7 @@ extension TransitionPath on TransitionType {
       return path;
     }
 
-    if (isCurved && sourceState != null && destinationState != null) {
+    if (shouldCurve && sourceState != null && destinationState != null) {
       // Calculate the center of the control points
       Offset controlPoint = this.controlPoint - Offset(left - 5, top - 5);
       Offset controlPoint1 =
@@ -77,7 +83,7 @@ extension TransitionPath on TransitionType {
           rect, endLineAngle + pi, 2 * pi - (endLineAngle - loopAngle) * 2);
       return path;
     }
-    if (isCurved && sourceState != null && destinationState != null) {
+    if (shouldCurve && sourceState != null && destinationState != null) {
       // Calculate the center of the control points
       Offset controlPoint = this.controlPoint;
 

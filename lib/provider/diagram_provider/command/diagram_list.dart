@@ -363,7 +363,6 @@ class DiagramList extends DiagramProvider
       transition.destinationStateId = detail.destinationStateId;
     }
     transition.loopAngle = detail.loopAngle ?? transition.loopAngle;
-    transition.isCurved = detail.isCurved ?? transition.isCurved;
   }
 
   void _updateItem(UpdateItemCommand command) {

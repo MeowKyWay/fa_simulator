@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/state/node/accept_state.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';

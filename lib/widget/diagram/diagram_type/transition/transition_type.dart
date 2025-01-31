@@ -2,11 +2,10 @@ import 'dart:collection';
 import 'dart:math';
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
-import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
-import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
 import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_path.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_symbol.dart';
 import 'package:fa_simulator/widget/utility/offset_util.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,6 @@ class TransitionType extends DiagramType<TransitionType> {
 
   double loopAngle;
 
-  bool isCurved;
-
   final double offset = 10;
   final double loopRadius = stateSize / 3;
 
@@ -33,7 +30,6 @@ class TransitionType extends DiagramType<TransitionType> {
     this.sourcePosition,
     this.destinationPosition,
     this.loopAngle = -pi / 2,
-    this.isCurved = false,
   }) {
     // Validation logic moved to constructor body
     if ((sourcePosition ?? sourceStateId) == null) {
@@ -107,7 +103,7 @@ class TransitionType extends DiagramType<TransitionType> {
     if (loopCenter != null) {
       return calculateNewPoint(loopCenter!, loopRadius, loopAngle);
     }
-    if (isCurved && sourceState != null && destinationState != null) {
+    if (shouldCurve && sourceState != null && destinationState != null) {
       return controlPoint;
     }
     return (startButtonPosition + endButtonPosition) / 2;
@@ -124,7 +120,7 @@ class TransitionType extends DiagramType<TransitionType> {
         -startLineAngle + 2 * loopAngle,
       );
     }
-    if (isCurved) {
+    if (shouldCurve) {
       return calculateNewPoint(
         sourceState!.position,
         stateSize / 2,
@@ -149,7 +145,7 @@ class TransitionType extends DiagramType<TransitionType> {
         startLineAngle,
       );
     }
-    if (isCurved) {
+    if (shouldCurve) {
       return calculateNewPoint(
         destinationState!.position,
         stateSize / 2,
@@ -184,7 +180,7 @@ class TransitionType extends DiagramType<TransitionType> {
       return acos((pow(ra, 2) - pow(rb, 2) + pow(d, 2)) / (2 * ra * d)) +
           loopAngle;
     }
-    if (!isCurved) {
+    if (!shouldCurve) {
       return startAngle + pi;
     }
 
@@ -204,7 +200,7 @@ class TransitionType extends DiagramType<TransitionType> {
       return acos((pow(ra, 2) - pow(rb, 2) + pow(d, 2)) / (2 * ra * d)) +
           loopAngle;
     }
-    if (!isCurved) {
+    if (!shouldCurve) {
       return endAngle + pi;
     }
     // Calculate the tangent vector at the end of the curve
@@ -221,7 +217,6 @@ class TransitionType extends DiagramType<TransitionType> {
           'Source position must be provided before reseting the source state');
     }
     sourceStateId = null;
-    isCurved = false;
   }
 
   void resetDestinationState() {
@@ -230,7 +225,6 @@ class TransitionType extends DiagramType<TransitionType> {
           'Destination position must be provided before reseting the destination state');
     }
     destinationStateId = null;
-    isCurved = false;
   }
 
   void resetSourcePosition() {
@@ -249,29 +243,6 @@ class TransitionType extends DiagramType<TransitionType> {
     destinationPosition = null;
   }
 
-  void updateIsCurved(bool value) {
-    /*Call this before detach the transition with false value*/
-    /*Call this after attach the transition with true value*/
-    if (sourceStateId == null || destinationStateId == null) {
-      return;
-    }
-    try {
-      TransitionType transition;
-      transition = DiagramList().getTransitionByStates(
-        destinationStateId!,
-        sourceStateId!,
-      );
-      DiagramList().executeCommand(
-        UpdateTransitionCommand(
-          detail: TransitionDetail(id: transition.id, isCurved: value),
-        ),
-      );
-      isCurved = value;
-    } catch (e) {
-      return;
-    }
-  }
-
   bool isComplete() {
     return sourceStateId != null &&
         destinationStateId != null &&
@@ -285,7 +256,7 @@ class TransitionType extends DiagramType<TransitionType> {
     }
     double min1 = min(startButtonPosition.dy, endButtonPosition.dy);
     double min2 = min(min1, controlPoint.dy);
-    return isCurved ? min2 : min1;
+    return shouldCurve ? min2 : min1;
   }
 
   @override
@@ -295,7 +266,7 @@ class TransitionType extends DiagramType<TransitionType> {
     }
     double min1 = min(startButtonPosition.dx, endButtonPosition.dx);
     double min2 = min(min1, controlPoint.dx);
-    return isCurved ? min2 : min1;
+    return shouldCurve ? min2 : min1;
   }
 
   @override
@@ -305,7 +276,7 @@ class TransitionType extends DiagramType<TransitionType> {
     }
     double max1 = max(startButtonPosition.dy, endButtonPosition.dy);
     double max2 = max(max1, controlPoint.dy);
-    return isCurved ? max2 : max1;
+    return shouldCurve ? max2 : max1;
   }
 
   @override
@@ -315,7 +286,7 @@ class TransitionType extends DiagramType<TransitionType> {
     }
     double max1 = max(startButtonPosition.dx, endButtonPosition.dx);
     double max2 = max(max1, controlPoint.dx);
-    return isCurved ? max2 : max1;
+    return shouldCurve ? max2 : max1;
   }
 
   @override
@@ -338,8 +309,7 @@ class TransitionType extends DiagramType<TransitionType> {
       destinationStateId.hashCode ^
       sourcePosition.hashCode ^
       destinationPosition.hashCode ^
-      loopAngle.hashCode ^
-      isCurved.hashCode;
+      loopAngle.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -351,8 +321,7 @@ class TransitionType extends DiagramType<TransitionType> {
           other.destinationStateId == destinationStateId &&
           other.sourcePosition == sourcePosition &&
           other.destinationPosition == destinationPosition &&
-          loopAngle == other.loopAngle &&
-          other.isCurved == isCurved;
+          loopAngle == other.loopAngle;
     }
     return false;
   }
@@ -378,7 +347,6 @@ class TransitionType extends DiagramType<TransitionType> {
               'dy': destinationPosition?.dy,
             },
       'loopAngle': loopAngle,
-      'isCurved': isCurved,
     };
   }
 
@@ -402,7 +370,6 @@ class TransitionType extends DiagramType<TransitionType> {
                 json['destinationPosition']['dy'],
               ),
         loopAngle: json['loopAngle'],
-        isCurved: json['isCurved'],
       );
     } on Exception catch (e) {
       throw FormatException('Error parsing TransitionType from JSON: $e');
@@ -419,7 +386,6 @@ class TransitionType extends DiagramType<TransitionType> {
       sourcePosition: sourcePosition,
       destinationPosition: destinationPosition,
       loopAngle: loopAngle,
-      isCurved: isCurved,
     );
   }
 
