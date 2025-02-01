@@ -386,7 +386,19 @@ class DiagramList extends DiagramProvider
   /// Update the alphabet with the provided symbols.
   void _updateAlphabet(UpdateAlphabetCommand command) {
     _alphabet.clear();
-    _alphabet.addAll(command.alphabet);
+    for (String symbol in command.alphabet) {
+      symbol = symbol.trim();
+      if (symbol.isEmpty) {
+        continue;
+      }
+      if (symbol == '\\e') {
+        symbol = DiagramCharacter.epsilon;
+        if (_type == AutomataType.dfa) {
+          continue;
+        }
+      }
+      _alphabet.add(symbol.trim());
+    }
   }
 
   /// Delete state of provided id.
