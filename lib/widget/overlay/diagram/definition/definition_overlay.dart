@@ -45,7 +45,6 @@ class _DefinitionOverlayState extends State<_DefinitionOverlay> {
           TransitionFunctionType transitionFunction =
               DiagramList().compiler.transitionFunction;
           List<String> alphabet = DiagramList().allSymbol.toList();
-          states.sort((a, b) => a.label.compareTo(b.label));
 
           DiagramErrorList errors = DiagramList().validator.errors;
 

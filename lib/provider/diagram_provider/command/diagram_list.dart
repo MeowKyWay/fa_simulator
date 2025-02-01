@@ -152,7 +152,8 @@ class DiagramList extends DiagramProvider
 
   /// Return every symbol in both the transitions and the alphabet
   List<String> get allSymbol {
-    return List<String>.from(_alphabet)..addAll(symbolsFromTransitions);
+    return (Set<String>.from(_alphabet)..addAll(symbolsFromTransitions))
+        .toList();
   }
 
   /// Return true if the item with the provided id is a state
