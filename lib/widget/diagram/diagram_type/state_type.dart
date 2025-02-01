@@ -17,7 +17,7 @@ class StateType extends DiagramType<StateType> {
     required Offset position,
     this.isInitial = false,
     this.isFinal = false,
-    this.initialArrowAngle = 0,
+    this.initialArrowAngle = pi * (4 / 3),
   }) : _position = position {
     this.position = position;
   }
