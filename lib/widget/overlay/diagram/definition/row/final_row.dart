@@ -49,12 +49,18 @@ class _FinalRowState extends State<FinalRow> {
                 ': F = ',
                 style: style,
               ),
-              Text(
-                finalStatesLabel,
-                style: style?.red(
-                  context,
-                  finalStates.isEmpty,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: 650,
                 ),
+                child: Text(
+                  finalStatesLabel,
+                  style: style,
+                ),
+              ),
+              Text(
+                finalStates.isEmpty ? '  (No final states)' : '',
+                style: style?.red(context),
               ),
             ],
           ),

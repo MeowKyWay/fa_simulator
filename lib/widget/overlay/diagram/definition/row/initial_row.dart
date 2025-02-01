@@ -51,12 +51,22 @@ class _InitialRowState extends State<InitialRow> {
                 ': q\u2080 = ',
                 style: style,
               ),
-              Text(
-                initialStatesLabel,
-                style: style?.red(
-                  context,
-                  initialStates.length != 1,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: 650,
                 ),
+                child: Text(
+                  initialStatesLabel,
+                  style: style,
+                ),
+              ),
+              Text(
+                initialStates.isEmpty
+                    ? '  (No initial states)'
+                    : initialStates.length > 1
+                        ? '  (Multiple initial states)'
+                        : '',
+                style: style?.red(context),
               ),
             ],
           ),

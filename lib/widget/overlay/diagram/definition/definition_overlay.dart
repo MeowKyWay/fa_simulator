@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
 import 'package:fa_simulator/resource/theme/diagram_theme.dart';
@@ -8,6 +6,8 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_t
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/diagram_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/final_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/initial_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/state/states_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transitions_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';
@@ -83,11 +83,11 @@ class _DefinitionOverlayState extends State<_DefinitionOverlay> {
                   transitionFunction: transitionFunction,
                   errors: errors,
                 ),
-                // _buildDivider(context),
-                // InitialRow(states: states),
-                // _buildDivider(context),
-                // FinalRow(states: states),
-                // _buildDivider(context),
+                _buildDivider(context),
+                InitialRow(states: states),
+                _buildDivider(context),
+                FinalRow(states: states),
+                _buildDivider(context),
               ],
             ),
           );
