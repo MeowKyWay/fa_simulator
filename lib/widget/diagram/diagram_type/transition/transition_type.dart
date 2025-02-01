@@ -396,36 +396,28 @@ class TransitionType extends DiagramType<TransitionType> {
 }
 
 int transitionComparator(TransitionType a, TransitionType b) {
-  if (a.id == b.id) return 0;
-  // Get sourceStateLabels
+  // Compare by source state label
   String? sourceA = a.sourceState?.label;
   String? sourceB = b.sourceState?.label;
 
-  if (sourceA == null && sourceB != null) {
-    return 1;
-  } else if (sourceB == null && sourceA != null) {
-    return -1;
-  } else if (sourceA != null && sourceB != null) {
-    int result = sourceA.compareTo(sourceB);
-    if (result != 0) {
-      return result;
-    }
-  }
+  int result = _compareNullableStrings(sourceA, sourceB);
+  if (result != 0) return result;
 
-  // If sourceStateLabels are equal, compare destinationStateLabels
+  // Compare by destination state label if source states are equal
   String? destA = a.destinationState?.label;
   String? destB = b.destinationState?.label;
 
-  if (destA == null && destB != null) {
-    return 1;
-  } else if (destB == null && destA != null) {
-    return -1;
-  } else if (destA != null && destB != null) {
-    int result = destA.compareTo(destB);
-    if (result != 0) {
-      return result;
-    }
-  }
+  result = _compareNullableStrings(destA, destB);
+  if (result != 0) return result;
 
+  // Fall back to comparing by id
   return a.id.compareTo(b.id);
+}
+
+// Helper function for comparing nullable strings
+int _compareNullableStrings(String? a, String? b) {
+  if (a == null && b != null) return 1;
+  if (b == null && a != null) return -1;
+  if (a != null && b != null) return a.compareTo(b);
+  return 0;
 }

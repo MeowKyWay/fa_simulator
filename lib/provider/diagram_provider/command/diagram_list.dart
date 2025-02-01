@@ -352,12 +352,15 @@ class DiagramList extends DiagramProvider
   /// @throws StateError if the state is not found.
   void _updateState(UpdateStateCommand command) {
     final state = _state(command.detail.id);
+    //remove and readd to preserve the sorted list
+    _states.remove(state);
     state.label = command.detail.label ?? state.label;
     state.position = command.detail.position ?? state.position;
     state.isInitial = command.detail.isInitial ?? state.isInitial;
     state.isFinal = command.detail.isFinal ?? state.isFinal;
     state.initialArrowAngle =
         command.detail.initialArrowAngle ?? state.initialArrowAngle;
+    _states.add(state);
   }
 
   /// Update transition of provided id in the detail.
@@ -365,6 +368,8 @@ class DiagramList extends DiagramProvider
   /// @throws StateError if the transition is not found.
   void _updateTransition(UpdateTransitionCommand command) {
     final transition = _transition(command.detail.id);
+    //remove and readd to preserve the sorted list
+    _transitions.remove(transition);
     TransitionDetail detail = command.detail;
     transition.label = detail.label ?? transition.label;
     if ((detail.sourcePosition ?? detail.sourceStateId) != null) {
@@ -376,11 +381,22 @@ class DiagramList extends DiagramProvider
       transition.destinationStateId = detail.destinationStateId;
     }
     transition.loopAngle = detail.loopAngle ?? transition.loopAngle;
+    _transitions.add(transition);
   }
 
   void _updateItem(UpdateItemCommand command) {
     DiagramType item = _item(command.detail.id);
-    item.label = command.detail.label ?? item.label;
+    //remove and readd to preserve the sorted list
+    if (item is StateType) {
+      _states.remove(item);
+      item.label = command.detail.label ?? item.label;
+      _states.add(item);
+    }
+    if (item is TransitionType) {
+      _transitions.remove(item);
+      item.label = command.detail.label ?? item.label;
+      _transitions.add(item);
+    }
   }
 
   /// Update the alphabet with the provided symbols.
