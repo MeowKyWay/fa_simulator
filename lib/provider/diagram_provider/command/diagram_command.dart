@@ -30,3 +30,11 @@ class DeleteItemCommand extends DiagramCommand {
     required this.id,
   });
 }
+
+class UpdateAlphabetCommand extends DiagramCommand {
+  final Iterable<String> alphabet;
+
+  const UpdateAlphabetCommand({
+    required this.alphabet,
+  });
+}

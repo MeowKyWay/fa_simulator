@@ -6,6 +6,8 @@ import 'package:fa_simulator/resource/theme/diagram_theme.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/diagram_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/state/states_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
 import 'package:flutter/material.dart';
@@ -56,13 +58,15 @@ class _DefinitionOverlayState extends State<_DefinitionOverlay> {
                   'Definition',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                // _buildDivider(context),
-                // DiagramRow(),
-                // _buildDivider(context),
-                // AlphabetRow(
-                //   alphabet: alphabet,
-                //   errors: errors,
-                // ),
+                _buildDivider(context),
+                DiagramRow(
+                  errors: errors,
+                ),
+                _buildDivider(context),
+                AlphabetRow(
+                  alphabet: alphabet,
+                  errors: errors,
+                ),
                 _buildDivider(context),
                 StatesRow(
                   states: states,

@@ -35,6 +35,15 @@ class DiagramErrorList {
         hasTransitionFunctionEntryError;
   }
 
+  int get errorCount {
+    return diagramErrorCount +
+        stateErrorCount +
+        transitionErrorCount +
+        symbolErrorCount +
+        transitionFunctionErrorCount +
+        transitionFunctionEntryErrorCount;
+  }
+
   bool get hasDiagramError {
     return (errors[DiagramErrorClassType.diagramError] as DiagramErrors)
         .hasError;
@@ -68,5 +77,41 @@ class DiagramErrorList {
     return (errors[DiagramErrorClassType.transitionFunctionEntryError]
             as Map<Tuple2<String, String>, TransitionFunctionEntryErrors>)
         .isNotEmpty;
+  }
+
+  int get diagramErrorCount {
+    return (errors[DiagramErrorClassType.diagramError] as DiagramErrors)
+        .errors
+        .length;
+  }
+
+  int get stateErrorCount {
+    return (errors[DiagramErrorClassType.stateError]
+            as Map<String, StateErrors>)
+        .length;
+  }
+
+  int get transitionErrorCount {
+    return (errors[DiagramErrorClassType.transitionError]
+            as Map<String, TransitionErrors>)
+        .length;
+  }
+
+  int get symbolErrorCount {
+    return (errors[DiagramErrorClassType.symbolError]
+            as Map<String, SymbolErrors>)
+        .length;
+  }
+
+  int get transitionFunctionErrorCount {
+    return (errors[DiagramErrorClassType.transitionFunctionError]
+            as Map<Tuple2<String, String>, TransitionFunctionErrors>)
+        .length;
+  }
+
+  int get transitionFunctionEntryErrorCount {
+    return (errors[DiagramErrorClassType.transitionFunctionEntryError]
+            as Map<Tuple2<String, String>, TransitionFunctionEntryErrors>)
+        .length;
   }
 }

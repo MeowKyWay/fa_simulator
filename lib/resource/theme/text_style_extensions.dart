@@ -14,7 +14,7 @@ extension TextStyleExtensions on TextStyle {
   }
 
   TextStyle red(BuildContext context, [Object? isError]) {
-    if ((isError is bool && !isError) || isError == null) {
+    if ((isError is bool && !isError)) {
       return this;
     }
     return copyWith(

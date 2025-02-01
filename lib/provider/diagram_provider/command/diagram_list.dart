@@ -8,6 +8,7 @@ import 'package:fa_simulator/provider/diagram_provider/diagram_compiler.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_file.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_validator.dart';
+import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/resource/diagram_exception.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
@@ -136,7 +137,17 @@ class DiagramList extends DiagramProvider
   List<String> get unregisteredSymbols {
     final symbols = SplayTreeSet<String>.from(symbolsFromTransitions);
     symbols.removeAll(_alphabet);
+    symbols.remove(DiagramCharacter.epsilon);
     return symbols.toList();
+  }
+
+  List<String> get illegalSymbols {
+    if (_type == AutomataType.dfa) {
+      return allSymbol.contains(DiagramCharacter.epsilon)
+          ? [DiagramCharacter.epsilon]
+          : [];
+    }
+    return [];
   }
 
   /// Return every symbol in both the transitions and the alphabet
@@ -277,6 +288,7 @@ class DiagramList extends DiagramProvider
       if (command is UpdateStateCommand) _updateState(command);
       if (command is UpdateTransitionCommand) _updateTransition(command);
       if (command is UpdateItemCommand) _updateItem(command);
+      if (command is UpdateAlphabetCommand) _updateAlphabet(command);
       if (command is DeleteStateCommand) _deleteState(command);
       if (command is DeleteTransitionCommand) _deleteTransition(command);
       if (command is DeleteSymbolCommand) _deleteSymbol(command);
@@ -368,6 +380,12 @@ class DiagramList extends DiagramProvider
   void _updateItem(UpdateItemCommand command) {
     DiagramType item = _item(command.detail.id);
     item.label = command.detail.label ?? item.label;
+  }
+
+  /// Update the alphabet with the provided symbols.
+  void _updateAlphabet(UpdateAlphabetCommand command) {
+    _alphabet.clear();
+    _alphabet.addAll(command.alphabet);
   }
 
   /// Delete state of provided id.
