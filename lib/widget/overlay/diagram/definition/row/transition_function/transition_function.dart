@@ -1,3 +1,4 @@
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_errors.dart';
@@ -21,76 +22,110 @@ class TransitionFunction extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle? style = Theme.of(context).textTheme.labelMedium;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Map<Tuple2<String, String>, TransitionFunctionErrors> errorMap =
+        errors[DiagramErrorClassType.transitionFunctionError];
+
+    return Column(
+      spacing: 10,
       children: [
-        Text(
-          'δ :',
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...transitionFunction.entries.map<RichText>(
-                (entry) {
-                  TransitionFunctionEntryErrors? error;
-                  error =
-                      errors[DiagramErrorClassType.transitionFunctionEntryError]
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'δ :',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...transitionFunction.entries.map<RichText>(
+                    (entry) {
+                      TransitionFunctionEntryErrors? error;
+                      error = errors[DiagramErrorClassType
+                              .transitionFunctionEntryError]
                           [Tuple2(entry.sourceState.id, entry.symbol)];
 
-                  bool isMultipleDestination = error?.isError(
-                          TransitionFunctionEntryErrorType
-                              .multipleDestinationStates) ??
-                      false;
+                      bool isMultipleDestination = error?.isError(
+                              TransitionFunctionEntryErrorType
+                                  .multipleDestinationStates) ??
+                          false;
 
-                  String sourceStateLabel = entry.sourceState.label;
-                  List<String> destinationStateLabels =
-                      entry.destinationStates.map((e) => e.label).toList();
+                      String sourceStateLabel = entry.sourceState.label;
+                      List<String> destinationStateLabels =
+                          entry.destinationStates.map((e) => e.label).toList();
 
-                  String symbol = entry.symbol;
-                  if (sourceStateLabel.isEmpty) {
-                    sourceStateLabel = 'unnamed state';
-                  }
+                      String symbol = entry.symbol;
+                      if (sourceStateLabel.isEmpty) {
+                        sourceStateLabel = 'unnamed state';
+                      }
 
-                  String destString = destinationStateLabels
-                      .map((e) => e.isEmpty ? 'unnamed state' : e)
-                      .join(', ');
+                      String destString = destinationStateLabels
+                          .map((e) => e.isEmpty ? 'unnamed state' : e)
+                          .join(', ');
 
-                  destString = destinationStateLabels.length == 1
-                      ? destString
-                      : '{ $destString }';
+                      destString = destinationStateLabels.length == 1
+                          ? destString
+                          : '{ $destString }';
 
-                  return RichText(
-                    text: WidgetSpan(
-                      child: RichText(
-                        text: TextSpan(
-                          style: style,
-                          children: [
-                            TextSpan(
-                              text: ' • δ( $sourceStateLabel, $symbol ) = ',
-                            ),
-                            WidgetSpan(
-                              alignment: PlaceholderAlignment.baseline,
-                              baseline: TextBaseline.alphabetic,
-                              child: Text(
-                                destString,
-                                style: style?.red(
-                                  context,
-                                  isMultipleDestination,
+                      return RichText(
+                        text: WidgetSpan(
+                          child: RichText(
+                            text: TextSpan(
+                              style: style,
+                              children: [
+                                TextSpan(
+                                  text: ' • δ( $sourceStateLabel, $symbol ) = ',
                                 ),
-                              ),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.baseline,
+                                  baseline: TextBaseline.alphabetic,
+                                  child: Text(
+                                    destString,
+                                    style: style?.red(
+                                      context,
+                                      isMultipleDestination,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ).baseAlign(),
-                  );
-                },
+                          ),
+                        ).baseAlign(),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Missing transitions: ',
+              style: style?.red(context),
+            ),
+            Column(
+              children: [
+                ...errorMap.entries.map<Widget>((entry) {
+                  String sourceState =
+                      DiagramList().state(entry.key.item1).label;
+                  if (sourceState.isEmpty) {
+                    sourceState = 'unnamed state';
+                  }
+                  String symbol = entry.key.item2;
+                  return Text(
+                    ' • δ( $sourceState, $symbol )',
+                    style: style?.red(context),
+                  );
+                }),
+              ],
+            )
+          ],
+        )
       ],
     );
   }

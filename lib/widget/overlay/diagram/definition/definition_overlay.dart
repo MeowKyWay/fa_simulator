@@ -10,6 +10,7 @@ import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/diagram_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/state/states_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transitions_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition_function/transition_function_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,6 @@ class _DefinitionOverlay extends StatefulWidget {
 class _DefinitionOverlayState extends State<_DefinitionOverlay> {
   @override
   Widget build(BuildContext context) {
-    log('DefinitionOverlay build');
     return MaterialApp(
       theme: diagramTheme,
       home: Consumer<DiagramList>(
@@ -78,11 +78,11 @@ class _DefinitionOverlayState extends State<_DefinitionOverlay> {
                   transitions: transitions,
                   errors: errors,
                 ),
-                // _buildDivider(context),
-                // TransitionFunctionRow(
-                //   transitionFunction: transitionFunction,
-                //   errors: errors,
-                // ),
+                _buildDivider(context),
+                TransitionFunctionRow(
+                  transitionFunction: transitionFunction,
+                  errors: errors,
+                ),
                 // _buildDivider(context),
                 // InitialRow(states: states),
                 // _buildDivider(context),
