@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:flutter/material.dart';
 

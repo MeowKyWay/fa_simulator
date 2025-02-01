@@ -1,4 +1,3 @@
-
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -16,15 +15,20 @@ class RenameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      textAlign: TextAlign.center,
-      style: textStyle,
-      decoration: const InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.all(0),
-        border: InputBorder.none,
+    return IntrinsicWidth(
+      child: TextFormField(
+        maxLines: 5,
+        minLines: 1,
+        controller: controller,
+        focusNode: focusNode,
+        textAlign: TextAlign.center,
+        style: textStyle,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.all(0),
+          border: InputBorder.none,
+        ),
       ),
     );
   }
