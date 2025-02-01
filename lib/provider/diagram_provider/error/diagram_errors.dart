@@ -18,6 +18,10 @@ class DiagramErrors<T extends ErrorType> {
   bool get hasError {
     return errors.isNotEmpty;
   }
+
+  String get errorMessage {
+    return errors.map((e) => e.message).join('\n');
+  }
 }
 
 class StateErrors extends DiagramErrors<StateErrorType> {

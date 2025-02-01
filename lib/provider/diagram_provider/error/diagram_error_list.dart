@@ -25,4 +25,48 @@ class DiagramErrorList {
   operator [](DiagramErrorClassType type) {
     return errors[type];
   }
+
+  bool get hasError {
+    return hasDiagramError ||
+        hasStateError ||
+        hasTransitionError ||
+        hasSymbolError ||
+        hasTransitionFunctionError ||
+        hasTransitionFunctionEntryError;
+  }
+
+  bool get hasDiagramError {
+    return (errors[DiagramErrorClassType.diagramError] as DiagramErrors)
+        .hasError;
+  }
+
+  bool get hasStateError {
+    return (errors[DiagramErrorClassType.stateError]
+            as Map<String, StateErrors>)
+        .isNotEmpty;
+  }
+
+  bool get hasTransitionError {
+    return (errors[DiagramErrorClassType.transitionError]
+            as Map<String, TransitionErrors>)
+        .isNotEmpty;
+  }
+
+  bool get hasSymbolError {
+    return (errors[DiagramErrorClassType.symbolError]
+            as Map<String, SymbolErrors>)
+        .isNotEmpty;
+  }
+
+  bool get hasTransitionFunctionError {
+    return (errors[DiagramErrorClassType.transitionFunctionError]
+            as Map<Tuple2<String, String>, TransitionFunctionErrors>)
+        .isNotEmpty;
+  }
+
+  bool get hasTransitionFunctionEntryError {
+    return (errors[DiagramErrorClassType.transitionFunctionEntryError]
+            as Map<Tuple2<String, String>, TransitionFunctionEntryErrors>)
+        .isNotEmpty;
+  }
 }

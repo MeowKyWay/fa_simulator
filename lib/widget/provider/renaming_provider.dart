@@ -23,6 +23,7 @@ class RenamingProvider extends DiagramProvider with ChangeNotifier {
     _renamingItemId = id;
     _controller.clear();
     _controller.text = initialName ?? item.label;
+    notifyListeners();
     DiagramList().notify();
   }
 
@@ -30,5 +31,7 @@ class RenamingProvider extends DiagramProvider with ChangeNotifier {
   void reset() {
     _renamingItemId = null;
     _controller.clear();
+    notifyListeners();
+    DiagramList().notify();
   }
 }

@@ -52,7 +52,7 @@ class _TransitionLabelState extends State<TransitionLabel> {
         },
         child: Listener(
           onPointerDown: (event) {
-            if (FocusProvider().hasFocus(widget.transition.id)) {
+            if (!FocusProvider().hasFocus(widget.transition.id)) {
               AppActionDispatcher()
                   .execute(FocusAction([widget.transition.id]));
             }
@@ -99,5 +99,11 @@ class _TransitionLabelState extends State<TransitionLabel> {
     };
     _renameFocusNode = FocusNode();
     _renameFocusNode.addListener(_listener);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _renameFocusNode.dispose();
   }
 }
