@@ -2,6 +2,7 @@ import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.
 import 'package:fa_simulator/resource/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/components/expand_button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transition_table.dart';
 import 'package:flutter/material.dart';
 
 class TransitionsRow extends StatefulWidget {
@@ -61,11 +62,11 @@ class _TransitionsRowState extends State<TransitionsRow> {
             ),
           ),
         ),
-        // if (isExpanded)
-        //   TransitionTable(
-        //     transitions: widget.transitions,
-        //     errors: widget.errors,
-        //   ),
+        if (isExpanded)
+          TransitionTable(
+            transitions: widget.transitions,
+            errors: widget.errors,
+          ),
       ],
     );
   }

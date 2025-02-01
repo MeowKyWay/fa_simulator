@@ -420,8 +420,8 @@ int transitionComparator(TransitionType a, TransitionType b) {
     return 1;
   } else if (destB == null && destA != null) {
     return -1;
-  } else if (destB == null) {
-    int result = destA!.compareTo(destB!);
+  } else if (destA != null && destB != null) {
+    int result = destA.compareTo(destB);
     if (result != 0) {
       return result;
     }

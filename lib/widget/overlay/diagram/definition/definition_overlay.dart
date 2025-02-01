@@ -9,6 +9,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_typ
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/alphabet_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/diagram_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/definition/row/state/states_row.dart';
+import 'package:fa_simulator/widget/overlay/diagram/definition/row/transition/transitions_row.dart';
 import 'package:fa_simulator/widget/overlay/diagram/diagram_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -72,11 +73,11 @@ class _DefinitionOverlayState extends State<_DefinitionOverlay> {
                   states: states,
                   errors: errors,
                 ),
-                // _buildDivider(context),
-                // TransitionsRow(
-                //   transitions: transitions,
-                //   errors: errors,
-                // ),
+                _buildDivider(context),
+                TransitionsRow(
+                  transitions: transitions,
+                  errors: errors,
+                ),
                 // _buildDivider(context),
                 // TransitionFunctionRow(
                 //   transitionFunction: transitionFunction,
