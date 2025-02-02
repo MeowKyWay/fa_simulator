@@ -66,8 +66,8 @@ class _BodyState extends State<Body> {
           selectionDetails: _selectionDetails,
           child: InteractiveContainer(
             child: Container(
-              width: bodySize.width,
               height: bodySize.height,
+              width: bodySize.width,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 border: Border.all(

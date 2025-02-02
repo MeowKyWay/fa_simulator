@@ -123,7 +123,6 @@ class StateType extends DiagramType<StateType> {
 }
 
 int stateComparator(StateType a, StateType b) {
-  print('stateComparator: a: ${a.label}, b: ${b.label}');
   int result = a.label.compareTo(b.label);
   if (result == 0) {
     result = a.id.compareTo(b.id);

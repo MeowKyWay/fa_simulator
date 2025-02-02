@@ -60,9 +60,13 @@ class DiagramList extends DiagramProvider
   }
 
   AutomataType _type = AutomataType.undefined;
-  final SplayTreeSet<StateType> _states = SplayTreeSet<StateType>();
+  final SplayTreeSet<StateType> _states = SplayTreeSet<StateType>(
+    (a, b) => a.createdAt.compareTo(b.createdAt),
+  );
   final SplayTreeSet<TransitionType> _transitions =
-      SplayTreeSet<TransitionType>();
+      SplayTreeSet<TransitionType>(
+    (a, b) => a.createdAt.compareTo(b.createdAt),
+  );
   final SplayTreeSet<String> _alphabet = SplayTreeSet<String>();
 
   late DiagramValidator? _validator;
@@ -137,7 +141,7 @@ class DiagramList extends DiagramProvider
   List<String> get unregisteredSymbols {
     final symbols = SplayTreeSet<String>.from(symbolsFromTransitions);
     symbols.removeAll(_alphabet);
-    symbols.remove(DiagramCharacter.epsilon);
+    if (_type == AutomataType.dfa) symbols.remove(DiagramCharacter.epsilon);
     return symbols.toList();
   }
 

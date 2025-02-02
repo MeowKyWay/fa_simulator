@@ -13,6 +13,7 @@ enum DiagramTypeEnum {
 abstract class DiagramType<T extends DiagramType<T>>
     implements Comparable<T>, Jsonable, Rectable, Cloneable<T> {
   final String id;
+  final DateTime createdAt = DateTime.now();
   String label;
 
   DiagramType({

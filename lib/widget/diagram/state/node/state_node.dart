@@ -9,7 +9,6 @@ import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
 class StateNode extends StatefulWidget {
-  //TODO when renaming and click other diagram item the rename cancle and result in blank label
   final StateType state;
   final bool isRenaming;
 
