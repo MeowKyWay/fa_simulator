@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:fa_simulator/config/config.dart';
@@ -20,7 +19,7 @@ class DiagramPanel extends StatefulWidget {
 
 class _DiagramPanelState extends State<DiagramPanel> {
   double _height = 100;
-  final double _expandedThreshold = 50;
+  final double _expandedThreshold = 75;
   final double _collapsedThreshold = 25;
   bool _isExpanded = true;
 
