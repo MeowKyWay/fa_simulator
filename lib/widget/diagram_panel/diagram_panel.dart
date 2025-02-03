@@ -48,7 +48,8 @@ class _DiagramPanelState extends State<DiagramPanel> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: widget.constraints,
-      child: SizedBox(
+      child: Container(
+        color: Theme.of(context).colorScheme.primary,
         height: _isExpanded ? max(_height, _expandedThreshold) : 5,
         child: Column(
           children: [

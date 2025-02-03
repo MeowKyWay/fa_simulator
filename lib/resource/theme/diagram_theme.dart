@@ -37,6 +37,7 @@ ColorScheme darkTheme = ColorScheme(
   surface: _surfaceColor,
   onSurface: _gridPrimalyColor,
   onSurfaceVariant: _gridSecondaryColor,
+  primaryContainer: Color.fromRGBO(49, 49, 49, 1),
 );
 
 final textTheme = TextTheme(

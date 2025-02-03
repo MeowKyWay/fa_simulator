@@ -39,32 +39,21 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (style) {
       case ButtonVariant.contained:
-        return IntrinsicHeight(
-          child: ElevatedButton(
-            style: ButtonStyle(
-              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                padding ?? const EdgeInsets.symmetric(horizontal: 10),
-              ),
-              backgroundColor: WidgetStateProperty.all<Color>(
-                type == ButtonType.warning
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.tertiary,
-              ),
-              shape: WidgetStateProperty.all<OutlinedBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
+        return GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            padding:
+                padding ?? EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.5),
+              color: Theme.of(context).colorScheme.tertiary,
             ),
-            onPressed: onPressed,
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: Center(
-                child: Text(
-                  text,
-                  style: textStyle ?? Theme.of(context).textTheme.labelMedium,
-                ),
+            width: width,
+            height: height,
+            child: Center(
+              child: Text(
+                text,
+                style: textStyle ?? Theme.of(context).textTheme.labelMedium,
               ),
             ),
           ),
