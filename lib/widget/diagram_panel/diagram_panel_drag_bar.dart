@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/config.dart';
 import 'package:flutter/material.dart';
 
 class DiagramPanelDragBar extends StatefulWidget {
@@ -43,7 +42,7 @@ class _DiagramPanelDragBarState extends State<DiagramPanelDragBar> {
       },
       child: SizedBox(
         height: widget.maxHeight,
-        width: bodySize.width,
+        width: double.infinity,
         child: GestureDetector(
           onVerticalDragUpdate: onDragUpdate,
           onVerticalDragStart: (_) {

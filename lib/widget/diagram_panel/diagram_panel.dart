@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/diagram_panel_body.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_drag_bar.dart';
+import 'package:fa_simulator/widget/diagram_panel/diagram_panel_menu.dart';
 import 'package:flutter/material.dart';
 
 class DiagramPanel extends StatefulWidget {
@@ -23,9 +23,19 @@ class _DiagramPanelState extends State<DiagramPanel> {
   final double _collapsedThreshold = 25;
   bool _isExpanded = true;
 
+  final PageController _pageController = PageController();
+  int _selectedIndex = 0;
+
+  void _onSelect(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _pageController.jumpToPage(index);
+    });
+  }
+
   void _onDrag(double delta) {
     setState(() {
-      _height = (_height - delta).clamp(2.5, bodySize.height);
+      _height = (_height - delta).clamp(2.5, widget.constraints.maxHeight);
       if (_height <= _collapsedThreshold) {
         _isExpanded = false;
       } else if (_height >= _expandedThreshold) {
@@ -48,12 +58,13 @@ class _DiagramPanelState extends State<DiagramPanel> {
               minHeight: 1,
             ),
             if (_isExpanded) ...[
-              Container(
-                height: 25,
-                width: bodySize.width,
-                color: Theme.of(context).colorScheme.primary,
+              DiagramPanelMenu(
+                selectedIndex: _selectedIndex,
+                onSelect: _onSelect,
               ),
-              DiagramPanelBody(),
+              DiagramPanelBody(
+                controller: _pageController,
+              ),
             ]
           ],
         ),

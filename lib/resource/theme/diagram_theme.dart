@@ -26,7 +26,7 @@ ColorScheme darkTheme = ColorScheme(
   primary: _primaryColor,
   onPrimary: Colors.white,
   secondary: _secondaryColor,
-  onSecondary: Colors.white,
+  onSecondary: Color.fromRGBO(157, 157, 157, 1),
   tertiary: _tertiaryColor,
   onTertiary: Colors.white,
   outline: Colors.white,
