@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 class InputStringTextField extends StatelessWidget {
   final TextEditingController controller;
+  final Function() onSubmitted;
+  final Function() onClear;
 
   const InputStringTextField({
     super.key,
     required this.controller,
+    required this.onSubmitted,
+    required this.onClear,
   });
 
   // String? _validator(String? value) {
@@ -73,11 +77,13 @@ class InputStringTextField extends StatelessWidget {
                           text: 'Clear',
                           style: ButtonVariant.contained,
                           textStyle: Theme.of(context).textTheme.labelSmall,
+                          onPressed: onClear,
                         ),
                         Button(
                           text: 'Run',
                           style: ButtonVariant.contained,
                           textStyle: Theme.of(context).textTheme.labelSmall,
+                          onPressed: onSubmitted,
                         )
                       ],
                     )

@@ -10,18 +10,17 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_t
 import 'package:tuple/tuple.dart';
 
 class DiagramValidator {
-  final DiagramList diagram;
   late DiagramErrorList errors;
 
-  DiagramValidator(this.diagram);
+  DiagramValidator();
 
   void validate() {
     errors = DiagramErrorList();
-    List<StateType> states = diagram.states;
-    List<TransitionType> transitions = diagram.transitions;
-    List<String> alphabet = diagram.allSymbol;
+    List<StateType> states = DiagramList().states;
+    List<TransitionType> transitions = DiagramList().transitions;
+    List<String> alphabet = DiagramList().allSymbol;
     TransitionFunctionType transitionFunction =
-        diagram.compiler.transitionFunction;
+        DiagramList().compiler.transitionFunction;
 
     _checkStatesError(states);
     _checkTransitionsError(transitions);
@@ -102,7 +101,7 @@ class DiagramValidator {
 
   void _checkAlphabetError(List<String> alphabet) {
     List<String> unregisteredSymbols;
-    unregisteredSymbols = diagram.unregisteredSymbols;
+    unregisteredSymbols = DiagramList().unregisteredSymbols;
 
     for (int i = 0; i < alphabet.length; i++) {
       String symbol = alphabet[i];
@@ -110,7 +109,7 @@ class DiagramValidator {
         symbol: symbol,
       );
 
-      if (diagram.type == AutomataType.dfa) {
+      if (DiagramList().type == AutomataType.dfa) {
         if (symbol == DiagramCharacter.epsilon) {
           alphabetErrors.addError(SymbolErrorType.illegalSymbol);
         }
@@ -127,11 +126,11 @@ class DiagramValidator {
   void _checkTransitionFunctionError(
     TransitionFunctionType transitionFunction,
   ) {
-    if (diagram.type != AutomataType.dfa) return;
+    if (DiagramList().type != AutomataType.dfa) return;
 
-    List<String> alphabet = diagram.alphabet;
+    List<String> alphabet = DiagramList().alphabet;
 
-    for (StateType state in diagram.states) {
+    for (StateType state in DiagramList().states) {
       for (String symbol in alphabet) {
         if (!transitionFunction.containEntry(state.id, symbol)) {
           TransitionFunctionErrors transitionFunctionErrors;
@@ -161,7 +160,7 @@ class DiagramValidator {
       );
 
       if (entry.destinationStateIds.length > 1) {
-        if (diagram.type == AutomataType.dfa) {
+        if (DiagramList().type == AutomataType.dfa) {
           entryErrors.addError(
             TransitionFunctionEntryErrorType.multipleDestinationStates,
           );

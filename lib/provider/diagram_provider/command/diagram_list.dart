@@ -7,6 +7,7 @@ import 'package:fa_simulator/provider/diagram_provider/command/transition_comman
 import 'package:fa_simulator/provider/diagram_provider/diagram_compiler.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_file.dart';
+import 'package:fa_simulator/provider/diagram_provider/diagram_simulator.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_validator.dart';
 import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/resource/diagram_exception.dart';
@@ -69,18 +70,21 @@ class DiagramList extends DiagramProvider
   );
   final SplayTreeSet<String> _alphabet = SplayTreeSet<String>();
 
-  late DiagramValidator? _validator;
-  late DiagramCompiler? _compiler;
+  DiagramValidator _validator = DiagramValidator();
+  DiagramCompiler _compiler = DiagramCompiler();
+  DiagramSimulator _simulator = DiagramSimulator();
   DiagramFile _file = DiagramFile();
 
   DiagramValidator get validator {
-    _validator ??= DiagramValidator(this);
-    return _validator!;
+    return _validator;
   }
 
   DiagramCompiler get compiler {
-    _compiler ??= DiagramCompiler(this);
-    return _compiler!;
+    return _compiler;
+  }
+
+  DiagramSimulator get simulator {
+    return _simulator;
   }
 
   DiagramFile get file {
@@ -584,8 +588,8 @@ class DiagramList extends DiagramProvider
     _states.clear();
     _transitions.clear();
     _alphabet.clear();
-    _validator = null;
-    _compiler = null;
+    _validator = DiagramValidator();
+    _compiler = DiagramCompiler();
     _file = DiagramFile();
     log(file.isSaved.toString());
     notifyListeners();
