@@ -9,6 +9,20 @@ class InputStringTextField extends StatelessWidget {
     required this.controller,
   });
 
+  // String? _validator(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'Please enter the input string';
+  //   }
+  //   List<String> input = value.split(',');
+  //   List<String> alphabet = DiagramList().alphabet;
+  //   for (String symbol in input) {
+  //     if (!alphabet.contains(symbol)) {
+  //       return 'The symbol $symbol is not in the alphabet';
+  //     }
+  //   }
+  //   return '';
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,12 +42,14 @@ class InputStringTextField extends StatelessWidget {
                   spacing: 5,
                   children: [
                     Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2.5),
                         color: Theme.of(context).colorScheme.primaryContainer,
                       ),
                       child: TextFormField(
                         controller: controller,
+                        // validator: _validator,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Enter the input string (comma separated)',
                           hintStyle: Theme.of(context)

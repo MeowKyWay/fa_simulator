@@ -1,4 +1,5 @@
-import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/input_string_text_field.dart';
+import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/input_string_text_field.dart';
+import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/simulation_result_text.dart';
 import 'package:flutter/material.dart';
 
 class DiagramSimulationPanel extends StatefulWidget {
@@ -18,6 +19,7 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InputStringTextField(controller: controller),
+          SimulationResultText(),
         ],
       ),
     );

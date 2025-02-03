@@ -1,4 +1,4 @@
-import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/diagram_simulation_panel.dart';
+import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/diagram_simulation_panel.dart';
 import 'package:flutter/material.dart';
 
 class DiagramPanelBody extends StatelessWidget {
