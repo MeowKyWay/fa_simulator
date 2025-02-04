@@ -51,24 +51,26 @@ class _DiagramPanelState extends State<DiagramPanel> {
       child: Container(
         color: Theme.of(context).colorScheme.primary,
         height: _isExpanded ? max(_height, _expandedThreshold) : 5,
-        child: Column(
-          children: [
-            DiagramPanelDragBar(
-              onChange: _onDrag,
-              maxHeight: 5,
-              minHeight: 1,
+        child: Column(children: [
+          DiagramPanelDragBar(
+            onChange: _onDrag,
+            maxHeight: 5,
+            minHeight: 1,
+          ),
+          if (_isExpanded)
+            DiagramPanelMenu(
+              selectedIndex: _selectedIndex,
+              onSelect: _onSelect,
             ),
-            if (_isExpanded) ...[
-              DiagramPanelMenu(
-                selectedIndex: _selectedIndex,
-                onSelect: _onSelect,
-              ),
-              DiagramPanelBody(
+          Expanded(
+            child: Offstage(
+              offstage: !_isExpanded,
+              child: DiagramPanelBody(
                 controller: _pageController,
               ),
-            ]
-          ],
-        ),
+            ),
+          ),
+        ]),
       ),
     );
   }

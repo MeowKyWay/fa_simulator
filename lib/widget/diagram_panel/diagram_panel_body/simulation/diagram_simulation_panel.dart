@@ -26,6 +26,7 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
   bool get wantKeepAlive => true;
 
   void _onSubmitted() {
+    log(DiagramList().validator.errors.errors.toString());
     if (DiagramList().validator.errors.hasError) {
       Get.find<SnackbarProvider>().showError(
         'DiagramHasErrorException: Please fix the diagram before simulating.',
@@ -39,7 +40,6 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
   }
 
   void _onChange() {
-    log('Change');
     setState(() {
       _result = null;
     });

@@ -54,17 +54,14 @@ class DiagramValidator {
         }
         initialFlag = true;
       }
-      if (state.isFinal) {}
-      if (i == states.length - 1) {
-        if (!initialFlag) {
-          errors[DiagramErrorClassType.diagramError].addError(
-            DiagramErrorType.noInitialState,
-          );
-        }
-      }
       if (stateErrors.hasError) {
         errors[DiagramErrorClassType.stateError][state.id] = stateErrors;
       }
+    }
+    if (!initialFlag) {
+      errors[DiagramErrorClassType.diagramError].addError(
+        DiagramErrorType.noInitialState,
+      );
     }
   }
 

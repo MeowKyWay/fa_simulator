@@ -12,10 +12,11 @@ class SnackbarProvider extends GetxController {
   }
 
   void showError(String message) {
+    snackbarKey.currentState?.clearSnackBars(); // Clear current snackbars
     snackbarKey.currentState?.showSnackBar(
       SnackBar(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 3),
         content: Text(
           message,
           style: TextStyle(

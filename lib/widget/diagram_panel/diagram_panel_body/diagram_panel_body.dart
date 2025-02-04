@@ -1,7 +1,7 @@
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/diagram_simulation_panel.dart';
 import 'package:flutter/material.dart';
 
-class DiagramPanelBody extends StatelessWidget {
+class DiagramPanelBody extends StatefulWidget {
   final PageController controller;
 
   const DiagramPanelBody({
@@ -10,18 +10,26 @@ class DiagramPanelBody extends StatelessWidget {
   });
 
   @override
+  State<DiagramPanelBody> createState() => _DiagramPanelBodyState();
+}
+
+class _DiagramPanelBodyState extends State<DiagramPanelBody>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: controller,
-        children: [
-          Container(
-            color: Colors.red,
-          ),
-          DiagramSimulationPanel(),
-        ],
-      ),
+    super.build(context);
+    return PageView(
+      physics: NeverScrollableScrollPhysics(),
+      controller: widget.controller,
+      children: [
+        Container(
+          color: Colors.red,
+        ),
+        DiagramSimulationPanel(),
+      ],
     );
   }
 }

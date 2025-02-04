@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -22,7 +20,6 @@ class DiagramSimulator {
         if (state.id == current.id) {
           continue;
         }
-        log('Current: ${current.label}, Next: ${state.label} with symbol: ε');
         List<Tuple2<StateType, String>> newPath = List.from(path)
           ..add(Tuple2(state, DiagramCharacter.epsilon));
         final result = _traverse(state, newPath, List.from(input));
@@ -42,7 +39,6 @@ class DiagramSimulator {
       nextStates =
           _transitionFunction.get(current.id, symbol).destinationStates;
       for (StateType state in nextStates) {
-        log('Current: ${current.label}, Next: ${state.label} with symbol: $symbol');
         List<Tuple2<StateType, String>> newPath = List.from(path)
           ..add(Tuple2(state, symbol));
         final result = _traverse(state, newPath, List.from(input));
