@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class InputStringTextField extends StatelessWidget {
   final TextEditingController controller;
   final Function() onSubmitted;
+  final Function() onChanged;
   final Function() onClear;
 
   const InputStringTextField({
     super.key,
     required this.controller,
     required this.onSubmitted,
+    required this.onChanged,
     required this.onClear,
   });
 
@@ -67,6 +69,9 @@ class InputStringTextField extends StatelessWidget {
                         minLines: 1,
                         maxLines: 50,
                         style: Theme.of(context).textTheme.labelSmall,
+                        onFieldSubmitted: (_) => onSubmitted(),
+                        onChanged: (_) => onChanged(),
+                        textInputAction: TextInputAction.done,
                       ),
                     ),
                     Row(

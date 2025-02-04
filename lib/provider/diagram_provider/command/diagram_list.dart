@@ -431,7 +431,7 @@ class DiagramList extends DiagramProvider
   void _deleteState(DeleteStateCommand command) {
     if (transitionsOfState(command.id).isNotEmpty) {
       throw StateHasTransitionsException(
-        'Cannot delete state $command.id because transitions are attached to it.',
+        'Cannot delete state ${command.id} because transitions are attached to it.',
       );
     }
     _states.removeWhere((element) => element.id == command.id);
@@ -463,7 +463,7 @@ class DiagramList extends DiagramProvider
       _deleteTransition(DeleteTransitionCommand(id: command.id));
     } else {
       throw StateError(
-        'Cannot delete diagram with id $command.id because it is not found.',
+        'Cannot delete diagram with id ${command.id} because it is not found.',
       );
     }
   }

@@ -32,7 +32,7 @@ Widget state({
                       color: Colors.transparent,
                       shape: BoxShape.circle,
                       border: Border.all(
-                          color: theme.colorScheme.onSecondary, width: 1),
+                          color: theme.colorScheme.onPrimary, width: 1),
                     ),
                   ),
                 ),

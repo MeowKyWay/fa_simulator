@@ -13,6 +13,7 @@ class DiagramPanelBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
           Container(

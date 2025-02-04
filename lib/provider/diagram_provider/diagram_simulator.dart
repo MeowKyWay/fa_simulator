@@ -9,8 +9,8 @@ import 'package:tuple/tuple.dart';
 class DiagramSimulator {
   late TransitionFunctionType _transitionFunction;
 
-  Tuple2<bool, List<StateType>> _traverse(
-      StateType current, List<StateType> path, List<String> input) {
+  Tuple2<bool, List<Tuple2<StateType, String>>> _traverse(StateType current,
+      List<Tuple2<StateType, String>> path, List<String> input) {
     List<StateType> nextStates;
     // ε-transition
     try {
@@ -23,7 +23,8 @@ class DiagramSimulator {
           continue;
         }
         log('Current: ${current.label}, Next: ${state.label} with symbol: ε');
-        List<StateType> newPath = List.from(path)..add(state);
+        List<Tuple2<StateType, String>> newPath = List.from(path)
+          ..add(Tuple2(state, DiagramCharacter.epsilon));
         final result = _traverse(state, newPath, List.from(input));
         if (result.item1) {
           return result;
@@ -42,7 +43,8 @@ class DiagramSimulator {
           _transitionFunction.get(current.id, symbol).destinationStates;
       for (StateType state in nextStates) {
         log('Current: ${current.label}, Next: ${state.label} with symbol: $symbol');
-        List<StateType> newPath = List.from(path)..add(state);
+        List<Tuple2<StateType, String>> newPath = List.from(path)
+          ..add(Tuple2(state, symbol));
         final result = _traverse(state, newPath, List.from(input));
         if (result.item1) {
           return result;
@@ -53,11 +55,12 @@ class DiagramSimulator {
     return Tuple2(false, []);
   }
 
-  Tuple2<bool, List<StateType>> simulate(List<String> input) {
+  Tuple2<bool, List<Tuple2<StateType, String>>> simulate(List<String> input) {
     _transitionFunction = DiagramList().compiler.transitionFunction;
     StateType initial = DiagramList().initialStates.first;
 
-    Tuple2<bool, List<StateType>> result = _traverse(initial, [initial], input);
+    Tuple2<bool, List<Tuple2<StateType, String>>> result =
+        _traverse(initial, [Tuple2(initial, '')], input);
 
     return result;
   }

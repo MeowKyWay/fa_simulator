@@ -4,8 +4,7 @@ abstract interface class ErrorType {
 
 enum DiagramErrorType implements ErrorType {
   noType,
-  noInitialState,
-  noFinalState;
+  noInitialState;
 
   @override
   String get message {
@@ -14,8 +13,6 @@ enum DiagramErrorType implements ErrorType {
         return 'The type of the diagram must be specified.';
       case DiagramErrorType.noInitialState:
         return 'There must be at least one initial state.';
-      case DiagramErrorType.noFinalState:
-        return 'There must be at least one final state.';
     }
   }
 }

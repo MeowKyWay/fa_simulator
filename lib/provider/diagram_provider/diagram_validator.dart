@@ -32,7 +32,6 @@ class DiagramValidator {
   void _checkStatesError(List<StateType> states) {
     Set<String> stateNames = {};
     bool initialFlag = false;
-    bool finalFlag = false;
     // Check every state
     for (int i = 0; i < states.length; i++) {
       StateType state = states[i];
@@ -55,15 +54,8 @@ class DiagramValidator {
         }
         initialFlag = true;
       }
-      if (state.isFinal) {
-        finalFlag = true;
-      }
+      if (state.isFinal) {}
       if (i == states.length - 1) {
-        if (!finalFlag) {
-          errors[DiagramErrorClassType.diagramError].addError(
-            DiagramErrorType.noFinalState,
-          );
-        }
         if (!initialFlag) {
           errors[DiagramErrorClassType.diagramError].addError(
             DiagramErrorType.noInitialState,

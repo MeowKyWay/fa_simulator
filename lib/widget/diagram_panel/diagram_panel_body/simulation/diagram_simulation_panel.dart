@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/input_string_text_field.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/simulation_result_text.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class DiagramSimulationPanel extends StatefulWidget {
   const DiagramSimulationPanel({super.key});
@@ -12,32 +14,64 @@ class DiagramSimulationPanel extends StatefulWidget {
   State<DiagramSimulationPanel> createState() => _DiagramSimulationPanelState();
 }
 
-class _DiagramSimulationPanelState extends State<DiagramSimulationPanel> {
-  final TextEditingController controller = TextEditingController();
+class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
+    with AutomaticKeepAliveClientMixin {
+  final TextEditingController _controller = TextEditingController();
+
+  Tuple2<bool, List<Tuple2<StateType, String>>>? _result;
+
+  @override
+  bool get wantKeepAlive => true;
 
   void _onSubmitted() {
-    String value = controller.text;
-    final result = DiagramList().simulator.simulate(value.split(','));
-    log('Result: ${result.item1}');
-    log('Path: ${result.item2.map((e) => e.label).toList()}');
+    String value = _controller.text;
+    setState(() {
+      _result = DiagramList().simulator.simulate(value.split(','));
+    });
+  }
+
+  void _onChange() {
+    log('Change');
+    setState(() {
+      _result = null;
+    });
   }
 
   void _onClear() {
-    controller.clear();
+    setState(() {
+      _controller.clear();
+      _result = null;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    DiagramList().addListener(_onChange);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    DiagramList().removeListener(_onChange);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InputStringTextField(
-            controller: controller,
+            controller: _controller,
             onSubmitted: _onSubmitted,
+            onChanged: _onChange,
             onClear: _onClear,
           ),
-          SimulationResultText(),
+          SimulationResultText(
+            result: _result,
+          ),
         ],
       ),
     );
