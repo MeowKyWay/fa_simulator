@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/snackbar_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/input_string_text_field.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/simulation_result_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tuple/tuple.dart';
 
 class DiagramSimulationPanel extends StatefulWidget {
@@ -24,6 +26,12 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
   bool get wantKeepAlive => true;
 
   void _onSubmitted() {
+    if (DiagramList().validator.errors.hasError) {
+      Get.find<SnackbarProvider>().showError(
+        'DiagramHasErrorException: Please fix the diagram before simulating.',
+      );
+      return;
+    }
     String value = _controller.text;
     setState(() {
       _result = DiagramList().simulator.simulate(value.split(','));

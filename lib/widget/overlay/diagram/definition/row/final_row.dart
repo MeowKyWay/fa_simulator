@@ -1,4 +1,3 @@
-import 'package:fa_simulator/resource/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
 
@@ -39,10 +38,7 @@ class _FinalRowState extends State<FinalRow> {
                 width: 100,
                 child: Text(
                   'Initial State',
-                  style: style?.red(
-                    context,
-                    finalStates.isEmpty,
-                  ),
+                  style: style,
                 ),
               ),
               Text(
@@ -60,7 +56,7 @@ class _FinalRowState extends State<FinalRow> {
               ),
               Text(
                 finalStates.isEmpty ? '  (No final states)' : '',
-                style: style?.red(context),
+                style: style,
               ),
             ],
           ),
