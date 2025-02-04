@@ -589,6 +589,7 @@ class DiagramList extends DiagramProvider
     _transitions.clear();
     _alphabet.clear();
     _validator = DiagramValidator();
+    _simulator = DiagramSimulator();
     _compiler = DiagramCompiler();
     _file = DiagramFile();
     log(file.isSaved.toString());

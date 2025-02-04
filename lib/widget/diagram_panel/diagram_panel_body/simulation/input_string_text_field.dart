@@ -31,74 +31,70 @@ class InputStringTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text('Input String: ', style: Theme.of(context).textTheme.labelSmall),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.loose,
-            child: IntrinsicWidth(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                child: Column(
-                  spacing: 5,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2.5),
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                      child: TextFormField(
-                        controller: controller,
-                        // validator: _validator,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Enter the input string (comma separated)',
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondary),
-                        ),
-                        minLines: 1,
-                        maxLines: 50,
-                        style: Theme.of(context).textTheme.labelSmall,
-                        onFieldSubmitted: (_) => onSubmitted(),
-                        onChanged: (_) => onChanged(),
-                        textInputAction: TextInputAction.done,
-                      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text('Input String: ', style: Theme.of(context).textTheme.labelSmall),
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: IntrinsicWidth(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Column(
+                spacing: 5,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2.5),
+                      color: Theme.of(context).colorScheme.primaryContainer,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      spacing: 5,
-                      children: [
-                        Button(
-                          text: 'Clear',
-                          style: ButtonVariant.contained,
-                          textStyle: Theme.of(context).textTheme.labelSmall,
-                          onPressed: onClear,
-                        ),
-                        Button(
-                          text: 'Run',
-                          style: ButtonVariant.contained,
-                          textStyle: Theme.of(context).textTheme.labelSmall,
-                          onPressed: onSubmitted,
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                    child: TextFormField(
+                      controller: controller,
+                      // validator: _validator,
+                      decoration: InputDecoration.collapsed(
+                        hintText: 'Enter the input string (comma separated)',
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .labelSmall
+                            ?.copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary),
+                      ),
+                      minLines: 1,
+                      maxLines: 50,
+                      style: Theme.of(context).textTheme.labelSmall,
+                      onFieldSubmitted: (_) => onSubmitted(),
+                      onChanged: (_) => onChanged(),
+                      textInputAction: TextInputAction.done,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    spacing: 5,
+                    children: [
+                      Button(
+                        text: 'Clear',
+                        style: ButtonVariant.contained,
+                        textStyle: Theme.of(context).textTheme.labelSmall,
+                        onPressed: onClear,
+                      ),
+                      Button(
+                        text: 'Run',
+                        style: ButtonVariant.contained,
+                        textStyle: Theme.of(context).textTheme.labelSmall,
+                        onPressed: onSubmitted,
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

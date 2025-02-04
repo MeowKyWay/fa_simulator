@@ -67,20 +67,23 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InputStringTextField(
-            controller: _controller,
-            onSubmitted: _onSubmitted,
-            onChanged: _onChange,
-            onClear: _onClear,
-          ),
-          SimulationResultText(
-            result: _result,
-          ),
-        ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InputStringTextField(
+              controller: _controller,
+              onSubmitted: _onSubmitted,
+              onChanged: _onChange,
+              onClear: _onClear,
+            ),
+            SimulationResultText(
+              result: _result,
+            ),
+          ],
+        ),
       ),
     );
   }

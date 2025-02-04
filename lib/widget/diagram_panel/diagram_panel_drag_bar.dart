@@ -59,9 +59,8 @@ class _DiagramPanelDragBarState extends State<DiagramPanelDragBar> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: isHovered ? widget.maxHeight : widget.minHeight,
-              color: isHovered
-                  ? Theme.of(context).focusColor
-                  : Theme.of(context).colorScheme.outlineVariant,
+              color:
+                  isHovered ? Theme.of(context).focusColor : Colors.transparent,
             ),
           ),
         ),

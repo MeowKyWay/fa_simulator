@@ -45,8 +45,6 @@ class _StateTableState extends State<StateTable> {
       bool isDuplicateName =
           error?.isError(StateErrorType.duplicateStateName) ?? false;
       bool isUnnamed = error?.isError(StateErrorType.unnamedState) ?? false;
-      bool isDuplicateInitial =
-          error?.isError(StateErrorType.duplicateInitialState) ?? false;
 
       TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
@@ -70,7 +68,6 @@ class _StateTableState extends State<StateTable> {
               state.isInitial ? 'yes' : 'no',
               style: textStyle?.red(
                 context,
-                isDuplicateInitial,
               ),
             ),
           ),

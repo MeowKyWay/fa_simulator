@@ -31,7 +31,7 @@ class DiagramValidator {
 
   void _checkStatesError(List<StateType> states) {
     Set<String> stateNames = {};
-    bool initialFlag = false;
+    int initialCount = 0;
     // Check every state
     for (int i = 0; i < states.length; i++) {
       StateType state = states[i];
@@ -48,19 +48,20 @@ class DiagramValidator {
       }
       stateNames.add(state.label); // Add state label to stateNames
       if (state.isInitial) {
-        // If state is initial and there is already an initial state, add duplicate initial state error
-        if (initialFlag) {
-          stateErrors.addError(StateErrorType.duplicateInitialState);
-        }
-        initialFlag = true;
+        initialCount++;
       }
       if (stateErrors.hasError) {
         errors[DiagramErrorClassType.stateError][state.id] = stateErrors;
       }
     }
-    if (!initialFlag) {
+    if (initialCount == 0) {
       errors[DiagramErrorClassType.diagramError].addError(
         DiagramErrorType.noInitialState,
+      );
+    }
+    if (initialCount > 1) {
+      errors[DiagramErrorClassType.diagramError].addError(
+        DiagramErrorType.duplicateInitialState,
       );
     }
   }

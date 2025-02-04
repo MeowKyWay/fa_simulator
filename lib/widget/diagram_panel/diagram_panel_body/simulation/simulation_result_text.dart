@@ -24,35 +24,32 @@ class SimulationResultText extends StatelessWidget {
       }
     }
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          if (result != null) ...[
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        if (result != null) ...[
+          Row(
+            children: [
+              Text('Result: ', style: Theme.of(context).textTheme.labelSmall),
+              Text(
+                result?.item1 == true ? 'Accepted' : 'Rejected',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ],
+          ),
+          if (result!.item1)
             Row(
               children: [
-                Text('Result: ', style: Theme.of(context).textTheme.labelSmall),
+                Text('Path: ', style: Theme.of(context).textTheme.labelSmall),
                 Text(
-                  result?.item1 == true ? 'Accepted' : 'Rejected',
+                  path,
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],
-            ),
-            if (result!.item1)
-              Row(
-                children: [
-                  Text('Path: ', style: Theme.of(context).textTheme.labelSmall),
-                  Text(
-                    path,
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                ],
-              )
-          ]
-        ],
-      ),
+            )
+        ]
+      ],
     );
   }
 }

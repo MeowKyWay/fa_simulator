@@ -23,8 +23,8 @@ class _DiagramPanelState extends State<DiagramPanel> {
   final double _collapsedThreshold = 25;
   bool _isExpanded = true;
 
-  final PageController _pageController = PageController();
-  int _selectedIndex = 0;
+  final PageController _pageController = PageController(initialPage: 1);
+  int _selectedIndex = 1;
 
   void _onSelect(int index) {
     setState(() {
@@ -49,7 +49,15 @@ class _DiagramPanelState extends State<DiagramPanel> {
     return ConstrainedBox(
       constraints: widget.constraints,
       child: Container(
-        color: Theme.of(context).colorScheme.primary,
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              width: 1,
+            ),
+          ),
+          color: Theme.of(context).colorScheme.primary,
+        ),
         height: _isExpanded ? max(_height, _expandedThreshold) : 5,
         child: Column(children: [
           DiagramPanelDragBar(

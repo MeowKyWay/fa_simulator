@@ -4,12 +4,14 @@ class DiagramPanelMenuItem extends StatefulWidget {
   final String label;
   final Function() onTap;
   final bool isActive;
+  final int? number;
 
   const DiagramPanelMenuItem({
     super.key,
     required this.label,
     required this.onTap,
     required this.isActive,
+    this.number,
   });
 
   @override
@@ -36,7 +38,7 @@ class _DiagramPanelMenuItemState extends State<DiagramPanelMenuItem> {
           onTap: widget.onTap,
           child: Container(
             height: 20,
-            padding: EdgeInsets.fromLTRB(2, 0, 2, widget.isActive ? 0 : 1),
+            padding: EdgeInsets.fromLTRB(2, 0, 2, widget.isActive ? 1 : 2),
             decoration: BoxDecoration(
               border: widget.isActive
                   ? Border(
@@ -45,6 +47,7 @@ class _DiagramPanelMenuItemState extends State<DiagramPanelMenuItem> {
                   : null,
             ),
             child: Row(
+              spacing: 5,
               children: [
                 Text(
                   widget.label,
@@ -54,6 +57,15 @@ class _DiagramPanelMenuItemState extends State<DiagramPanelMenuItem> {
                             : Theme.of(context).colorScheme.onSecondary,
                       ),
                 ),
+                if (widget.number != null && widget.number! > 0)
+                  CircleAvatar(
+                    radius: 9,
+                    backgroundColor: Colors.grey.shade800,
+                    child: Text(
+                      widget.number!.toString(),
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  )
               ],
             ),
           )),
