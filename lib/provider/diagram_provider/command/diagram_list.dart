@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/symbol_command.dart';
@@ -348,7 +347,7 @@ class DiagramList extends DiagramProvider
   void _addItem(AddItemCommand command) {
     if (command.item is StateType) {
       _states.add(command.item as StateType);
-    } else if (item is TransitionType) {
+    } else if (command.item is TransitionType) {
       _transitions.add(command.item as TransitionType);
     }
   }
@@ -592,8 +591,6 @@ class DiagramList extends DiagramProvider
     _simulator = DiagramSimulator();
     _compiler = DiagramCompiler();
     _file = DiagramFile();
-    log(file.isSaved.toString());
     notifyListeners();
-    log(file.isSaved.toString());
   }
 }

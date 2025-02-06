@@ -58,7 +58,7 @@ class _DiagramPanelState extends State<DiagramPanel> {
           ),
           color: Theme.of(context).colorScheme.primary,
         ),
-        height: _isExpanded ? max(_height, _expandedThreshold) : 5,
+        height: _isExpanded ? max(_height, _expandedThreshold) : 6,
         child: Column(children: [
           DiagramPanelDragBar(
             onChange: _onDrag,

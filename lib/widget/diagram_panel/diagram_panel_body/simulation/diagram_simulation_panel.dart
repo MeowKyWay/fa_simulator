@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/snackbar_provider.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
@@ -26,7 +24,6 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
   bool get wantKeepAlive => true;
 
   void _onSubmitted() {
-    log(DiagramList().validator.errors.errors.toString());
     if (DiagramList().validator.errors.hasError) {
       Get.find<SnackbarProvider>().showError(
         'DiagramHasErrorException: Please fix the diagram before simulating.',
@@ -34,8 +31,15 @@ class _DiagramSimulationPanelState extends State<DiagramSimulationPanel>
       return;
     }
     String value = _controller.text;
+    List<String> temp = value.split(',');
+    List<String> input = [];
+    for (final symbol in temp) {
+      if (symbol.trim().isNotEmpty) {
+        input.add(symbol.trim());
+      }
+    }
     setState(() {
-      _result = DiagramList().simulator.simulate(value.split(','));
+      _result = DiagramList().simulator.simulate(input);
     });
   }
 

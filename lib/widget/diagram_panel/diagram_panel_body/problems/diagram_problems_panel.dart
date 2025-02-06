@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
@@ -29,7 +27,6 @@ class _DiagramProblemsPanelState extends State<DiagramProblemsPanel>
     super.build(context);
     return Consumer<DiagramList>(builder: (context, provider, child) {
       final DiagramErrorList errors = DiagramList().validator.errors;
-      log(errors.hasError.toString());
 
       DiagramErrors<ErrorType> diagramErrors =
           errors[DiagramErrorClassType.diagramError];
@@ -45,8 +42,6 @@ class _DiagramProblemsPanelState extends State<DiagramProblemsPanel>
       Map<Tuple2<String, String>, TransitionFunctionEntryErrors>
           transitionFunctionEntryErrors =
           errors[DiagramErrorClassType.transitionFunctionEntryError];
-
-      log(diagramErrors.errors.toString());
 
       return SingleChildScrollView(
         child: Theme(
