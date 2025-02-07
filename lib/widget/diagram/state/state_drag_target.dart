@@ -84,11 +84,10 @@ class StateDragTarget extends StatelessWidget {
   }
 
   void _onAcceptDraggingTransition(DraggingTransitionType data) {
-    log('StateDragTarget._onAcceptDraggingTransition()');
-    TransitionEndPointType endPoint =
-        data.draggingPivot == TransitionPivotType.start
-            ? TransitionEndPointType.start
-            : TransitionEndPointType.end;
+    if (data.draggingPivot == TransitionPivotType.loop) {
+      return;
+    }
+    TransitionEndPointType endPoint = data.draggingPivot.endPointType;
     AppActionDispatcher().execute(AttachTransitionAction(
       id: data.transition.id,
       endPoint: endPoint,

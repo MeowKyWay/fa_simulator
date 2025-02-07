@@ -1,3 +1,4 @@
+import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/transition/transition_pivot_button.dart';
@@ -48,6 +49,14 @@ class TransitionPivot {
         transition: transition,
         type: TransitionPivotType.end,
       ),
+      if (transition.isLoop)
+        TransitionPivotButton(
+          position: calculateNewPoint(transition.sourceState!.position,
+              stateSize / 2, transition.loopAngle),
+          hasFocus: transition.hasFocus,
+          transition: transition,
+          type: TransitionPivotType.loop,
+        ),
     ];
   }
 }

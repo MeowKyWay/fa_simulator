@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   Get.put(SnackbarProvider());
-  runApp(const Main());
+  runApp(Main());
 }
 
 class Main extends StatefulWidget {

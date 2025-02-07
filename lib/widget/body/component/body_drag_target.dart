@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/add_diagram_action.dart';
 import 'package:fa_simulator/action/diagram/move_diagrams_action.dart';
+import 'package:fa_simulator/action/transition/change_transition_loop_angle_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
@@ -29,6 +30,7 @@ class DraggingStateType extends DraggingDiagramType {
 
 enum TransitionPivotType {
   start,
+  loop,
   end,
   all;
 
@@ -38,8 +40,8 @@ enum TransitionPivotType {
         return TransitionEndPointType.start;
       case TransitionPivotType.end:
         return TransitionEndPointType.end;
-      case TransitionPivotType.all:
-        throw Exception('TransitionPivotType.all does not have endpoint type');
+      default:
+        throw Exception('Invalid endpoint type');
     }
   }
 }
@@ -146,6 +148,15 @@ class BodyDragTarget extends StatelessWidget {
   }
 
   void _onAcceptDraggingTransition(DraggingTransitionType data) {
+    if (data.draggingPivot == TransitionPivotType.loop) {
+      AppActionDispatcher().execute(
+        ChangeTransitionLoopAngleAction(
+          id: data.transition.id,
+          angle: TransitionDraggingProvider().newLoopAngle,
+        ),
+      );
+      return;
+    }
     AppActionDispatcher().execute(
       MoveTransitionsAction(
         inputs: [

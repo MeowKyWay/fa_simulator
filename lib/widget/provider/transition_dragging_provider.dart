@@ -33,6 +33,15 @@ class TransitionDraggingProvider extends DiagramProvider with ChangeNotifier {
     return _endPosition! - _startPosition!;
   }
 
+  double get newLoopAngle {
+    if (_pivotType == TransitionPivotType.loop) {
+      return (_endPosition! -
+              DiagramList().transition(_draggingItemId!).sourceState!.position)
+          .direction;
+    }
+    return 0;
+  }
+
   set draggingItemId(String? value) {
     _draggingItemId = value;
     DiagramList().notify();

@@ -2,13 +2,17 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
+import 'package:fa_simulator/action/state/change_state_type_action.dart';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
+import 'package:fa_simulator/widget/diagram/state/context_menu_items.dart';
 import 'package:fa_simulator/widget/diagram/state/state_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/state/hover_overlay/state_hover_overlay.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state_node.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class DiagramState extends StatefulWidget {
@@ -46,38 +50,45 @@ class _DiagramStateState extends State<DiagramState> {
           ClipOval(
             child: StateDragTarget(
               state: widget.state,
-              child: GestureDetector(
-                onDoubleTap: _handleDoubleTap,
-                child: Listener(
-                  onPointerDown: (event) {
-                    _pointerDownPosition = event.localPosition;
-                    if (!widget.state.hasFocus) {
-                      // Prevent group dragging to only focus the state when drag start
-                      _handleClick();
-                      _pointerDownFlag = true;
-                    }
-                  },
-                  onPointerUp: (event) {
-                    if (_pointerDownFlag) {
-                      _pointerDownFlag = false;
-                      return;
-                    }
-                    if ((_pointerDownPosition - event.localPosition).distance <
-                        5) {
-                      // If the pointer moved less than 5 pixels, focus the state
-                      _handleClick();
-                      _focus();
-                    }
-                  },
-                  child: Stack(children: [
-                    Container(
-                      padding: EdgeInsets.all(stateFocusOverlayRingWidth),
-                      color: Colors.transparent,
-                      width: stateSize + stateFocusOverlayRingWidth * 2,
-                      height: stateSize + stateFocusOverlayRingWidth * 2,
-                      child: Center(child: newState),
-                    ),
-                  ]),
+              child: DiagramContextMenuRegion(
+                child: GestureDetector(
+                  onDoubleTap: _handleDoubleTap,
+                  child: Listener(
+                    onPointerDown: (event) {
+                      if (event.buttons == kSecondaryMouseButton) {
+                        if (FocusProvider().hasFocus(widget.state.id)) return;
+                      }
+                      _pointerDownPosition = event.localPosition;
+                      if (!widget.state.hasFocus) {
+                        // Prevent group dragging to only focus the state when drag start
+                        _handleClick();
+                        _pointerDownFlag = true;
+                      }
+                    },
+                    onPointerUp: (event) {
+                      if (event.buttons == kSecondaryMouseButton) return;
+                      if (_pointerDownFlag) {
+                        _pointerDownFlag = false;
+                        return;
+                      }
+                      if ((_pointerDownPosition - event.localPosition)
+                              .distance <
+                          5) {
+                        // If the pointer moved less than 5 pixels, focus the state
+                        _handleClick();
+                        _focus();
+                      }
+                    },
+                    child: Stack(children: [
+                      Container(
+                        padding: EdgeInsets.all(stateFocusOverlayRingWidth),
+                        color: Colors.transparent,
+                        width: stateSize + stateFocusOverlayRingWidth * 2,
+                        height: stateSize + stateFocusOverlayRingWidth * 2,
+                        child: Center(child: newState),
+                      ),
+                    ]),
+                  ),
                 ),
               ),
             ),

@@ -60,8 +60,26 @@ class TransitionType extends DiagramType<TransitionType> {
     super.label = symbols.join(',');
   }
 
+  bool get isLoop {
+    if (sourceStateId == null || destinationStateId == null) {
+      return false;
+    }
+    return sourceStateId == destinationStateId;
+  }
+
+  Offset? get loopPivot {
+    if (isLoop) {
+      return calculateNewPoint(
+        sourceState!.position,
+        stateSize / 2 + 2 * loopRadius - offset,
+        loopAngle,
+      );
+    }
+    return null;
+  }
+
   Offset? get loopCenter {
-    if (sourceStateId == destinationStateId && sourceState != null) {
+    if (isLoop) {
       double radius = loopRadius;
       return calculateNewPoint(
           sourceState!.position, stateSize / 2 + radius - offset, loopAngle);

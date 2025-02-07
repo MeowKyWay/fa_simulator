@@ -72,6 +72,15 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
                 calculateNewPoint(end, stateSize / 2, (start - end).direction);
           }
           break;
+        case TransitionPivotType.loop:
+          return _buildPivotButton(
+            calculateNewPoint(
+              transition.sourceState!.position,
+              stateSize / 2,
+              TransitionDraggingProvider().newLoopAngle,
+            ),
+            context,
+          );
         default:
           break;
       }
@@ -82,4 +91,26 @@ class BodyTransitionDraggingFeedback extends StatelessWidget {
       );
     });
   }
+}
+
+Widget _buildPivotButton(Offset position, BuildContext context) {
+  double buttonSize = 15;
+  return Positioned(
+    left: position.dx - buttonSize / 2,
+    top: position.dy - buttonSize / 2,
+    child: IgnorePointer(
+      child: Container(
+        width: buttonSize,
+        height: buttonSize,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Theme.of(context).focusColor,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline,
+            width: 1,
+          ),
+        ),
+      ),
+    ),
+  );
 }

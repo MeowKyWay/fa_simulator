@@ -6,6 +6,7 @@ import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data
 import 'package:fa_simulator/widget/clip/transition/transition_hitbox_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
+import 'package:fa_simulator/widget/diagram/state/context_menu_items.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -44,36 +45,39 @@ class _TransitionGestureDetectorState extends State<TransitionGestureDetector> {
           width: 10,
         ),
         child: DiagramDraggable(
-          child: GestureDetector(
-            onDoubleTap: _handleDoubleTap,
-            child: Listener(
-              onPointerDown: (event) {
-                _pointerDownPosition = event.localPosition;
-                if (FocusProvider().hasFocus(widget.transition.id)) {
-                  // Prevent group dragging to only focus the state when drag start
-                  _handleClick();
-                  _pointerDownFlag = true;
-                }
-              },
-              onPointerUp: (event) {
-                if (_pointerDownFlag) {
-                  _pointerDownFlag = false;
-                  return;
-                }
-                if ((_pointerDownPosition - event.localPosition).distance < 5) {
-                  // If the pointer moved less than 5 pixels, focus the state
-                  _handleClick();
-                }
-              },
-              child: MouseRegion(
-                cursor: SystemMouseCursors.precise,
-                onEnter: (event) {},
-                child: Container(
-                  width: (br.dx - tl.dx).abs(),
-                  height: (br.dy - tl.dy).abs(),
-                  color: _showTransitionHitBox
-                      ? Colors.white.withAlpha((255 * 0.5).ceil())
-                      : Colors.transparent,
+          child: DiagramContextMenuRegion(
+            child: GestureDetector(
+              onDoubleTap: _handleDoubleTap,
+              child: Listener(
+                onPointerDown: (event) {
+                  _pointerDownPosition = event.localPosition;
+                  if (FocusProvider().hasFocus(widget.transition.id)) {
+                    // Prevent group dragging to only focus the state when drag start
+                    _handleClick();
+                    _pointerDownFlag = true;
+                  }
+                },
+                onPointerUp: (event) {
+                  if (_pointerDownFlag) {
+                    _pointerDownFlag = false;
+                    return;
+                  }
+                  if ((_pointerDownPosition - event.localPosition).distance <
+                      5) {
+                    // If the pointer moved less than 5 pixels, focus the state
+                    _handleClick();
+                  }
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.precise,
+                  onEnter: (event) {},
+                  child: Container(
+                    width: (br.dx - tl.dx).abs(),
+                    height: (br.dy - tl.dy).abs(),
+                    color: _showTransitionHitBox
+                        ? Colors.white.withAlpha((255 * 0.5).ceil())
+                        : Colors.transparent,
+                  ),
                 ),
               ),
             ),

@@ -16,6 +16,11 @@ class DiagramPanelMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, provider, child) {
+      int errorCount = 0;
+      try {
+        errorCount = provider.validator.errors.errorCount;
+      } catch (_) {}
+
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         color: Theme.of(context).colorScheme.primary,
@@ -29,7 +34,7 @@ class DiagramPanelMenu extends StatelessWidget {
                 onSelect(0);
               },
               isActive: selectedIndex == 0,
-              number: provider.validator.errors.errorCount,
+              number: errorCount,
             ),
             DiagramPanelMenuItem(
               label: 'SIMULATION',
