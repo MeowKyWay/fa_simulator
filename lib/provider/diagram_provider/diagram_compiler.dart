@@ -6,12 +6,19 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_t
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 
 class DiagramCompiler implements Jsonable {
-  late TransitionFunctionType transitionFunction;
+  TransitionFunctionType? _transitionFunction;
+
+  TransitionFunctionType get transitionFunction {
+    if (_transitionFunction == null) {
+      compile();
+    }
+    return _transitionFunction!;
+  }
 
   DiagramCompiler();
 
   void compile() {
-    transitionFunction = TransitionFunctionType();
+    _transitionFunction = TransitionFunctionType();
     for (TransitionType transition in DiagramList().transitions) {
       if (!transition.isComplete()) {
         continue;

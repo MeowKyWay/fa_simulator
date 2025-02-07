@@ -563,13 +563,13 @@ class DiagramList extends DiagramProvider
   void loadJson(Map<String, dynamic> json) {
     reset();
     final type = AutomataType.fromString(json['type']);
-    final alphabet = json['alphabet'] as List<String>;
+    final alphabet = json['alphabet'] as List<dynamic>;
     final states = (json['states'] as List).map((e) => StateType.fromJson(e));
     final transitions =
         (json['transitions'] as List).map((e) => TransitionType.fromJson(e));
 
     _type = type;
-    _alphabet.addAll(alphabet);
+    _alphabet.addAll(alphabet.cast<String>());
     _states.addAll(states);
     _transitions.addAll(transitions);
   }

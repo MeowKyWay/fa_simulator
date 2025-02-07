@@ -10,12 +10,19 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_t
 import 'package:tuple/tuple.dart';
 
 class DiagramValidator {
-  late DiagramErrorList errors;
+  DiagramErrorList? _errors;
+
+  DiagramErrorList get errors {
+    if (_errors == null) {
+      validate();
+    }
+    return _errors!;
+  }
 
   DiagramValidator();
 
   void validate() {
-    errors = DiagramErrorList();
+    _errors = DiagramErrorList();
     List<StateType> states = DiagramList().states;
     List<TransitionType> transitions = DiagramList().transitions;
     List<String> alphabet = DiagramList().allSymbol;
