@@ -4,6 +4,7 @@ import 'package:fa_simulator/action/intent/copy_paste_intent.dart';
 import 'package:fa_simulator/action/intent/diagram_intent.dart';
 import 'package:fa_simulator/action/intent/file_intent.dart';
 import 'package:fa_simulator/action/intent/rename_intent.dart';
+import 'package:fa_simulator/action/intent/select_intent.dart';
 import 'package:fa_simulator/action/intent/undo_redo_intent.dart';
 import 'package:fa_simulator/widget/body/shortcuts/body_actions.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
@@ -35,8 +36,12 @@ class _BodyShortcutsState extends State<BodyShortcuts> {
             _ctrlZ: UndoIntent(),
             _ctrlShiftZ: RedoIntent(),
             // Copy and Paste
+            _ctrlX: CutIntent(),
             _ctrlC: CopyIntent(),
             _ctrlV: PasteIntent(),
+            // Select All
+            _ctrlA: SelectAllIntent(),
+            _ctrlShiftA: SelectNoneIntent(),
             // File
             _ctrlS: SaveIntent(),
             _ctrlShiftS: SaveAsIntent(),
@@ -65,6 +70,11 @@ class _BodyShortcutsState extends State<BodyShortcuts> {
     meta: Platform.isMacOS,
     shift: true,
   );
+  final _ctrlX = SingleActivator(
+    LogicalKeyboardKey.keyX,
+    control: !Platform.isMacOS,
+    meta: Platform.isMacOS,
+  );
   final _ctrlC = SingleActivator(
     LogicalKeyboardKey.keyC,
     control: !Platform.isMacOS,
@@ -74,6 +84,17 @@ class _BodyShortcutsState extends State<BodyShortcuts> {
     LogicalKeyboardKey.keyV,
     control: !Platform.isMacOS,
     meta: Platform.isMacOS,
+  );
+  final _ctrlA = SingleActivator(
+    LogicalKeyboardKey.keyA,
+    control: !Platform.isMacOS,
+    meta: Platform.isMacOS,
+  );
+  final _ctrlShiftA = SingleActivator(
+    LogicalKeyboardKey.keyA,
+    control: !Platform.isMacOS,
+    meta: Platform.isMacOS,
+    shift: true,
   );
   final _ctrlS = SingleActivator(
     LogicalKeyboardKey.keyS,

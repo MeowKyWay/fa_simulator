@@ -1,15 +1,19 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/copy_action.dart';
+import 'package:fa_simulator/action/copy_paste/cut_action.dart';
 import 'package:fa_simulator/action/copy_paste/paste_action.dart';
 import 'package:fa_simulator/action/diagram/delete_diagrams_action.dart';
 import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_as_action.dart';
+import 'package:fa_simulator/action/focus/focus_all_action.dart';
+import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/action/intent/copy_paste_intent.dart';
 import 'package:fa_simulator/action/intent/diagram_intent.dart';
 import 'package:fa_simulator/action/intent/file_intent.dart';
 import 'package:fa_simulator/action/intent/rename_intent.dart';
+import 'package:fa_simulator/action/intent/select_intent.dart';
 import 'package:fa_simulator/action/intent/undo_redo_intent.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/shortcuts/body_shortcuts.dart';
@@ -41,6 +45,12 @@ class BodyActions extends StatelessWidget {
             return null;
           },
         ),
+        CutIntent: CallbackAction<CutIntent>(
+          onInvoke: (intent) {
+            AppActionDispatcher().execute(CutAction());
+            return null;
+          },
+        ),
         CopyIntent: CallbackAction<CopyIntent>(
           onInvoke: (intent) {
             AppActionDispatcher().execute(CopyAction());
@@ -50,6 +60,18 @@ class BodyActions extends StatelessWidget {
         PasteIntent: CallbackAction<PasteIntent>(
           onInvoke: (intent) {
             AppActionDispatcher().execute(PasteAction());
+            return null;
+          },
+        ),
+        SelectAllIntent: CallbackAction<SelectAllIntent>(
+          onInvoke: (intent) {
+            AppActionDispatcher().execute(FocusAllAction());
+            return null;
+          },
+        ),
+        SelectNoneIntent: CallbackAction<SelectNoneIntent>(
+          onInvoke: (intent) {
+            AppActionDispatcher().execute(UnfocusAction());
             return null;
           },
         ),

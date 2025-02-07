@@ -19,6 +19,10 @@ class DiagramShortcut {
   String get undo => '$control + Z';
   String get redo => '$control + Shift + Z';
 
+  String get cut => '$control + X';
   String get copy => '$control + C';
   String get paste => '$control + V';
+
+  String get selectAll => '$control + A';
+  String get selectNone => '$control + Shift + A';
 }

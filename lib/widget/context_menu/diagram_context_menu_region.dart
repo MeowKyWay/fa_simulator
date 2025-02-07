@@ -8,7 +8,6 @@ import 'package:fa_simulator/widget/context_menu/diagram_context_menu.dart';
 import 'package:fa_simulator/widget/context_menu/diagram_context_menu_item.dart';
 import 'package:fa_simulator/widget/context_menu/diagram_context_menu_toggle.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -35,8 +34,6 @@ class DiagramContextMenuRegion extends StatelessWidget {
     bool isSingleFocus = FocusProvider().focusedItems.length == 1;
     bool isSingleState =
         isSingleFocus && FocusProvider().focusedItems.first is StateType;
-    bool isSingleTransition =
-        isSingleFocus && FocusProvider().focusedItems.first is TransitionType;
 
     return GestureDetector(
       onSecondaryTapUp: (details) {

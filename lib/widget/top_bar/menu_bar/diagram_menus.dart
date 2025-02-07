@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/file/compile_diagram_action.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_diagram_menu.dart';
+import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_edit_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_file_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/unsave_progress_button.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class DiagramMenus extends StatelessWidget {
       child: Row(
         children: [
           DiagramFileMenu(),
+          DiagramEditMenu(),
           DiagramDiagramMenu(),
           Padding(
             padding: const EdgeInsets.all(2.5),

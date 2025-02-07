@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/change_state_type_action.dart';
 import 'package:fa_simulator/action/transition/attach_transitions_action.dart';

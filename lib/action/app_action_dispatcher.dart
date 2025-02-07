@@ -13,6 +13,9 @@ class AppActionDispatcher extends DiagramProvider {
   // Store list of undo actions
   final List<AppAction> _redoActions = [];
 
+  bool get canUndo => _actions.isNotEmpty;
+  bool get canRedo => _redoActions.isNotEmpty;
+
   void execute(AppAction action, {Function? postAction}) async {
     // Execute the action
     try {

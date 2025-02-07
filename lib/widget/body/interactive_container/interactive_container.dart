@@ -1,5 +1,6 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/interactive_container/matrix_gesture_detecture2.dart';
+import 'package:fa_simulator/widget/context_menu/body_context_menu_region.dart';
 import 'package:flutter/material.dart';
 
 class InteractiveContainer extends StatefulWidget {
@@ -25,36 +26,38 @@ class _InteractiveContainerState extends State<InteractiveContainer> {
     return OverflowBox(
       maxWidth: bodySize.width * _padding,
       maxHeight: bodySize.height * _padding,
-      child: MatrixGestureDetector2(
-        shouldRotate: false,
-        onMatrixUpdate: (m, tm, sm, rm) {
-          Matrix4 newMatrix =
-              MatrixGestureDetector2.compose(matrix, tm, sm, null);
-          if (!scaleLimiter(newMatrix)) {
-            return;
-          }
-          matrix = newMatrix;
-          notifier.value++;
-        },
-        child: Container(
-          width: bodySize.width * _padding,
-          height: bodySize.height * _padding,
-          alignment: Alignment.topLeft,
-          child: AnimatedBuilder(
-            animation: notifier,
-            builder: (ctx, child) {
-              return Transform(
-                transform: matrix,
-                child: Container(
-                  width: bodySize.width * _padding,
-                  height: bodySize.height * _padding,
-                  color: Theme.of(context).colorScheme.surface,
-                  child: Center(
-                    child: widget.child,
+      child: BodyContextMenuRegion(
+        child: MatrixGestureDetector2(
+          shouldRotate: false,
+          onMatrixUpdate: (m, tm, sm, rm) {
+            Matrix4 newMatrix =
+                MatrixGestureDetector2.compose(matrix, tm, sm, null);
+            if (!scaleLimiter(newMatrix)) {
+              return;
+            }
+            matrix = newMatrix;
+            notifier.value++;
+          },
+          child: Container(
+            width: bodySize.width * _padding,
+            height: bodySize.height * _padding,
+            alignment: Alignment.topLeft,
+            child: AnimatedBuilder(
+              animation: notifier,
+              builder: (ctx, child) {
+                return Transform(
+                  transform: matrix,
+                  child: Container(
+                    width: bodySize.width * _padding,
+                    height: bodySize.height * _padding,
+                    color: Theme.of(context).colorScheme.surface,
+                    child: Center(
+                      child: widget.child,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

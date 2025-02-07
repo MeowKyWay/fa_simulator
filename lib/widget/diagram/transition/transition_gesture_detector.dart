@@ -6,7 +6,7 @@ import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data
 import 'package:fa_simulator/widget/clip/transition/transition_hitbox_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
-import 'package:fa_simulator/widget/diagram/state/context_menu_items.dart';
+import 'package:fa_simulator/widget/context_menu/diagram_context_menu_region.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:flutter/material.dart';
 
