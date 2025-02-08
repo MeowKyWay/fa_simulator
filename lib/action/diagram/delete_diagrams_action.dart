@@ -34,7 +34,7 @@ class DeleteDiagramsAction extends AppAction {
     for (StateType i in states) {
       commands.add(DeleteItemCommand(id: i.id));
     }
-
+    FocusProvider().removeFocusAll(ids);
     DiagramList().executeCommands(commands);
   }
 

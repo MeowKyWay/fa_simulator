@@ -31,10 +31,6 @@ class DiagramContextMenuRegion extends StatelessWidget {
       );
     }
 
-    bool isSingleFocus = FocusProvider().focusedItems.length == 1;
-    bool isSingleState =
-        isSingleFocus && FocusProvider().focusedItems.first is StateType;
-
     return GestureDetector(
       onSecondaryTapUp: (details) {
         DiagramContextMenu.show(
@@ -71,10 +67,11 @@ class DiagramContextMenuRegion extends StatelessWidget {
                 );
               },
             ),
-            if (isSingleFocus) ...[
+            if (FocusProvider().isSingleFocus) ...[
               buildDivider(),
               DiagramContextMenuItem(
-                label: isSingleState ? 'Rename' : 'Edit Symbols',
+                label:
+                    FocusProvider().isSingleState ? 'Rename' : 'Edit Symbols',
                 onTap: () {
                   RenamingProvider().startRename(
                     id: FocusProvider().focusedItemIds.first,
@@ -82,7 +79,7 @@ class DiagramContextMenuRegion extends StatelessWidget {
                   );
                 },
               ),
-              if (isSingleState) ...[
+              if (FocusProvider().isSingleState) ...[
                 buildDivider(),
                 DiagramContextMenuToggle(
                   label: 'Initial',

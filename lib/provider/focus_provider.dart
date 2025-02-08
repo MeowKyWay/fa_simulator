@@ -17,6 +17,12 @@ class FocusProvider extends DiagramProvider with ChangeNotifier {
   bool get isEmpty => _focusItemIds.isEmpty;
   bool get isNotEmpty => _focusItemIds.isNotEmpty;
 
+  bool get isSingleFocus => _focusItemIds.length == 1;
+  bool get isSingleState =>
+      isSingleFocus && DiagramList().isState(_focusItemIds.first);
+  bool get isSingleTransition =>
+      isSingleFocus && DiagramList().isTransition(_focusItemIds.first);
+
   /// Add focus to the item with the provided id
   void addFocus(String id) {
     _focusItemIds.add(id);
