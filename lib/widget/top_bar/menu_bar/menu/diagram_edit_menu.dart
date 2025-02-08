@@ -1,10 +1,6 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/copy_action.dart';
 import 'package:fa_simulator/action/copy_paste/cut_action.dart';
-import 'package:fa_simulator/action/file/new_diagram_action.dart';
-import 'package:fa_simulator/action/file/open_diagram_action.dart';
-import 'package:fa_simulator/action/file/save_diagram_action.dart';
-import 'package:fa_simulator/action/file/save_diagram_as_action.dart';
 import 'package:fa_simulator/action/focus/focus_all_action.dart';
 import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';

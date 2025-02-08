@@ -23,8 +23,8 @@ class _DiagramPanelState extends State<DiagramPanel> {
   final double _collapsedThreshold = 25;
   bool _isExpanded = true;
 
-  final PageController _pageController = PageController(initialPage: 1);
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController(initialPage: 0);
 
   void _onSelect(int index) {
     setState(() {

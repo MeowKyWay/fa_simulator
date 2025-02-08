@@ -37,11 +37,18 @@ class DiagramPanelMenu extends StatelessWidget {
               number: errorCount,
             ),
             DiagramPanelMenuItem(
-              label: 'SIMULATION',
+              label: 'ALPHABET',
               onTap: () {
                 onSelect(1);
               },
               isActive: selectedIndex == 1,
+            ),
+            DiagramPanelMenuItem(
+              label: 'SIMULATION',
+              onTap: () {
+                onSelect(2);
+              },
+              isActive: selectedIndex == 2,
             ),
           ],
         ),
