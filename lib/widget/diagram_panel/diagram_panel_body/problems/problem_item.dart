@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
+import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class ProblemItem<T> extends StatefulWidget {
   final ErrorType error;
@@ -37,8 +41,14 @@ class _ProblemItemState extends State<ProblemItem> {
       },
       child: GestureDetector(
         onTap: () {
-          if (widget.item is! String) return;
-          AppActionDispatcher().execute(FocusAction([widget.item]));
+          if (widget.item is String) {
+            AppActionDispatcher().execute(FocusAction([widget.item]));
+            return;
+          }
+          if (widget.item is Tuple2<String, String>) {
+            AppActionDispatcher().execute(FocusAction([widget.item.item1]));
+            return;
+          }
         },
         child: Container(
           color: _isHovering

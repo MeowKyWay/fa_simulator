@@ -1,4 +1,5 @@
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/alphabet/diagram_alphabet_panel.dart';
+import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/definition/diagram_definition_panel.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/problems/diagram_problems_panel.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/simulation/diagram_simulation_panel.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _DiagramPanelBodyState extends State<DiagramPanelBody>
       controller: widget.controller,
       children: [
         DiagramProblemsPanel(),
+        DiagramDefinitionPanel(),
         DiagramAlphabetPanel(),
         DiagramSimulationPanel(),
       ],

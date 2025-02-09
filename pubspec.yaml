@@ -43,6 +43,7 @@ dependencies:
   tuple:
   sorted_list: ^1.0.0
   get:
+  gap:
 
 dev_dependencies:
   flutter_test:

@@ -94,6 +94,10 @@ class TransitionFunctionEntry implements Jsonable {
     required this.symbol,
   });
 
+  bool get isDeterministic {
+    return destinationStateIds.length == 1;
+  }
+
   StateType get sourceState {
     try {
       return DiagramList().state(sourceStateId);
