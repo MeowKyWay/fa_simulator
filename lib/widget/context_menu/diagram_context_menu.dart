@@ -1,5 +1,4 @@
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,7 @@ class DiagramContextMenu {
     required BuildContext context,
     required Offset position,
     required List<Widget> menu,
-    required List<DiagramType> items,
+    double? width,
   }) {
     hide();
 
@@ -49,9 +48,8 @@ class DiagramContextMenu {
                 ),
                 textStyle: Theme.of(context).textTheme.labelSmall,
                 color: Theme.of(context).colorScheme.primary,
-                child: SizedBox(
-                  width: 250,
-                  child: IntrinsicHeight(
+                child: IntrinsicHeight(
+                  child: IntrinsicWidth(
                     child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,

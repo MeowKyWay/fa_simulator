@@ -1,15 +1,20 @@
-import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/config/theme.dart';
+import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu_context_menu_region.dart';
 import 'package:flutter/material.dart';
 
 abstract class DiagramMenu extends StatefulWidget {
+  final bool isOpen;
+
   const DiagramMenu({
     super.key,
+    required this.isOpen,
   });
 
   String get label;
 
-  List<PopupMenuEntry<Object?>> items(BuildContext context);
+  List<Widget> items(BuildContext context);
+
+  EdgeInsets get padding => EdgeInsets.symmetric(horizontal: 10, vertical: 5);
 
   @override
   State<DiagramMenu> createState() => _DiagramMenuState();
@@ -22,63 +27,33 @@ class _DiagramMenuState extends State<DiagramMenu> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
-    return MouseRegion(
-      onEnter: (event) {
+    return DiagramMenuContextMenuRegion(
+      isOpen: widget.isOpen,
+      onEnter: () {
         setState(() {
           isHovered = true;
         });
       },
-      onExit: (event) {
+      onExit: () {
         setState(() {
           isHovered = false;
         });
       },
-      child: PopupMenuButton<Object?>(
-        tooltip: '',
-        color: theme.colorScheme.primary,
-        menuPadding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-          side: BorderSide(
-            color: theme.colorScheme.outlineVariant,
-            width: 1,
-          ),
-        ),
-        offset: const Offset(0, 30),
-        itemBuilder: (context) {
-          return widget.items(context);
-        },
-        onSelected: (item) {
-          assert(
-              item is AppAction || item is VoidCallback, 'Invalid item type');
-          if (item is AppAction) {
-            item.execute();
-          }
-          if (item is VoidCallback) {
-            item();
-          }
-        },
-        child: Container(
-          color:
-              isHovered ? theme.colorScheme.surface : theme.colorScheme.primary,
-          height: double.infinity,
+      items: widget.items(context),
+      child: Container(
+        color: isHovered ? theme.colorScheme.surface : Colors.transparent,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                widget.label,
-                style: textM.copyWith(
-                  color: secondaryTextColor,
-                ),
+            child: Text(
+              widget.label,
+              style: textM.copyWith(
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  void render() {
-    setState(() {});
   }
 }

@@ -18,8 +18,7 @@ Widget state({
               color: theme.colorScheme.secondary,
               shape: BoxShape.circle,
               //White border
-              border:
-                  Border.all(color: theme.colorScheme.onTertiary, width: 1)),
+              border: Border.all(color: theme.colorScheme.outline, width: 1)),
           child: child,
         ),
         isAcceptState

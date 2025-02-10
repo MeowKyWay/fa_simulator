@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 

@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/copy_action.dart';
 import 'package:fa_simulator/action/copy_paste/cut_action.dart';
+import 'package:fa_simulator/action/copy_paste/paste_action.dart';
 import 'package:fa_simulator/action/focus/focus_all_action.dart';
 import 'package:fa_simulator/action/focus/unfocus_action.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
@@ -12,13 +13,14 @@ import 'package:flutter/material.dart';
 class DiagramExtraMenu extends DiagramMenu {
   const DiagramExtraMenu({
     super.key,
+    required super.isOpen,
   });
 
   @override
   String get label => 'Edit';
 
   @override
-  List<PopupMenuEntry<Object?>> items(BuildContext context) => [
+  List<Widget> items(BuildContext context) => [
         DiagramMenuItem(
           label: 'Undo',
           shortcut: DiagramShortcut().undo,
@@ -26,7 +28,7 @@ class DiagramExtraMenu extends DiagramMenu {
             AppActionDispatcher().undo();
           },
           enabled: AppActionDispatcher().canUndo,
-        ).build(),
+        ),
         DiagramMenuItem(
           label: 'Redo',
           shortcut: DiagramShortcut().redo,
@@ -34,39 +36,49 @@ class DiagramExtraMenu extends DiagramMenu {
             AppActionDispatcher().redo();
           },
           enabled: AppActionDispatcher().canRedo,
-        ).build(),
+        ),
         const PopupMenuDivider(
           height: 1,
         ),
         DiagramMenuItem(
           label: 'Cut',
           shortcut: DiagramShortcut().cut,
-          action: CutAction(),
+          action: () {
+            AppActionDispatcher().execute(CutAction());
+          },
           enabled: FocusProvider().isNotEmpty,
-        ).build(),
+        ),
         DiagramMenuItem(
           label: 'Copy',
           shortcut: DiagramShortcut().copy,
-          action: CopyAction(),
+          action: () {
+            AppActionDispatcher().execute(CopyAction());
+          },
           enabled: FocusProvider().isNotEmpty,
-        ).build(),
+        ),
         DiagramMenuItem(
           label: 'Paste',
           shortcut: DiagramShortcut().paste,
-          action: CopyAction(),
-        ).build(),
+          action: () {
+            AppActionDispatcher().execute(PasteAction());
+          },
+        ),
         const PopupMenuDivider(
           height: 1,
         ),
         DiagramMenuItem(
           label: 'Select All',
           shortcut: DiagramShortcut().selectAll,
-          action: FocusAllAction(),
-        ).build(),
+          action: () {
+            AppActionDispatcher().execute(FocusAllAction());
+          },
+        ),
         DiagramMenuItem(
           label: 'Select None',
           shortcut: DiagramShortcut().selectNone,
-          action: UnfocusAction(),
-        ).build(),
+          action: () {
+            AppActionDispatcher().execute(UnfocusAction());
+          },
+        ),
       ];
 }

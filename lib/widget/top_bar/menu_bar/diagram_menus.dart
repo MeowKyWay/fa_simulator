@@ -15,30 +15,41 @@ class DiagramMenus extends StatefulWidget {
 }
 
 class _DiagramMenusState extends State<DiagramMenus> {
-  int? _currentIndex;
+  bool _isOpen = false;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       width: double.infinity,
-      child: Row(
-        children: [
-          DiagramFileMenu(),
-          DiagramEditMenu(),
-          Padding(
-            padding: const EdgeInsets.all(2.5),
-            child: UnsaveProgressButton(),
-          ),
-          Spacer(),
-          IconButton(
-            onPressed: () {
-              AppActionDispatcher().execute(CompileDiagramAction());
-            },
-            icon: Icon(Icons.help),
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ],
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _isOpen = !_isOpen;
+          });
+        },
+        child: Row(
+          children: [
+            DiagramFileMenu(
+              isOpen: _isOpen,
+            ),
+            DiagramEditMenu(
+              isOpen: _isOpen,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.5),
+              child: UnsaveProgressButton(),
+            ),
+            Spacer(),
+            IconButton(
+              onPressed: () {
+                AppActionDispatcher().execute(CompileDiagramAction());
+              },
+              icon: Icon(Icons.help),
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          ],
+        ),
       ),
     );
   }

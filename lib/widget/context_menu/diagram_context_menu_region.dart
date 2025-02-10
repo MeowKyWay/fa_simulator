@@ -36,7 +36,6 @@ class DiagramContextMenuRegion extends StatelessWidget {
         DiagramContextMenu.show(
           context: context,
           position: details.globalPosition,
-          items: FocusProvider().focusedItems,
           menu: [
             DiagramContextMenuItem(
               label: 'Delete',

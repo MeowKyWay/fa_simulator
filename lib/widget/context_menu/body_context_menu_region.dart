@@ -1,7 +1,6 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/paste_action.dart';
 import 'package:fa_simulator/action/focus/focus_all_action.dart';
-import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/context_menu/diagram_context_menu.dart';
 import 'package:fa_simulator/widget/context_menu/diagram_context_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,6 @@ class BodyContextMenuRegion extends StatelessWidget {
         DiagramContextMenu.show(
           context: context,
           position: details.globalPosition,
-          items: FocusProvider().focusedItems,
           menu: [
             if (AppActionDispatcher().canUndo) ...[
               DiagramContextMenuItem(

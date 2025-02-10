@@ -1,59 +1,61 @@
+import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_action.dart';
 import 'package:fa_simulator/action/file/save_diagram_as_action.dart';
+import 'package:fa_simulator/widget/context_menu/diagram_context_menu_item.dart';
 import 'package:fa_simulator/widget/keyboard/key_handler/diagram_shortcut.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu.dart';
-import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu_item.dart';
 import 'package:flutter/material.dart';
 
 class DiagramFileMenu extends DiagramMenu {
   const DiagramFileMenu({
     super.key,
+    required super.isOpen,
   });
 
   @override
   String get label => 'File';
 
   @override
-  List<PopupMenuEntry<Object?>> items(BuildContext context) => [
-        DiagramMenuItem(
+  List<Widget> items(BuildContext context) => [
+        DiagramContextMenuItem(
           label: 'New',
           shortcut: DiagramShortcut().newFile,
-          action: NewDiagramAction(
-            context: context,
-          ),
-        ).build(),
-        DiagramMenuItem(
+          onTap: () {
+            AppActionDispatcher().execute(NewDiagramAction(context: context));
+          },
+          padding: padding,
+        ),
+        DiagramContextMenuItem(
           label: 'Open',
           shortcut: DiagramShortcut().open,
-          action: OpenDiagramAction(
-            context: context,
-          ),
-        ).build(),
-        const PopupMenuDivider(
-          height: 1,
+          onTap: () {
+            AppActionDispatcher().execute(OpenDiagramAction(context: context));
+          },
+          padding: padding,
         ),
-        DiagramMenuItem(
+        Divider(
+          height: 1,
+          indent: 5,
+          endIndent: 5,
+          color: Theme.of(context).colorScheme.outlineVariant,
+        ),
+        DiagramContextMenuItem(
           label: 'Save',
           shortcut: DiagramShortcut().save,
-          action: SaveDiagramAction(),
-        ).build(),
-        DiagramMenuItem(
+          onTap: () {
+            AppActionDispatcher().execute(SaveDiagramAction());
+          },
+          padding: padding,
+        ),
+        DiagramContextMenuItem(
           label: 'Save As',
           shortcut: DiagramShortcut().saveAs,
-          action: SaveDiagramAsAction(),
-        ).build(),
-        const PopupMenuDivider(
-          height: 1,
+          onTap: () {
+            AppActionDispatcher().execute(SaveDiagramAsAction());
+          },
+          padding: padding,
         ),
-        DiagramMenuItem(
-          label: 'Export',
-          enabled: false,
-        ).build(),
-        DiagramMenuItem(
-          label: 'Import',
-          enabled: false,
-        ).build(),
       ];
 }
