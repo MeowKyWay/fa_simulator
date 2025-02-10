@@ -1,6 +1,7 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
+import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
 import 'package:fa_simulator/widget/clip/transition/transition_hitbox_clipper.dart';
@@ -51,7 +52,7 @@ class _TransitionGestureDetectorState extends State<TransitionGestureDetector> {
               child: Listener(
                 onPointerDown: (event) {
                   _pointerDownPosition = event.localPosition;
-                  if (FocusProvider().hasFocus(widget.transition.id)) {
+                  if (!widget.transition.hasFocus) {
                     // Prevent group dragging to only focus the state when drag start
                     _handleClick();
                     _pointerDownFlag = true;
@@ -66,6 +67,7 @@ class _TransitionGestureDetectorState extends State<TransitionGestureDetector> {
                       5) {
                     // If the pointer moved less than 5 pixels, focus the state
                     _handleClick();
+                    _focus();
                   }
                 },
                 child: MouseRegion(
@@ -100,6 +102,13 @@ class _TransitionGestureDetectorState extends State<TransitionGestureDetector> {
     AppActionDispatcher().execute(FocusAction(
       [widget.transition.id],
     ));
+  }
+
+  void _focus() {
+    if (KeyboardData.of(context)!.isShiftPressed) {
+      AppActionDispatcher().execute(ToggleFocusAction([widget.transition.id]));
+      return;
+    }
   }
 
   void _handleDoubleTap() {
