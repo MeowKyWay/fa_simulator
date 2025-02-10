@@ -1,6 +1,6 @@
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
-import 'package:fa_simulator/resource/theme/diagram_theme.dart';
+import 'package:fa_simulator/resource/theme/diagram_dark_theme.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
@@ -37,7 +37,7 @@ class _DefinitionOverlayState extends State<_DefinitionOverlay> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: diagramTheme,
+      theme: darkTheme,
       home: Consumer<DiagramList>(
         builder: (context, provider, child) {
           List<StateType> states = DiagramList().states;

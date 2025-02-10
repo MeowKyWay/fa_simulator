@@ -1,7 +1,7 @@
 import 'package:fa_simulator/widget/components/extension/color_extension.dart';
 import 'package:flutter/material.dart';
 
-ThemeData diagramTheme = ThemeData(
+ThemeData darkTheme = ThemeData(
     primarySwatch: Colors.blue,
     textSelectionTheme: TextSelectionThemeData(
       selectionColor: Colors.blue.withAlpha((255 * 0.5).toInt()),
@@ -14,14 +14,14 @@ ThemeData diagramTheme = ThemeData(
     outlinedButtonTheme: outlinedButtonTheme,
     hoverColor: Colors.green.withOpa(0.5),
     focusColor: _focusColor,
-    colorScheme: darkTheme,
+    colorScheme: darkColorScheme,
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(
         color: Colors.white.withOpa(0.5),
       ),
     ));
 
-ColorScheme darkTheme = ColorScheme(
+ColorScheme darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: _primaryColor,
   onPrimary: Colors.white,

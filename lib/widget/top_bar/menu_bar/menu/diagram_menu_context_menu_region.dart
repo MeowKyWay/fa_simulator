@@ -7,6 +7,7 @@ class DiagramMenuContextMenuRegion extends StatefulWidget {
   final Function() onExit;
   final List<Widget> items;
   final bool isOpen;
+  final Function() onClose;
 
   const DiagramMenuContextMenuRegion({
     super.key,
@@ -15,6 +16,7 @@ class DiagramMenuContextMenuRegion extends StatefulWidget {
     required this.onExit,
     required this.items,
     required this.isOpen,
+    required this.onClose,
   });
 
   @override
@@ -41,6 +43,7 @@ class _DiagramMenuContextMenuRegionState
       context: context,
       position: bottomLeft,
       menu: widget.items,
+      onClose: widget.onClose,
     );
   }
 

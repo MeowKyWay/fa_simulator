@@ -1,7 +1,7 @@
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/provider/snackbar_provider.dart';
-import 'package:fa_simulator/resource/theme/diagram_theme.dart';
+import 'package:fa_simulator/resource/theme/diagram_dark_theme.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
@@ -44,7 +44,7 @@ class _MainState extends State<Main> {
       ],
       child: MaterialApp(
         scaffoldMessengerKey: Get.find<SnackbarProvider>().snackbarKey,
-        theme: diagramTheme,
+        theme: darkTheme,
         home: const Scaffold(
           body: DefaultTextStyle(
             style: TextStyle(

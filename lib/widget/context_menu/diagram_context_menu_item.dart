@@ -9,6 +9,7 @@ class DiagramContextMenuItem extends StatefulWidget {
   final Color? color;
   final EdgeInsets? padding;
   final bool enabled;
+  final Function()? close;
 
   const DiagramContextMenuItem({
     super.key,
@@ -18,6 +19,7 @@ class DiagramContextMenuItem extends StatefulWidget {
     this.color,
     this.padding,
     this.enabled = true,
+    this.close,
   });
 
   @override
@@ -47,6 +49,7 @@ class _DiagramContextMenuItemState extends State<DiagramContextMenuItem> {
         onTap: () {
           if (!widget.enabled) return;
           widget.onTap();
+          widget.close?.call();
           DiagramContextMenu.hide();
         },
         child: Container(

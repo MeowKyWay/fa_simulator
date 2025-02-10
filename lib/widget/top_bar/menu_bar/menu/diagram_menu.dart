@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 abstract class DiagramMenu extends StatefulWidget {
   final bool isOpen;
+  final Function() close;
 
   const DiagramMenu({
     super.key,
     required this.isOpen,
+    required this.close,
   });
 
   String get label;
@@ -29,6 +31,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
 
     return DiagramMenuContextMenuRegion(
       isOpen: widget.isOpen,
+      onClose: widget.close,
       onEnter: () {
         setState(() {
           isHovered = true;

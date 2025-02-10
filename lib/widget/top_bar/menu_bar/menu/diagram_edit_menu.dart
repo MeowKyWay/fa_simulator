@@ -14,6 +14,7 @@ class DiagramEditMenu extends DiagramMenu {
   const DiagramEditMenu({
     super.key,
     required super.isOpen,
+    required super.close,
   });
 
   @override
@@ -29,6 +30,7 @@ class DiagramEditMenu extends DiagramMenu {
           },
           enabled: AppActionDispatcher().canUndo,
           padding: padding,
+          close: close,
         ),
         DiagramContextMenuItem(
           label: 'Redo',
@@ -38,6 +40,7 @@ class DiagramEditMenu extends DiagramMenu {
           },
           enabled: AppActionDispatcher().canRedo,
           padding: padding,
+          close: close,
         ),
         Divider(
           height: 1,
@@ -53,6 +56,7 @@ class DiagramEditMenu extends DiagramMenu {
           },
           enabled: FocusProvider().isNotEmpty,
           padding: padding,
+          close: close,
         ),
         DiagramContextMenuItem(
           label: 'Copy',
@@ -62,6 +66,7 @@ class DiagramEditMenu extends DiagramMenu {
           },
           enabled: FocusProvider().isNotEmpty,
           padding: padding,
+          close: close,
         ),
         DiagramContextMenuItem(
           label: 'Paste',
@@ -70,6 +75,7 @@ class DiagramEditMenu extends DiagramMenu {
             AppActionDispatcher().execute(PasteAction());
           },
           padding: padding,
+          close: close,
         ),
         Divider(
           height: 1,
@@ -84,6 +90,7 @@ class DiagramEditMenu extends DiagramMenu {
             AppActionDispatcher().execute(FocusAllAction());
           },
           padding: padding,
+          close: close,
         ),
         DiagramContextMenuItem(
           label: 'Select None',
@@ -92,6 +99,7 @@ class DiagramEditMenu extends DiagramMenu {
             AppActionDispatcher().execute(UnfocusAction());
           },
           padding: padding,
+          close: close,
         ),
       ];
 }

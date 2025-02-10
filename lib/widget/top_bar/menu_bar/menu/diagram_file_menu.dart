@@ -12,6 +12,7 @@ class DiagramFileMenu extends DiagramMenu {
   const DiagramFileMenu({
     super.key,
     required super.isOpen,
+    required super.close,
   });
 
   @override
@@ -26,6 +27,7 @@ class DiagramFileMenu extends DiagramMenu {
             AppActionDispatcher().execute(NewDiagramAction(context: context));
           },
           padding: padding,
+          close: close,
         ),
         DiagramContextMenuItem(
           label: 'Open',
@@ -34,6 +36,7 @@ class DiagramFileMenu extends DiagramMenu {
             AppActionDispatcher().execute(OpenDiagramAction(context: context));
           },
           padding: padding,
+          close: close,
         ),
         Divider(
           height: 1,
@@ -48,6 +51,7 @@ class DiagramFileMenu extends DiagramMenu {
             AppActionDispatcher().execute(SaveDiagramAction());
           },
           padding: padding,
+          close: close,
         ),
         DiagramContextMenuItem(
           label: 'Save As',
@@ -56,6 +60,7 @@ class DiagramFileMenu extends DiagramMenu {
             AppActionDispatcher().execute(SaveDiagramAsAction());
           },
           padding: padding,
+          close: close,
         ),
       ];
 }

@@ -17,6 +17,7 @@ class DiagramContextMenu {
     required Offset position,
     required List<Widget> menu,
     double? width,
+    Function()? onClose,
   }) {
     hide();
 
@@ -28,8 +29,9 @@ class DiagramContextMenu {
             // Transparent background to detect outside clicks
             Positioned.fill(
               child: Listener(
-                onPointerDown: (_) {
+                onPointerUp: (_) {
                   hide();
+                  onClose?.call();
                 }, // Close on tap outside
                 behavior: HitTestBehavior.translucent,
               ),
