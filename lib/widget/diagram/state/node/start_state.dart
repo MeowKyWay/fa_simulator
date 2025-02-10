@@ -2,7 +2,10 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
-Widget startState({Widget? child, double stateSize = stateSize, required BuildContext context}) {
+Widget startState(
+    {Widget? child,
+    double stateSize = stateSize,
+    required BuildContext context}) {
   ThemeData theme = Theme.of(context);
   // Todo resizable state
   return SizedBox(
@@ -12,7 +15,7 @@ Widget startState({Widget? child, double stateSize = stateSize, required BuildCo
       decoration: BoxDecoration(
           color: theme.colorScheme.secondary,
           shape: BoxShape.circle,
-          border: Border.all(color: theme.colorScheme.onSecondary, width: 1)),
+          border: Border.all(color: theme.colorScheme.outline, width: 1)),
       child: Center(
         // If renaming, show the text field
         child: Text(

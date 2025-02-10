@@ -5,6 +5,7 @@ import 'package:fa_simulator/action/transition/change_transition_loop_angle_acti
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
+import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
@@ -15,6 +16,7 @@ import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/new_transition_provider.dart';
 import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
 import 'package:fa_simulator/widget/sidebar/palette/state/state_palette.dart';
+import 'package:fa_simulator/widget/sidebar/palette/transition/transition_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -85,16 +87,21 @@ class BodyDragTarget extends StatelessWidget {
               details.data as DraggingDiagramType);
         }
         //On drag transition pivot move the pivot
-        else if (details.data is DraggingTransitionType) {
+        if (details.data is DraggingTransitionType) {
           return _onWillAcceptDraggingTransition(
               details.data as DraggingTransitionType);
         }
         //On drag new transition add the transition
-        else if (details.data is NewTransitionType) {
+        if (details.data is NewTransitionType) {
           return _onWillAcceptNewTransition(details.data as NewTransitionType);
-        } else if (details.data is PaletteDragData) {
+        }
+        if (details.data is StatePaletteDragData) {
           return _onWillAcceptStatePalleteDragData(
               details.data as StatePaletteDragData);
+        }
+        if (details.data is TransitionPaletteDragData) {
+          return _onWillAcceptTransitionPalleteDragData(
+              details.data as PaletteDragData);
         }
         return false;
       },
@@ -107,10 +114,10 @@ class BodyDragTarget extends StatelessWidget {
           _onAcceptNewTransition(details.data as NewTransitionType);
         } else if (details.data is StatePaletteDragData) {
           _onAcceptStatePalleteDragData(details.data as StatePaletteDragData);
+        } else if (details.data is TransitionPaletteDragData) {
+          _onAcceptTransitionPalleteDragData(
+              details.data as TransitionPaletteDragData);
         }
-        //else if (details.data is TransitionPaletteDragData) {
-        //_onAcceptTransitionPalleteDragData(details.data as PaletteDragData);
-        //}
       },
       onMove: (details) {},
       onLeave: (details) {
@@ -134,6 +141,11 @@ class BodyDragTarget extends StatelessWidget {
   }
 
   bool _onWillAcceptStatePalleteDragData(StatePaletteDragData data) {
+    PalleteFeedbackProvider().withinBody = true;
+    return true;
+  }
+
+  bool _onWillAcceptTransitionPalleteDragData(PaletteDragData data) {
     PalleteFeedbackProvider().withinBody = true;
     return true;
   }
@@ -191,6 +203,24 @@ class BodyDragTarget extends StatelessWidget {
       label: '',
       isInitial: data.isInitial,
       isFinal: data.isFinal,
+    );
+    PalleteFeedbackProvider().reset();
+    AppActionDispatcher().execute(
+      AddDiagramAction(item: item),
+    );
+  }
+
+  void _onAcceptTransitionPalleteDragData(TransitionPaletteDragData data) {
+    DiagramType item;
+    if (PalleteFeedbackProvider().position == null) return;
+    Offset position =
+        PalleteFeedbackProvider().position! + PalleteFeedbackProvider().margin;
+
+    item = TransitionType(
+      sourcePosition: position + const Offset(-50, 50),
+      destinationPosition: position + const Offset(50, -50),
+      id: const Uuid().v4(),
+      label: data.isEpsilon ? DiagramCharacter.epsilon : '',
     );
     PalleteFeedbackProvider().reset();
     AppActionDispatcher().execute(

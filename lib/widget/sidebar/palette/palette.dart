@@ -17,7 +17,7 @@ class Palette extends StatefulWidget {
 }
 
 class _PaletteState extends State<Palette> {
-  bool _isExpanded = false;
+  bool _isExpanded = true;
 
   @override
   Widget build(BuildContext context) {

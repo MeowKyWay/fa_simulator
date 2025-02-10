@@ -4,24 +4,22 @@ import 'package:fa_simulator/widget/sidebar/palette/palette_drag_data.dart';
 import 'package:fa_simulator/widget/sidebar/palette/palette_draggable.dart';
 import 'package:flutter/material.dart';
 
-class StatePaletteDragData extends PaletteDragData {
-  final bool isInitial;
-  final bool isFinal;
+class TransitionPaletteDragData extends PaletteDragData {
+  final bool isEpsilon;
 
-  StatePaletteDragData({
-    super.type = DiagramTypeEnum.state,
-    this.isInitial = false,
-    this.isFinal = false,
+  TransitionPaletteDragData({
+    super.type = DiagramTypeEnum.transition,
+    this.isEpsilon = false,
   });
 }
 
-class StatePalette extends StatelessWidget {
-  final StatePaletteDragData data;
+class TransitionPalette extends StatelessWidget {
+  final TransitionPaletteDragData data;
   final Widget child;
   final Widget feedback;
   final double size;
 
-  const StatePalette({
+  const TransitionPalette({
     super.key,
     required this.data,
     required this.child,
@@ -35,7 +33,7 @@ class StatePalette extends StatelessWidget {
       height: size,
       width: size,
       child: Center(
-        child: ClipOval(
+        child: ClipRect(
           child: PaletteDraggable(
             data: data,
             feedback: feedback,

@@ -18,7 +18,7 @@ Widget acceptState({
           decoration: BoxDecoration(
               color: theme.colorScheme.secondary,
               shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.onSecondary, width: 1)),
+              border: Border.all(color: theme.colorScheme.outline, width: 1)),
           child: child,
         ),
         IgnorePointer(
@@ -29,7 +29,7 @@ Widget acceptState({
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 shape: BoxShape.circle,
-                border: Border.all(color: theme.colorScheme.onSecondary, width: 1),
+                border: Border.all(color: theme.colorScheme.outline, width: 1),
               ),
             ),
           ),

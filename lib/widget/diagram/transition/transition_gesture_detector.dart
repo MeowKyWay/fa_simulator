@@ -2,7 +2,6 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/action/focus/toggle_focus_action.dart';
-import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data.dart';
 import 'package:fa_simulator/widget/clip/transition/transition_hitbox_clipper.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
