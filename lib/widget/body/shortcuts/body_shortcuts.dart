@@ -47,6 +47,8 @@ class _BodyShortcutsState extends State<BodyShortcuts> {
             _ctrlShiftS: SaveAsIntent(),
             _ctrlN: NewIntent(),
             _ctrlO: OpenIntent(),
+            // Toggle Diagram type
+            _ctrlT: ToggleTypeIntent(),
             // Rename
             _enter: RenameIntent(),
             ..._charActivator,
@@ -114,6 +116,11 @@ class _BodyShortcutsState extends State<BodyShortcuts> {
   );
   final _ctrlO = SingleActivator(
     LogicalKeyboardKey.keyO,
+    control: !Platform.isMacOS,
+    meta: Platform.isMacOS,
+  );
+  final _ctrlT = SingleActivator(
+    LogicalKeyboardKey.keyT,
     control: !Platform.isMacOS,
     meta: Platform.isMacOS,
   );

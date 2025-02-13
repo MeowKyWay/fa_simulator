@@ -8,29 +8,38 @@ class DiagramTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, provider, child) {
-      return SizedBox(
-        height: 105,
+      return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          border: Border(
+            bottom: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              width: 1,
+            ),
+          ),
+        ),
+        height: 65,
         width: double.infinity,
         child: Column(
           children: [
             DiagramMenuBar(),
-            Container(
-              height: 40,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                border: Border(
-                  top: BorderSide(
-                    color: Theme.of(context).colorScheme.outlineVariant,
-                    width: 1,
-                  ),
-                  bottom: BorderSide(
-                    color: Theme.of(context).colorScheme.outlineVariant,
-                    width: 1,
-                  ),
-                ),
-              ),
-            )
+            // Container(
+            //   height: 40,
+            //   width: double.infinity,
+            //   decoration: BoxDecoration(
+            //     color: Theme.of(context).colorScheme.primary,
+            //     border: Border(
+            //       top: BorderSide(
+            //         color: Theme.of(context).colorScheme.outlineVariant,
+            //         width: 1,
+            //       ),
+            //       bottom: BorderSide(
+            //         color: Theme.of(context).colorScheme.outlineVariant,
+            //         width: 1,
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       );

@@ -2,6 +2,7 @@ import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/copy_action.dart';
 import 'package:fa_simulator/action/copy_paste/cut_action.dart';
 import 'package:fa_simulator/action/copy_paste/paste_action.dart';
+import 'package:fa_simulator/action/diagram/change_diagram_type_action.dart';
 import 'package:fa_simulator/action/diagram/delete_diagrams_action.dart';
 import 'package:fa_simulator/action/file/new_diagram_action.dart';
 import 'package:fa_simulator/action/file/open_diagram_action.dart';
@@ -117,6 +118,16 @@ class BodyActions extends StatelessWidget {
           onInvoke: (intent) {
             AppActionDispatcher().execute(DeleteDiagramsAction(
               ids: FocusProvider().focusedItemIds,
+            ));
+            return null;
+          },
+        ),
+        ToggleTypeIntent: CallbackAction<ToggleTypeIntent>(
+          onInvoke: (intent) {
+            AppActionDispatcher().execute(ChangeDiagramTypeAction(
+              type: DiagramList().type == AutomataType.dfa
+                  ? AutomataType.nfa
+                  : AutomataType.dfa,
             ));
             return null;
           },

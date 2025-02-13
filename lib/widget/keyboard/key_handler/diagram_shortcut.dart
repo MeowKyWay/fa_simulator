@@ -25,4 +25,6 @@ class DiagramShortcut {
 
   String get selectAll => '$control + A';
   String get selectNone => '$control + Shift + A';
+
+  String get toggleType => '$control + T';
 }

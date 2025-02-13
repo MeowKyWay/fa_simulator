@@ -1,3 +1,4 @@
+import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_diagram_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_edit_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_file_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/unsave_progress_button.dart';
@@ -41,6 +42,10 @@ class _DiagramMenusState extends State<DiagramMenus> {
               close: _close,
             ),
             DiagramEditMenu(
+              isOpen: _isOpen,
+              close: _close,
+            ),
+            DiagramDiagramMenu(
               isOpen: _isOpen,
               close: _close,
             ),
