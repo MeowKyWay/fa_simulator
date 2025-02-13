@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 
 class BodyGestureDetector extends StatefulWidget {
   final FocusNode focusNode;
-  final Function(SelectionDetails) onSelectionUpdate;
+  final Function(DiagramSelectionDetails) onSelectionUpdate;
 
   const BodyGestureDetector({
     super.key,
@@ -56,7 +56,7 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
       onPanUpdate: (DragUpdateDetails details) {
         selectionCurrent = details.localPosition;
         isSelecting = true;
-        widget.onSelectionUpdate(SelectionDetails(
+        widget.onSelectionUpdate(DiagramSelectionDetails(
           start: selectionStart,
           current: selectionCurrent,
           isSelecting: isSelecting,
@@ -67,7 +67,7 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
       onPanEnd: (DragEndDetails details) {
         isSelecting = false;
         _onSelectionEnd();
-        widget.onSelectionUpdate(SelectionDetails(
+        widget.onSelectionUpdate(DiagramSelectionDetails(
           start: selectionStart,
           current: selectionCurrent,
           isSelecting: isSelecting,

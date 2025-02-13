@@ -1,12 +1,12 @@
 import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/widget/body/body_inherited.dart';
+import 'package:fa_simulator/widget/body/inherited_widget/selection_data.dart';
 import 'package:fa_simulator/widget/body/shortcuts/body_shortcuts.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrow_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_initial_arrows.dart';
 import 'package:fa_simulator/widget/body/component/body_transition_dragging_feedback.dart';
 import 'package:fa_simulator/widget/body/component/body_transitions.dart';
-import 'package:fa_simulator/widget/body/inherited_widget/selection_data.dart';
 import 'package:fa_simulator/widget/overlay/select_diagram_overlay.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:fa_simulator/widget/body/component/body_new_transition_feedback.dart';
@@ -31,13 +31,13 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final FocusNode _focusNode = FocusNode();
-  SelectionDetails _selectionDetails = SelectionDetails(
+  DiagramSelectionDetails _selectionDetails = DiagramSelectionDetails(
     start: Offset.zero,
     current: Offset.zero,
     isSelecting: false,
   );
 
-  void _onSelectionUpdate(SelectionDetails details) {
+  void _onSelectionUpdate(DiagramSelectionDetails details) {
     setState(() {
       _selectionDetails = details;
     });

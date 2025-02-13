@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SelectionData extends InheritedWidget {
-  final SelectionDetails details;
+  final DiagramSelectionDetails details;
 
   Rect? get rect => details.isSelecting
       ? Rect.fromPoints(details.start, details.current)
@@ -25,12 +25,12 @@ class SelectionData extends InheritedWidget {
 }
 
 @immutable
-class SelectionDetails {
+class DiagramSelectionDetails {
   final Offset start;
   final Offset current;
   final bool isSelecting;
 
-  const SelectionDetails({
+  const DiagramSelectionDetails({
     required this.start,
     required this.current,
     required this.isSelecting,
@@ -40,7 +40,7 @@ class SelectionDetails {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is SelectionDetails &&
+    return other is DiagramSelectionDetails &&
         other.start == start &&
         other.current == current &&
         other.isSelecting == isSelecting;

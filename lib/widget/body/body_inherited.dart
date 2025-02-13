@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class BodyInherited extends StatelessWidget {
   final FocusNode keyboardFocusNode;
-  final SelectionDetails selectionDetails;
+  final DiagramSelectionDetails selectionDetails;
 
   final Widget child;
 
