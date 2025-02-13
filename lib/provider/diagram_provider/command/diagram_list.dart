@@ -577,7 +577,8 @@ class DiagramList extends DiagramProvider
     };
   }
 
-  void loadJson(Map<String, dynamic> json) {
+  void loadJson(
+      Map<String, dynamic> json, String name, String path, AutomataType type) {
     reset();
     final type = AutomataType.fromString(json['type']);
     final alphabet = json['alphabet'] as List<dynamic>;
@@ -585,10 +586,13 @@ class DiagramList extends DiagramProvider
     final transitions =
         (json['transitions'] as List).map((e) => TransitionType.fromJson(e));
 
-    _type = type;
     _alphabet.addAll(alphabet.cast<String>());
     _states.addAll(states);
     _transitions.addAll(transitions);
+    _name = name;
+    _path = path;
+    _type = type;
+    notifyListeners();
   }
 
   void notify() {
@@ -600,6 +604,8 @@ class DiagramList extends DiagramProvider
   @override
   void reset() {
     _isSaved = true;
+    _name = null;
+    _path = null;
     _type = AutomataType.undefined;
     _states.clear();
     _transitions.clear();

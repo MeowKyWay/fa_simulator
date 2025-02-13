@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
-import 'package:fa_simulator/provider/snackbar_provider.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:get/get.dart';
 
 class DiagramSave {
   Future<void> save(String filePath) async {
@@ -46,7 +44,6 @@ class DiagramSave {
       return;
     }
 
-    Get.find<SnackbarProvider>().showSnackbar('Saved to ${result.path}');
     log('User selected save path: ${result.path}');
 
     try {

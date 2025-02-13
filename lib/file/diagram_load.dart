@@ -18,14 +18,9 @@ class DiagramLoad {
         await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
 
     if (file != null) {
-      resetProvider();
-      DiagramList().name = file.name.split('.').first;
-      DiagramList().path = file.path;
-      DiagramList().type = AutomataType.fromString(file.name.split('.').last);
-      _load(File(file.path));
-      log(
-        'File loaded: ${DiagramList().name} with path: ${DiagramList().path} and type: ${DiagramList().type}',
-      );
+      await _load(File(file.path));
+      log('File loaded: ${file.name}');
+      log('${DiagramList().name} ${DiagramList().path} ${DiagramList().type}');
     } else {
       // If no file was selected
       log('No file selected.');
@@ -36,12 +31,17 @@ class DiagramLoad {
   Future<void> _load(File file) async {
     try {
       String fileContent = await file.readAsString();
+      resetProvider();
 
       // Decode the JSON into a List of Maps
       final jsonList = jsonDecode(fileContent);
-      DiagramList().loadJson(jsonList);
+      DiagramList().loadJson(
+        jsonList,
+        file.path.split('/').last.split('.').first,
+        file.path,
+        AutomataType.fromString(file.path.split('.').last),
+      );
     } catch (e) {
-      log('Error reading JSON file: $e');
       throw Exception('Error reading JSON file: $e');
     }
   }

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/file/app_log.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,6 @@ class StateType extends DiagramType<StateType> {
     return {
       'id': id,
       'label': label,
-      'position': position,
     }.toString();
   }
 
@@ -88,7 +88,7 @@ class StateType extends DiagramType<StateType> {
   @override
   factory StateType.fromJson(Map<String, dynamic> json) {
     try {
-      return StateType(
+      StateType state = StateType(
         id: json['id'],
         label: json['label'],
         position: Offset(
@@ -99,7 +99,10 @@ class StateType extends DiagramType<StateType> {
         isFinal: json['isAccpetState'],
         initialArrowAngle: json['startArrowAngle'],
       );
+      AppLog.log(state.toString());
+      return state;
     } on Exception catch (e) {
+      AppLog.log('Error parsing StateType from JSON: $e');
       throw FormatException('Error parsing StateType from JSON: $e');
     }
   }

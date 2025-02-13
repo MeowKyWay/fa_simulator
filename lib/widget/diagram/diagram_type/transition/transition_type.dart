@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:fa_simulator/config/config.dart';
+import 'package:fa_simulator/file/app_log.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/resource/diagram_character.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
@@ -312,10 +313,10 @@ class TransitionType extends DiagramType<TransitionType> {
     return {
       'id': id,
       'label': label,
-      'sourceState': sourceState,
-      'destinationState': destinationState,
-      'sourcePosition': sourcePosition,
-      'destinationPosition': destinationPosition,
+      'sourceState': sourceState?.id,
+      'destinationState': destinationState?.id,
+      'sourcePosition': sourcePosition.toString(),
+      'destinationPosition': destinationPosition.toString(),
     }.toString();
   }
 
@@ -370,7 +371,7 @@ class TransitionType extends DiagramType<TransitionType> {
 
   factory TransitionType.fromJson(Map<String, dynamic> json) {
     try {
-      return TransitionType(
+      TransitionType transition = TransitionType(
         id: json['id'],
         label: json['label'],
         sourceStateId: json['sourceStateId'],
@@ -389,7 +390,10 @@ class TransitionType extends DiagramType<TransitionType> {
               ),
         loopAngle: json['loopAngle'],
       );
+      AppLog.log(transition.toString());
+      return transition;
     } on Exception catch (e) {
+      AppLog.log('Error parsing TransitionType from JSON: $e');
       throw FormatException('Error parsing TransitionType from JSON: $e');
     }
   }
