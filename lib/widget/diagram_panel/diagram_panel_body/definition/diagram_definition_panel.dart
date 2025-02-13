@@ -1,4 +1,5 @@
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/resource/theme/text_style_extensions.dart';
 import 'package:fa_simulator/widget/diagram_panel/diagram_panel_body/definition/panel_transition_function.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -19,6 +20,13 @@ class _DiagramDefinitionPanelState extends State<DiagramDefinitionPanel>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    if (DiagramList().validator.errors.hasError) {
+      return Text(
+        'Error: There are errors in the diagram.',
+        style: Theme.of(context).textTheme.labelMedium?.red(context),
+      );
+    }
 
     return Material(
       color: Colors.transparent,

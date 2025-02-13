@@ -5,7 +5,6 @@ import 'package:fa_simulator/provider/diagram_provider/command/symbol_command.da
 import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_compiler.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
-import 'package:fa_simulator/provider/diagram_provider/diagram_file.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_simulator.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_validator.dart';
 import 'package:fa_simulator/resource/diagram_character.dart';
@@ -69,10 +68,32 @@ class DiagramList extends DiagramProvider
   );
   final SplayTreeSet<String> _alphabet = SplayTreeSet<String>();
 
+  String? _name;
+  String? _path;
+  bool _isSaved = true;
+
+  String? get name => _name;
+  String? get path => _path;
+  bool get isSaved => _isSaved;
+
+  set name(String? value) {
+    _name = value;
+    notifyListeners();
+  }
+
+  set path(String? value) {
+    _path = value;
+    notifyListeners();
+  }
+
+  set isSaved(bool value) {
+    _isSaved = value;
+    notifyListeners();
+  }
+
   DiagramValidator _validator = DiagramValidator();
   DiagramCompiler _compiler = DiagramCompiler();
   DiagramSimulator _simulator = DiagramSimulator();
-  DiagramFile _file = DiagramFile();
 
   DiagramValidator get validator {
     return _validator;
@@ -84,10 +105,6 @@ class DiagramList extends DiagramProvider
 
   DiagramSimulator get simulator {
     return _simulator;
-  }
-
-  DiagramFile get file {
-    return _file;
   }
 
   // Getter
@@ -305,6 +322,7 @@ class DiagramList extends DiagramProvider
       if (command is MoveTransitionCommand) _moveTransition(command);
       if (command is AttachTransitionCommand) _attachTransition(command);
     }
+    _isSaved = false;
     notify();
   }
 
@@ -511,7 +529,6 @@ class DiagramList extends DiagramProvider
           command.position ?? (endPos + command.distance!);
       transition.resetDestinationState();
     }
-    notifyListeners();
   }
 
   /// Attach transition to the state.
@@ -577,12 +594,12 @@ class DiagramList extends DiagramProvider
   void notify() {
     compiler.compile();
     validator.validate();
-    file.isSaved = false;
     notifyListeners();
   }
 
   @override
   void reset() {
+    _isSaved = true;
     _type = AutomataType.undefined;
     _states.clear();
     _transitions.clear();
@@ -590,7 +607,6 @@ class DiagramList extends DiagramProvider
     _validator = DiagramValidator();
     _simulator = DiagramSimulator();
     _compiler = DiagramCompiler();
-    _file = DiagramFile();
     notifyListeners();
   }
 }

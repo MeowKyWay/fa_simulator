@@ -28,7 +28,7 @@ class DiagramMenuBar extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       width: double.infinity,
                       child: Text(
-                        '${DiagramList().file.name ?? "Untitled"}.${DiagramList().type.toString()}',
+                        '${DiagramList().name ?? "Untitled"}.${DiagramList().type.toString()}',
                         style: textL.copyWith(
                           color: secondaryTextColor,
                         ),

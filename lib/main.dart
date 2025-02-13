@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/provider/snackbar_provider.dart';
@@ -15,8 +17,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  Get.put(SnackbarProvider());
-  runApp(Main());
+  runZonedGuarded(() {
+    Get.put(SnackbarProvider());
+    runApp(Main());
+  }, (error, stackTrace) {
+    Get.find<SnackbarProvider>().showError(error.toString());
+  });
 }
 
 class Main extends StatefulWidget {

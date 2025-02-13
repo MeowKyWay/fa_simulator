@@ -13,7 +13,7 @@ class UnsaveProgressButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, provider, child) {
-      if (DiagramList().file.isSaved) {
+      if (DiagramList().isSaved) {
         return Container();
       }
       return Button(

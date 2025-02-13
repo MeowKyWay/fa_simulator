@@ -13,7 +13,7 @@ class DiagramRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String name =
-        '${DiagramList().file.name ?? 'unnamed'}.${DiagramList().type.name}';
+        '${DiagramList().name ?? 'unnamed'}.${DiagramList().type.name}';
 
     return ListView(
       shrinkWrap: true,

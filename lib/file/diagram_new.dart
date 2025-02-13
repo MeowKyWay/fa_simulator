@@ -8,13 +8,12 @@ import 'package:flutter/material.dart';
 class DiagramNew {
   void newDiagram(BuildContext context) async {
     resetProvider();
-    log(DiagramList().file.isSaved.toString());
+    log(DiagramList().isSaved.toString());
     if (await confirm('Choose diagram type', context,
         cancle: 'NFA', confirm: 'DFA')) {
       DiagramList().type = AutomataType.dfa;
     } else {
       DiagramList().type = AutomataType.nfa;
     }
-    DiagramList().file.isSaved = true;
   }
 }

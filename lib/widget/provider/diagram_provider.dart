@@ -15,13 +15,13 @@ abstract class DiagramProvider {
 }
 
 void resetProvider() {
+  log('Resetting all providers');
   DiagramList().reset();
   BodyProvider().reset();
   DiagramDraggingProvider().reset();
   NewTransitionProvider().reset();
   PalleteFeedbackProvider().reset();
   RenamingProvider().reset();
-  log(DiagramList().file.isSaved.toString());
   TransitionDraggingProvider().reset();
   AppActionDispatcher().reset();
   StartArrowFeedbackProvider().reset();

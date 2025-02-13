@@ -13,7 +13,7 @@ class OpenDiagramAction extends AppUnrevertableAction {
 
   @override
   Future<void> execute() async {
-    if (!DiagramList().file.isSaved) {
+    if (!DiagramList().isSaved) {
       if (!await confirm(
         'All changes will be lost!',
         context,

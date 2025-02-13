@@ -8,14 +8,14 @@ import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart
 class CompileDiagramAction extends AppUnrevertableAction {
   @override
   Future<void> execute() async {
-    String? path = DiagramList().file.path;
+    String? path = DiagramList().path;
     if (path == null) {
       log('Path is null, calling saveAs()');
       await DiagramSave().saveAs();
     } else {
       await DiagramSave().save(path);
     }
-    path = DiagramList().file.path!;
+    path = DiagramList().path!;
     path = '${path.substring(0, path.lastIndexOf('.'))}.faout';
     DiagramCompile().compile(path);
   }

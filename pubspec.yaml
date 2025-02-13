@@ -44,6 +44,7 @@ dependencies:
   sorted_list: ^1.0.0
   get:
   gap:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

@@ -19,10 +19,13 @@ class DiagramLoad {
 
     if (file != null) {
       resetProvider();
-      DiagramList().file.name = file.name.split('.').first;
-      DiagramList().file.path = file.path;
+      DiagramList().name = file.name.split('.').first;
+      DiagramList().path = file.path;
       DiagramList().type = AutomataType.fromString(file.name.split('.').last);
       _load(File(file.path));
+      log(
+        'File loaded: ${DiagramList().name} with path: ${DiagramList().path} and type: ${DiagramList().type}',
+      );
     } else {
       // If no file was selected
       log('No file selected.');

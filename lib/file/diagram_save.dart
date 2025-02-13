@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/provider/snackbar_provider.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:get/get.dart';
 
 class DiagramSave {
   Future<void> save(String filePath) async {
@@ -13,35 +15,50 @@ class DiagramSave {
       final jsonString = jsonEncode(json);
 
       File file = File(filePath);
-      DiagramList().file.name = file.path.split('/').last.split('.').first;
-      DiagramList().file.path = file.path;
+      DiagramList().name = file.path.split('/').last.split('.').first;
+      DiagramList().path = file.path;
       await file.writeAsString(jsonString);
 
-      DiagramList().file.isSaved = true;
+      DiagramList().isSaved = true;
       DiagramList().notify();
     } catch (e) {
       log('Failed to save diagram: $e');
     }
-    DiagramList().file.isSaved = true;
+    DiagramList().isSaved = true;
   }
 
   Future<void> saveAs() async {
     String fileName =
-        '${DiagramList().file.name ?? 'Untitled'}.${DiagramList().type.toString()}';
+        '${DiagramList().name ?? 'Untitled'}.${DiagramList().type.toString()}';
+
     final FileSaveLocation? result = await getSaveLocation(
       suggestedName: fileName,
       acceptedTypeGroups: [
         XTypeGroup(
           label: 'Diagram',
-          extensions: ['dfa', 'nfa'],
+          extensions: [DiagramList().type.toString()],
         ),
       ],
     );
+
     if (result == null) {
-      // Operation was canceled by the user.
+      log('User canceled save operation.');
       return;
     }
 
-    save(result.path);
+    Get.find<SnackbarProvider>().showSnackbar('Saved to ${result.path}');
+    log('User selected save path: ${result.path}');
+
+    try {
+      // Ensure we have write permission
+      File file = File(result.path);
+      if (!await file.exists()) {
+        await file.create(recursive: true);
+      }
+
+      await save(result.path);
+    } catch (e) {
+      log('Failed to save file: $e');
+    }
   }
 }
