@@ -7,8 +7,8 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_t
 
 class DeleteDiagramsAction extends AppAction {
   final Iterable<String> ids;
-  final Set<StateType> states = {};
-  final Set<TransitionType> transitions = {};
+  final List<StateType> states = [];
+  final List<TransitionType> transitions = [];
 
   DeleteDiagramsAction({
     required this.ids,

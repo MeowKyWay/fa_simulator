@@ -1,7 +1,11 @@
+import 'dart:collection';
+
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/provider/snackbar_provider.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
+import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
+import 'package:tuple/tuple.dart';
 
 class AppActionDispatcher extends DiagramProvider {
   static final AppActionDispatcher _instance = AppActionDispatcher._internal();
@@ -16,21 +20,37 @@ class AppActionDispatcher extends DiagramProvider {
   bool get canUndo => _actions.isNotEmpty;
   bool get canRedo => _redoActions.isNotEmpty;
 
-  void execute(AppAction action, {Function? postAction}) async {
-    // Execute the action
+  final Queue<Tuple2<AppAction, VoidCallback?>> _actionQueue = Queue();
+  bool _isProcessing = false;
+
+  void execute(AppAction action, {VoidCallback? postAction}) {
+    _actionQueue.add(Tuple2(action, postAction)); // Add action to queue
+    if (_isProcessing) return;
+    _processQueue(); // Start processing if not already running
+  }
+
+  void _processQueue() async {
+    if (_isProcessing || _actionQueue.isEmpty) return;
+
+    _isProcessing = true;
+    final action = _actionQueue.removeFirst(); // Get next action
+
     try {
-      await action.execute();
-      // Add the action to the list if it is undoable
-      if (action.isRevertable) {
-        _actions.add(action);
+      await action.item1.execute(); // Execute the action
+      if (action.item1.isRevertable) {
+        _actions.add(action.item1);
         _redoActions.clear();
       }
-      postAction?.call();
-      // Empty the redo list
     } on Exception catch (e) {
       Get.find<SnackbarProvider>().showError(e.toString());
     }
-    _postAction();
+
+    action.item2?.call(); // Call post action
+
+    _isProcessing = false;
+    if (_actionQueue.isNotEmpty) {
+      _processQueue(); // Process next action
+    }
   }
 
   void undo() async {

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/symbol_command.dart';
@@ -18,6 +19,7 @@ import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_s
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sorted_list/sorted_list.dart';
 
 enum AutomataType {
   dfa,
@@ -59,11 +61,10 @@ class DiagramList extends DiagramProvider
   }
 
   AutomataType _type = AutomataType.undefined;
-  final SplayTreeSet<StateType> _states = SplayTreeSet<StateType>(
+  final SortedList<StateType> _states = SortedList<StateType>(
     (a, b) => a.createdAt.compareTo(b.createdAt),
   );
-  final SplayTreeSet<TransitionType> _transitions =
-      SplayTreeSet<TransitionType>(
+  final SortedList<TransitionType> _transitions = SortedList<TransitionType>(
     (a, b) => a.createdAt.compareTo(b.createdAt),
   );
   final SplayTreeSet<String> _alphabet = SplayTreeSet<String>();
@@ -288,6 +289,7 @@ class DiagramList extends DiagramProvider
   /// Set the type of the automata.
   set type(AutomataType type) {
     _type = type;
+    _isSaved = false;
     notify();
   }
 
@@ -305,6 +307,7 @@ class DiagramList extends DiagramProvider
   /// @throws StateError if the item is not found.
   /// @throws StateHasTransitionsException if the state has transitions attached to it.
   void executeCommands(Iterable<DiagramCommand> commands) {
+    log('Executing commands');
     for (final command in commands) {
       if (command is AddStateCommand) _addState(command);
       if (command is AddTransitionCommand) _addTransition(command);
@@ -322,6 +325,7 @@ class DiagramList extends DiagramProvider
       if (command is MoveTransitionCommand) _moveTransition(command);
       if (command is AttachTransitionCommand) _attachTransition(command);
     }
+    log(states.map((e) => e.label).join(', '));
     _isSaved = false;
     notify();
   }
@@ -363,6 +367,7 @@ class DiagramList extends DiagramProvider
 
   /// Add item to the states or transitions list depending on the item type.
   void _addItem(AddItemCommand command) {
+    log('Adding item ${command.item.label}');
     if (command.item is StateType) {
       _states.add(command.item as StateType);
     } else if (command.item is TransitionType) {

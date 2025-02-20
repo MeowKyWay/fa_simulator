@@ -1,5 +1,10 @@
+import 'package:fa_simulator/provider/snackbar_provider.dart';
+import 'package:fa_simulator/widget/components/button.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
+import 'package:get/instance_manager.dart';
 import 'package:tuple/tuple.dart';
 
 class SimulationResultText extends StatelessWidget {
@@ -24,6 +29,8 @@ class SimulationResultText extends StatelessWidget {
       }
     }
 
+    String res = result?.item1 == true ? 'Accepted' : 'Rejected';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -33,7 +40,7 @@ class SimulationResultText extends StatelessWidget {
             children: [
               Text('Result: ', style: Theme.of(context).textTheme.labelSmall),
               Text(
-                result?.item1 == true ? 'Accepted' : 'Rejected',
+                res,
                 style: Theme.of(context).textTheme.labelSmall,
               ),
             ],
@@ -46,9 +53,21 @@ class SimulationResultText extends StatelessWidget {
                   path,
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
+                Gap(20),
+                IntrinsicWidth(
+                  child: Button(
+                    text: 'Copy',
+                    style: ButtonVariant.contained,
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: '$res\n$path'));
+                      Get.find<SnackbarProvider>()
+                          .showSnackbar('Copied to clipboard');
+                    },
+                  ),
+                )
               ],
-            )
-        ]
+            ),
+        ],
       ],
     );
   }
