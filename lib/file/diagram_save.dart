@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/resource/diagram_constants.dart';
 import 'package:file_selector/file_selector.dart';
 
 class DiagramSave {
@@ -13,7 +14,11 @@ class DiagramSave {
       final jsonString = jsonEncode(json);
 
       File file = File(filePath);
-      DiagramList().name = file.path.split('/').last.split('.').first;
+      DiagramList().name = file.path
+          .split(DiagramPlatformConstant.fileSplitter)
+          .last
+          .split('.')
+          .first;
       DiagramList().path = file.path;
       await file.writeAsString(jsonString);
 

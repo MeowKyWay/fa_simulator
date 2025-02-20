@@ -8,7 +8,7 @@ import 'package:fa_simulator/provider/diagram_provider/diagram_compiler.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_detail.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_simulator.dart';
 import 'package:fa_simulator/provider/diagram_provider/diagram_validator.dart';
-import 'package:fa_simulator/resource/diagram_character.dart';
+import 'package:fa_simulator/resource/diagram_constants.dart';
 import 'package:fa_simulator/resource/diagram_exception.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';

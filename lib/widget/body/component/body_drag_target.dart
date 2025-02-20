@@ -5,7 +5,7 @@ import 'package:fa_simulator/action/transition/change_transition_loop_angle_acti
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
 import 'package:fa_simulator/action/transition/move_transitions_action.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
-import 'package:fa_simulator/resource/diagram_character.dart';
+import 'package:fa_simulator/resource/diagram_constants.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';

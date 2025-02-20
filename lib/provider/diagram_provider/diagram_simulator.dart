@@ -1,5 +1,5 @@
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
-import 'package:fa_simulator/resource/diagram_character.dart';
+import 'package:fa_simulator/resource/diagram_constants.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition_function_type.dart';
 import 'package:tuple/tuple.dart';

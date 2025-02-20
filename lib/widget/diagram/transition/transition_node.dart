@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/resource/diagram_character.dart';
+import 'package:fa_simulator/resource/diagram_constants.dart';
 import 'package:fa_simulator/widget/painter/line_painter.dart';
 import 'package:fa_simulator/widget/painter/transition/arrow_head_painter.dart';
 import 'package:flutter/material.dart';

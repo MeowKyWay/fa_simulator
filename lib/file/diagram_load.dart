@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/resource/diagram_constants.dart';
 import 'package:fa_simulator/widget/provider/diagram_provider.dart';
 import 'package:file_selector/file_selector.dart';
 
@@ -37,7 +38,11 @@ class DiagramLoad {
       final jsonList = jsonDecode(fileContent);
       DiagramList().loadJson(
         jsonList,
-        file.path.split('/').last.split('.').first,
+        file.path
+            .split(DiagramPlatformConstant.fileSplitter)
+            .last
+            .split('.')
+            .first,
         file.path,
         AutomataType.fromString(file.path.split('.').last),
       );

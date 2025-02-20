@@ -45,6 +45,7 @@ dependencies:
   get:
   gap:
   path_provider:
+  flutter_window_close: ^1.2.0
 
 dev_dependencies:
   flutter_test:
