@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:fa_simulator/widget/components/extension/list_extension.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:flutter/services.dart';
 
 class DiagramClipboard {
@@ -9,38 +12,27 @@ class DiagramClipboard {
     return _instance;
   }
 
-  final List<DiagramType> _items = [];
-  int _count = 0;
-
-  int get count => _count;
-
-  void incrementCount() {
-    _count++;
-  }
-
-  void decrementCount() {
-    _count--;
-  }
-
-  void resetCount() {
-    _count = 0;
-  }
-
-  List<DiagramType> get items => _items;
-
   static void copy(List<DiagramType> items) {
-    String json = items.toJson();
+    Offset mousePosition = BodyProvider().mousePosition;
+
+    String json = jsonEncode({
+      'items': items.toJson(),
+      'mousePosition': {
+        'dx': mousePosition.dx,
+        'dy': mousePosition.dy
+      }, // Convert Offset to JSON-compatible format
+    });
+
     Clipboard.setData(
       ClipboardData(text: json),
     );
   }
 
-  static Future<List<DiagramType>> getItems() async {
+  static Future<Map<String, dynamic>> getData() async {
     ClipboardData? data = await Clipboard.getData('text/plain');
     if (data == null) {
-      return [];
+      return {};
     }
-    String json = data.text ?? '';
-    return DiagramListExtension.fromJson(json);
+    return jsonDecode(data.text ?? '');
   }
 }

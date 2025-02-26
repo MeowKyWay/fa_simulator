@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/symbol/update_alphabet_action.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
@@ -102,6 +100,5 @@ class _PanelAlphabetRowState extends State<PanelAlphabetRow> {
     AppActionDispatcher().execute(
       UpdateAlphabetAction(symbols: value.split(',')),
     );
-    log('PanelAlphabetRow: onSubmitted: $value');
   }
 }

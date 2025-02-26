@@ -1,13 +1,15 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/action/diagram_clipboard.dart';
-import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/transition_command.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
-import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
+import 'package:fa_simulator/widget/components/extension/list_extension.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_type.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:flutter/material.dart';
 
 class PasteAction extends AppAction {
@@ -20,12 +22,17 @@ class PasteAction extends AppAction {
 
   @override
   Future<void> execute() async {
-    List<DiagramType> items = await DiagramClipboard.getItems();
+    final json = await DiagramClipboard.getData();
+    if (json.isEmpty) {
+      return;
+    }
 
-    DiagramClipboard().incrementCount();
-
-    Offset margin = const Offset(subGridSize, subGridSize) *
-        DiagramClipboard().count.toDouble();
+    final items = DiagramListExtension.fromJson(json['items']);
+    final Offset margin = -Offset(
+          json['mousePosition']['dx'],
+          json['mousePosition']['dy'],
+        ) +
+        BodyProvider().mousePosition;
 
     List<StateType> states = items.whereType<StateType>().toList();
     List<TransitionType> transitions =
@@ -40,6 +47,7 @@ class PasteAction extends AppAction {
         isFinal: state.isFinal,
         initialArrowAngle: state.initialArrowAngle,
       );
+      log(newState.position.toString());
       _states.add(newState);
       _stateIdMap[state.id] = newState.id;
     }
@@ -74,7 +82,6 @@ class PasteAction extends AppAction {
 
   @override
   Future<void> undo() async {
-    DiagramClipboard().decrementCount();
     for (TransitionType transition in _transitions) {
       DiagramList().executeCommand(
         DeleteTransitionCommand(id: transition.id),

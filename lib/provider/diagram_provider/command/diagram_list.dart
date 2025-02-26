@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/state_command.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/symbol_command.dart';
@@ -307,7 +306,6 @@ class DiagramList extends DiagramProvider
   /// @throws StateError if the item is not found.
   /// @throws StateHasTransitionsException if the state has transitions attached to it.
   void executeCommands(Iterable<DiagramCommand> commands) {
-    log('Executing commands');
     for (final command in commands) {
       if (command is AddStateCommand) _addState(command);
       if (command is AddTransitionCommand) _addTransition(command);
@@ -325,7 +323,6 @@ class DiagramList extends DiagramProvider
       if (command is MoveTransitionCommand) _moveTransition(command);
       if (command is AttachTransitionCommand) _attachTransition(command);
     }
-    log(states.map((e) => e.label).join(', '));
     _isSaved = false;
     notify();
   }
@@ -367,7 +364,6 @@ class DiagramList extends DiagramProvider
 
   /// Add item to the states or transitions list depending on the item type.
   void _addItem(AddItemCommand command) {
-    log('Adding item ${command.item.label}');
     if (command.item is StateType) {
       _states.add(command.item as StateType);
     } else if (command.item is TransitionType) {

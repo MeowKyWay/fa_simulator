@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/add_focus_action.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
@@ -32,47 +30,52 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      key: BodyProvider().gestureDetectorKey,
-      // Unfocus the states on tap
-      onTap: () {
-        widget.focusNode.requestFocus();
-        AppActionDispatcher().execute(UnfocusAction());
+    return MouseRegion(
+      onHover: (event) {
+        BodyProvider().mousePosition = event.localPosition;
       },
-      // Add new state on double tap
-      // Todo replace with drag the new state from menu
-      onDoubleTapDown: (TapDownDetails details) {
-        AppActionDispatcher().execute(CreateStateAction(
-          position: details.localPosition,
-          name: '',
-        ));
-      },
-      // Set start position for selection
-      onPanStart: (DragStartDetails details) {
-        selectionStart = details.localPosition;
-      },
-      // Set current position for selection
-      // Show the selection rectangle
-      onPanUpdate: (DragUpdateDetails details) {
-        selectionCurrent = details.localPosition;
-        isSelecting = true;
-        widget.onSelectionUpdate(DiagramSelectionDetails(
-          start: selectionStart,
-          current: selectionCurrent,
-          isSelecting: isSelecting,
-        ));
-      },
-      // Update the selection
-      // Clear the selection rectangle
-      onPanEnd: (DragEndDetails details) {
-        isSelecting = false;
-        _onSelectionEnd();
-        widget.onSelectionUpdate(DiagramSelectionDetails(
-          start: selectionStart,
-          current: selectionCurrent,
-          isSelecting: isSelecting,
-        ));
-      },
+      child: GestureDetector(
+        key: BodyProvider().gestureDetectorKey,
+        // Unfocus the states on tap
+        onTap: () {
+          widget.focusNode.requestFocus();
+          AppActionDispatcher().execute(UnfocusAction());
+        },
+        // Add new state on double tap
+        // Todo replace with drag the new state from menu
+        onDoubleTapDown: (TapDownDetails details) {
+          AppActionDispatcher().execute(CreateStateAction(
+            position: details.localPosition,
+            name: '',
+          ));
+        },
+        // Set start position for selection
+        onPanStart: (DragStartDetails details) {
+          selectionStart = details.localPosition;
+        },
+        // Set current position for selection
+        // Show the selection rectangle
+        onPanUpdate: (DragUpdateDetails details) {
+          selectionCurrent = details.localPosition;
+          isSelecting = true;
+          widget.onSelectionUpdate(DiagramSelectionDetails(
+            start: selectionStart,
+            current: selectionCurrent,
+            isSelecting: isSelecting,
+          ));
+        },
+        // Update the selection
+        // Clear the selection rectangle
+        onPanEnd: (DragEndDetails details) {
+          isSelecting = false;
+          _onSelectionEnd();
+          widget.onSelectionUpdate(DiagramSelectionDetails(
+            start: selectionStart,
+            current: selectionCurrent,
+            isSelecting: isSelecting,
+          ));
+        },
+      ),
     );
   }
 
@@ -85,7 +88,6 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
         .map((item) => item.id)
         .toList();
 
-    log(KeyboardData.of(context)!.isShiftPressed.toString());
     // Request focus for the selected states
     if (KeyboardData.of(context)!.isShiftPressed) {
       AppActionDispatcher().execute(AddFocusAction(selectedItems));

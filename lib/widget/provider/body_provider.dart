@@ -17,6 +17,8 @@ class BodyProvider extends DiagramProvider {
   //DraggableOverlay local position
   final GlobalKey _draggableOverlayKey = GlobalKey();
   GlobalKey get getDraggableOverlayKey => _draggableOverlayKey;
+
+  Offset mousePosition = Offset.zero;
   // Method to get the local position
   Offset getBodyLocalPosition(Offset position) {
     RenderBox renderBox =

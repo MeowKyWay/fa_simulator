@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/symbol/update_alphabet_action.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
@@ -68,7 +66,6 @@ class _AlphabetRowState extends State<AlphabetRow> {
                         });
                         AppActionDispatcher().execute(
                             UpdateAlphabetAction(symbols: value.split(',')));
-                        log('AlphabetRow: onSubmitted: $value');
                       },
                     ),
                 ],

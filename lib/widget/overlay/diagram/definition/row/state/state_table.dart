@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_errors.dart';
@@ -24,8 +22,6 @@ class StateTable extends StatefulWidget {
 class _StateTableState extends State<StateTable> {
   @override
   Widget build(BuildContext context) {
-    log('StateTable build');
-
     List<DataColumn> columns = [
       DataColumn(label: Text('no.')),
       DataColumn(label: Text('name')),

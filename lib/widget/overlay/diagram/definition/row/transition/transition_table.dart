@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_list.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_errors.dart';
@@ -57,8 +55,6 @@ class _TransitionTableState extends State<TransitionTable> {
       sourceLabel = sourceLabel.isEmpty ? 'unnamed state' : sourceLabel;
       destinationLabel =
           destinationLabel.isEmpty ? 'unnamed state' : destinationLabel;
-
-      log(transition.symbols.length.toString());
 
       DataRow row = DataRow(
         cells: [
