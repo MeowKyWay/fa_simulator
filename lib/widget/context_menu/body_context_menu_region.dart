@@ -1,8 +1,10 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/copy_paste/paste_action.dart';
 import 'package:fa_simulator/action/focus/focus_all_action.dart';
+import 'package:fa_simulator/action/state/create_state_action.dart';
 import 'package:fa_simulator/widget/context_menu/diagram_context_menu.dart';
 import 'package:fa_simulator/widget/context_menu/diagram_context_menu_item.dart';
+import 'package:fa_simulator/widget/provider/body_provider.dart';
 import 'package:flutter/material.dart';
 
 class BodyContextMenuRegion extends StatelessWidget {
@@ -31,6 +33,19 @@ class BodyContextMenuRegion extends StatelessWidget {
           context: context,
           position: details.globalPosition,
           menu: [
+            DiagramContextMenuItem(
+                label: 'New State',
+                onTap: () {
+                  DiagramContextMenu.hide();
+                  AppActionDispatcher().execute(
+                    CreateStateAction(
+                      position: BodyProvider().getBodyLocalPosition(
+                        details.globalPosition,
+                      ),
+                      name: '',
+                    ),
+                  );
+                }),
             if (AppActionDispatcher().canUndo) ...[
               DiagramContextMenuItem(
                 label: 'Undo',
