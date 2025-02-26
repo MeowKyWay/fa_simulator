@@ -17,14 +17,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  // runZonedGuarded(() {
-  //   Get.put(SnackbarProvider());
-  //   runApp(Main());
-  // }, (error, stackTrace) {
-  //   Get.find<SnackbarProvider>().showError(error.toString());
-  // });
-  Get.put(SnackbarProvider());
-  runApp(Main());
+  runZonedGuarded(() {
+    Get.put(SnackbarProvider());
+    runApp(Main());
+  }, (error, stackTrace) {
+    Get.find<SnackbarProvider>().showError(error.toString());
+  });
 }
 
 class Main extends StatefulWidget {
