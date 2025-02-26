@@ -38,6 +38,8 @@ class PasteAction extends AppAction {
     List<TransitionType> transitions =
         items.whereType<TransitionType>().toList();
 
+    List<String> stateIds = states.map((e) => e.id).toList();
+
     for (StateType state in states) {
       StateType newState;
       newState = StateType(
@@ -54,18 +56,33 @@ class PasteAction extends AppAction {
 
     for (TransitionType transition in transitions) {
       TransitionType newTransition;
-      Offset? sourcePosition = transition.sourcePosition == null
-          ? null
-          : transition.sourcePosition! + margin;
-      Offset? destinationPosition = transition.destinationPosition == null
-          ? null
-          : transition.destinationPosition! + margin;
+      Offset? sourcePosition;
+      Offset? destinationPosition;
+      if (transition.sourceStateId != null &&
+          !stateIds.contains(transition.sourceStateId)) {
+        sourcePosition = transition.startButtonPosition + margin;
+      } else if (transition.sourcePosition != null) {
+        sourcePosition = transition.sourcePosition! + margin;
+      }
+      if (transition.destinationStateId != null &&
+          !stateIds.contains(transition.destinationStateId)) {
+        destinationPosition = transition.endButtonPosition + margin;
+      } else if (transition.destinationPosition != null) {
+        destinationPosition = transition.destinationPosition! + margin;
+      }
+      if (sourcePosition != null) {
+        transition.sourceStateId = null;
+      }
+      if (destinationPosition != null) {
+        transition.destinationStateId = null;
+      }
       newTransition = TransitionType(
         sourcePosition: sourcePosition,
         destinationPosition: destinationPosition,
         sourceStateId: _stateIdMap[transition.sourceStateId],
         destinationStateId: _stateIdMap[transition.destinationStateId],
         label: transition.label,
+        loopAngle: transition.loopAngle,
       );
       _transitions.add(newTransition);
     }
