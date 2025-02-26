@@ -9,8 +9,11 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class DiagramProblemsPanel extends StatefulWidget {
+  final Function() toAlphabetTab;
+
   const DiagramProblemsPanel({
     super.key,
+    required this.toAlphabetTab,
   });
 
   @override
@@ -64,31 +67,41 @@ class _DiagramProblemsPanelState extends State<DiagramProblemsPanel>
                   ),
                 ),
               for (final error in diagramErrors.errors)
-                ProblemItem<Null>(error: error, item: null, dept: 1),
+                ProblemItem<Null>(
+                  error: error,
+                  item: null,
+                  dept: 1,
+                  toAlphabetTab: widget.toAlphabetTab,
+                ),
               ProblemsFolder(
                 errors: stateErrors,
                 title: 'State Problem.',
                 dept: 1,
+                toAlphabetTab: widget.toAlphabetTab,
               ),
               ProblemsFolder(
                 errors: transitionErrors,
                 title: 'Transition Problem.',
                 dept: 1,
+                toAlphabetTab: widget.toAlphabetTab,
               ),
               ProblemsFolder(
                 errors: symbolErrors,
                 title: 'Symbol Problem.',
                 dept: 1,
+                toAlphabetTab: widget.toAlphabetTab,
               ),
               ProblemsFolder(
                 errors: transitionFunctionErrors,
                 title: 'Transition Function Problem.',
                 dept: 1,
+                toAlphabetTab: widget.toAlphabetTab,
               ),
               ProblemsFolder(
                 errors: transitionFunctionEntryErrors,
                 title: 'Transition Function Entry Problem.',
                 dept: 1,
+                toAlphabetTab: widget.toAlphabetTab,
               ),
             ],
           ),

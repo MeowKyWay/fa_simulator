@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/focus/focus_action.dart';
 import 'package:fa_simulator/provider/diagram_provider/error/diagram_error_enums.dart';
@@ -8,12 +10,14 @@ class ProblemItem<T> extends StatefulWidget {
   final ErrorType error;
   final T item;
   final int dept;
+  final Function() toAlphabetTab;
 
   const ProblemItem({
     super.key,
     required this.error,
     required this.item,
     required this.dept,
+    required this.toAlphabetTab,
   });
 
   @override
@@ -38,6 +42,10 @@ class _ProblemItemState extends State<ProblemItem> {
       },
       child: GestureDetector(
         onTap: () {
+          if (widget.error is SymbolErrorType) {
+            widget.toAlphabetTab();
+            return;
+          }
           if (widget.item is String) {
             AppActionDispatcher().execute(FocusAction([widget.item]));
             return;

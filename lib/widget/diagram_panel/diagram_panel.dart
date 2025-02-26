@@ -75,6 +75,9 @@ class _DiagramPanelState extends State<DiagramPanel> {
               offstage: !_isExpanded,
               child: DiagramPanelBody(
                 controller: _pageController,
+                toAlphabetTab: () {
+                  _onSelect(2);
+                },
               ),
             ),
           ),

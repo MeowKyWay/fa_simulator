@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class DiagramPanelBody extends StatefulWidget {
   final PageController controller;
+  final Function() toAlphabetTab;
 
   const DiagramPanelBody({
     super.key,
     required this.controller,
+    required this.toAlphabetTab,
   });
 
   @override
@@ -28,7 +30,9 @@ class _DiagramPanelBodyState extends State<DiagramPanelBody>
       physics: NeverScrollableScrollPhysics(),
       controller: widget.controller,
       children: [
-        DiagramProblemsPanel(),
+        DiagramProblemsPanel(
+          toAlphabetTab: widget.toAlphabetTab,
+        ),
         DiagramDefinitionPanel(),
         DiagramAlphabetPanel(),
         DiagramSimulationPanel(),

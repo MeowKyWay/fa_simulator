@@ -6,12 +6,14 @@ class ProblemsFolder<T1, T2 extends DiagramErrors> extends StatefulWidget {
   final Map<T1, T2> errors;
   final String title;
   final int dept;
+  final Function() toAlphabetTab;
 
   const ProblemsFolder({
     super.key,
     required this.errors,
     required this.title,
     required this.dept,
+    required this.toAlphabetTab,
   });
 
   @override
@@ -95,6 +97,7 @@ class _ProblemsFolderState<T1, T2 extends DiagramErrors>
                 error: error,
                 item: errors.key,
                 dept: widget.dept + 1,
+                toAlphabetTab: widget.toAlphabetTab,
               ),
       ],
     );
