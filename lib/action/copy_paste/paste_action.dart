@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fa_simulator/action/app_action.dart';
 import 'package:fa_simulator/action/diagram_clipboard.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
@@ -49,7 +47,6 @@ class PasteAction extends AppAction {
         isFinal: state.isFinal,
         initialArrowAngle: state.initialArrowAngle,
       );
-      log(newState.position.toString());
       _states.add(newState);
       _stateIdMap[state.id] = newState.id;
     }
