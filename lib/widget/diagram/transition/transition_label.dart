@@ -68,11 +68,11 @@ class _TransitionLabelState extends State<TransitionLabel> {
                     ? RenameTextField(
                         focusNode: _renameFocusNode,
                         controller: _controller,
-                        textStyle: textS,
+                        textStyle: TextTheme.of(context).labelMedium!,
                       )
                     : Text(
                         widget.transition.label,
-                        style: textS,
+                        style: TextTheme.of(context).labelMedium!,
                       ),
               ),
             ),

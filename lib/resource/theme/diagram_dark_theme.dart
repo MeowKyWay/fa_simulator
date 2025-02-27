@@ -2,41 +2,47 @@ import 'package:fa_simulator/widget/components/extension/color_extension.dart';
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
-    primarySwatch: Colors.blue,
-    textSelectionTheme: TextSelectionThemeData(
-      selectionColor: Colors.blue.withAlpha((255 * 0.5).toInt()),
-      cursorColor: Colors.blue,
+  primarySwatch: Colors.blue,
+  textSelectionTheme: TextSelectionThemeData(
+    selectionColor: Colors.blue.withAlpha((255 * 0.5).toInt()),
+    cursorColor: Colors.blue,
+  ),
+  dividerTheme: const DividerThemeData(
+    color: Colors.black,
+  ),
+  textTheme: textTheme,
+  outlinedButtonTheme: outlinedButtonTheme,
+  hoverColor: Colors.green.withOpa(0.5),
+  focusColor: _focusColor,
+  colorScheme: darkColorScheme,
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: TextStyle(
+      color: Colors.white.withOpa(0.5),
     ),
-    dividerTheme: const DividerThemeData(
-      color: Colors.black,
-    ),
-    textTheme: textTheme,
-    outlinedButtonTheme: outlinedButtonTheme,
-    hoverColor: Colors.green.withOpa(0.5),
-    focusColor: _focusColor,
-    colorScheme: darkColorScheme,
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: TextStyle(
-        color: Colors.white.withOpa(0.5),
-      ),
-    ));
+  ),
+);
 
 ColorScheme darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: _primaryColor,
   onPrimary: Colors.white,
   secondary: _secondaryColor,
+  // secondary: Colors.white,
   onSecondary: Color.fromRGBO(157, 157, 157, 1),
   tertiary: _tertiaryColor,
   onTertiary: Color.fromRGBO(47, 49, 50, 1),
   outline: Colors.white,
+  // outline: Colors.black,
   outlineVariant: _outlineColor,
   error: Color.fromRGBO(162, 1, 37, 1),
   onError: Colors.white,
   errorContainer: Color.fromRGBO(189, 0, 43, 1),
   surface: _surfaceColor,
+  // surface: Colors.white,
   onSurface: _gridPrimalyColor,
+  // onSurface: Color(0xFFD0D0D0),
   onSurfaceVariant: _gridSecondaryColor,
+  // onSurfaceVariant: Color(0xFFF6F6F6),
   primaryContainer: Color.fromRGBO(49, 49, 49, 1),
 );
 

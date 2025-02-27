@@ -1,6 +1,5 @@
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/diagram/rename_diagrams_action.dart';
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/diagram/diagram_draggable.dart';
 import 'package:fa_simulator/widget/diagram/state/node/state.dart';
@@ -80,11 +79,12 @@ class _StateNodeState extends State<StateNode> {
               child: RenameTextField(
                 controller: _controller,
                 focusNode: _renameFocusNode,
+                textStyle: TextTheme.of(context).labelLarge!,
               ),
             )
           : Text(
               widget.state.label,
-              style: textXL,
+              style: TextTheme.of(context).labelLarge,
             ),
     );
 
