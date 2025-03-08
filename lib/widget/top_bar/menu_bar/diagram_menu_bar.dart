@@ -1,12 +1,14 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_icon.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/diagram_menus.dart';
 import 'package:flutter/material.dart';
 
 class DiagramMenuBar extends StatelessWidget {
+  final Function() changeTheme;
+
   const DiagramMenuBar({
     super.key,
+    required this.changeTheme,
   });
 
   @override
@@ -29,18 +31,18 @@ class DiagramMenuBar extends StatelessWidget {
                       width: double.infinity,
                       child: Text(
                         '${DiagramList().name ?? "Untitled"}.${DiagramList().type.toString()}',
-                        style: textL.copyWith(
-                          color: secondaryTextColor,
-                        ),
+                        style: TextTheme.of(context).labelLarge,
                         textAlign: TextAlign.left,
                       ),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     // Menu
                     width: double.infinity,
                     height: 30,
-                    child: DiagramMenus(),
+                    child: DiagramMenus(
+                      changeTheme: changeTheme,
+                    ),
                   ),
                 ],
               ),

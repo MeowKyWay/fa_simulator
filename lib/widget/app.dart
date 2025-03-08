@@ -5,7 +5,9 @@ import 'package:fa_simulator/widget/top_bar/diagram_top_bar.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final Function() changeTheme;
+
+  const App({super.key, required this.changeTheme});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -34,7 +36,9 @@ class App extends StatelessWidget {
               ],
             ),
           ),
-          DiagramTopBar(),
+          DiagramTopBar(
+            changeTheme: changeTheme,
+          ),
         ],
       ),
     );

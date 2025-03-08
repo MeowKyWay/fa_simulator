@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/provider/focus_provider.dart';
 import 'package:fa_simulator/provider/snackbar_provider.dart';
-import 'package:fa_simulator/resource/theme/diagram_dark_theme.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
+import 'package:fa_simulator/resource/theme/diagram_dark_theme.dart';
+import 'package:fa_simulator/resource/theme/diagram_light_theme.dart';
 import 'package:fa_simulator/widget/provider/diagram_dragging_provider.dart';
 import 'package:fa_simulator/widget/provider/renaming_provider.dart';
 import 'package:fa_simulator/widget/provider/start_arrow_feedback_provider.dart';
@@ -33,6 +33,14 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+  ThemeData theme = darkTheme;
+
+  void changeTheme() {
+    setState(() {
+      theme = theme == lightTheme ? darkTheme : lightTheme;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -50,17 +58,14 @@ class _MainState extends State<Main> {
       ],
       child: MaterialApp(
         scaffoldMessengerKey: Get.find<SnackbarProvider>().snackbarKey,
-        theme: darkTheme,
-        home: const Scaffold(
-          body: DefaultTextStyle(
-            style: TextStyle(
-              color: primaryTextColor,
-              decoration: textDecoration,
-              fontSize: 20,
+        theme: theme,
+        home: Builder(builder: (context) {
+          return Scaffold(
+            body: App(
+              changeTheme: changeTheme,
             ),
-            child: App(),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class DiagramMenuItem extends StatelessWidget {
@@ -10,7 +9,7 @@ class DiagramMenuItem extends StatelessWidget {
   const DiagramMenuItem({
     super.key,
     required this.label,
-    this.shortcut = '',
+    this.shortcut = ' ',
     this.enabled = true,
     required this.action,
   });
@@ -25,16 +24,20 @@ class DiagramMenuItem extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: textS.copyWith(
-                color: enabled ? primaryTextColor : primaryDisabledTextColor,
-              ),
+              style: TextTheme.of(context).labelSmall?.copyWith(
+                    color: enabled
+                        ? ColorScheme.of(context).onPrimary
+                        : ColorScheme.of(context).onPrimary.withAlpha(127),
+                  ),
             ),
           ),
           Text(
             shortcut,
-            style: textS.copyWith(
-              color: enabled ? secondaryTextColor : secondaryDisabledTextColor,
-            ),
+            style: TextTheme.of(context).labelSmall?.copyWith(
+                  color: enabled
+                      ? ColorScheme.of(context).onPrimary
+                      : ColorScheme.of(context).onPrimary.withAlpha(127),
+                ),
           ),
         ],
       ),

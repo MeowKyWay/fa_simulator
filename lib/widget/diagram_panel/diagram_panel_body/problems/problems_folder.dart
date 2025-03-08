@@ -78,11 +78,9 @@ class _ProblemsFolderState<T1, T2 extends DiagramErrors>
                     ),
                     CircleAvatar(
                       radius: 9,
-                      backgroundColor: Colors.grey.shade800,
-                      child: Text(
-                        widget.errors.length.toString(),
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
+                      backgroundColor: Colors.grey.shade800.withAlpha(127),
+                      child: Text(widget.errors.length.toString(),
+                          style: Theme.of(context).textTheme.labelSmall),
                     )
                   ],
                 ),

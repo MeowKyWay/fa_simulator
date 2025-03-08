@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class SideBarTextfield extends StatelessWidget {
@@ -12,7 +11,7 @@ class SideBarTextfield extends StatelessWidget {
       height: 30,
       child: TextFormField(
         autocorrect: false,
-        style: textM,
+        style: Theme.of(context).textTheme.labelMedium,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           hintText: 'Search',

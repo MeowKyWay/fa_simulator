@@ -1,5 +1,4 @@
 import 'package:fa_simulator/config/config.dart';
-import 'package:fa_simulator/config/theme.dart';
 import 'package:flutter/material.dart';
 
 Widget startState(
@@ -20,7 +19,7 @@ Widget startState(
         // If renaming, show the text field
         child: Text(
           'Start',
-          style: textXL,
+          style: TextTheme.of(context).labelMedium,
         ),
       ),
     ),

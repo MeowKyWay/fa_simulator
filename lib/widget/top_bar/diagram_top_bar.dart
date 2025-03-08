@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DiagramTopBar extends StatelessWidget {
-  const DiagramTopBar({super.key});
+  final Function() changeTheme;
+
+  const DiagramTopBar({super.key, required this.changeTheme});
   @override
   Widget build(BuildContext context) {
     return Consumer<DiagramList>(builder: (context, provider, child) {
@@ -22,7 +24,9 @@ class DiagramTopBar extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            DiagramMenuBar(),
+            DiagramMenuBar(
+              changeTheme: changeTheme,
+            ),
             // Container(
             //   height: 40,
             //   width: double.infinity,

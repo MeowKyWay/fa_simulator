@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu_context_menu_region.dart';
 import 'package:flutter/material.dart';
 
@@ -50,9 +49,7 @@ class _DiagramMenuState extends State<DiagramMenu> {
           child: Center(
             child: Text(
               widget.label,
-              style: textM.copyWith(
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
+              style: TextTheme.of(context).labelMedium,
             ),
           ),
         ),

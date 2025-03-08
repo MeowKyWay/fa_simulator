@@ -85,6 +85,7 @@ class _StateNodeState extends State<StateNode> {
           : Text(
               widget.state.label,
               style: TextTheme.of(context).labelLarge,
+              textAlign: TextAlign.center,
             ),
     );
 

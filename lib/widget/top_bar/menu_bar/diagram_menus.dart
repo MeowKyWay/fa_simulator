@@ -1,13 +1,17 @@
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_diagram_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_edit_menu.dart';
+import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_extra_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_file_menu.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/unsave_progress_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class DiagramMenus extends StatefulWidget {
+  final Function() changeTheme;
+
   const DiagramMenus({
     super.key,
+    required this.changeTheme,
   });
 
   @override
@@ -37,17 +41,13 @@ class _DiagramMenusState extends State<DiagramMenus> {
         },
         child: Row(
           children: [
-            DiagramFileMenu(
+            DiagramFileMenu(isOpen: _isOpen, close: _close),
+            DiagramEditMenu(isOpen: _isOpen, close: _close),
+            DiagramDiagramMenu(isOpen: _isOpen, close: _close),
+            DiagramExtraMenu(
               isOpen: _isOpen,
               close: _close,
-            ),
-            DiagramEditMenu(
-              isOpen: _isOpen,
-              close: _close,
-            ),
-            DiagramDiagramMenu(
-              isOpen: _isOpen,
-              close: _close,
+              changeTheme: widget.changeTheme,
             ),
             Gap(5),
             Padding(

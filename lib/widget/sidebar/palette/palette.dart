@@ -1,4 +1,3 @@
-import 'package:fa_simulator/config/theme.dart';
 import 'package:fa_simulator/widget/sidebar/sidebar_row.dart';
 import 'package:flutter/material.dart';
 
@@ -34,12 +33,12 @@ class _PaletteState extends State<Palette> {
               children: [
                 Icon(
                   (_isExpanded) ? Icons.expand_more : Icons.expand_less,
-                  color: primaryTextColor,
-                  size: textMediumSize,
+                  color: ColorScheme.of(context).onPrimary,
+                  size: TextTheme.of(context).labelMedium?.fontSize,
                 ),
                 Text(
                   widget.label,
-                  style: textM,
+                  style: TextTheme.of(context).labelMedium,
                 ),
               ],
             ),

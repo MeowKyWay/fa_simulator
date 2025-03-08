@@ -7,11 +7,13 @@ class DiagramIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: AssetImage('assets/images/logo.png'),
-      width: 65,
-      height: 65,
-      
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Image(
+        image: AssetImage('assets/icon/icon_1024.png'),
+        width: 65,
+        height: 65,
+      ),
     );
   }
 }

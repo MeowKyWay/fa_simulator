@@ -1,13 +1,15 @@
-import 'package:fa_simulator/widget/keyboard/key_handler/diagram_shortcut.dart';
+import 'package:fa_simulator/widget/context_menu/diagram_context_menu_item.dart';
 import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu.dart';
-import 'package:fa_simulator/widget/top_bar/menu_bar/menu/diagram_menu_item.dart';
 import 'package:flutter/material.dart';
 
 class DiagramExtraMenu extends DiagramMenu {
+  final Function() changeTheme;
+
   const DiagramExtraMenu({
     super.key,
     required super.isOpen,
     required super.close,
+    required this.changeTheme,
   });
 
   @override
@@ -15,12 +17,13 @@ class DiagramExtraMenu extends DiagramMenu {
 
   @override
   List<Widget> items(BuildContext context) => [
-        DiagramMenuItem(
+        DiagramContextMenuItem(
           label: 'Change Theme',
-          shortcut: DiagramShortcut().undo,
-          action: () {
-            throw UnimplementedError();
+          onTap: () {
+            changeTheme();
+            close();
           },
+          padding: padding,
         ),
       ];
 }

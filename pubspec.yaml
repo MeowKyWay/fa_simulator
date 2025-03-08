@@ -46,6 +46,14 @@ dependencies:
   gap:
   path_provider:
   flutter_window_close: ^1.2.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  macos:
+    generate: true
+  windows:
+    generate: true
+  image_path: "assets/icon/icon_1024.png" # Path to your icon (1024x1024 recommended)
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +79,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icon/
 
   fonts:
     - family: Roboto Mono

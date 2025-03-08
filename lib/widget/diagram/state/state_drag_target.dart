@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:fa_simulator/action/app_action_dispatcher.dart';
 import 'package:fa_simulator/action/state/change_state_type_action.dart';
 import 'package:fa_simulator/action/transition/attach_transitions_action.dart';
 import 'package:fa_simulator/action/transition/create_transition_action.dart';
+import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/draggable/new_transition/new_transition_draggable.dart';
@@ -85,13 +88,27 @@ class StateDragTarget extends StatelessWidget {
     if (data.draggingPivot == TransitionPivotType.loop) {
       return;
     }
+    final sourceStateId = data.draggingPivot == TransitionPivotType.start
+        ? state.id
+        : data.transition.sourceStateId;
+    final destinationStateId = data.draggingPivot == TransitionPivotType.end
+        ? state.id
+        : data.transition.destinationStateId;
+    if (DiagramList()
+        .transitionOfStateIsExist(sourceStateId, destinationStateId)) {
+      return;
+    }
     TransitionEndPointType endPoint = data.draggingPivot.endPointType;
-    AppActionDispatcher().execute(AttachTransitionAction(
-      id: data.transition.id,
-      endPoint: endPoint,
-      stateId: state.id,
-      isCentered: true,
-    ));
+    try {
+      AppActionDispatcher().execute(AttachTransitionAction(
+        id: data.transition.id,
+        endPoint: endPoint,
+        stateId: state.id,
+        isCentered: true,
+      ));
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   void _onAcceptPaletteDragData(StatePaletteDragData data) {

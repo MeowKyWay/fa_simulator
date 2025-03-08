@@ -60,11 +60,9 @@ class _DiagramPanelMenuItemState extends State<DiagramPanelMenuItem> {
                 if (widget.number != null && widget.number! > 0)
                   CircleAvatar(
                     radius: 9,
-                    backgroundColor: Colors.grey.shade800,
-                    child: Text(
-                      widget.number!.toString(),
-                      style: Theme.of(context).textTheme.labelSmall,
-                    ),
+                    backgroundColor: Colors.grey.shade800.withAlpha(127),
+                    child: Text(widget.number.toString(),
+                        style: Theme.of(context).textTheme.labelSmall),
                   )
               ],
             ),
