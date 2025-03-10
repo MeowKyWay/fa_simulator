@@ -10,7 +10,7 @@ class SaveDiagramAction extends AppUnrevertableAction {
     String? path = DiagramList().path;
     if (path == null) {
       log('Path is null, calling saveAs()');
-      DiagramSave().saveAs();
+      DiagramSave().saveAs(true);
       return;
     }
     DiagramSave().save(path);

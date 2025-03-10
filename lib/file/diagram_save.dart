@@ -31,7 +31,7 @@ class DiagramSave {
     }
   }
 
-  Future<void> saveAs() async {
+  Future<void> saveAs([bool shouldSaveDiagram = false]) async {
     String fileName =
         '${DiagramList().name ?? 'Untitled'}.${DiagramList().type.toString()}';
 
@@ -59,7 +59,7 @@ class DiagramSave {
         await file.create(recursive: true);
       }
 
-      await save(result.path, false);
+      await save(result.path, shouldSaveDiagram);
     } catch (e) {
       log('Failed to save file: $e');
     }
