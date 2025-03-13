@@ -60,6 +60,15 @@ enum TransitionEndPointType {
         return TransitionPivotType.end;
     }
   }
+
+  TransitionEndPointType get opposite {
+    switch (this) {
+      case TransitionEndPointType.start:
+        return TransitionEndPointType.end;
+      case TransitionEndPointType.end:
+        return TransitionEndPointType.start;
+    }
+  }
 }
 
 class DraggingTransitionType {

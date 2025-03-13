@@ -7,6 +7,7 @@ import 'package:fa_simulator/widget/body/inherited_widget/keyboard/keyboard_data
 import 'package:fa_simulator/widget/body/inherited_widget/selection_data.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/widget/provider/body_provider.dart';
+import 'package:fa_simulator/widget/provider/transition_dragging_provider.dart';
 import 'package:flutter/material.dart';
 
 class BodyGestureDetector extends StatefulWidget {
@@ -39,6 +40,7 @@ class _BodyGestureDetectorState extends State<BodyGestureDetector> {
         // Unfocus the states on tap
         onTap: () {
           widget.focusNode.requestFocus();
+          TransitionDraggingProvider().reset();
           AppActionDispatcher().execute(UnfocusAction());
         },
         // Add new state on double tap

@@ -110,8 +110,8 @@ const Color _primaryColor = Color.fromARGB(255, 244, 244, 244);
 const Color _secondaryColor = Color.fromARGB(255, 255, 255, 255);
 const Color _tertiaryColor = Color.fromARGB(255, 200, 200, 200);
 
-const Color _gridPrimalyColor = Color.fromARGB(255, 208, 208, 208);
-const Color _gridSecondaryColor = Color.fromARGB(255, 246, 246, 246);
+const Color _gridPrimalyColor = Color.fromARGB(0, 208, 208, 208);
+const Color _gridSecondaryColor = Color.fromARGB(0, 246, 246, 246);
 
 const Color _focusColor = Colors.blue;
 

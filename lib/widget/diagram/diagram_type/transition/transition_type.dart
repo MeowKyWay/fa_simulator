@@ -4,6 +4,7 @@ import 'package:fa_simulator/config/config.dart';
 import 'package:fa_simulator/file/app_log.dart';
 import 'package:fa_simulator/provider/diagram_provider/command/diagram_list.dart';
 import 'package:fa_simulator/resource/diagram_constants.dart';
+import 'package:fa_simulator/widget/body/component/body_drag_target.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/diagram_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/state_type.dart';
 import 'package:fa_simulator/widget/diagram/diagram_type/transition/transition_path.dart';
@@ -126,6 +127,13 @@ class TransitionType extends DiagramType<TransitionType> {
       return controlPoint;
     }
     return (startButtonPosition + endButtonPosition) / 2;
+  }
+
+  Offset endPointPosition(TransitionEndPointType pivotType) {
+    if (pivotType == TransitionEndPointType.start) {
+      return startButtonPosition;
+    }
+    return endButtonPosition;
   }
 
   Offset get startButtonPosition {
