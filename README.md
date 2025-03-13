@@ -1,16 +1,43 @@
-# fa_simulator
+# FA Simulator
 
-A new Flutter project.
+A **Finite Automaton** (FA) designer and simulator built with **Flutter**.
+
+## Features
+- Design and simulate **Deterministic Finite Automata (DFA)** and **Nondeterministic Finite Automata (NFA)**.
+- Save and load automata files.
+- Undo/Redo functionality.
+- Cross-platform support (Windows, macOS).
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Installation
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/MeowKyWay/fa_simulator
+   cd fa_simulator
+   ```
 
-A few resources to get you started if this is your first Flutter project:
+2. **Run the application:**
+   ```sh
+   flutter run
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Pre-built Releases
+- For macOS, download the latest build from the `release/macos` folder.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Built With
+- **Flutter** - Cross-platform UI toolkit.
+- **Dart** - Programming language for Flutter.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+Feel free to submit issues or pull requests to improve the project!
+
+---
+Made with ❤️ using Flutter.
+
+Contact
+
+For inquiries, please contact https://github.com/MeowKyWay.
